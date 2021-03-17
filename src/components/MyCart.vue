@@ -21,7 +21,7 @@
           <input type="number" min="1" id="qty">
         </td>
         <td>
-          <input type="button" class="button" id="deleteBtn" value="Delete" v-on:click="deleteRow(this)">
+          <input type="button" id="deleteBtn" value="Delete" @click="deleteRow(item)">
         </td>
       </tr>
     </table>
@@ -74,9 +74,8 @@ export default {
   },
 
   methods: {
-    deleteRow: function(r) {
-      var i = r.parentNode.parentNode.rowIndex;
-      document.getElementById("myCart").deleteRow(i);
+    deleteRow: function(item) {
+      this.itemsList.$remove(item);
     }
   }
 
