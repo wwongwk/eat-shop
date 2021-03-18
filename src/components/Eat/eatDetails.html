@@ -29,6 +29,31 @@
             display: none;
         }
 
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: rgb(255, 255, 255);
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            }
+
+/* Change the link color to #111 (black) on hover */
+        li a:hover {
+            background-color: rgb(196, 150, 150);
+        }
+
         #para {
            text-align: justify;
            margin-right: 20%;
@@ -65,7 +90,13 @@
         <div class="slide">
             <img src="http://placehold.it/300x200"/>
         </div>
-    </div>
+    </div> <br>
+
+    <ul><hr>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Reviews</a></li>
+        <li><a href="#">Reservation</a></li>
+    </ul><hr>
 
     <h2>Sum Dim Sum</h2>
     <b>Brand Story</b>
