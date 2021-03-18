@@ -37,7 +37,7 @@
   }
   h1 {
     font-size: 20px;
-    //position: absolute;
+    position: absolute;
     top: 8px;
   }
 
@@ -57,7 +57,7 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #403939;
-    //margin: 20px;
+    margin: 20px;
     left: 60px;
   }
 

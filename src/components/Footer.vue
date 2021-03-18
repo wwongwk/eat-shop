@@ -28,7 +28,7 @@
 <style scoped>
   footer {
     background-color:#ED83A7;
-    background-opacity:0.6;
+    /*background-opacity:0.6;*/
     padding:5px;
     height: 200px;
     color: #000000;
@@ -50,21 +50,21 @@
     border: none;
   }
   p {
-    //font-size: 10px;
+    font-size: 10px;
     color: #000000;
     display: inline;
     margin: 50px;
   }
   #AboutUs {
-    font-family:;
+    /* font-family:; */
     color: #000000;
   }
   #Partnership{
-    font-family: ;
+    /* font-family: ; */
     color: #000000;
   }
   #Terms {
-    font-family: ;
+    /* font-family: ; */
     color: #000000;
   }
 </style>
