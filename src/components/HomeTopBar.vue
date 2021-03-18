@@ -5,10 +5,11 @@
         <img id="logo" src="../assets/logo.png">
       </div>
       <div class="flexCol">
-        <a class="active"> HOME</a>
+        <a class="active"> <router-link to="/" exact>HOME</router-link></a>
         <a> CATEGORY</a>
       </div>
       <div id='side' class="flexCol">
+        <router-link to="/add" exact>My Cart</router-link>
         <button>Sign Up</button>
         <button>My Account</button>
       </div>

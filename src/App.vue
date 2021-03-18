@@ -1,23 +1,21 @@
 <template>
   <div id="app">
-  
-    <MyCart></MyCart>
-    <Footer></Footer>
-    
+   <router-view></router-view>
+   <Footer></Footer>
   </div>
 </template>
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
+//import MyCart from './components/MyCart.vue' 
 import Footer from './components/Footer.vue'
-import MyCart from './components/MyCart.vue'
 
 export default {
   name: 'App',
   components: {
     //HelloWorld,
-    'MyCart': MyCart,
-    'Footer': Footer,
+    /* 'MyCart': MyCart,*/
+    'Footer': Footer, 
 
   }
 }
