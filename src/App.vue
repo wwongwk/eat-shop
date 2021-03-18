@@ -1,7 +1,9 @@
 <template>
   <div id="app">
+  
     <MyCart></MyCart>
     <Footer></Footer>
+    
   </div>
 </template>
 
@@ -15,7 +17,8 @@ export default {
   components: {
     //HelloWorld,
     'MyCart': MyCart,
-    'Footer': Footer
+    'Footer': Footer,
+
   }
 }
 </script>
