@@ -5,12 +5,12 @@
         <img id="logo" src="../assets/logo.png">
       </div>
       <div class="flexCol">
-        <a class="active"> <router-link to="/" exact>HOME</router-link></a>
+        <a id="home"> <router-link to="/" exact>HOME</router-link></a>
         <a> CATEGORY</a>
       </div>
       <div id='side' class="flexCol">
-        <router-link to="/add" exact>My Cart</router-link>
-        <button>Sign Up</button>
+        <router-link to="/cart" exact>My Cart</router-link>
+        <router-link tag="button" to="/signup" exact>Sign Up</router-link>
         <button>My Account</button>
       </div>
     </div>
@@ -68,12 +68,7 @@
   font-size: 18px; 
   line-height: 25px;
 }
-.header a.active {
-  
-  text-decoration: underline;
-  text-decoration-color:grey;
-  text-decoration-thickness: 2px;
-} 
+
 button {
   margin: 3px;
   background-color: white;
@@ -82,6 +77,16 @@ button {
   border-color: #ED83A7;
   padding: 3px 10px;
 }
+a.router-link-active{
+  
+  text-decoration: underline;
+  text-decoration-color:grey;
+  text-decoration-thickness: 2px;
+} 
+button.router-link-active{
+  background-color: #ED83A7;
+  color: white;
+} 
 
 /* Change the background color on mouse-over */
 /* .header a:hover {
