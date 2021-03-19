@@ -11,7 +11,7 @@
       <div id='side' class="flexCol">
         <router-link to="/cart" exact>My Cart</router-link>
         <router-link tag="button" to="/signup" exact>Sign Up</router-link>
-        <button>My Account</button>
+        <router-link tag="button" to="/login" exact>My Account</router-link>      
       </div>
     </div>
   </div>

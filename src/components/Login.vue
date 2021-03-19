@@ -4,16 +4,16 @@
     <img src="../assets/TopPic.png"/>
     <div class='signup'>
       <img id='logo' src="../assets/logo.png"/>
-      <h1>JOIN US</h1>
+      <h1>LOGIN</h1>
       <form>
         <input type="email" id="email" name="email" placeholder="YOUR EMAIL"><br><br>
         <input type="password" id="password" name="password" placeholder= "PASSWORD"><br><br>
-        <input type="date" id="date" name="date" placeholder= "PASSWORD"><br><br>
-        <input type="tel" id="mobile" name="mobile" placeholder= "MOBILE"><br><br>
-        <input type="submit" id='submit' value="SIGN UP">
+     
+        <input type="submit" id='submit' value="LOGIN">
       </form>
       <br>
-    <div id='no'>NO, THANK YOU</div>
+    <div id='forgetPW'>FORGET PASSWORD</div>
+    <div id='signup'>NO ACCOUNT? <span> SIGN UP!</span></div>
 
     </div>
     
@@ -91,9 +91,9 @@ form {
   
 }
 
-#no {
+#forgetPW, span {
   text-decoration-line: underline;
-  font-size: 10px;
+  font-size: 12px;
   color: #A90065;
   margin: 0px;
 }
