@@ -2,18 +2,17 @@
   <div>
     <Header></Header>
     <img src="../assets/TopPic.png"/>
-    <div class='signup'>
+    <div id='login'>
       <img id='logo' src="../assets/logo.png"/>
       <h1>LOGIN</h1>
       <form>
         <input type="email" id="email" name="email" placeholder="YOUR EMAIL"><br><br>
         <input type="password" id="password" name="password" placeholder= "PASSWORD"><br><br>
-     
         <input type="submit" id='submit' value="LOGIN">
       </form>
       <br>
-    <div id='forgetPW'>FORGET PASSWORD</div>
-    <div id='signup'>NO ACCOUNT? <span> SIGN UP!</span></div>
+      <div id='forgetPW'>FORGET PASSWORD</div>
+      <div id='signup' style="font-size: 13px; margin: 10px; ">NO ACCOUNT? <span> SIGN UP!</span></div>
 
     </div>
     
@@ -67,10 +66,10 @@ h1 {
 }
 ::placeholder {
   color: #b86a9960;
-  font-size: 10px;
+  font-size: 14px; 
   padding:5px
 }
-.signup {
+#login {
   
   border: 1px solid rgb(95, 0, 32);
   border-radius: 10px;

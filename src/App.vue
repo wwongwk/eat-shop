@@ -24,5 +24,6 @@ export default {
 <style>
 #app {
   text-align: center;
+  font-family:   'Helvetica Neue', sans-serif;
 }
 </style>
