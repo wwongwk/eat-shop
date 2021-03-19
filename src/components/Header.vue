@@ -6,7 +6,7 @@
       </div>
       <div class="flexCol">
         <a id="home"> <router-link to="/" exact>HOME</router-link></a>
-        <a> CATEGORY</a>
+        CATEGORY
       </div>
       <div id='side' class="flexCol">
         <router-link to="/cart" exact>My Cart</router-link>

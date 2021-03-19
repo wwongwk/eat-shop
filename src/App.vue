@@ -16,9 +16,9 @@ export default {
     //HelloWorld,
     /* 'MyCart': MyCart,*/
     'Footer': Footer, 
-
   }
 }
+
 </script>
 
 <style>
