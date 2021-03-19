@@ -6,15 +6,12 @@
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
-//import MyCart from './components/MyCart.vue' 
+
 import Footer from './components/Footer.vue'
 
 export default {
   name: 'App',
   components: {
-    //HelloWorld,
-    /* 'MyCart': MyCart,*/
     'Footer': Footer, 
 
   }
