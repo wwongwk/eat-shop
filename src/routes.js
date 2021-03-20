@@ -9,7 +9,6 @@ import EatDetailPage from './components/Eat/EatDetailPage.vue'
 import PlayPage from './components/Play/PlayPage.vue'
 import ShopPage from './components/Shop/ShopPage.vue'
 
-
 export default[
   { path: '/', component: Home},
   {path:'/cart', component:Cart},
