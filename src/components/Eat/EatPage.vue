@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>EAT</h1>
+    <Header></Header>
     <h3>CHINESE</h3>
     <div id="chinese">
       <ul>
         <li v-for="food in chineseFood" :key="food.id">
             <img v-bind:src="food.imageURL"><br />
-           <router-link to='/cart' exact>{{ food.name }}</router-link>
+           <router-link to='/eatDetail' exact>{{ food.name }}</router-link>
         </li>
         <button id="seeMore">See More</button>
       </ul>
@@ -35,7 +35,11 @@
 </template>
 
 <script>
+import Header from '../Header.vue'
 export default {
+  components: {
+      Header:Header,
+  },
   data() {
     return {
       chineseFood: [
