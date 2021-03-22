@@ -10,7 +10,7 @@ import PlayPage from './components/Play/PlayPage.vue'
 import ShopPage from './components/Shop/ShopPage.vue'
 
 export default[
-  { path: '/', component: Home},
+  {path: '/', component: Home},
   {path:'/cart', component:Cart},
   {path:'/signup', component:SignUp},
   {path:'/login', component:Login},
