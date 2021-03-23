@@ -9,7 +9,7 @@
       <ul>
         <li v-for="workshop in workshops" :key="workshop.id">
             <img v-bind:src="workshop.imageURL"><br />
-           <router-link to='/cart' exact>{{ workshop.name }}</router-link>
+           <router-link to='/playDetail' exact>{{ workshop.name }}</router-link>
         </li>
       </ul>
     </div>
