@@ -37,6 +37,7 @@
   display: flex;
   overflow: hidden;
   margin: 30px;
+  margin-bottom: 15px;
   border-bottom: 1px solid #000;
 
 }

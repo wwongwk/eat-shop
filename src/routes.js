@@ -7,6 +7,7 @@ import Profile from './components/ProfilePage.vue'
 import EatPage from './components/Eat/EatPage.vue'
 import EatDetailPage from './components/Eat/EatDetailPage.vue'
 import PlayPage from './components/Play/PlayPage.vue'
+import PlayDetailPage from './components/Play/PlayDetailPage.vue'
 import ShopPage from './components/Shop/ShopPage.vue'
 
 export default[
@@ -19,4 +20,5 @@ export default[
   {path:'/play', component:PlayPage},
   {path:'/shop', component:ShopPage},
   {path:'/eatDetail', component:EatDetailPage},
+  {path:'/playDetail', component:PlayDetailPage},
 ]
