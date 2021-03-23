@@ -15,7 +15,6 @@
       <div id='signup' style="font-size: 13px; margin: 10px; ">NO ACCOUNT? <span> SIGN UP!</span></div>
 
     </div>
-    
   </div>
 
 </template>

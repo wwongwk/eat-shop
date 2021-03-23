@@ -5,34 +5,55 @@
     <div class='signup'>
       <img id='logo' src="../assets/logo.png"/>
       <h1>JOIN US</h1>
-      <form>
-        <input type="email" id="email" name="email" placeholder="YOUR EMAIL"><br><br>
-        <input type="password" id="password" name="password" placeholder= "PASSWORD"><br><br>
+      <form >
+        <input type="email" id="email1" name="email" placeholder="YOUR EMAIL" v-model="form.email"><br><br>
+        <input type="password" id="password" name="password" placeholder= "PASSWORD" v-model="form.password"><br><br>
         <input type="date" id="date" name="date" placeholder= "PASSWORD"><br><br>
         <input type="tel" id="mobile" name="mobile" placeholder= "MOBILE"><br><br>
-        <input type="submit" id='submit' value="SIGN UP">
+        <input type="button" id='submit' value="SIGN UP" v-on:click="register()">
       </form>
       <br>
     <div id='no'>NO, THANK YOU</div>
-
-    </div>
-    
+    </div>   
   </div>
 
 </template>
 
 <script>
-  import Header from './Header.vue'
+  import Header from './Header.vue';
+  import database from '../firebase.js'
+  import firebase from "firebase/app"
+  import 'firebase/auth'
+  
+
   export default {
+    data() {
+      return {
+        form: {
+          name: "",
+          email: "",
+          password: ""
+        },
+      };
+    },
+
     components: {
       Header:Header
     },
-    data() {
-      return {  
-      }
-    },
+   
     methods: {
-    }
+       register: function() {
+        firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.form.email, this.form.password)
+        .then(() => {
+          console.log("Successfully logged in");
+          //database.collection("eat").doc().set({name: "a"}).then(() => {});
+          }).catch((error) => {
+          alert(error.message);
+        });
+      },
+    },
   }
 </script>
 
