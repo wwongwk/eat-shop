@@ -2,14 +2,13 @@
   <div>
     <h1>PLAY</h1>
     <div id="selected">
-        <p>Selected</p>
+      <p>Selected</p>
     </div>
     <div id="kidsWorkshops">
-        <h3>90 activities found</h3>
       <ul>
-        <li v-for="workshop in workshops" :key="workshop.id">
-            <img v-bind:src="workshop.imageURL"><br />
-           <router-link to='/playDetail' exact>{{ workshop.name }}</router-link>
+        <li v-for="activity in activities" :key="activity.id">
+          <img v-bind:src="activity.imageURL" /><br />
+          <router-link to="/playDetail" exact>{{ activity.name }}</router-link>
         </li>
       </ul>
     </div>
@@ -17,55 +16,29 @@
 </template>
 
 <script>
+import database from "../../firebase.js";
+
 export default {
-    data() {
+  data() {
     return {
-      workshops: [
-        {
-          id: "#000",
-          name: "Botany Workshop",
-          imageURL:
-            "https://sf1.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/22218212_801883149982834_2264372406007038949_o-617x410.jpg",
-        },
-        {
-          id: "#001",
-          name: "The Music Scientist Human Anatomy Workshop",
-          imageURL:
-            "https://sf1.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/31958013_323159764882055_1774073612123242496_o-615x410.jpg",
-        },
-        {
-          id: "#003",
-          name: "Terraminds Crime Detective Workshops",
-          imageURL:
-            "https://sf1.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/terraminds.jpg",
-        },
-        {
-          id: "#004",
-          name: "Wings to Wings Dance Workshop",
-          imageURL:
-            "https://sf2.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/15419573_1200730570002587_7803695847694626705_o-750x383.jpg",
-        },
-        {
-          id: "#005",
-          name: "The Art People Art Workshops",
-          imageURL:
-            "https://sf1.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/art-people-547x410.jpg",
-        },
-        {
-          id: "#006",
-          name: "Panoramic Kids Photography Workshop",
-          imageURL:
-            "https://sf2.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/11990444_1490305444603315_4096004096841786133_n-609x410.jpg",
-        },
-        {
-          id: "#007",
-          name: "The Little Things Cooking Workshop",
-          imageURL:
-            "https://sf2.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/the-little-things-1-547x410.jpg",
-        },
-      ],
+      activities: [],
     };
-    }
+  },
+  methods: {
+    fetchActivities: function () {
+      database
+        .collection("play")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            this.activities.push(doc.data());
+          });
+        });
+    },
+  },
+  created() {
+    this.fetchActivities();
+  },
 };
 </script>
 
@@ -80,13 +53,13 @@ export default {
 }
 
 #selected {
-    float: left;
-    font-size: 30px;
-    border: solid 1px grey;
-    height: 975px;
-    width: 320px;
-    font-weight: bold;
-    background-color: rgb(240, 199, 219);
+  float: left;
+  font-size: 30px;
+  border: solid 1px grey;
+  height: 975px;
+  width: 320px;
+  font-weight: bold;
+  background-color: rgb(240, 199, 219);
 }
 
 ul {
@@ -123,8 +96,8 @@ h1 {
 }
 
 h3 {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    font-size: 25px;
-    color:hotpink;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 25px;
+  color: hotpink;
 }
 </style>
