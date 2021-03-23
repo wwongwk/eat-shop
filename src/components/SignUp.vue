@@ -48,7 +48,7 @@
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(() => {
           console.log("Successfully logged in");
-          //database.collection("eat").doc().set({name: "a"}).then(() => {});
+          database.collection("eat").doc().set({name: "a"}).then(() => {});
           }).catch((error) => {
           alert(error.message);
         });
