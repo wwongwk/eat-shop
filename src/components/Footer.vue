@@ -32,8 +32,7 @@
     padding:5px;
     height: 200px;
     color: #000000;
-    font-size: 20px;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 18px;
     
   }
   #email, #submitBtn {
@@ -45,7 +44,6 @@
     font-size: 20px;
     border-radius: 8px;
     padding: 7px 20px;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #403939;
     border: none;
   }
@@ -58,14 +56,17 @@
   #AboutUs {
     font-family:;
     color: #000000;
+    font-size: 18px;
   }
   #Partnership{
     font-family: ;
     color: #000000;
+    font-size: 18px;
   }
   #Terms {
     font-family: ;
     color: #000000;
+    font-size: 18px;
   }
 </style>
 
