@@ -15,7 +15,6 @@
        <router-link tag="button" to="/profile" exact>Profile</router-link>        
       </div>
     </div>
-    <h1>My Cart</h1>
   </div>
 </template>
 
@@ -33,18 +32,13 @@
 </script>
 
 <style scoped>
-h1 {
-  font-size: 60px;
-  color: #403939;
-  text-align: center;
-  letter-spacing: 0.1em;
-}
-
 
 .flexWrap {
   display: flex;
   overflow: hidden;
-  margin: 20px;
+  margin: 30px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #000;
 
 }
 .flexCol {

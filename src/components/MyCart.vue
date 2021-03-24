@@ -82,7 +82,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
   th {
     vertical-align: center;
@@ -108,7 +108,7 @@ export default {
   img {
     width: 200px;
     height: 135px;
-    horizontal-align: middle;
+    /* horizontal-align: middle; */
     margin: 20px;
     border-radius: 8px;
     background-color: white;
