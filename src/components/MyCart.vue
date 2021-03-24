@@ -129,12 +129,5 @@ export default {
     margin-top: 50px;
   }
 
-  CartHeader {
-    width: 65px;
-    height: 30px;
-    border-radius: 10px;
-    border-width: 1px;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  }
 
 </style>
