@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <app-header></app-header>
     <img src="../assets/TopPic.png"/>
     <div class='signup'>
       <img id='logo' src="../assets/logo.png"/>
@@ -38,7 +38,7 @@
     },
 
     components: {
-      Header:Header
+      AppHeader:Header
     },
    
     methods: {

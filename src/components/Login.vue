@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <app-header></app-header>
     <img src="../assets/TopPic.png"/>
     <div id='login'>
       <img id='logo' src="../assets/logo.png"/>
@@ -23,7 +23,7 @@
   import Header from './Header.vue'
   export default {
     components: {
-      Header:Header
+      AppHeader:Header
     },
     data() {
       return {  
