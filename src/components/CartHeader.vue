@@ -33,52 +33,24 @@
 </script>
 
 <style scoped>
-<<<<<<< Updated upstream
-  #header {
-    height: 200px;
-    text-align: center;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  }
-  h1 {
-    font-size: 20px;
-    //position: absolute;
-    top: 8px;
-  }
-=======
 h1 {
   font-size: 60px;
   color: #403939;
   text-align: center;
   letter-spacing: 0.1em;
 }
->>>>>>> Stashed changes
 
 .flexWrap {
   display: flex;
   overflow: hidden;
   margin: 20px;
 
-<<<<<<< Updated upstream
-  h3 {
-    position: absolute;
-    font-size: 64px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #403939;
-    //margin: 20px;
-    left: 60px;
-  }
-=======
 }
 .flexCol {
   box-sizing: border-box;
   padding: 10px;
   width: 33.3%
 }
->>>>>>> Stashed changes
 
 /* (B) BREAK DOWN 1 COLUMN ON SMALL SCREENS */
 @media only screen and (max-width: 768px) {
