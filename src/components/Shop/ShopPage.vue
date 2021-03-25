@@ -17,55 +17,28 @@
 </template>
 
 <script>
+import database from "../../firebase.js";
 export default {
     data() {
     return {
-      allShops: [
-        {
-          id: "#001",
-          name: "Neonmello",
-          imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2020/03/neonmello.png",
-        },
-        {
-          id: "#002",
-          name: "Fayth",
-          imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2020/03/fayth.png",
-        },
-        {
-          id: "#003",
-          name: "The Sunday Avenue",
-          imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2020/03/the-sunday-avenue-1.png",
-        },
-        {
-          id: "#004",
-          name: "The Tinsel Rack",
-          imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2020/03/the-tinsel-rack.png",
-        },
-        {
-          id: "#005",
-          name: "Love and Bravery",
-          imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2020/03/love-and-bravery.png",
-        },
-        {
-          id: "#006",
-          name: "Arcade",
-          imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2020/03/arcade.png",
-        },
-        {
-        id: "#007",
-        name: "Hervelvetvase",
-        imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2020/03/hervelvetvase.png",
-        }
-      ],
+      allShops: [],
     };
-    }
+    },
+    methods: {
+    fetchShops: function () {
+      database
+        .collection("shops")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            this.allShops.push(doc.data());
+          });
+        });
+    },
+  },
+  created() {
+    this.fetchShops();
+  },
 };
 </script>
 
