@@ -1,115 +1,133 @@
 <template>
   <div>
     <Header></Header>
-    <h3>CHINESE</h3>
-    <div id="chinese">
+    <h3>RESTAURANTS</h3>
+    <div id="searchBar">
+      <h4><label>What restaurant are you looking for today?</label></h4>
+      <input
+        type="text"
+        name="name"
+        v-model.lazy="search"
+        placeholder="Enter Restaurant's Name"
+        v-on:keyup.enter="findRestaurant()"
+      />
+      <button id="resetBtn" v-on:click = "reset()">RESET</button>
+    </div>
+    <div id="errorMessage" v-show="errorShown">
+      {{ error }}
+    </div>
+    <div id="food" v-show="allRestaurants">
       <ul>
-        <li v-for="food in chineseFood" :key="food.id">
-            <img v-bind:src="food.imageURL"><br />
-           <router-link to='/eatDetail' exact>{{ food.name }}</router-link>
+        <li v-for="restaurant in restaurants" :key="restaurant.id">
+          <img v-bind:src="restaurant.imageURL" /><br />
+          <router-link to="/eatDetail" exact>{{ restaurant.name }}</router-link>
         </li>
-        <button id="seeMore">See More</button>
       </ul>
     </div>
-    <h3> JAPANESE </h3>
-    <div id="japanese">
+    <div id="selectedFood" v-show="selectedRestaurants">
       <ul>
-        <li v-for="food in japaneseFood" :key="food.id">
-          <img v-bind:src="food.imageURL" /><br />
-           <router-link to='/cart' exact>{{food.name}}</router-link>
+        <li v-for="restaurant in selected" :key="restaurant.id">
+          <img v-bind:src="restaurant.imageURL" /><br />
+          <router-link to="/eatDetail" exact>{{ restaurant.name }}</router-link>
         </li>
-        <button id="seeMore">See More</button>
       </ul>
     </div>
-    <h3>WESTERN</h3>
-    <div id="western">
+    <div id="recommendedFood" v-show="recommendedRestaurants">
+      <div id="msg">We think you may like the following as well: </div>
       <ul>
-        <li v-for="food in westernFood" :key="food.id">
-          <img v-bind:src="food.imageURL" /><br />
-          <router-link to='/cart' exact>{{ food.name }}</router-link>
+        <li v-for="restaurant in recommended" :key="restaurant.id">
+          <img v-bind:src="restaurant.imageURL" /><br />
+          <router-link to="/eatDetail" exact>{{ restaurant.name }}</router-link>
         </li>
-        <button id="seeMore">See More</button>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import Header from '../Header.vue'
+import Header from "../Header.vue";
+import database from "../../firebase.js";
+
 export default {
   components: {
-      Header:Header,
+    Header: Header,
   },
   data() {
     return {
-      chineseFood: [
-        {
-          id: "#000",
-          name: "Sum Dim Sum",
-          imageURL:
-            "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_450,h_300/https://danielfooddiary.com/wp-content/uploads/2020/02/sumdimsum5.jpg",
-        },
-        {
-          id: "#001",
-          name: "OK Chicken Rice",
-          imageURL:
-            "https://asianinspirations.com.au/wp-content/uploads/2019/07/R00376-Hainanese_Chicken_Rice-2.jpg",
-        },
-        {
-          id: "#003",
-          name: "Hong Yun Seafood",
-          imageURL:
-            "https://cfcdn2.azsg.opensnap.com/azsg/snapphoto/photo/LA/GTJK/3BM38LBE242D2A34A23A0Elv.jpg",
-        },
-      ],
-
-      japaneseFood: [
-        {
-          id: "#004",
-          name: "Marui Sushi",
-          imageURL:
-            "https://www.urbanjourney.com/wp-content/uploads/2019/09/Marui-Sushi.jpg",
-        },
-        {
-          id: "#005",
-          name: "Kenboru",
-          imageURL:
-            "http://eatbook.sg/wp-content/uploads/2018/05/kenboru-chicken-1024x577.jpg",
-        },
-        {
-          id: "#006",
-          name: "Afuri Ramen",
-          imageURL:
-            "https://favy-inbound-singapore.s3.amazonaws.com/uploads/topic/image/1048/afuri.jpg",
-        },
-      ],
-      westernFood: [
-        {
-          id: "#007",
-          name: "iO Italian Osteria",
-          imageURL:
-            "https://i.hungrygowhere.com/business/bf/8f/12/00/img-0864-copy_320x0_crop_320x200_59c0b60c4f.JPG",
-        },
-        {
-          id: "#008",
-          name: "Meatsmith",
-          imageURL:
-            "https://i.hungrygowhere.com/business/79/db/12/00/meatsmith-telok-ayer-premium-platter-1_320x0_crop_320x200_a738dd7fac.jpg",
-        },
-        {
-          id: "#009",
-          name: "Picotin Express",
-          imageURL:
-            "https://i.hungrygowhere.com/business/5b/ae/12/00/picotin-indoor_320x0_crop_320x200_59aa132e89.jpg",
-        },
-      ],
+      restaurants: [],
+      selected: [],
+      recommended: [],
+      search: "",
+      allRestaurants: true,
+      selectedRestaurants: false,
+      errorShown: false,
+      error: "",
+      recommendedRestaurants: false,
     };
+  },
+  methods: {
+    fetchRestaurants: function () {
+      database
+        .collection("eat")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            this.restaurants.push(doc.data());
+          });
+        });
+    },
+    findRestaurant: function () {
+      if (this.selected.length > 0) {
+        this.selected.length = 0;
+      }
+      if (this.recommended.length > 0) {
+        this.recommended.length = 0;
+      }
+      var found = false;
+      for (let i = 0; i < this.restaurants.length; i++) {
+        var restaurant = this.restaurants[i];
+        if (restaurant.name.toLowerCase().includes(this.search.toLowerCase())) {
+          this.selected.push(restaurant);
+          var cuisine = restaurant.cuisine;
+          for (let j = 0; j < this.restaurants.length; j++) {
+            var current = this.restaurants[j];
+            if (current.cuisine === cuisine && current.name != restaurant.name) {
+              //other restaurants of similar cuisine 
+              //push to recommended restaurants array
+              this.recommended.push(current);
+            }
+          }
+          this.allRestaurants = false;
+          this.selectedRestaurants = true;
+          this.recommendedRestaurants = true;
+          this.errorShown = false;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        this.error = "Sorry, we couldn't find anything. Looking for these?";
+        this.selectedRestaurants = false;
+        this.errorShown = true;
+        this.allRestaurants = true;
+        this.recommendedRestaurants = false;
+      }
+    },
+    reset: function() {
+      this.errorShown = false;
+      this.recommendedRestaurants = false;
+      this.selectedRestaurants = false;
+      this.allRestaurants = true;
     }
+  },
+  created() {
+    this.fetchRestaurants();
+  },
 };
 </script>
 
 <style scoped>
-#chinese {
+#food {
   width: 100%;
   max-width: 80%;
   margin: 0px;
@@ -117,15 +135,7 @@ export default {
   box-sizing: border-box;
 }
 
-#japanese {
-  width: 100%;
-  max-width: 80%;
-  margin: 0px;
-  padding: 0 px;
-  box-sizing: border-box;
-}
-
-#western {
+#selectedFood {
   width: 100%;
   max-width: 80%;
   margin: 0px;
@@ -146,8 +156,8 @@ li {
   flex-grow: 1;
   flex-basis: 300px;
   text-align: center;
-  padding: 10px;
   margin: 10px;
+  padding: 10px;
   font-size: 25px;
   text-align: center;
   font-weight: 10;
@@ -168,30 +178,34 @@ img {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
+#searchBar {
+  float: right;
+  margin-right: 50px;
+  max-width: 20%;
+  top: 0;
+}
+
+#errorMessage {
+  font-size: 20px;
+  text-align: center;
+}
 h3 {
   text-align: left;
   padding-left: 5%;
-  color:hotpink;
-  font-size:30px;
+  color: hotpink;
+  font-size: 30px;
   font-family: monospace;
+}
+
+#msg {
+  text-align: left;
+  padding-left: 5%;
+  color: black;
+  font-size: 25px;
 }
 
 h1 {
   font-family: monospace;
   font-size: 50px;
 }
-
-#seeMore {
-  background-color: #D25A7e;
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 20px;
-  padding-right: 10px;
-  margin-top: 90px;
-  height: 50px;
-}
-
 </style>
