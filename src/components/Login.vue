@@ -6,9 +6,9 @@
       <img id='logo' src="../assets/logo.png"/>
       <h1>LOGIN</h1>
       <form>
-        <input type="email" id="email" name="email" placeholder="YOUR EMAIL"><br><br>
-        <input type="password" id="password" name="password" placeholder= "PASSWORD"><br><br>
-        <input type="submit" id='submit' value="LOGIN">
+        <input type="email" v-model.trim="email" id="email" name="email" placeholder="YOUR EMAIL"><br><br>
+        <input type="password" v-model.trim="password" id="password" name="password" placeholder= "PASSWORD"><br><br>
+        <input type="button" id='submit' value="LOGIN" v-on:click="login()">
       </form>
       <br>
       <div id='forgetPW'>FORGET PASSWORD</div>
@@ -21,15 +21,32 @@
 
 <script>
   import Header from './Header.vue'
+  import firebase from "firebase/app";
+  import 'firebase/auth'
+
   export default {
     components: {
       AppHeader:Header
     },
     data() {
       return {  
+        email:"",
+        password:""
       }
     },
     methods: {
+       login: function() {
+        firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          console.log("Successfully logged in");
+          this.$router.replace({ path: "/" });
+          })
+        .catch((error) => {
+          alert(error.message);
+        });
+      }
     }
   }
 </script>

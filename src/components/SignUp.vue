@@ -6,10 +6,11 @@
       <img id='logo' src="../assets/logo.png"/>
       <h1>JOIN US</h1>
       <form >
+        <input type="name" id="name" name="name" placeholder="NAME" v-model="form.name"><br><br>
         <input type="email" id="email1" name="email" placeholder="YOUR EMAIL" v-model="form.email"><br><br>
         <input type="password" id="password" name="password" placeholder= "PASSWORD" v-model="form.password"><br><br>
-        <input type="date" id="date" name="date" placeholder= "PASSWORD"><br><br>
-        <input type="tel" id="mobile" name="mobile" placeholder= "MOBILE"><br><br>
+        <input type="date" id="date" name="date"><br><br>
+        <input type="number" id="mobile" name="mobile" placeholder= "MOBILE" v-model="form.mobile"><br><br>
         <input type="button" id='submit' value="SIGN UP" v-on:click="register()">
       </form>
       <br>
@@ -32,7 +33,8 @@
         form: {
           name: "",
           email: "",
-          password: ""
+          password: "",
+          mobile:""
         },
       };
     },
@@ -46,9 +48,16 @@
         firebase
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(() => {
+        .then((data) => {
           console.log("Successfully logged in");
-          database.collection("eat").doc().set({name: "a"}).then(() => {});
+          database
+          .collection("users")
+          .doc(data.user.uid)
+          .set({
+            name: this.form.name,
+            mobile:this.form.mobile
+            })
+            .then(() => {});
           }).catch((error) => {
           alert(error.message);
         });
