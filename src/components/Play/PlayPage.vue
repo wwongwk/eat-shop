@@ -8,7 +8,7 @@
         <h3>90 activities found</h3>
       <ul>
         <li v-for="workshop in workshops" :key="workshop.id">
-            <img v-bind:src="workshop.imageURL"><br />
+            <img v-bind:src="workshop.imageURL"><br>
            <router-link to='/playDetail' exact>{{ workshop.name }}</router-link>
         </li>
       </ul>
