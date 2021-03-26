@@ -12,7 +12,10 @@
       </form>
       <br>
       <div id='forgetPW'>FORGET PASSWORD</div>
-      <div id='signup' style="font-size: 13px; margin: 10px; ">NO ACCOUNT? <span> SIGN UP!</span></div>
+      <div id='signup' style="font-size: 13px; margin: 10px; ">NO ACCOUNT? 
+        <router-link to="/signup" exact> SIGN UP!</router-link>
+        
+      </div>
 
     </div>
   </div>
@@ -106,7 +109,7 @@ form {
   
 }
 
-#forgetPW, span {
+#forgetPW, a {
   text-decoration-line: underline;
   font-size: 12px;
   color: #A90065;
