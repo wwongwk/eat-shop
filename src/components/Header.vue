@@ -53,12 +53,12 @@ export default {
 
   created() {
     var user = firebase.auth().currentUser;
-      if (user) {
-        this.login=true;
-      } else { 
-        this.login=false;
-      }
-  }
+    if (user) {
+      this.login=true;
+    } else { 
+      this.login=false;
+    }
+  },
 };
 </script>
 

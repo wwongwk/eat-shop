@@ -9,6 +9,7 @@ import EatDetailPage from './components/Eat/EatDetailPage.vue'
 import PlayPage from './components/Play/PlayPage.vue'
 import PlayDetailPage from './components/Play/PlayDetailPage.vue'
 import ShopPage from './components/Shop/ShopPage.vue'
+import ChangePW from './components/ChangePW.vue'
 
 export default[
   {path: '/', component: Home},
@@ -21,4 +22,5 @@ export default[
   {path:'/shop', component:ShopPage},
   {path:'/eatDetail', component:EatDetailPage},
   {path:'/playDetail', component:PlayDetailPage},
+  {path:'/changepw', component:ChangePW},
 ]

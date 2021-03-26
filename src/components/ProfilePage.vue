@@ -13,16 +13,15 @@
       </div>
     <div id="content" class="flexbox">
       <form>
-        <label for="fname">FIRST NAME:</label><br>
-        <input type="fname" id="fname" name="fname"><br><br>
-        <label for="lname">LAST NAME:</label><br>
-        <input type="lname" id="lname" name="lname"><br><br>
+      
+        <label for="name" >NAME:</label><br>
+        <input type="name" id="name" name="name" v-model="name"><br><br>
         <label for="email">YOUR EMAIL:</label><br>
-        <input type="email" id="email" name="email" ><br><br>
-        <label for="mobile">BIRTHDAY</label><br>
-        <input type="tel" id="mobile" name="mobile" ><br><br>
-        <div style="color: #D25A7E; text-decoration:underline">CLICK TO CHANGE PASSWORD</div><br>
-        <input type="submit" id='submit' value="SAVE">
+        <input type="email" id="email" name="email" v-model="email"><br><br>
+        <label for="mobile">YOUR MOBILE:</label><br>
+        <input type="number" id="mobile" name="mobile" v-model="mobile"><br><br>
+       <router-link style="color: #D25A7E; text-decoration:underline" to="/changepw" exact> CLICK TO CHANGE PASSWORD</router-link><br><br>
+        <input type="button" id='submit' value="SAVE" v-on:click="save()">
       </form>
       <br>
     </div>
@@ -33,15 +32,47 @@
 
 <script>
   import Header from './Header.vue'
+  import firebase from "firebase/app"
+  import db from "../firebase.js"
+  import 'firebase/auth'
+
   export default {
     components: {
       AppHeader:Header
     },
     data() {
       return {  
+        name:"",
+        email:"",
+        mobile:""
       }
     },
     methods: {
+      save: function() {
+        var uid = firebase.auth().currentUser.uid;
+        db.collection('users').doc(uid).update({
+          name: this.name,
+          mobile: this.mobile
+        });
+      },
+    },
+    created() {
+      var user = firebase.auth().currentUser;
+      if (user != null) {
+        this.email=user.email;
+        
+        var uid = user.uid;
+        db.collection("users").doc(uid).get().then((doc) => {
+          if (doc.exists) {
+              this.name = doc.data().name;
+              this.mobile=doc.data().mobile;
+          } else {
+              console.log("No such document!");
+          }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+      }
     }
   }
 </script>
