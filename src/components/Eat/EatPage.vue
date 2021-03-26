@@ -20,7 +20,9 @@
       <ul>
         <li v-for="restaurant in restaurants" :key="restaurant.id">
           <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/eatDetail" exact>{{ restaurant.name }}</router-link>
+          <router-link to="/eatDetailTemplate" exact>
+            <button v-on:click="sendData(restaurant.id)">{{ restaurant.name }}</button>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -28,7 +30,9 @@
       <ul>
         <li v-for="restaurant in selected" :key="restaurant.id">
           <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/eatDetail" exact>{{ restaurant.name }}</router-link>
+          <router-link to="/eatDetailTemplate" exact>
+            <button v-on:click="sendData(restaurant.id)">{{ restaurant.name }}</button>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -37,7 +41,9 @@
       <ul>
         <li v-for="restaurant in recommended" :key="restaurant.id">
           <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/eatDetail" exact>{{ restaurant.name }}</router-link>
+          <router-link to="/eatDetailTemplate" exact>
+            <button v-on:click="sendData(restaurant.id)">{{ restaurant.name }}</button>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -73,6 +79,8 @@ export default {
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             this.restaurants.push(doc.data());
+            //console.log(doc.data());
+            localStorage.clear();
           });
         });
     },
@@ -118,10 +126,21 @@ export default {
       this.recommendedRestaurants = false;
       this.selectedRestaurants = false;
       this.allRestaurants = true;
+    },
+    sendData: function(id) {
+      //console.log(id);
+      for(var x of this.restaurants) {
+        //console.log(x)
+        if (x["id"] === id) {
+          console.log(x)
+          localStorage.setItem("KEY", JSON.stringify(x));
+        }
+      }
     }
   },
   created() {
     this.fetchRestaurants();
+    //console.log(this.restaurants);
   },
 };
 </script>
@@ -133,6 +152,28 @@ export default {
   margin: 0px;
   padding: 0 px;
   box-sizing: border-box;
+}
+
+button {
+    color: #444444;
+    background: hotpink;
+    border: 1px #DADADA solid;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-weight: bold;
+    font-size: 9pt;
+    outline: none;
+}
+
+button:hover {
+    border: 1px #C6C6C6 solid;
+    box-shadow: 1px 1px 1px #EAEAEA;
+    color: #333333;
+    background: rgb(245, 73, 159);
+}
+
+button:active {
+    box-shadow: inset 1px 1px 1px #DFDFDF;   
 }
 
 #selectedFood {

@@ -15,13 +15,14 @@
 
     <div class="map">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7796589646164!2d103.85417521472402!3d1.307396999046444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19b25f661e0b%3A0xae1f2871fd73a0f9!2sSum%20Dim%20Sum!5e0!3m2!1sen!2ssg!4v1616478759623!5m2!1sen!2ssg"
+        id="gMap"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7796589646164!2d103.85417521404425!3d1.307396999046445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19b25f661e0b%3A0xae1f2871fd73a0f9!2sSum%20Dim%20Sum!5e0!3m2!1sen!2ssg!4v1616766985854!5m2!1sen!2ssg"
         width="800"
         height="500"
         style="border: 0"
         allowfullscreen=""
-        loading="lazy"
-      ></iframe>
+        loading="lazy">
+      </iframe>
     </div>
   </div>
 </template>
@@ -35,15 +36,10 @@ export default {
       About: true,
       Review: false,
       Reservation: false,
-      shopName: "Sum Dim Sum",
-      description:
-        "Housed below a timeless shophouse, the restaurant’s Tiffany blue colour was striking," +
-        "and customers can easily spot its storefront from afar. Sum Dim Sum serves up delicious dim sum " +
-        "in a beautiful atmosphere. Its menu is extensive with steamed, pan-fried, deep-fried, baked items," +
-        "noodles, porridge, rice and desserts.",
-      telephone: "9005 9381",
-      openHours: "11.30am - 12am (Mon - Sun)",
-      address: "161 Jalan Besar Singapore 208876",
+      description: "",
+      telephone: "",
+      openHours: "", 
+      address: "", 
     };
   },
   methods: {
@@ -65,7 +61,19 @@ export default {
       this.Review = false;
       this.Reservation = true;
     },
+    get: function() {
+      var shop = JSON.parse(localStorage.getItem("KEY"));
+      console.log(shop)
+      this.description = shop["description"];
+      this.telephone = shop["telephone"];
+      this.openHours = shop["openHours"];
+      this.address = shop["address"];
+    },
   },
+  created() {
+    this.get();
+  }
+
 };
 </script>
 
