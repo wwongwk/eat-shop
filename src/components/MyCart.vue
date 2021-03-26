@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CartHeader></CartHeader>
+    <app-header></app-header>
     <table class="table">
       <tr>
         <th></th>
