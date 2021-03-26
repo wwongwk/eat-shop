@@ -5,14 +5,25 @@
     <div id='login'>
       <img id='logo' src="../assets/logo.png"/>
       <h1>LOGIN</h1>
-      <form>
-        <input type="email" id="email" name="email" placeholder="YOUR EMAIL"><br><br>
-        <input type="password" id="password" name="password" placeholder= "PASSWORD"><br><br>
-        <input type="submit" id='submit' value="LOGIN">
+      <form v-if="!biz">
+        <input type="email" v-model.trim="email" id="email" name="email" placeholder="YOUR EMAIL"><br><br>
+        <input type="password" v-model.trim="password" id="password" name="password" placeholder= "PASSWORD"><br><br>
+        <input type="button" id='submit' value="LOGIN" v-on:click="login()">
       </form>
+
+      <form v-if="biz">
+        <input type="email" v-model.trim="email" id="email" name="email" placeholder="BUSINESS EMAIL"><br><br>
+        <input type="password" v-model.trim="password" id="password" name="password" placeholder= "PASSWORD"><br><br>
+        <input type="button" id='submit' value="LOGIN" v-on:click="login()">
+      </form>
+
       <br>
+      <div id='biz' v-if="!biz" @click="biz=true">FOR BUSINESS</div>
+      <div id='signup' v-if="!biz" style="font-size: 13px; margin: 10px; ">NO ACCOUNT? 
+        <router-link to="/signup" exact> SIGN UP!</router-link>  
+      </div>
       <div id='forgetPW'>FORGET PASSWORD</div>
-      <div id='signup' style="font-size: 13px; margin: 10px; ">NO ACCOUNT? <span> SIGN UP!</span></div>
+
 
     </div>
   </div>
@@ -21,15 +32,47 @@
 
 <script>
   import Header from './Header.vue'
+  import firebase from "firebase/app";
+  import 'firebase/auth'
+
   export default {
     components: {
       AppHeader:Header
     },
     data() {
       return {  
+        email:"",
+        password:"",
+        biz:false
       }
     },
     methods: {
+       login: function() {
+        
+        if (!this.biz) {
+          firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            console.log("Successfully logged in");
+            this.$router.replace({ path: "/" });
+            })
+          .catch((error) => {
+            alert(error.message);
+          });
+        } else {
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(this.email, this.password)
+            .then(() => {
+              console.log("Successfully logged in as business");
+            // this.$router.replace({ path: "/" }); # go to business dashboard
+              })
+            .catch((error) => {
+              alert(error.message);
+          });
+        }
+      }
     }
   }
 </script>
@@ -89,7 +132,7 @@ form {
   
 }
 
-#forgetPW, span {
+#biz, #forgetPW, a {
   text-decoration-line: underline;
   font-size: 12px;
   color: #A90065;

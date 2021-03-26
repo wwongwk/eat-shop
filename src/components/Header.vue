@@ -12,21 +12,53 @@
       </div>
       <div id="side" class="flexCol">
         <router-link to="/cart" exact>My Cart</router-link>
-        <router-link tag="button" to="/signup" exact>Sign Up</router-link>
-        <router-link tag="button" to="/login" exact>My Account</router-link>
-        <router-link tag="button" to="/profile" exact>Profile</router-link>
+        <router-link tag="button" to="/signup" v-show="!login">Sign Up</router-link>
+        <router-link tag="button" to="/login" v-show="!login"  exact>My Account</router-link>
+        <router-link tag="button" to="/profile" exact v-show="login">Profile</router-link>
+        <button v-on:click="logOut()" v-show="login" >Log Out</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from "firebase/app";
+
 export default {
   components: {},
   data() {
-    return {};
+    return {
+      login:""
+    };
   },
-  methods: {},
+  methods: {
+    loginState: function() {
+      var user = firebase.auth().currentUser;
+      if (user) {
+        this.login=true;
+      } else { 
+        this.login=false;
+      }
+    },
+    logOut: function() {
+      firebase.auth().signOut().then(() => {
+        console.log("signout");
+        this.login=false;
+        this.$router.replace({ path: "/" });
+      }).catch((error) => {
+        console.log(error.message);
+      });
+    },
+  },
+
+  created() {
+    var user = firebase.auth().currentUser;
+    if (user) {
+      this.login=true;
+    } else { 
+      this.login=false;
+    }
+  },
 };
 </script>
 
@@ -86,6 +118,11 @@ a.router-link-active {
   text-decoration-thickness: 2px;
 }
 button.router-link-active {
+  background-color: #ed83a7;
+  color: white;
+}
+
+button.router-linl-active{
   background-color: #ed83a7;
   color: white;
 }

@@ -5,15 +5,17 @@
     <div class='signup'>
       <img id='logo' src="../assets/logo.png"/>
       <h1>JOIN US</h1>
-      <form >
+      <form>
+        <input type="name" id="name" name="name" placeholder="NAME" v-model="form.name"><br><br>
         <input type="email" id="email1" name="email" placeholder="YOUR EMAIL" v-model="form.email"><br><br>
         <input type="password" id="password" name="password" placeholder= "PASSWORD" v-model="form.password"><br><br>
-        <input type="date" id="date" name="date" placeholder= "PASSWORD"><br><br>
-        <input type="tel" id="mobile" name="mobile" placeholder= "MOBILE"><br><br>
+        <input type="number" id="mobile" name="mobile" placeholder= "MOBILE" v-model="form.mobile"><br><br>
         <input type="button" id='submit' value="SIGN UP" v-on:click="register()">
-      </form>
-      <br>
-    <div id='no'>NO, THANK YOU</div>
+      </form>      
+      <router-link to="/" id='no' exact> NO, THANK YOU</router-link>
+
+
+   
     </div>   
   </div>
 
@@ -32,7 +34,8 @@
         form: {
           name: "",
           email: "",
-          password: ""
+          password: "",
+          mobile:""
         },
       };
     },
@@ -43,15 +46,26 @@
    
     methods: {
        register: function() {
-        firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(() => {
-          console.log("Successfully logged in");
-          database.collection("eat").doc().set({name: "a"}).then(() => {});
-          }).catch((error) => {
-          alert(error.message);
-        });
+         if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
+          alert("Incomplete submission!");
+        } else {    
+          firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.form.email, this.form.password)
+          .then((data) => {
+            console.log("Successfully sign up");
+            database
+            .collection("users")
+            .doc(data.user.uid)
+            .set({
+              name: this.form.name,
+              mobile:this.form.mobile
+              })
+              .then(() => {alert('Your response has been submitted'); });
+            }).catch((error) => {
+            console.log(error.message);
+          });
+        }
       },
     },
   }
@@ -79,6 +93,7 @@ input {
   height: auto;
   margin: 0px;
   border-style: none;
+  margin-bottom: 0px;
 }
 
 h1 {
@@ -116,7 +131,8 @@ form {
   text-decoration-line: underline;
   font-size: 10px;
   color: #A90065;
-  margin: 0px;
+  margin: 50px;
+  padding: 0px;
 }
 
 </style>
