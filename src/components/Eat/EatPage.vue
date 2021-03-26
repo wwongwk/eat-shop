@@ -20,7 +20,9 @@
       <ul>
         <li v-for="restaurant in restaurants" :key="restaurant.id">
           <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/eatDetail" exact>{{ restaurant.name }}</router-link>
+          <router-link to="/eatDetailTemplate" exact>
+            <button v-on:click="sendData(restaurant.id)">{{ restaurant.name }}</button>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -73,6 +75,8 @@ export default {
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             this.restaurants.push(doc.data());
+            //console.log(doc.data());
+            localStorage.clear();
           });
         });
     },
@@ -118,10 +122,21 @@ export default {
       this.recommendedRestaurants = false;
       this.selectedRestaurants = false;
       this.allRestaurants = true;
+    },
+    sendData: function(id) {
+      //console.log(id);
+      for(var x of this.restaurants) {
+        //console.log(x)
+        if (x["id"] === id) {
+          console.log(x)
+          localStorage.setItem("KEY", JSON.stringify(x));
+        }
+      }
     }
   },
   created() {
     this.fetchRestaurants();
+    //console.log(this.restaurants);
   },
 };
 </script>
