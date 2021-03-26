@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header></app-header>
+    <CartHeader></CartHeader>
     <table class="table">
       <tr>
         <th></th>
@@ -26,16 +26,19 @@
       </tr>
     </table>
     <input type="button" class="button" id="CheckOutBtn" value="Checkout">
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Header from './Header.vue'
+import CartHeader from './CartHeader.vue'
+import Footer from './Footer.vue'
 
 export default {
   name: "My cart",
   components: {
-    AppHeader: Header,
+    CartHeader: CartHeader,
+    Footer: Footer,
   },
 
   data() {
