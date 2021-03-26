@@ -9,7 +9,7 @@
       <ul>
         <li v-for="restaurant in restaurants" :key="restaurant.id">
             <img v-bind:src="restaurant.imageURL"><br />
-           <router-link to='/cart' exact>{{ restaurant.name }}</router-link>
+            <router-link to='/eatDetail' exact>{{ restaurant.name }}</router-link>
         </li>
         <button id="seeMore">See More</button>
       </ul>

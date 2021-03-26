@@ -49,7 +49,7 @@
         </div>
 
         <div id="body" v-show="Review">
-            <p> Add review stuff here </p>
+            <review></review>
     
         </div>
 
@@ -58,14 +58,21 @@
 
         </div>
 
+        <div>
+          <Footer></Footer>
+        </div>
     </div>
 </template>
 
 <script>
 import Header from '../Header.vue'
+import Footer from '../Footer.vue'
+import EatReview from './EatReview.vue'
 export default {
     components: {
         Header:Header,
+        Footer:Footer,
+        review:EatReview,
     },
     data() {
         return {
@@ -109,7 +116,7 @@ export default {
 
 <style scoped>
     h1 {
-        background-color:#d163b9 ;
+        background-color:#ED83A7 ;
         color: aliceblue;
         text-align: center;
         margin-top: 5px;
