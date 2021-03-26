@@ -5,7 +5,7 @@
     <div class='signup'>
       <img id='logo' src="../assets/logo.png"/>
       <h1>JOIN US</h1>
-      <form v-if="!business">
+      <form>
         <input type="name" id="name" name="name" placeholder="NAME" v-model="form.name"><br><br>
         <input type="email" id="email1" name="email" placeholder="YOUR EMAIL" v-model="form.email"><br><br>
         <input type="password" id="password" name="password" placeholder= "PASSWORD" v-model="form.password"><br><br>
@@ -37,7 +37,6 @@
           password: "",
           mobile:""
         },
-        business: false
       };
     },
 
@@ -47,8 +46,8 @@
    
     methods: {
        register: function() {
-         if (this.name==="" || this.email==="" || this.password==="" || this.mobile==="") {
-          alert("Incomplete submission, textbox is empty");
+         if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
+          alert("Incomplete submission!");
         } else {    
           firebase
           .auth()
