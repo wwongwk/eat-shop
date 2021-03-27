@@ -52,6 +52,27 @@
           }).catch((error) => {
           alert(error.message);
         });
+         if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
+          alert("Incomplete submission!");
+        } else {    
+          firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.form.email, this.form.password)
+          .then((data) => {
+            console.log("Successfully sign up");
+            database
+            .collection("users")
+            .doc(data.user.uid)
+            .set({
+              user_id: data.user.uid,
+              name: this.form.name,
+              mobile:this.form.mobile
+              })
+              .then(() => {alert('Your response has been submitted'); });
+            }).catch((error) => {
+            console.log(error.message);
+          });
+        }
       },
     },
   }
