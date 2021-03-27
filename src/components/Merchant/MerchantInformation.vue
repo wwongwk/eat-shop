@@ -11,6 +11,8 @@
     <br />
     mobile : {{ mobile }}
 
+    document_id: {{ documentId }}
+
     dashboard: {{ dashboard }}
     <div id="content" class="flexbox">
       <form>
@@ -31,20 +33,22 @@
           v-model="mobile"
         /><br /><br />
         <label for="address">ADDRESS:</label><br />
+        <textarea id="address" name="address" v-model="address" /><br /><br />
+        <label for="openingHours">Opening Hours:</label><br />
         <input
-          type="address"
-          id="address"
-          name="address"
-          v-model="address"
+          type="text"
+          id="openingHours"
+          name="openingHours"
+          v-model="openingHours"
         /><br /><br />
-        <label for="mobile">Opening Hours:</label><br />
-        <input
-          type=""
-          id="mobile"
-          name="mobile"
-          v-model="mobile"
-        /><br /><br />
-        <input type="button" id="submit" value="SAVE" v-on:click="save()" />
+        <label for="description">Description:</label><br />
+        <textarea
+          id="description"
+          name="description"
+          v-model="description"
+        ></textarea>
+        <br /><br />
+        <input type="button" id="submit" value="SAVE" @click="save" />
       </form>
       <br />
     </div>
@@ -59,15 +63,17 @@ export default {
   data() {
     return {
       uid: "",
+      type: "",
       reservations: [],
       merchantDetails: [],
+      documentId:"",
       merchantId: "",
       name: "",
       email: "",
       mobile: "",
       address: "",
-      opening_hours: "",
-      phone: null,
+      openingHours: "",
+      description: "",
       information: true,
       dashboard: false,
       merchant: false,
@@ -83,7 +89,6 @@ export default {
             if (doc.data().user_id == this.uid) {
               this.reservations.push(doc.data());
             }
-            localStorage.clear();
           });
         });
     },
@@ -98,6 +103,10 @@ export default {
               this.mobile = doc.data().telephone;
               this.name = doc.data().name;
               this.address = doc.data().address;
+              this.openingHours = doc.data().openingHours;
+              this.description = doc.data().description;
+              this.type = doc.data().type;
+              this.documentId = doc.data().document_id;
             }
             localStorage.clear();
           });
@@ -107,6 +116,22 @@ export default {
       this.uid = firebase.auth().currentUser.uid;
       this.email = firebase.auth().currentUser.email;
       this.phone = firebase.auth().currentUser.phoneNumber;
+    },
+    save() {
+      database
+        .collection(this.type)
+        .doc(this.documentId)
+        .update({
+          name: this.name,
+          email: this.email,
+          mobile: this.mobile,
+          address: this.address,
+          openingHours: this.openingHours,
+          description: this.description,
+        })
+        .then(() => {
+          location.reload();
+        });
     },
   },
   mounted() {
@@ -119,7 +144,14 @@ export default {
 
 <style scoped>
 input {
-  width: 200px;
+  width: 300px;
   height: 25px;
+  font-size: 20px;
+}
+textarea {
+  width: 300px;
+  height: 80px;
+  font-size: 20px;
+  resize: none;
 }
 </style>

@@ -11,7 +11,22 @@
         placeholder="Enter Restaurant's Name"
         v-on:keyup.enter="findRestaurant()"
       />
-      <button id="resetBtn" v-on:click = "reset()">RESET</button>
+      <button id="resetBtn" v-on:click="reset()">RESET</button>
+    </div>
+
+    <div id="filterDropdown">
+    <p>SORT BY:</p>
+    <v-select
+      label="cuisineType"
+      :options="dropdownOptions"
+      :value="selectedCuisine"
+      v-model="selected"
+      @input="filterFood"
+    >
+      <template slot="option" slot-scope="option">
+        {{option.cuisineType}}
+      </template>
+    </v-select>
     </div>
     <div id="errorMessage" v-show="errorShown">
       {{ error }}
@@ -21,28 +36,46 @@
         <li v-for="restaurant in restaurants" :key="restaurant.id">
           <img v-bind:src="restaurant.imageURL" /><br />
           <router-link to="/eatDetailTemplate" exact>
-            <button v-on:click="sendData(restaurant.id)">{{ restaurant.name }}</button>
+            <button v-on:click="sendData(restaurant.id)">
+              {{ restaurant.name }}
+            </button>
           </router-link>
         </li>
       </ul>
     </div>
     <div id="selectedFood" v-show="selectedRestaurants">
       <ul>
-        <li v-for="restaurant in selected" :key="restaurant.id">
+        <li v-for="restaurant in selectedFood" :key="restaurant.id">
           <img v-bind:src="restaurant.imageURL" /><br />
           <router-link to="/eatDetailTemplate" exact>
-            <button v-on:click="sendData(restaurant.id)">{{ restaurant.name }}</button>
+            <button v-on:click="sendData(restaurant.id)">
+              {{ restaurant.name }}
+            </button>
           </router-link>
         </li>
       </ul>
     </div>
     <div id="recommendedFood" v-show="recommendedRestaurants">
-      <div id="msg">We think you may like the following as well: </div>
+      <div id="msg">We think you may like the following as well:</div>
       <ul>
         <li v-for="restaurant in recommended" :key="restaurant.id">
           <img v-bind:src="restaurant.imageURL" /><br />
           <router-link to="/eatDetailTemplate" exact>
-            <button v-on:click="sendData(restaurant.id)">{{ restaurant.name }}</button>
+            <button v-on:click="sendData(restaurant.id)">
+              {{ restaurant.name }}
+            </button>
+          </router-link>
+        </li>
+      </ul>
+    </div>
+    <div id="filteredFood" v-show="filteredRestaurants">
+      <ul>
+        <li v-for="restaurant in filtered" :key="restaurant.id">
+          <img v-bind:src="restaurant.imageURL" /><br />
+          <router-link to="/eatDetailTemplate" exact>
+            <button v-on:click="sendData(restaurant.id)">
+              {{ restaurant.name }}
+            </button>
           </router-link>
         </li>
       </ul>
@@ -61,14 +94,23 @@ export default {
   data() {
     return {
       restaurants: [],
-      selected: [],
+      selectedFood: [],
       recommended: [],
+      filtered: [],
       search: "",
+      selectedCuisine: "",
       allRestaurants: true,
       selectedRestaurants: false,
       errorShown: false,
       error: "",
       recommendedRestaurants: false,
+      filteredRestaurants: false,
+      dropdownOptions: [
+        { code: "CHI", cuisineType: "Chinese" },
+        { code: "JAP", cuisineType: "Japanese" },
+        { code: "WEST", cuisineType: "Western" },
+        { code: "ALL", cuisineType: "All" },
+      ],
     };
   },
   methods: {
@@ -79,14 +121,13 @@ export default {
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             this.restaurants.push(doc.data());
-            //console.log(doc.data());
             localStorage.clear();
           });
         });
     },
     findRestaurant: function () {
-      if (this.selected.length > 0) {
-        this.selected.length = 0;
+      if (this.selectedFood.length > 0) {
+        this.selectedFood.length = 0;
       }
       if (this.recommended.length > 0) {
         this.recommended.length = 0;
@@ -95,12 +136,15 @@ export default {
       for (let i = 0; i < this.restaurants.length; i++) {
         var restaurant = this.restaurants[i];
         if (restaurant.name.toLowerCase().includes(this.search.toLowerCase())) {
-          this.selected.push(restaurant);
+          this.selectedFood.push(restaurant);
           var cuisine = restaurant.cuisine;
           for (let j = 0; j < this.restaurants.length; j++) {
             var current = this.restaurants[j];
-            if (current.cuisine === cuisine && current.name != restaurant.name) {
-              //other restaurants of similar cuisine 
+            if (
+              current.cuisine === cuisine &&
+              current.name != restaurant.name
+            ) {
+              //other restaurants of similar cuisine
               //push to recommended restaurants array
               this.recommended.push(current);
             }
@@ -121,26 +165,43 @@ export default {
         this.recommendedRestaurants = false;
       }
     },
-    reset: function() {
+    reset: function () {
       this.errorShown = false;
       this.recommendedRestaurants = false;
       this.selectedRestaurants = false;
       this.allRestaurants = true;
+      this.search = "";
     },
-    sendData: function(id) {
-      //console.log(id);
-      for(var x of this.restaurants) {
-        //console.log(x)
+    sendData: function (id) {
+      for (var x of this.restaurants) {
         if (x["id"] === id) {
-          console.log(x)
+          console.log(x);
           localStorage.setItem("KEY", JSON.stringify(x));
         }
       }
-    }
+    },
+    filterFood: function (value) {
+      if (this.filtered.length > 0) {
+        this.filtered.length = 0;
+      }
+      if (value.cuisineType === "All") {
+        this.allRestaurants = true;
+      }
+      for (let i = 0; i < this.restaurants.length; i++) {
+        var restaurant = this.restaurants[i];
+        if (restaurant.cuisine === value.cuisineType.toLowerCase()) {
+          this.filtered.push(restaurant);
+          this.allRestaurants = false;
+        }
+      }
+      this.selectedRestaurants = false;
+      this.recommendedRestaurants = false;
+      this.errorShown = false;
+      this.filteredRestaurants = true;
+    },
   },
   created() {
     this.fetchRestaurants();
-    //console.log(this.restaurants);
   },
 };
 </script>
@@ -155,28 +216,36 @@ export default {
 }
 
 button {
-    color: #444444;
-    background: hotpink;
-    border: 1px #DADADA solid;
-    padding: 5px 10px;
-    border-radius: 2px;
-    font-weight: bold;
-    font-size: 9pt;
-    outline: none;
+  color: #444444;
+  background: hotpink;
+  border: 1px #dadada solid;
+  padding: 5px 10px;
+  border-radius: 2px;
+  font-weight: bold;
+  font-size: 9pt;
+  outline: none;
 }
 
 button:hover {
-    border: 1px #C6C6C6 solid;
-    box-shadow: 1px 1px 1px #EAEAEA;
-    color: #333333;
-    background: rgb(245, 73, 159);
+  border: 1px #c6c6c6 solid;
+  box-shadow: 1px 1px 1px #eaeaea;
+  color: #333333;
+  background: rgb(245, 73, 159);
 }
 
 button:active {
-    box-shadow: inset 1px 1px 1px #DFDFDF;   
+  box-shadow: inset 1px 1px 1px #dfdfdf;
 }
 
 #selectedFood {
+  width: 100%;
+  max-width: 80%;
+  margin: 0px;
+  padding: 0 px;
+  box-sizing: border-box;
+}
+
+#filteredFood {
   width: 100%;
   max-width: 80%;
   margin: 0px;
@@ -229,6 +298,7 @@ img {
 #errorMessage {
   font-size: 20px;
   text-align: center;
+  margin-top: 10px;
 }
 h3 {
   text-align: left;
@@ -248,5 +318,16 @@ h3 {
 h1 {
   font-family: monospace;
   font-size: 50px;
+}
+
+#filterDropdown {
+  width: 30%;
+  margin: 0 auto;
+  margin-top: 3%;
+}
+
+#filterDropdown p {
+  font-size: 20px;
+  color: hotpink;
 }
 </style>
