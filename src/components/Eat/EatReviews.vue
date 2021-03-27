@@ -29,15 +29,13 @@
 
     <div class="reviews">
         <ul>
-        <li  v-for="review in reviewsList" v-bind:key="review.username">
-            {{review.username}}&nbsp;
-            {{review.date}}<br>
-            <span style="color:pink" v-if="review.rating=='1'">&starf;&star;&star;&star;&star;</span>
-            <span style="color:pink" v-else-if="review.rating=='2'">&starf;&starf;&star;&star;&star;</span>
-            <span style="color:pink" v-else-if="review.rating=='3'">&starf;&starf;&starf;&star;&star;</span>
-            <span style="color:pink" v-else-if="review.rating=='4'">&starf;&starf;&starf;&starf;&star;</span>
+        <li  v-for="item in reviews" v-bind:key="item.stars">
+            <span style="color:pink" v-if="item.stars==1">&starf;&star;&star;&star;&star;</span>
+            <span style="color:pink" v-else-if="item.stars==2">&starf;&starf;&star;&star;&star;</span>
+            <span style="color:pink" v-else-if="item.stars==3">&starf;&starf;&starf;&star;&star;</span>
+            <span style="color:pink" v-else-if="item.stars==4">&starf;&starf;&starf;&starf;&star;</span>
             <span style="color:pink" v-else>&starf;&starf;&starf;&starf;&starf;</span><br>
-            {{review.description}}<hr>
+            {{item.review}}<hr>
         </li>
         </ul>
     </div>
@@ -45,6 +43,7 @@
 </template>
 
 <script>
+import database from "../../firebase.js";
 export default {
   name: "EatReview",
   components: {
@@ -53,29 +52,18 @@ export default {
 
   data() {
     return {
-      shop: {
-        name: "Sum Dim Sum",
-        rating:'4.5/5',
-        reviewers: '3',
-        seats: '70',
-      },
-      reviewsList: [
-        {username: 'foodlover2021',
-        rating: '4',
-        date: 'Feb 2 2021',
-        description: '"I love the dim sum here! Absolutely worth trying."'
-        },
-        {username: 'foodlover2021',
-        rating: '4',
-        date: 'Feb 2 2021',
-        description: '"I love the dim sum here! Absolutely worth trying."'
-        },
-      ]
-      
+      reviews: [], 
     }
   },
 
   methods: {
+    fetchReviews: function () {
+      this.reviews=database
+        .collection("eat")
+        .doc("afuriramen")
+        .get("reviews")
+    },
+
     countOne: function() {
         var numOfOne = 0;
         for (let i = 0; i < this.reviewsList.length; i++) {
