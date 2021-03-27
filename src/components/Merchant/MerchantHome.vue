@@ -7,8 +7,6 @@
       <button @click="toggleDashboard">Dashboard</button>
     </div>
 
-    <h2>Shop Name</h2>
-
     <div id="body" v-show="information">
       <merchant-information> </merchant-information>
     </div>
