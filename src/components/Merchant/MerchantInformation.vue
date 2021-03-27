@@ -14,6 +14,8 @@
     document_id: {{ documentId }}
 
     dashboard: {{ dashboard }}
+
+    <h2>{{name}}</h2>
     <div id="content" class="flexbox">
       <form>
         <label for="name">NAME:</label><br />
@@ -25,7 +27,7 @@
           name="email"
           v-model="email"
         /><br /><br />
-        <label for="mobile">YOUR MOBILE:</label><br />
+        <label for="mobile">CONTACT NUMBER:</label><br />
         <input
           type="text"
           id="mobile"

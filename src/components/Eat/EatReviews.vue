@@ -1,183 +1,182 @@
 <template>
   <div>
-    <h2>{{shop.name}}</h2>
+    Reviews: {{ reviews }} <br />
+    Shop Name: {{ shopName }} <br />
+    Document Id: {{ documentId }} <br />
+    stars : {{ averageStars }}
     <div id="scores">
-        <p id="overall">4.5/5</p>
-        <div id="stars">
+      <p id="overall">{{ averageStars }}/5</p>
+      <div id="stars">
         <div id="one">
-            <span style="color:pink">&starf;&star;&star;&star;&star;</span>
-            <p>{{countOne()}}</p>
+          <span style="color: pink">&starf;&star;&star;&star;&star;</span>
+          <p>{{ stars[1] }}</p>
         </div>
         <div id="two">
-            <span style="color:pink">&starf;&starf;&star;&star;&star;</span>
-            <p>{{countTwo()}}</p>
+          <span style="color: pink">&starf;&starf;&star;&star;&star;</span>
+          <p>{{ stars[2] }}</p>
         </div>
         <div id="three">
-            <span style="color:pink">&starf;&starf;&starf;&star;&star;</span>
-            <p>{{countThree()}}</p>
+          <span style="color: pink">&starf;&starf;&starf;&star;&star;</span>
+          <p>{{ stars[3] }}</p>
         </div>
-        <div id="four"> 
-            <span style="color:pink">&starf;&starf;&starf;&starf;&star;</span>
-            <p>{{countFour()}}</p>
+        <div id="four">
+          <span style="color: pink">&starf;&starf;&starf;&starf;&star;</span>
+          <p>{{ stars[4] }}</p>
         </div>
         <div id="five">
-            <span style="color:pink">&starf;&starf;&starf;&starf;&starf;</span>
-            <p>{{countFive()}}</p>
+          <span style="color: pink">&starf;&starf;&starf;&starf;&starf;</span>
+          <p>{{ stars[5] }}</p>
         </div>
       </div>
     </div>
 
     <div class="reviews">
-        <ul>
-        <li  v-for="item in reviews" v-bind:key="item.stars">
-            <span style="color:pink" v-if="item.stars==1">&starf;&star;&star;&star;&star;</span>
-            <span style="color:pink" v-else-if="item.stars==2">&starf;&starf;&star;&star;&star;</span>
-            <span style="color:pink" v-else-if="item.stars==3">&starf;&starf;&starf;&star;&star;</span>
-            <span style="color:pink" v-else-if="item.stars==4">&starf;&starf;&starf;&starf;&star;</span>
-            <span style="color:pink" v-else>&starf;&starf;&starf;&starf;&starf;</span><br>
-            {{item.review}}<hr>
+      <ul>
+        <li v-for="item in reviews" v-bind:key="item.stars">
+          {{ item.username }}&nbsp;
+
+          <span style="color: pink" v-if="item.stars == 1"
+            >&starf;&star;&star;&star;&star;</span
+          >
+          <span style="color: pink" v-else-if="item.stars == 2"
+            >&starf;&starf;&star;&star;&star;</span
+          >
+          <span style="color: pink" v-else-if="item.stars == 3"
+            >&starf;&starf;&starf;&star;&star;</span
+          >
+          <span style="color: pink" v-else-if="item.stars == 4"
+            >&starf;&starf;&starf;&starf;&star;</span
+          >
+          <span style="color: pink" v-else
+            >&starf;&starf;&starf;&starf;&starf;</span
+          ><br />
+          {{ item.review }}
+          <hr />
         </li>
-        </ul>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import database from "../../firebase.js";
 export default {
   name: "EatReview",
-  components: {
-    
-  },
+  components: {},
 
   data() {
     return {
-      reviews: [], 
-    }
+      shopName: "",
+      documentId: "",
+      reviews: [],
+      stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+    };
   },
 
   methods: {
-    fetchReviews: function () {
-      this.reviews=database
-        .collection("eat")
-        .doc("afuriramen")
-        .get("reviews")
+    get() {
+      var shop = JSON.parse(localStorage.getItem("KEY"));
+      console.log(shop);
+      this.shopName = shop["name"];
+      this.documentId = shop["document_id"];
+      this.reviews = shop["reviews"];
     },
-
-    countOne: function() {
-        var numOfOne = 0;
-        for (let i = 0; i < this.reviewsList.length; i++) {
-          if (this.reviewsList[i].rating == '1') {
-            numOfOne += 1;
-          }
+    updateStars() {
+      for (let i = 0; i < this.reviews.length; i++) {
+        if (this.reviews[i].stars == 1) {
+          this.stars[1] += 1;
         }
-        return numOfOne;
+        if (this.reviews[i].stars == 2) {
+          this.stars[2] += 1;
+        }
+        if (this.reviews[i].stars == 3) {
+          this.stars[3] += 1;
+        }
+        if (this.reviews[i].stars == 4) {
+          this.stars[4] += 1;
+        }
+        if (this.reviews[i].stars == 5) {
+          this.stars[5] += 1;
+        }
+      }
     },
-
-    countTwo: function() {
-        var numOfTwo = 0;
-        for (let i = 0; i < this.reviewsList.length; i++) {
-          if (this.reviewsList[i].rating == '2') {
-            numOfTwo += 1;
-          }
-        }
-        return numOfTwo;
-    },
-
-    countThree: function() {
-        var numOfThree = 0;
-        for (let i = 0; i < this.reviewsList.length; i++) {
-          if (this.reviewsList[i].rating == '3') {
-            numOfThree += 1;
-          }
-        }
-        return numOfThree;
-    },
-
-    countFour: function() {
-        var numOfFour = 0;
-        for (let i = 0; i < this.reviewsList.length; i++) {
-          if (this.reviewsList[i].rating == '4') {
-            numOfFour += 1;
-          }
-        }
-        return numOfFour;
-    },
-
-    countFive: function() {
-        var numOfFive = 0;
-        for (let i = 0; i < this.reviewsList.length; i++) {
-          if (this.reviewsList[i].rating == '5') {
-            numOfFive += 1;
-          }
-        }
-        return numOfFive;
-    }
   },
-
+  computed: {
+    averageStars() {
+      let sum = 0;
+      let length = 0;
+      for (let [key, value] of Object.entries(this.stars)) {
+        sum += key * value;
+        length += value;
+      }
+      return (sum / length).toFixed(1);
+    },
+  },
   created() {
-      this.fetchReviews();
-  }
-
-}
+    this.get();
+    this.updateStars();
+  },
+};
 </script>
 
 <style scoped>
+#scores {
+  white-space: nowrap;
+}
+#overall,
+#stars {
+  display: inline-block;
+}
 
-  #scores {
-    white-space: nowrap;
-  }
-  #overall, #stars {
-      display: inline-block;
-  }
+#overall {
+  font-size: 70px;
+  margin: 60px;
+}
+#one,
+#two,
+#three,
+#four,
+#five {
+  white-space: nowrap;
+  margin: 10px;
+  height: 5px;
+}
 
-  #overall {
-    font-size: 70px;
-    margin: 60px;
-  }
-  #one, #two, #three, #four, #five {
-    white-space: nowrap;
-    margin: 10px;
-    height: 5px;
-  }
+#one > p {
+  display: inline-block;
+  margin: 10px;
+}
+#two > p {
+  display: inline-block;
+  margin: 10px;
+}
+#three > p {
+  display: inline-block;
+  margin: 10px;
+}
+#four > p {
+  display: inline-block;
+  margin: 10px;
+}
+#five > p {
+  display: inline-block;
+  margin: 10px;
+}
 
-  #one > p {
-    display: inline-block;
-    margin: 10px;
-  }
-  #two > p {
-    display: inline-block;
-    margin: 10px;
-  }
-  #three > p {
-    display: inline-block;
-    margin: 10px;
-  }
-  #four > p {
-    display: inline-block;
-    margin: 10px;
-  }
-  #five > p {
-    display: inline-block;
-    margin: 10px;
-  }
+li {
+  color: #403939;
+  font-size: 18px;
+  margin: 10px;
+  border-radius: 4px;
+  padding: 25px 20px;
+}
 
-  li {
-      color: #403939;
-      font-size: 18px;
-      margin: 10px;
-      border-radius: 4px;
-      padding: 25px 20px;
-  }
-
-  ul {
-      list-style-type: none;
-      width: 100%;
-      margin-bottom: 100px;
-  }
-  div.reviews {
-      test-align: center;
-      line-height: 2;
-  }
-
+ul {
+  list-style-type: none;
+  width: 100%;
+  margin-bottom: 100px;
+}
+div.reviews {
+  test-align: center;
+  line-height: 2;
+}
 </style>
