@@ -13,7 +13,7 @@
         <span class="plus">+</span>
       </section>
 
-      <button> Book Now:</button>
+      <button> Book Now</button>
 
     </div>
   </div>
@@ -22,6 +22,7 @@
 <script>
 export default {
   components: {},
+  props: {},
   data() {
     return {
       About: true,
