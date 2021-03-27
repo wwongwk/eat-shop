@@ -51,6 +51,7 @@
     <div id="body" v-show="Reservation">
       <eat-reservation></eat-reservation>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -59,6 +60,7 @@ import Header from "../Header.vue";
 import EatAbout from "./EatAbout.vue";
 import EatReservation from "./EatReservation.vue";
 import EatReviews from "./EatReviews.vue";
+import Footer from "../Footer.vue";
 
 export default {
   components: {
@@ -66,6 +68,7 @@ export default {
     EatAbout: EatAbout,
     EatReservation: EatReservation,
     EatReviews: EatReviews,
+    Footer: Footer,
   },
   data() {
     return {
