@@ -112,7 +112,12 @@ export default {
         sum += key * value;
         length += value;
       }
-      return (sum / length).toFixed(1);
+
+      if (length == 0) {
+        return 0;
+      } else {
+        return (sum / length).toFixed(1);
+      }
     },
   },
   created() {
@@ -200,6 +205,6 @@ button {
   font-size: 18px;
   margin: 10px;
   border-radius: 4px;
-  cursor:pointer;
+  cursor: pointer;
 }
 </style>
