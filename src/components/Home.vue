@@ -68,7 +68,7 @@ export default {
 
       shopsList: [
         {
-          id: "#004",
+          id: "#003",
           name: "Overjoyed",
           imageURL:
             "https://thesmartlocal.com/images/easyblog_articles/6880/b2ap3_large_crafts---overjoyed.png",
@@ -88,7 +88,7 @@ export default {
       ],
       activities: [
         {
-          id: "#007",
+          id: "#004",
           name: "Hi-roller indoor skating rink",
           imageURL:
             "https://thesmartlocal.com/wp-content/uploads/2020/08/image2.jpg",
