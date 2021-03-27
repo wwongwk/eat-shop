@@ -8,9 +8,11 @@
     <div id="eat">
       <ul>
         <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
-          <img v-bind:src="restaurant.imageURL" /><br />
           <router-link to="/eatDetailTemplate" exact>
-            <button v-on:click="sendData(restaurant.id)">{{ restaurant.name }}</button>
+            <img v-bind:src="restaurant.imageURL" /><br />
+            <button v-on:click="sendData(restaurant.id)">
+              {{ restaurant.name }}
+            </button>
           </router-link>
         </li>
         <button id="seeMore" v-on:click="GoToEat">See More</button>
@@ -99,10 +101,10 @@ export default {
         .collection("eat")
         .get()
         .then((snapshot) => {
-          let restaurant={}
+          let restaurant = {};
           snapshot.forEach((doc) => {
-            restaurant=doc.data()
-            restaurant.id=doc.id
+            restaurant = doc.data();
+            restaurant.id = doc.id;
             this.restaurants.push(restaurant);
             //console.log(doc.data());
             localStorage.clear();
@@ -110,32 +112,31 @@ export default {
         });
     },
 
-    GoToEat: function() {
-      this.$router.push('/eat');
+    GoToEat: function () {
+      this.$router.push("/eat");
     },
 
-    sendData: function(id) {
+    sendData: function (id) {
       //console.log(id);
-      for(var x of this.restaurants) {
+      for (var x of this.restaurants) {
         //console.log(x)
         if (x["id"] === id) {
-          console.log(x)
+          console.log(x);
           localStorage.setItem("KEY", JSON.stringify(x));
         }
       }
-    }
+    },
   },
 
   computed: {
     filteredRestaurants() {
       return this.restaurants.slice(0, 3);
-    }
+    },
   },
 
-  created(){
-    this.fetchRestaurants();  
-  }
-
+  created() {
+    this.fetchRestaurants();
+  },
 };
 </script>
 
@@ -231,12 +232,13 @@ h1 {
 }
 
 button {
-    background-color: white;
-    font-size: 20px;
-    border-radius: 8px;
-    padding: 7px 20px;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #403939;
-    border: none;
+  background-color: white;
+  font-size: 20px;
+  border-radius: 8px;
+  padding: 7px 20px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  color: #403939;
+  border: none;
+  cursor: pointer;
 }
 </style>
