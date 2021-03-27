@@ -113,6 +113,10 @@ export default {
         }
         return numOfFive;
     }
+  },
+
+  created() {
+      this.fetchReviews();
   }
 
 }
