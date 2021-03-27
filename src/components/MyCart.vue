@@ -26,16 +26,19 @@
       </tr>
     </table>
     <input type="button" class="button" id="CheckOutBtn" value="Checkout">
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import CartHeader from './CartHeader.vue'
+import Footer from './Footer.vue'
 
 export default {
   name: "My cart",
   components: {
     CartHeader: CartHeader,
+    Footer: Footer,
   },
 
   data() {

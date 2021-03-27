@@ -1,15 +1,15 @@
 <template>
-<div>
-  <div class="home">
-    <Header></Header>
-    <img id="homeImg" src="../assets/TopPic.png" />
-  </div>
+  <div>
+    <div class="home">
+      <app-header></app-header>
+      <img id="homeImg" src="../assets/TopPic.png" />
+    </div>
     <h3>EAT</h3>
     <div id="eat">
       <ul>
         <li v-for="restaurant in restaurants" :key="restaurant.id">
-            <img v-bind:src="restaurant.imageURL"><br />
-           <router-link to='/cart' exact>{{ restaurant.name }}</router-link>
+          <img v-bind:src="restaurant.imageURL" /><br />
+          <router-link to="/eatDetailTemplate" exact>{{ restaurant.name }}</router-link>
         </li>
         <button id="seeMore">See More</button>
       </ul>
@@ -19,7 +19,7 @@
       <ul>
         <li v-for="shop in shopsList" :key="shop.id">
           <img v-bind:src="shop.imageURL" /><br />
-           <router-link to='/cart' exact>{{shop.name}}</router-link>
+          <router-link to="/cart" exact>{{ shop.name }}</router-link>
         </li>
         <button id="seeMore">See More</button>
       </ul>
@@ -29,7 +29,7 @@
       <ul>
         <li v-for="play in activities" :key="play.id">
           <img v-bind:src="play.imageURL" /><br />
-          <router-link to='/cart' exact>{{ play.name }}</router-link>
+          <router-link to="/cart" exact>{{ play.name }}</router-link>
         </li>
         <button id="seeMore">See More</button>
       </ul>
@@ -41,7 +41,7 @@
 import Header from "./Header.vue";
 export default {
   components: {
-    Header: Header,
+    AppHeader: Header,
   },
   data() {
     return {

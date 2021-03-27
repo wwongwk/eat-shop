@@ -44,7 +44,7 @@ h1 {
 .flexWrap {
   display: flex;
   overflow: hidden;
-  margin: 20px;
+  margin: 30px;
 
 }
 .flexCol {
