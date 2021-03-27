@@ -7,11 +7,15 @@
     <h3>EAT</h3>
     <div id="eat">
       <ul>
-        <li v-for="restaurant in restaurants" :key="restaurant.id">
-          <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/eatDetailTemplate" exact>{{ restaurant.name }}</router-link>
+        <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
+          <router-link to="/eatDetailTemplate" exact>
+            <img v-bind:src="restaurant.imageURL" /><br />
+            <button v-on:click="sendData(restaurant.id)">
+              {{ restaurant.name }}
+            </button>
+          </router-link>
         </li>
-        <button id="seeMore">See More</button>
+        <button id="seeMore" v-on:click="GoToEat">See More</button>
       </ul>
     </div>
     <h3>SHOP</h3>
@@ -39,32 +43,14 @@
 
 <script>
 import Header from "./Header.vue";
+import database from "../firebase.js";
 export default {
   components: {
     AppHeader: Header,
   },
   data() {
     return {
-      restaurants: [
-        {
-          id: "#000",
-          name: "Allium",
-          imageURL:
-            "https://media.timeout.com/images/105615480/380/285/image.jpg",
-        },
-        {
-          id: "#001",
-          name: "Cloudstreet",
-          imageURL:
-            "https://media.timeout.com/images/105490157/380/285/image.jpg",
-        },
-        {
-          id: "#003",
-          name: "Mott 32",
-          imageURL:
-            "https://media.timeout.com/images/105602789/380/285/image.jpg",
-        },
-      ],
+      restaurants: [],
 
       shopsList: [
         {
@@ -107,6 +93,49 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    fetchRestaurants: function () {
+      database
+        .collection("eat")
+        .get()
+        .then((snapshot) => {
+          let restaurant = {};
+          snapshot.forEach((doc) => {
+            restaurant = doc.data();
+            restaurant.id = doc.id;
+            this.restaurants.push(restaurant);
+            //console.log(doc.data());
+            localStorage.clear();
+          });
+        });
+    },
+
+    GoToEat: function () {
+      this.$router.push("/eat");
+    },
+
+    sendData: function (id) {
+      //console.log(id);
+      for (var x of this.restaurants) {
+        //console.log(x)
+        if (x["id"] === id) {
+          console.log(x);
+          localStorage.setItem("KEY", JSON.stringify(x));
+        }
+      }
+    },
+  },
+
+  computed: {
+    filteredRestaurants() {
+      return this.restaurants.slice(0, 3);
+    },
+  },
+
+  created() {
+    this.fetchRestaurants();
   },
 };
 </script>
@@ -200,5 +229,16 @@ h1 {
   padding-right: 10px;
   margin-top: 90px;
   height: 50px;
+}
+
+button {
+  background-color: white;
+  font-size: 20px;
+  border-radius: 8px;
+  padding: 7px 20px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  color: #403939;
+  border: none;
+  cursor: pointer;
 }
 </style>

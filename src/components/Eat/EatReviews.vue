@@ -53,6 +53,10 @@
           {{ item.review }}
           <hr />
         </li>
+
+        <textarea id="input" name="input" />
+        <br />
+        <button>SUBMIT REVIEW</button>
       </ul>
     </div>
   </div>
@@ -178,5 +182,24 @@ ul {
 div.reviews {
   test-align: center;
   line-height: 2;
+}
+
+textarea {
+  padding: 25px 20px;
+  width: 600px;
+  height: 80px;
+  font-size: 20px;
+  resize: none;
+  color: #403939;
+  font-size: 18px;
+  margin: 10px;
+  border-radius: 4px;
+}
+
+button {
+  font-size: 18px;
+  margin: 10px;
+  border-radius: 4px;
+  cursor:pointer;
 }
 </style>
