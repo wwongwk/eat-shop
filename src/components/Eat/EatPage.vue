@@ -170,6 +170,7 @@ export default {
       this.recommendedRestaurants = false;
       this.selectedRestaurants = false;
       this.allRestaurants = true;
+      this.search = "";
     },
     sendData: function (id) {
       for (var x of this.restaurants) {
@@ -297,6 +298,7 @@ img {
 #errorMessage {
   font-size: 20px;
   text-align: center;
+  margin-top: 10px;
 }
 h3 {
   text-align: left;
@@ -321,6 +323,7 @@ h1 {
 #filterDropdown {
   width: 30%;
   margin: 0 auto;
+  margin-top: 3%;
 }
 
 #filterDropdown p {
