@@ -23,6 +23,7 @@ export default[
   {path:'/play', component:PlayPage},
   {path:'/shop', component:ShopPage},
   {path:'/eatDetail', component:EatDetailPage},
+  {path:'/eatDetailTemplate', component:EatDetailTemplate},
   {path:'/playDetail', component:PlayDetailPage},
   {path:'/changepw', component:ChangePW},
   {path:'/merchant', component:MerchantHome},
