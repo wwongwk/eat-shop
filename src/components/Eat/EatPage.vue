@@ -35,28 +35,32 @@
     <div id="food" v-show="allRestaurants">
       <ul>
         <li v-for="restaurant in restaurants" :key="restaurant.id">
-          <router-link to="/eatDetailTemplate" exact>
-            <div class="polaroid">
-              <img v-bind:src="restaurant.imageURL" /><br />
-              <div class="container">
+          <div class="polaroid">
+            <img v-bind:src="restaurant.imageURL" /><br />
+            <div class="container">
+              <router-link to="/eatDetailTemplate" exact>
                 <button v-on:click="sendData(restaurant.id)" id="names">
                 {{ restaurant.name }}
                 </button>
-              </div>
-            </div>
-          </router-link>
+              </router-link>
+            </div> 
+          </div>
         </li>
       </ul>
     </div>
     <div id="selectedFood" v-show="selectedRestaurants">
       <ul>
         <li v-for="restaurant in selectedFood" :key="restaurant.id">
-          <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/eatDetailTemplate" exact>
-            <button v-on:click="sendData(restaurant.id)">
-              {{ restaurant.name }}
-            </button>
-          </router-link>
+          <div class="polaroid">
+            <img v-bind:src="restaurant.imageURL" /><br />
+            <div class="container">
+              <router-link to="/eatDetailTemplate" exact>
+                <button v-on:click="sendData(restaurant.id)" id="selectedNames">
+                {{ restaurant.name }}
+                </button>
+              </router-link>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
@@ -64,24 +68,32 @@
       <div id="msg">We think you may like the following as well:</div>
       <ul>
         <li v-for="restaurant in recommended" :key="restaurant.id">
-          <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/eatDetailTemplate" exact>
-            <button v-on:click="sendData(restaurant.id)">
-              {{ restaurant.name }}
-            </button>
-          </router-link>
+          <div class="polaroid">
+            <img v-bind:src="restaurant.imageURL" /><br />
+            <div class="container">
+              <router-link to="/eatDetailTemplate" exact>
+                <button v-on:click="sendData(restaurant.id)" id="recommendedNames">
+                {{ restaurant.name }}
+                </button>
+              </router-link>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
     <div id="filteredFood" v-show="filteredRestaurants">
       <ul>
         <li v-for="restaurant in filtered" :key="restaurant.id">
-          <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/eatDetailTemplate" exact>
-            <button v-on:click="sendData(restaurant.id)">
-              {{ restaurant.name }}
-            </button>
-          </router-link>
+          <div class="polaroid">
+            <img v-bind:src="restaurant.imageURL" /><br />
+            <div class="container">
+              <router-link to="/eatDetailTemplate" exact>
+                <button v-on:click="sendData(restaurant.id)" id="filteredNames">
+                {{ restaurant.name }}
+                </button>
+              </router-link>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
@@ -245,6 +257,7 @@ button {
   font-size: 18px;
 }
 
+/*
 button:hover {
   border: 1px #c6c6c6 solid;
   box-shadow: 1px 1px 1px #eaeaea;
@@ -255,6 +268,7 @@ button:hover {
 button:active {
   box-shadow: inset 1px 1px 1px #dfdfdf;
 }
+*/
 
 #selectedFood {
   width: 100%;
@@ -311,12 +325,12 @@ div.container {
 
 img {
   height: 220px;
-  width: 100%;
+  width: 270px;
   background-size: 80% 50%;
   border-radius: 10px;
 }
 
-#names {
+#names, #selectedNames, #filteredNames, #recommendedNames {
   background-color: white;
   font-size: 20px;
   border-radius: 8px;
