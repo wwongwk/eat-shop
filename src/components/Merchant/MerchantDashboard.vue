@@ -1,10 +1,10 @@
 <template>
   <div>
-    Computed Axis: {{ generateAxesComputed}} <br>
-    Method Axis: {{ reservationAxis }} <br>
-    datesMonth' Length : {{datesMonth.length}} <br>
-    {{ datesMonth }}
-    {{ datesFormatted }}
+    datesMonthYear: {{ datesMonthYear }} <br />
+    {{ datesFormatted }} <br />
+    DatesAxis {{ datesAxis }} <br />
+    Method Axis: {{ reservationAxis }} <br />
+
     <div class="chart">
       <chart> </chart>
     </div>
@@ -18,7 +18,6 @@ import Chart from "./LineChart.js";
 
 export default {
   components: { Chart },
-  props: { Chart },
   data() {
     return {
       name: "",
@@ -27,7 +26,7 @@ export default {
       reservations: [],
       uid: "",
       phone: "",
-      datesMonth: [],
+      datesMonthYear: [],
       datesFormatted: [],
       reservationAxis: [],
       datesAxis: [],
@@ -45,10 +44,13 @@ export default {
               var nanoseconds = doc.data().date.nanoseconds;
               var date = new Date(seconds * 1000 + nanoseconds / 1000000);
               this.reservations.push(doc.data());
-              this.datesMonth.push(date.getMonth());
+              this.datesMonthYear.push([date.getMonth(), date.getFullYear()]);
               this.datesFormatted.push(date.toLocaleDateString());
             }
           });
+          console.log("fetchReservations() running");
+          //alert('fetchReservations() is running and the length of datesMonth is: ' + this.datesMonth.length)
+          this.generateAxes();
         });
     },
     fetchDetails() {
@@ -57,29 +59,31 @@ export default {
       this.phone = firebase.auth().currentUser.phoneNumber;
     },
     generateAxes() {
-      alert(this.datesMonth.length)
+      console.log("generateAxes() running");
+      //alert('generateAxes() is running and the length of datesMonth is: ' + this.datesMonth.length)
       let obj = {};
-      for (let i = 0; i < this.datesMonth.length; i++) {
-        obj[this.datesMonth[i]] = (obj[this.datesMonth[i]] || 0) + 1;
+      for (let i = 0; i < this.datesMonthYear.length; i++) {
+        obj[this.datesMonthYear[i][0]] =
+          (obj[this.datesMonthYear[i][0]] || 0) + 1;
       }
       this.reservationAxis = Object.values(obj);
-      this.datesAxis = Array.from(new Set(this.datesMonth)).sort();
-    },
-  },
-  computed: {
-    generateAxesComputed() {
-      let obj = {};
-      for (let i = 0; i < this.datesMonth.length; i++) {
-        obj[this.datesMonth[i]] = (obj[this.datesMonth[i]] || 0) + 1;
+      var arr = Array.from(
+        new Set(this.datesMonthYear.map(JSON.stringify)),
+        JSON.parse
+      ).sort();
+      for (let i = 0; i < arr.length; i++) {
+        this.datesAxis.push(
+          "0" +
+            (arr[i][0] + 1).toString() +
+            "/" +
+            arr[i][1].toString().slice(-2)
+        );
       }
-      return Object.values(obj);
-      //this.datesAxis = Array.from(new Set(this.datesMonth)).sort();
     },
   },
-  created() {
+  mounted() {
     this.fetchDetails();
     this.fetchReservations();
-    this.generateAxes();
   },
 };
 </script>
