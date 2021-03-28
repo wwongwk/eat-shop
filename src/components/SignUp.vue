@@ -46,16 +46,6 @@
    
     methods: {
        register: function() {
-        firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(() => {
-          console.log("Successfully logged in");
-          this.$router.replace({ path: "/" });
-
-          }).catch((error) => {
-          alert(error.message);
-        });
          if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
           alert("Incomplete submission!");
         } else {    
