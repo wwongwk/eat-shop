@@ -3,6 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import Routes from './routes.js'
 import vSelect from 'vue-select'
+import firebase from 'firebase'
 
 Vue.component('v-select', vSelect);
 import 'vue-select/dist/vue-select.css';
@@ -15,7 +16,21 @@ const myRouter = new VueRouter({
   mode: 'history'
   });
 
-new Vue({
+  var app
+firebase.auth().onAuthStateChanged(async () => {
+if (!app) {
+   //wait to get user
+   await firebase.auth().currentUser;
+
+   //start app
+   app = new Vue({
+     render: h => h(App),
+     router:myRouter
+   }).$mount("#app");
+ }
+});
+
+/* new Vue({
   render: h => h(App),
   router:myRouter
-}).$mount('#app')
+}).$mount('#app') */
