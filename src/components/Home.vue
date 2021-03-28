@@ -255,6 +255,7 @@ h1 {
   padding-right: 10px;
   margin-top: 90px;
   height: 50px;
+  cursor: pointer;
 }
 
 #names {
