@@ -1,6 +1,8 @@
 <template>
   <div>
-    {{ reservationAxis }}
+    Computed Axis: {{ generateAxesComputed}} <br>
+    Method Axis: {{ reservationAxis }} <br>
+    datesMonth' Length : {{datesMonth.length}} <br>
     {{ datesMonth }}
     {{ datesFormatted }}
     <div class="chart">
@@ -55,12 +57,23 @@ export default {
       this.phone = firebase.auth().currentUser.phoneNumber;
     },
     generateAxes() {
+      alert(this.datesMonth.length)
       let obj = {};
       for (let i = 0; i < this.datesMonth.length; i++) {
         obj[this.datesMonth[i]] = (obj[this.datesMonth[i]] || 0) + 1;
       }
       this.reservationAxis = Object.values(obj);
       this.datesAxis = Array.from(new Set(this.datesMonth)).sort();
+    },
+  },
+  computed: {
+    generateAxesComputed() {
+      let obj = {};
+      for (let i = 0; i < this.datesMonth.length; i++) {
+        obj[this.datesMonth[i]] = (obj[this.datesMonth[i]] || 0) + 1;
+      }
+      return Object.values(obj);
+      //this.datesAxis = Array.from(new Set(this.datesMonth)).sort();
     },
   },
   created() {
