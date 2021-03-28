@@ -15,19 +15,19 @@
     </div>
 
     <div id="filterDropdown">
-    <p>Cuisine Type: </p>
-    <v-select
-      label="cuisineType"
-      :options="dropdownOptions"
-      :value="selectedCuisine"
-      :clearable="false"
-      v-model="selected"
-      @input="filterFood"
-    >
-      <template slot="option" slot-scope="option">
-        {{option.cuisineType}}
-      </template>
-    </v-select>
+      <p>Cuisine Type:</p>
+      <v-select
+        label="cuisineType"
+        :options="dropdownOptions"
+        :value="selectedCuisine"
+        :clearable="false"
+        v-model="selected"
+        @input="filterFood"
+      >
+        <template slot="option" slot-scope="option">
+          {{ option.cuisineType }}
+        </template>
+      </v-select>
     </div>
     <div id="errorMessage" v-show="errorShown">
       {{ error }}
@@ -133,37 +133,46 @@ export default {
       if (this.recommended.length > 0) {
         this.recommended.length = 0;
       }
-      var found = false;
-      for (let i = 0; i < this.restaurants.length; i++) {
-        var restaurant = this.restaurants[i];
-        if (restaurant.name.toLowerCase().includes(this.search.toLowerCase())) {
-          this.selectedFood.push(restaurant);
-          var cuisine = restaurant.cuisine;
-          for (let j = 0; j < this.restaurants.length; j++) {
-            var current = this.restaurants[j];
-            if (
-              current.cuisine === cuisine &&
-              current.name != restaurant.name
-            ) {
-              //other restaurants of similar cuisine
-              //push to recommended restaurants array
-              this.recommended.push(current);
-            }
-          }
-          this.allRestaurants = false;
-          this.selectedRestaurants = true;
-          this.recommendedRestaurants = true;
-          this.errorShown = false;
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        this.error = "Sorry, we couldn't find anything. Looking for these?";
-        this.selectedRestaurants = false;
-        this.errorShown = true;
+      if (this.search === "") {
         this.allRestaurants = true;
+        this.selectedRestaurants = false;
         this.recommendedRestaurants = false;
+        this.errorShown = false;
+      } else {
+        var found = false;
+        for (let i = 0; i < this.restaurants.length; i++) {
+          var restaurant = this.restaurants[i];
+          if (
+            restaurant.name.toLowerCase().includes(this.search.toLowerCase())
+          ) {
+            this.selectedFood.push(restaurant);
+            var cuisine = restaurant.cuisine;
+            for (let j = 0; j < this.restaurants.length; j++) {
+              var current = this.restaurants[j];
+              if (
+                current.cuisine === cuisine &&
+                current.name != restaurant.name
+              ) {
+                //other restaurants of similar cuisine
+                //push to recommended restaurants array
+                this.recommended.push(current);
+              }
+            }
+            this.allRestaurants = false;
+            this.selectedRestaurants = true;
+            this.recommendedRestaurants = true;
+            this.errorShown = false;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          this.error = "Sorry, we couldn't find anything. Looking for these?";
+          this.selectedRestaurants = false;
+          this.errorShown = true;
+          this.allRestaurants = true;
+          this.recommendedRestaurants = false;
+        }
       }
     },
     reset: function () {

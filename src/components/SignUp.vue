@@ -46,7 +46,6 @@
    
     methods: {
        register: function() {
-
          if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
           alert("Incomplete submission!");
         } else {    
