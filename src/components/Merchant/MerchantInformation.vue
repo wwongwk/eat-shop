@@ -2,9 +2,7 @@
   <div>
     user: {{ uid }}
     <br />
-    <br />
-    reservations: {{ reservations }}
-    <br />
+  
     <br />
     merchant : {{ merchantDetails }}
 
@@ -66,7 +64,6 @@ export default {
     return {
       uid: "",
       type: "",
-      reservations: [],
       merchantDetails: [],
       documentId:"",
       merchantId: "",
@@ -82,18 +79,6 @@ export default {
     };
   },
   methods: {
-    fetchReservations() {
-      database
-        .collection("reservation")
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            if (doc.data().user_id == this.uid) {
-              this.reservations.push(doc.data());
-            }
-          });
-        });
-    },
     fetchMerchant() {
       database
         .collection("eat")
@@ -136,9 +121,8 @@ export default {
         });
     },
   },
-  mounted() {
+  created() {
     this.fetchDetails();
-    this.fetchReservations();
     this.fetchMerchant();
   },
 };
@@ -149,11 +133,16 @@ input {
   width: 300px;
   height: 25px;
   font-size: 20px;
+  
 }
 textarea {
   width: 300px;
   height: 80px;
   font-size: 20px;
   resize: none;
+}
+
+#submit {
+  cursor: pointer;
 }
 </style>
