@@ -1,17 +1,9 @@
 <template>
   <div>
-    uid : {{ uid }}
-    <br />
-    <br />
-    <br />
-    <br />
-    dates : {{ dates }}
-    <br />
-    reservations : {{ reservations }}
-    <br />
-    <br />
+    {{generateAxes()}}
+    {{reservationAxis}}
+    {{ datesMonth }}
     <div class="chart">
-      <h1>Line Chart</h1>
       <chart> </chart>
     </div>
   </div>
@@ -24,6 +16,7 @@ import Chart from "./LineChart.js";
 
 export default {
   components: { Chart },
+  props: { Chart },
   data() {
     return {
       name: "",
@@ -32,7 +25,10 @@ export default {
       reservations: [],
       uid: "",
       phone: "",
-      dates: [],
+      datesMonth: [],
+      datesFormatted: [],
+      reservationAxis: [],
+      datesAxis: [],
     };
   },
   methods: {
@@ -45,10 +41,10 @@ export default {
             if (doc.data().user_id == this.uid) {
               var seconds = doc.data().date.seconds;
               var nanoseconds = doc.data().date.nanoseconds;
-              var dateFormatted = new Date(
-              seconds * 1000 + nanoseconds / 1000000);
-              this.reservations.push(doc.data())
-              this.dates.push(dateFormatted.toLocaleDateString('en-GB'));
+              var date = new Date(seconds * 1000 + nanoseconds / 1000000);
+              this.reservations.push(doc.data());
+              this.datesMonth.push(date.getMonth());
+              this.datesFormatted.push(date.toLocaleDateString());
             }
           });
         });
@@ -57,11 +53,20 @@ export default {
       this.uid = firebase.auth().currentUser.uid;
       this.email = firebase.auth().currentUser.email;
       this.phone = firebase.auth().currentUser.phoneNumber;
+      this.fetchReservations();
+      this.generateAxes();
+    },
+    generateAxes() {
+      let obj = {};
+      for (let i = 0; i < this.datesMonth.length; i++) {
+        obj[this.datesMonth[i]] = (obj[this.datesMonth[i]] || 0) + 1;
+      }
+      this.reservationAxis = Object.values(obj);
+      this.datesAxis = Array.from(new Set(this.datesMonth)).sort();
     },
   },
   created() {
     this.fetchDetails();
-    this.fetchReservations();
   },
 };
 </script>
