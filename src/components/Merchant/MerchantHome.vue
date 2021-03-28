@@ -1,11 +1,23 @@
 <template>
   <div>
-    <merchant-header> </merchant-header>
-
-    <div class="btn-group">
-      <button @click="toggleInformation">Information</button>
-      <button @click="toggleDashboard">Dashboard</button>
+    <div class="header">
+    <div class="flexWrap">
+      <div class="flexCol">        
+          <img id="logo" :src="require(`@/assets/logo.png`)" />
+      </div>
+      <div class="flexCol" id="title">
+        MY BUSINESS
+      </div>
+      <div class="flexCol" id='nav'>
+        <div class="btn-group">
+          <a id="info" @click="toggleInformation">Information</a>
+          <a id="dashboard" @click="toggleDashboard">Dashboard</a>
+          <button v-on:click="logOut()" >Log Out</button>
+        </div>
+      </div>
+      
     </div>
+  </div>
 
     <div id="body" v-show="information">
       <merchant-information> </merchant-information>
@@ -18,13 +30,12 @@
 </template>
 
 <script>
-import MerchantHeader from "./MarchantHeader.vue";
 import MerchantInformation from "./MerchantInformation.vue";
 import MerchantDashboard from "./MerchantDashboard.vue";
+import firebase from "firebase/app";
 
 export default {
   components: {
-    MerchantHeader,
     MerchantInformation: MerchantInformation,
     MerchantDashboard: MerchantDashboard,
   },
@@ -38,50 +49,88 @@ export default {
     toggleInformation() {
       this.information = true;
       this.dashboard = false;
+      document.getElementById("info").style.borderBottom="2px solid";
+      document.getElementById("dashboard").style.borderBottom="none";
+
     },
     toggleDashboard() {
       this.information = false;
       this.dashboard = true;
+      document.getElementById("dashboard").style.borderBottom="1px solid";
+      document.getElementById("info").style.borderBottom="none";
+    },
+    
+    logOut: function() {
+      firebase.auth().signOut().then(() => {
+        console.log("signout");
+        this.login=false;
+        this.$router.replace({ path: "/" });
+      }).catch((error) => {
+        console.log(error.message);
+      });
     },
   },
 };
 </script>
 
 <style scoped>
-.btn-group {
-  margin-left: 15px;
+.flexWrap {
+  display: flex;
+  overflow: hidden;
+  margin: 30px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #000;
+  
+ 
+}
+.flexCol {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 33.3%;
+  align-self:center;
 }
 
-.btn-group button {
-  background-color: transparent;
-  border: 1px solid rgb(0, 0, 0); /* Green border */
-  color: rgb(0, 0, 0); /* White text */
-  padding: 10px 24px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
-  border-top: none;
+/* (B) BREAK DOWN 1 COLUMN ON SMALL SCREENS */
+@media only screen and (max-width: 768px) {
+  .flexWrap {
+    flex-wrap: wrap;
+  }
+  .flexCol {
+    width: 100%;
+  }
+}
+#logo {
+  width: 150px;
+  float: left;
+}
+#title {
+  top: 50%;
+  font-size: 50px;
+  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+  font-weight: bold;
 }
 
-.btn-group button:not(:last-child) {
-  border-right: none; /* Prevent double borders */
-}
-.btn-group button:is(:first-child) {
-  border-left: none; /* Prevent double borders */
-}
-.btn-group button:is(:last-child) {
-  border-right: none; /* Prevent double borders */
+#nav {
+  top: 50%;
+  font-size: 30px;
+  text-align: end;
 }
 
-/* Clear floats (clearfix hack) */
-.btn-group:after {
-  content: "";
-  clear: both;
-  display: table;
+a, button {
+  color: #ed83a7;
+  text-align: center;
+  margin: 12px;
+  padding:2px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border: none;
+  background-color: white;
+  font-weight: bold;
 }
 
-/* Add a background color on hover */
-.btn-group button:hover {
-  background-color: #d163b9;
-  color: rgb(255, 255, 255);
+a:hover, button:hover {
+  color: rgba(255, 0, 106, 0.875);
 }
+
 </style>
