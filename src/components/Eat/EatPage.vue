@@ -15,11 +15,12 @@
     </div>
 
     <div id="filterDropdown">
-    <p>SORT BY:</p>
+    <p>Cuisine Type: </p>
     <v-select
       label="cuisineType"
       :options="dropdownOptions"
       :value="selectedCuisine"
+      :clearable="false"
       v-model="selected"
       @input="filterFood"
     >
