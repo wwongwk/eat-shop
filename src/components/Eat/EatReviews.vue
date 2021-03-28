@@ -7,9 +7,9 @@
     Shop Name: {{ shopName }} <br />
     DateNow : {{ Date.now() }}<br />
     Document Id: {{ documentId }} <br />
-    stars : {{ averageStars }}
+    stars : {{ overallRating }}
     <div id="scores">
-      <p id="overall">{{ averageStars }}/5</p>
+      <p id="overall">{{ overallRating }}/5</p>
       <div id="stars">
         <div id="one">
           <span style="color: pink">&starf;&star;&star;&star;&star;</span>
@@ -63,7 +63,7 @@
           <textarea
             :style="[
               loggedIn
-                ? { backgroundColor: 'white'}
+                ? { backgroundColor: 'white' }
                 : { backgroundColor: '#DCDCDC' },
             ]"
             v-model="reviewTextArea"
@@ -133,6 +133,7 @@ export default {
           .doc(this.documentId)
           .update({
             reviews: this.reviews,
+            overallRating : parseFloat(this.overallRating),
           })
           .then(() => {
             location.reload();
@@ -191,6 +192,20 @@ export default {
         }
       }
     },
+    updateOverallRating() {
+      let sum = 0;
+      let length = 0;
+      for (let [key, value] of Object.entries(this.stars)) {
+        sum += key * value;
+        length += value;
+      }
+
+      if (length == 0) {
+        this.overallRating = 0;
+      } else {
+        this.overallRating = (sum / length).toFixed(1);
+      }
+    },
   },
   computed: {
     averageStars() {
@@ -213,6 +228,7 @@ export default {
     this.fetchDetails();
     this.updateStars();
     this.updateDate();
+    this.updateOverallRating();
   },
 };
 </script>
