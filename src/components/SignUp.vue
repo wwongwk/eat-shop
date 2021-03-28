@@ -51,7 +51,8 @@
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(() => {
           console.log("Successfully logged in");
-          database.collection("eat").doc().set({name: "a"}).then(() => {});
+          this.$router.replace({ path: "/" });
+
           }).catch((error) => {
           alert(error.message);
         });
@@ -71,7 +72,10 @@
               name: this.form.name,
               mobile:this.form.mobile
               })
-              .then(() => {alert('Your response has been submitted'); });
+              .then(() => {
+                alert('Successfully sign up'); 
+                this.$router.replace({ path: "/" });
+              });
             }).catch((error) => {
             console.log(error.message);
           });
