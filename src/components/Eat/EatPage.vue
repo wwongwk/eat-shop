@@ -35,11 +35,15 @@
     <div id="food" v-show="allRestaurants">
       <ul>
         <li v-for="restaurant in restaurants" :key="restaurant.id">
-          <img v-bind:src="restaurant.imageURL" /><br />
           <router-link to="/eatDetailTemplate" exact>
-            <button v-on:click="sendData(restaurant.id)">
-              {{ restaurant.name }}
-            </button>
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <button v-on:click="sendData(restaurant.id)" id="names">
+                {{ restaurant.name }}
+                </button>
+              </div>
+            </div>
           </router-link>
         </li>
       </ul>
@@ -226,14 +230,15 @@ export default {
 }
 
 button {
-  color: #444444;
-  background: hotpink;
-  border: 1px #dadada solid;
-  padding: 5px 10px;
-  border-radius: 2px;
-  font-weight: bold;
-  font-size: 9pt;
-  outline: none;
+  background-color: #ED83A7;
+  border: none;
+  color: #403939;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 18px;
+  padding-right: 10px;
+  height: 50px;
 }
 
 button:hover {
@@ -270,6 +275,7 @@ ul {
   padding: 0;
   height: 100%;
   width: 100%;
+  margin-left: 150px;
 }
 
 li {
@@ -277,6 +283,7 @@ li {
   flex-basis: 300px;
   text-align: center;
   margin: 10px;
+  margin-bottom: 40px;
   padding: 10px;
   font-size: 25px;
   text-align: center;
@@ -284,18 +291,42 @@ li {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
+div.polaroid {
+  width: 270px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+div.container {
+  text-align: center;
+  padding: 10px 10px;
+  border-radius: 10px;
+}
+
 img {
-  height: 200px;
-  width: 250px;
+  height: 220px;
+  width: 100%;
   background-size: 80% 50%;
   border-radius: 10px;
+}
+
+#names {
+  background-color: white;
+  font-size: 20px;
+  border-radius: 8px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  color: #403939;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 #foodName {
   font-size: 25px;
   text-align: center;
   font-weight: 10;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
 #searchBar {
@@ -313,9 +344,9 @@ img {
 h3 {
   text-align: left;
   padding-left: 5%;
-  color: hotpink;
-  font-size: 30px;
-  font-family: monospace;
+  color: #ED83A7;
+  font-size: 40px;
+  letter-spacing: 0.1em;
 }
 
 #msg {
@@ -326,7 +357,6 @@ h3 {
 }
 
 h1 {
-  font-family: monospace;
   font-size: 50px;
 }
 
@@ -338,6 +368,10 @@ h1 {
 
 #filterDropdown p {
   font-size: 20px;
-  color: hotpink;
+  color: #ED83A7;
+}
+
+h4 {
+  font-size: 18px;
 }
 </style>

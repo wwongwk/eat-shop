@@ -124,7 +124,7 @@ input {
 }
 
 #submit {
-  background-color: #D25A7E;
+  background-color: #ED83A7;
   width: auto;
   color:white;
   padding-left: 20px;
@@ -134,12 +134,13 @@ input {
   height: auto;
   margin: 0px;
   border-style: none;
+  cursor: pointer;
 }
 
 h1 {
   margin: 0pc;
   margin-bottom: 20px;
-  color:#D25A7E;
+  color:#ED83A7;
 }
 ::placeholder {
   color: #b86a9960;
@@ -170,8 +171,9 @@ form {
 #biz, #forgetPW, a {
   text-decoration-line: underline;
   font-size: 12px;
-  color: #A90065;
+  color: #ED83A7;
   margin: 0px;
+  cursor: pointer;
 }
 
 </style>

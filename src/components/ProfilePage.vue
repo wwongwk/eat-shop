@@ -20,7 +20,7 @@
         <input type="email" id="email" name="email" v-model="email"><br><br>
         <label for="mobile">YOUR MOBILE:</label><br>
         <input type="number" id="mobile" name="mobile" v-model="mobile"><br><br>
-       <router-link style="color: #D25A7E; text-decoration:underline" to="/changepw" exact> CLICK TO CHANGE PASSWORD</router-link><br><br>
+       <router-link style="color: #ED83A7; text-decoration:underline" to="/changepw" exact> CLICK TO CHANGE PASSWORD</router-link><br><br>
         <input type="button" id='submit' value="SAVE" v-on:click="save()">
       </form>
       <br>
@@ -82,14 +82,15 @@
 button {
   width: 140px;
   padding:10px;
-  border: 1px solid #D25A7E;
+  border: 1px solid #ED83A7;
   background-color: white;
-  color: #D25A7E;
+  color: #ED83A7;
+  cursor: pointer;
 }
 button.router-link-active {
 
-  border: 1px solid #D25A7E;
-  background-color: #D25A7E;
+  border: 1px solid #ED83A7;
+  background-color: #ED83A7;
   color: white;
 }
 section {
@@ -98,14 +99,14 @@ section {
   margin: 30px;
   text-align: left;
   width: 800px;
-  border:1px solid #D25A7E;
+  border:1px solid #ED83A7;
   
   
 }
 .flexbox {
   box-sizing: border-box;
   padding: 10px;
-  border-left: 1px solid #D25A7E;
+  border-left: 1px solid #ED83A7;
 }
   
 img {
@@ -119,7 +120,7 @@ input {
 }
 
 #submit {
-  background-color: #D25A7E;
+  background-color: #ED83A7;
   width: auto;
   color:white;
   padding-left: 20px;
@@ -129,15 +130,16 @@ input {
   height: auto;
   margin: 0px;
   border-style: none;
+  cursor: pointer;
 }
 label {
-  color: #D25A7E
+  color: #ED83A7
 }
 
 h1 {
   margin: 0pc;
   margin-bottom: 20px;
-  color:#D25A7E;
+  color:#ED83A7;
 }
 ::placeholder {
   color: #b86a9960;

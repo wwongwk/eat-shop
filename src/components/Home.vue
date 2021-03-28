@@ -9,10 +9,14 @@
       <ul>
         <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
           <router-link to="/eatDetailTemplate" exact>
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <button v-on:click="sendData(restaurant.id)">
-              {{ restaurant.name }}
-            </button>
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <button id="names" v-on:click="sendData(restaurant.id)">
+                {{ restaurant.name }}
+                </button>
+              </div>
+            </div>
           </router-link>
         </li>
         <button id="seeMore" v-on:click="GoToEat">See More</button>
@@ -22,8 +26,12 @@
     <div id="shops">
       <ul>
         <li v-for="shop in shopsList" :key="shop.id">
-          <img v-bind:src="shop.imageURL" /><br />
-          <router-link to="/cart" exact>{{ shop.name }}</router-link>
+          <div class="polaroid">
+            <img v-bind:src="shop.imageURL" /><br />
+            <div class="container">
+              <router-link to="/cart" exact id="names">{{ shop.name }}</router-link>
+            </div>
+          </div>
         </li>
         <button id="seeMore">See More</button>
       </ul>
@@ -32,8 +40,12 @@
     <div id="play">
       <ul>
         <li v-for="play in activities" :key="play.id">
-          <img v-bind:src="play.imageURL" /><br />
-          <router-link to="/cart" exact>{{ play.name }}</router-link>
+          <div class="polaroid">
+            <img v-bind:src="play.imageURL" /><br />
+            <div class="container">
+              <router-link to="/cart" exact id="names">{{ play.name }}</router-link>
+            </div>
+          </div>
         </li>
         <button id="seeMore">See More</button>
       </ul>
@@ -177,6 +189,7 @@ ul {
   padding: 0;
   height: 100%;
   width: 100%;
+  margin-left: 50px;
 }
 
 li {
@@ -192,9 +205,23 @@ li {
 }
 
 img {
-  height: 200px;
-  width: 250px;
+  height: 220px;
+  width: 100%;
   background-size: 80% 50%;
+  border-radius: 10px;
+}
+
+div.polaroid {
+  width: 270px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+  border-radius: 10px;
+}
+
+div.container {
+  text-align: center;
+  padding: 10px 20px;
   border-radius: 10px;
 }
 
@@ -202,15 +229,14 @@ img {
   font-size: 25px;
   text-align: center;
   font-weight: 10;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
 h3 {
   text-align: left;
   padding-left: 5%;
-  color: hotpink;
+  color: #ED83A7;
   font-size: 40px;
-  font-family: monospace;
+  letter-spacing: 0.1em;
 }
 
 h1 {
@@ -219,9 +245,9 @@ h1 {
 }
 
 #seeMore {
-  background-color: #d25a7e;
+  background-color: #ED83A7;
   border: none;
-  color: white;
+  color: #403939;
   text-align: center;
   text-decoration: none;
   border-radius: 8px;
@@ -231,7 +257,7 @@ h1 {
   height: 50px;
 }
 
-button {
+#names {
   background-color: white;
   font-size: 20px;
   border-radius: 8px;
@@ -240,5 +266,6 @@ button {
   color: #403939;
   border: none;
   cursor: pointer;
+  text-decoration: none;
 }
 </style>
