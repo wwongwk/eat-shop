@@ -238,7 +238,11 @@ button {
   border-radius: 8px;
   font-size: 18px;
   padding-right: 10px;
-  height: 50px;
+  height: 30px;
+}
+
+#resetBtn {
+  font-size: 18px;
 }
 
 button:hover {
