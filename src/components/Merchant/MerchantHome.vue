@@ -127,6 +127,7 @@ a, button {
   border: none;
   background-color: white;
   font-weight: bold;
+    cursor: pointer;
 }
 
 a:hover, button:hover {
