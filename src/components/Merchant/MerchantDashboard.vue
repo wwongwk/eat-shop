@@ -12,7 +12,7 @@
     <br />
     <div class="chart">
       <h1>Line Chart</h1>
-      <chart></chart>
+      <chart> </chart>
     </div>
   </div>
 </template>
