@@ -22,7 +22,15 @@ export default {
                     text: 'Monthly Performance'
                 },
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+
             },
             name: "",
             email: "",
@@ -30,7 +38,7 @@ export default {
             reservations: [],
             uid: "",
             phone: "",
-            datesMonth: [],
+            datesMonthYear: [],
             datesFormatted: [],
             reservationAxis: [],
             datesAxis: [],
@@ -44,10 +52,21 @@ export default {
                 .then((snapshot) => {
                     snapshot.docs.forEach((doc) => {
                         if (doc.data().user_id == this.uid) {
+                            var seconds = doc.data().date.seconds;
+                            var nanoseconds = doc.data().date.nanoseconds;
+                            var date = new Date(seconds * 1000 + nanoseconds / 1000000);
                             this.reservations.push(doc.data());
+                            this.datesMonthYear.push([date.getMonth(), date.getFullYear()]);
+                            this.datesFormatted.push(date.toLocaleDateString());
                         }
                     });
+                    this.generateAxes();
+                    console.log('X-axis is ' + this.datacollection.labels)
+                    console.log('Y-axis is ' + this.datacollection.datasets[0].data)
+                    this.renderChart(this.datacollection, this.options)
                 });
+
+
         },
         fetchDetails() {
             this.uid = firebase.auth().currentUser.uid;
@@ -55,18 +74,22 @@ export default {
             this.phone = firebase.auth().currentUser.phoneNumber;
         },
         generateAxes() {
-            let obj = {}
-            for (let i = 0; i < this.datesMonth.length; i++) {
-                obj[this.datesMonth[i]] = (obj[this.datesMonth[i]] || 0) + 1;
+            console.log('generateAxes() running')
+            //alert('generateAxes() is running and the length of datesMonth is: ' + this.datesMonth.length)
+            let obj = {};
+            for (let i = 0; i < this.datesMonthYear.length; i++) {
+                obj[this.datesMonthYear[i][0]] = (obj[this.datesMonthYear[i][0]] || 0) + 1;
             }
-            this.datacollection.datasets.data = Object.values(obj)
-            this.datacollection.labels = Array.from(new Set(this.datesMonth)).sort();
-        }
+            this.datacollection.datasets[0].data = Object.values(obj);
+            var arr = Array.from(new Set(this.datesMonthYear.map(JSON.stringify)), JSON.parse).sort();
+            for (let i = 0; i < arr.length; i++) {
+                this.datacollection.labels.push('0' + (arr[i][0] + 1).toString() + '/' + arr[i][1].toString().slice(-2));
+            }
+        },
     },
     mounted() {
         this.fetchDetails();
         this.fetchReservations();
-        
-        this.renderChart(this.datacollection, this.options)
+        //this.renderChart(this.datacollection, this.options)
     },
 }
