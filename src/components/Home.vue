@@ -8,16 +8,16 @@
     <div id="eat">
       <ul>
         <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
-          <router-link to="/eatDetailTemplate" exact>
-            <div class="polaroid">
-              <img v-bind:src="restaurant.imageURL" /><br />
-              <div class="container">
+          <div class="polaroid">
+            <img v-bind:src="restaurant.imageURL" /><br />
+            <div class="container">
+              <router-link to="/eatDetailTemplate" exact>
                 <button id="names" v-on:click="sendData(restaurant.id)">
                 {{ restaurant.name }}
                 </button>
-              </div>
+              </router-link>
             </div>
-          </router-link>
+          </div>
         </li>
         <button id="seeMore" v-on:click="GoToEat">See More</button>
       </ul>
