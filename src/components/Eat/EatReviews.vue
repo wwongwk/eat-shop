@@ -62,7 +62,7 @@
           </star-rating>
           <textarea v-model="reviewTextArea" id="input" name="input" />
           <br />
-          <button @click = 'submitReview'>SUBMIT REVIEW</button>
+          <button @click="submitReview">SUBMIT REVIEW</button>
         </div>
       </ul>
     </div>
@@ -93,6 +93,7 @@ export default {
       reviewTextArea: "",
       uid: "",
       email: "",
+      loggedIn: false,
     };
   },
 
@@ -101,24 +102,27 @@ export default {
       this.rating = rating;
     },
     submitReview() {
-      this.newReviews = this.reviews.slice();
-      if (this.rating === 0) {
+      //this.newReviews = this.reviews.slice();
+      if ((this.loggedIn === false)) {
+        alert("Please log in to submit a review");
+      } else if (this.rating === 0) {
         alert("Please select a rating!");
-      } else if (this.reviewTextArea == "") {
-        alert("Please enter a value!");
+      } else if (this.reviewTextArea === "") {
+        alert("Please enter a review!");
       } else {
         var myTimestamp = firebase.firestore.Timestamp.fromDate(new Date());
-        this.newReviews.unshift({
+        this.reviews.unshift({
           date: myTimestamp,
           username: this.email,
           review: this.reviewTextArea,
           stars: this.rating,
         });
+        alert("Review submitted!");
         database
           .collection(this.shopType)
           .doc(this.documentId)
           .update({
-            reviews: this.newReviews,
+            reviews: this.reviews,
           })
           .then(() => {
             location.reload();
@@ -126,8 +130,13 @@ export default {
       }
     },
     fetchDetails() {
-      this.uid = firebase.auth().currentUser.uid;
-      this.email = firebase.auth().currentUser.email;
+      try {
+        this.uid = firebase.auth().currentUser.uid;
+        this.email = firebase.auth().currentUser.email;
+        this.loggedIn = true;
+      } catch (err) {
+        this.loggedIn = false;
+      }
     },
     get() {
       var shop = JSON.parse(localStorage.getItem("KEY"));
@@ -252,7 +261,6 @@ ul {
   margin-bottom: 100px;
 }
 div.reviews {
-  test-align: center;
   line-height: 2;
 }
 
