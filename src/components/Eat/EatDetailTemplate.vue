@@ -3,34 +3,17 @@
     <app-header></app-header>
     <h1>EAT</h1>
     <div id="carousel">
-      <div class="slide">
-        <img
-          src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_450,h_300/https://danielfooddiary.com/wp-content/uploads/2020/02/sumdimsum5.jpg"
-          width="600px"
-          height="400px"
-        />
-      </div>
-      <div class="slide">
-        <img
-          src="https://danielfooddiary.com/wp-content/uploads/2020/02/sumdumsum-.jpg"
-          width="600px"
-          height="400px"
-        />
-      </div>
-      <div class="slide">
-        <img
-          src="https://media.timeout.com/images/103708796/image.jpg"
-          width="600px"
-          height="400px"
-        />
-      </div>
-      <div class="slide">
-        <img
-          src="https://danielfooddiary.com/wp-content/uploads/2020/02/sumdimsum1.jpg"
-          width="600px"
-          height="400px"
-        />
-      </div>
+      <ul>
+        <li v-for="image in resImages" :key="image.index">
+          <div class="slide">
+            <img
+              :src="image"
+              width="600px"
+              height="400px"
+            />
+          </div>
+        </li>
+      </ul>
     </div>
     <br />
 
@@ -73,6 +56,7 @@ export default {
       Review: false,
       Reservation: false,
       shopName: "",
+      resImages: [],
     };
   },
   methods: {
@@ -98,6 +82,7 @@ export default {
       var shop = JSON.parse(localStorage.getItem("KEY"));
       console.log(shop)
       this.shopName = shop["name"];
+      this.resImages = shop["resImages"]
     }
   },
   created() {
@@ -193,5 +178,17 @@ img {
 .btn-group button:hover {
   background-color: #ED83A7;
   color: rgb(255, 255, 255);
+}
+
+ul{
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+
+li{
+ flex: 1;
 }
 </style>
