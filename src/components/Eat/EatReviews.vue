@@ -96,6 +96,7 @@ export default {
       rating: 0,
       shopName: "",
       shopType: "",
+      overallRating: 0,
       documentId: "",
       reviews: [],
       stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
