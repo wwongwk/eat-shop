@@ -33,7 +33,7 @@
     <div class="reviews">
       <ul>
         <li v-for="item in reviews" v-bind:key="item.stars">
-          {{ item.username }}&nbsp;
+          {{ item.username }}&nbsp; {{ item.date }}<br />
 
           <span style="color: pink" v-if="item.stars == 1"
             >&starf;&star;&star;&star;&star;</span
@@ -84,6 +84,18 @@ export default {
       this.documentId = shop["document_id"];
       this.reviews = shop["reviews"];
     },
+    updateDate() {
+      for (let i = 0; i < this.reviews.length; i++) {
+        let seconds = this.reviews[i].date.seconds
+        let nanoseconds = this.reviews[i].date.nanoseconds
+        let date = new Date(seconds * 1000 + nanoseconds/1000000)
+        //let year = date.getYear();
+        //let month = date.getMonth();
+        //let day = date.getDay();
+        this.reviews[i].date = date.toString()
+      }
+    },
+
     updateStars() {
       for (let i = 0; i < this.reviews.length; i++) {
         if (this.reviews[i].stars == 1) {
@@ -123,6 +135,7 @@ export default {
   created() {
     this.get();
     this.updateStars();
+    this.updateDate();
   },
 };
 </script>
