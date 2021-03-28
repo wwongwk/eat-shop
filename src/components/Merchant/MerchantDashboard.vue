@@ -1,8 +1,8 @@
 <template>
   <div>
-    {{generateAxes()}}
-    {{reservationAxis}}
+    {{ reservationAxis }}
     {{ datesMonth }}
+    {{ datesFormatted }}
     <div class="chart">
       <chart> </chart>
     </div>
@@ -53,8 +53,6 @@ export default {
       this.uid = firebase.auth().currentUser.uid;
       this.email = firebase.auth().currentUser.email;
       this.phone = firebase.auth().currentUser.phoneNumber;
-      this.fetchReservations();
-      this.generateAxes();
     },
     generateAxes() {
       let obj = {};
@@ -67,6 +65,8 @@ export default {
   },
   created() {
     this.fetchDetails();
+    this.fetchReservations();
+    this.generateAxes();
   },
 };
 </script>

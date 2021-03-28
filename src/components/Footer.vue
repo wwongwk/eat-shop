@@ -2,9 +2,9 @@
   <div class="footer">
     <footer>
       <div id="subscribe">
-        <label for="email">Receive monthly newsletters and exclusive promotions:</label>
+        <label>Receive monthly newsletters and exclusive promotions:</label>
         <span>
-          <input type="textArea" id="address" v-model="email" />
+          <input type="textArea" id="address" />
           <input type="submit" value="Subscribe" v-on:click="displayMsg" id="submitBtn">
         </span><br>
       </div>

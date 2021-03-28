@@ -10,7 +10,7 @@
     <br /><br />
 
     <b>Address</b> <br />
-    <span id="openHours"> Opening Hours: </span> <span>{{ openHours }}</span>
+    <span id="openHours"> Opening Hours:</span> <span>{{ openHours }}</span>
     <p>{{ address }}</p>
 
     <div class="map">
@@ -67,7 +67,7 @@ export default {
       console.log(shop)
       this.description = shop["description"];
       this.telephone = shop["telephone"];
-      this.openHours = shop["openHours"];
+      this.openHours = shop["openingHours"];
       this.address = shop["address"];
       this.mapSrc=shop["mapSrc"];
     },
