@@ -178,6 +178,7 @@ export default {
             this.selectedRestaurants = true;
             this.recommendedRestaurants = true;
             this.errorShown = false;
+            this.filteredRestaurants = false;
             found = true;
             break;
           }
@@ -188,6 +189,7 @@ export default {
           this.errorShown = true;
           this.allRestaurants = true;
           this.recommendedRestaurants = false;
+          this.filteredRestaurants = false;
         }
       }
     },
@@ -197,6 +199,7 @@ export default {
       this.selectedRestaurants = false;
       this.allRestaurants = true;
       this.search = "";
+      this.filteredRestaurants = false;
     },
     sendData: function (id) {
       for (var x of this.restaurants) {
