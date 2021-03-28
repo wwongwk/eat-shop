@@ -46,16 +46,7 @@
    
     methods: {
        register: function() {
-        firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(() => {
-          console.log("Successfully logged in");
-          this.$router.replace({ path: "/" });
 
-          }).catch((error) => {
-          alert(error.message);
-        });
          if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
           alert("Incomplete submission!");
         } else {    
@@ -63,14 +54,14 @@
           .auth()
           .createUserWithEmailAndPassword(this.form.email, this.form.password)
           .then((data) => {
-            console.log("Successfully sign up");
             database
             .collection("users")
             .doc(data.user.uid)
             .set({
               user_id: data.user.uid,
               name: this.form.name,
-              mobile:this.form.mobile
+              mobile:this.form.mobile,
+              business:false
               })
               .then(() => {
                 alert('Successfully sign up'); 

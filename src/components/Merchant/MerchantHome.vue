@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header> </app-header>
+    <merchant-header> </merchant-header>
 
     <div class="btn-group">
       <button @click="toggleInformation">Information</button>
@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import Header from "../Header.vue";
+import MerchantHeader from "./MarchantHeader.vue";
 import MerchantInformation from "./MerchantInformation.vue";
 import MerchantDashboard from "./MerchantDashboard.vue";
 
 export default {
   components: {
-    AppHeader: Header,
+    MerchantHeader,
     MerchantInformation: MerchantInformation,
     MerchantDashboard: MerchantDashboard,
   },
