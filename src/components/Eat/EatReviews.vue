@@ -1,7 +1,11 @@
 <template>
   <div>
+    uid : {{ uid }} <br />
+    email: {{ email }} <br />
     Reviews: {{ reviews }} <br />
+    Rating : {{ rating }} <br />
     Shop Name: {{ shopName }} <br />
+    DateNow : {{ Date.now() }}<br />
     Document Id: {{ documentId }} <br />
     stars : {{ averageStars }}
     <div id="scores">
@@ -32,8 +36,8 @@
 
     <div class="reviews">
       <ul>
-        <li v-for="item in reviews" v-bind:key="item.stars">
-          {{ item.username }}&nbsp; {{ item.date }}<br />
+        <li v-for="item in reviews" v-bind:key="item.review">
+          {{ item.username }}&nbsp; {{ item.date.toLocaleDateString() }}<br />
 
           <span style="color: pink" v-if="item.stars == 1"
             >&starf;&star;&star;&star;&star;</span
@@ -53,46 +57,95 @@
           {{ item.review }}
           <hr />
         </li>
-
-        <textarea id="input" name="input" />
-        <br />
-        <button>SUBMIT REVIEW</button>
+        <div class="submitReview">
+          <star-rating :show-rating="false" @rating-selected="setRating">
+          </star-rating>
+          <textarea v-model="reviewTextArea" id="input" name="input" />
+          <br />
+          <button @click = 'submitReview'>SUBMIT REVIEW</button>
+        </div>
       </ul>
     </div>
   </div>
 </template>
 
+
 <script>
+import StarRating from "vue-star-rating";
+import database from "../../firebase.js";
+import firebase from "firebase/app";
+
 export default {
   name: "EatReview",
-  components: {},
+  components: {
+    StarRating: StarRating,
+  },
 
   data() {
     return {
+      rating: 0,
       shopName: "",
+      shopType: "",
       documentId: "",
       reviews: [],
+      newReviews: [],
       stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      reviewTextArea: "",
+      uid: "",
+      email: "",
     };
   },
 
   methods: {
+    setRating: function (rating) {
+      this.rating = rating;
+    },
+    submitReview() {
+      this.newReviews = this.reviews.slice();
+      if (this.rating === 0) {
+        alert("Please select a rating!");
+      } else if (this.reviewTextArea == "") {
+        alert("Please enter a value!");
+      } else {
+        var myTimestamp = firebase.firestore.Timestamp.fromDate(new Date());
+        this.newReviews.unshift({
+          date: myTimestamp,
+          username: this.email,
+          review: this.reviewTextArea,
+          stars: this.rating,
+        });
+        database
+          .collection(this.shopType)
+          .doc(this.documentId)
+          .update({
+            reviews: this.newReviews,
+          })
+          .then(() => {
+            location.reload();
+          });
+      }
+    },
+    fetchDetails() {
+      this.uid = firebase.auth().currentUser.uid;
+      this.email = firebase.auth().currentUser.email;
+    },
     get() {
       var shop = JSON.parse(localStorage.getItem("KEY"));
       console.log(shop);
       this.shopName = shop["name"];
       this.documentId = shop["document_id"];
+      this.shopType = shop["type"];
       this.reviews = shop["reviews"];
     },
     updateDate() {
       for (let i = 0; i < this.reviews.length; i++) {
-        let seconds = this.reviews[i].date.seconds
-        let nanoseconds = this.reviews[i].date.nanoseconds
-        let date = new Date(seconds * 1000 + nanoseconds/1000000)
+        let seconds = this.reviews[i].date.seconds;
+        let nanoseconds = this.reviews[i].date.nanoseconds;
+        let date = new Date(seconds * 1000 + nanoseconds / 1000000);
         //let year = date.getYear();
         //let month = date.getMonth();
         //let day = date.getDay();
-        this.reviews[i].date = date.toString()
+        this.reviews[i].date = date;
       }
     },
 
@@ -134,6 +187,7 @@ export default {
   },
   created() {
     this.get();
+    this.fetchDetails();
     this.updateStars();
     this.updateDate();
   },

@@ -3,6 +3,7 @@
     {{generateAxes()}}
     {{reservationAxis}}
     {{ datesMonth }}
+    {{datesFormatted}}
     <div class="chart">
       <chart> </chart>
     </div>
