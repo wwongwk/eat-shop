@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header></app-header>
+    <CartHeader></CartHeader>
     <table class="table">
       <tr>
         <th></th>
@@ -30,12 +30,12 @@
 </template>
 
 <script>
-import Header from './Header.vue'
+import CartHeader from './CartHeader.vue'
 
 export default {
   name: "My cart",
   components: {
-    AppHeader: Header,
+    CartHeader: CartHeader,
   },
 
   data() {

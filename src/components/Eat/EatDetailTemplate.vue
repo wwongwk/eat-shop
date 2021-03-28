@@ -111,14 +111,18 @@ export default {
 
 <style scoped>
 h1 {
-  background-color: #d163b9;
-  color: aliceblue;
   text-align: center;
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   height: 69px;
   width: 100%;
   font-size: 55px;
+  letter-spacing: 0.1em;
+}
+
+h2 {
+  margin-left: 20px;
+  text-align: left;
 }
 
 img {
@@ -145,7 +149,7 @@ img {
   text-align: justify;
   text-size-adjust: 90%;
   margin-right: 20%;
-  margin-left: 15px;
+  margin-left: 20px;
 }
 
 #openHours {
@@ -165,6 +169,7 @@ img {
   cursor: pointer; /* Pointer/hand icon */
   float: left; /* Float the buttons side by side */
   border-top: none;
+  font-size: 18px;
 }
 
 .btn-group button:not(:last-child) {
@@ -186,7 +191,7 @@ img {
 
 /* Add a background color on hover */
 .btn-group button:hover {
-  background-color: #d163b9;
+  background-color: #ED83A7;
   color: rgb(255, 255, 255);
 }
 </style>

@@ -46,6 +46,7 @@
     padding: 7px 20px;
     color: #403939;
     border: none;
+    cursor: pointer;
   }
   p {
     font-size: 10px;

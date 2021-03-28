@@ -7,19 +7,31 @@
     <h3>EAT</h3>
     <div id="eat">
       <ul>
-        <li v-for="restaurant in restaurants" :key="restaurant.id">
-          <img v-bind:src="restaurant.imageURL" /><br />
-          <router-link to="/cart" exact>{{ restaurant.name }}</router-link>
+        <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
+          <router-link to="/eatDetailTemplate" exact>
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <button id="names" v-on:click="sendData(restaurant.id)">
+                {{ restaurant.name }}
+                </button>
+              </div>
+            </div>
+          </router-link>
         </li>
-        <button id="seeMore">See More</button>
+        <button id="seeMore" v-on:click="GoToEat">See More</button>
       </ul>
     </div>
     <h3>SHOP</h3>
     <div id="shops">
       <ul>
         <li v-for="shop in shopsList" :key="shop.id">
-          <img v-bind:src="shop.imageURL" /><br />
-          <router-link to="/cart" exact>{{ shop.name }}</router-link>
+          <div class="polaroid">
+            <img v-bind:src="shop.imageURL" /><br />
+            <div class="container">
+              <router-link to="/cart" exact id="names">{{ shop.name }}</router-link>
+            </div>
+          </div>
         </li>
         <button id="seeMore">See More</button>
       </ul>
@@ -28,8 +40,12 @@
     <div id="play">
       <ul>
         <li v-for="play in activities" :key="play.id">
-          <img v-bind:src="play.imageURL" /><br />
-          <router-link to="/cart" exact>{{ play.name }}</router-link>
+          <div class="polaroid">
+            <img v-bind:src="play.imageURL" /><br />
+            <div class="container">
+              <router-link to="/cart" exact id="names">{{ play.name }}</router-link>
+            </div>
+          </div>
         </li>
         <button id="seeMore">See More</button>
       </ul>
@@ -39,36 +55,18 @@
 
 <script>
 import Header from "./Header.vue";
+import database from "../firebase.js";
 export default {
   components: {
     AppHeader: Header,
   },
   data() {
     return {
-      restaurants: [
-        {
-          id: "#000",
-          name: "Allium",
-          imageURL:
-            "https://media.timeout.com/images/105615480/380/285/image.jpg",
-        },
-        {
-          id: "#001",
-          name: "Cloudstreet",
-          imageURL:
-            "https://media.timeout.com/images/105490157/380/285/image.jpg",
-        },
-        {
-          id: "#003",
-          name: "Mott 32",
-          imageURL:
-            "https://media.timeout.com/images/105602789/380/285/image.jpg",
-        },
-      ],
+      restaurants: [],
 
       shopsList: [
         {
-          id: "#004",
+          id: "#003",
           name: "Overjoyed",
           imageURL:
             "https://thesmartlocal.com/images/easyblog_articles/6880/b2ap3_large_crafts---overjoyed.png",
@@ -88,7 +86,7 @@ export default {
       ],
       activities: [
         {
-          id: "#007",
+          id: "#004",
           name: "Hi-roller indoor skating rink",
           imageURL:
             "https://thesmartlocal.com/wp-content/uploads/2020/08/image2.jpg",
@@ -107,6 +105,49 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    fetchRestaurants: function () {
+      database
+        .collection("eat")
+        .get()
+        .then((snapshot) => {
+          let restaurant = {};
+          snapshot.forEach((doc) => {
+            restaurant = doc.data();
+            restaurant.id = doc.id;
+            this.restaurants.push(restaurant);
+            //console.log(doc.data());
+            localStorage.clear();
+          });
+        });
+    },
+
+    GoToEat: function () {
+      this.$router.push("/eat");
+    },
+
+    sendData: function (id) {
+      //console.log(id);
+      for (var x of this.restaurants) {
+        //console.log(x)
+        if (x["id"] === id) {
+          console.log(x);
+          localStorage.setItem("KEY", JSON.stringify(x));
+        }
+      }
+    },
+  },
+
+  computed: {
+    filteredRestaurants() {
+      return this.restaurants.slice(0, 3);
+    },
+  },
+
+  created() {
+    this.fetchRestaurants();
   },
 };
 </script>
@@ -148,6 +189,7 @@ ul {
   padding: 0;
   height: 100%;
   width: 100%;
+  margin-left: 50px;
 }
 
 li {
@@ -163,9 +205,23 @@ li {
 }
 
 img {
-  height: 200px;
-  width: 250px;
+  height: 220px;
+  width: 100%;
   background-size: 80% 50%;
+  border-radius: 10px;
+}
+
+div.polaroid {
+  width: 270px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+  border-radius: 10px;
+}
+
+div.container {
+  text-align: center;
+  padding: 10px 20px;
   border-radius: 10px;
 }
 
@@ -173,15 +229,14 @@ img {
   font-size: 25px;
   text-align: center;
   font-weight: 10;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
 h3 {
   text-align: left;
   padding-left: 5%;
-  color: hotpink;
+  color: #ED83A7;
   font-size: 40px;
-  font-family: monospace;
+  letter-spacing: 0.1em;
 }
 
 h1 {
@@ -190,9 +245,9 @@ h1 {
 }
 
 #seeMore {
-  background-color: #d25a7e;
+  background-color: #ED83A7;
   border: none;
-  color: white;
+  color: #403939;
   text-align: center;
   text-decoration: none;
   border-radius: 8px;
@@ -200,5 +255,17 @@ h1 {
   padding-right: 10px;
   margin-top: 90px;
   height: 50px;
+}
+
+#names {
+  background-color: white;
+  font-size: 20px;
+  border-radius: 8px;
+  padding: 7px 20px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  color: #403939;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
 }
 </style>

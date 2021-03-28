@@ -53,15 +53,19 @@
           .auth()
           .createUserWithEmailAndPassword(this.form.email, this.form.password)
           .then((data) => {
-            console.log("Successfully sign up");
             database
             .collection("users")
             .doc(data.user.uid)
             .set({
+              user_id: data.user.uid,
               name: this.form.name,
-              mobile:this.form.mobile
+              mobile:this.form.mobile,
+              business:false
               })
-              .then(() => {alert('Your response has been submitted'); });
+              .then(() => {
+                alert('Successfully sign up'); 
+                this.$router.replace({ path: "/" });
+              });
             }).catch((error) => {
             console.log(error.message);
           });

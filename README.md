@@ -22,3 +22,11 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Authors
+
+* **Wong Wei Kang** - [wwongwk](https://github.com/wwongwk)
+* **Yeo Yu Zhen** - [yuzhen26](https://github.com/yuzhen26)
+* **Xue Xiaodong** - [HaileyXue](https://github.com/HaileyXue)
+* **Wee Shaun** - [KyXuan229](https://github.com/KyXuan229)
+* **Wang Fei** - [wangfeiii](https://github.com/wangfeiii)

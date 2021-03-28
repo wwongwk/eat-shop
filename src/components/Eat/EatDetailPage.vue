@@ -35,9 +35,9 @@
     <br />
 
     <div class="btn-group">
-      <button v-on:click="toggleAbout()">About</button>
-      <button v-on:click="toggleReview()">Reviews</button>
-      <button v-on:click="toggleReservation()">Reservation</button>
+      <button v-on:click="toggleAbout">About</button>
+      <button v-on:click="toggleReview">Reviews</button>
+      <button v-on:click="toggleReservation">Reservation</button>
     </div>
     <h2>{{ shopName }}</h2>
     <div id="body" v-show="About">

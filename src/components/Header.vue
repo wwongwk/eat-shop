@@ -58,8 +58,8 @@ export default {
     } else { 
       this.login=false;
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -111,6 +111,7 @@ button {
   border-style: solid;
   border-color: #ed83a7;
   padding: 3px 10px;
+  cursor: pointer;
 }
 a.router-link-active {
   text-decoration: underline;
