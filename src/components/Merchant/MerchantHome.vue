@@ -10,9 +10,9 @@
       </div>
       <div class="flexCol" id='nav'>
         <div class="btn-group">
-          <a id="info"  @click="toggleInformation">Information</a>
+          <a id="info" @click="toggleInformation">Information</a>
           <a id="dashboard" @click="toggleDashboard">Dashboard</a>
-          <button :click="logOut" >Log Out</button>
+          <button v-on:click="logOut()" >Log Out</button>
         </div>
       </div>
       
@@ -49,8 +49,8 @@ export default {
     toggleInformation() {
       this.information = true;
       this.dashboard = false;
-      //document.getElementById("info").style.borderBottom="2px solid";
-      //document.getElementById("dashboard").style.borderBottom="none";
+      document.getElementById("info").style.borderBottom="2px solid";
+      document.getElementById("dashboard").style.borderBottom="none";
 
     },
     toggleDashboard() {
@@ -127,7 +127,7 @@ a, button {
   border: none;
   background-color: white;
   font-weight: bold;
-    cursor: pointer;
+  cursor: pointer;
 }
 
 a:hover, button:hover {

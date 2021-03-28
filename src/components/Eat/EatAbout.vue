@@ -93,4 +93,8 @@ export default {
   border-radius: 10px;
 }
 
+.map {
+  margin-bottom: 20px;
+}
+
 </style>

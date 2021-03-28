@@ -78,6 +78,8 @@ export default {
 
 label {
   display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 #book {
   border: 1px solid #c4c4c4;
@@ -113,5 +115,9 @@ span {cursor:pointer; }
     display: inline-block;
     vertical-align: middle;
     }
+  button {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 
 </style>

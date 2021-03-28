@@ -8,10 +8,7 @@
       </div>
       <div class="flexCol">
         <a id="home"> <router-link to="/" exact>HOME</router-link></a>
-        <a id="eat"> <router-link to="/eat" exact>EAT</router-link></a>
-        <a id="shop"> <router-link to="/shop" exact>SHOP</router-link></a>
-        <a id="play"> <router-link to="/play" exact>PLAY</router-link></a>
-        <a id="merchant"> <router-link to="/merchant" exact>BUSINESS</router-link></a>
+        CATEGORY
       </div>
       <div id="side" class="flexCol">
         <router-link to="/cart" exact>My Cart</router-link>
@@ -61,8 +58,8 @@ export default {
     } else { 
       this.login=false;
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -114,6 +111,7 @@ button {
   border-style: solid;
   border-color: #ed83a7;
   padding: 3px 10px;
+  cursor: pointer;
 }
 a.router-link-active {
   text-decoration: underline;

@@ -33,6 +33,7 @@
   import Header from './Header.vue'
   import firebase from "firebase/app";
   import 'firebase/auth'
+import database from '../firebase';
 
   export default {
     components: {
@@ -47,30 +48,65 @@
     },
     methods: {
        login: function() {
-        
-        if (!this.biz) {
+        firebase.auth().fetchSignInMethodsForEmail(this.email)
+        .then(() => {
           firebase
           .auth()
           .signInWithEmailAndPassword(this.email, this.password)
           .then(() => {
             console.log("Successfully logged in");
-            this.$router.replace({ path: "/" });
-            })
+            database.collection("users").doc(firebase.auth().currentUser.uid).get().then((doc) => {
+             if (doc.exists) {
+              if (doc.data().business==false) { 
+                this.$router.replace({ path: "/" });
+              } else {
+                this.$router.replace({ path: "/merchant" });
+              }
+             }       
+            });
+          })   
           .catch((error) => {
             alert(error.message);
           });
-        } else {
-          firebase
-            .auth()
-            .signInWithEmailAndPassword(this.email, this.password)
-            .then(() => {
-              console.log("Successfully logged in as business");
-            // this.$router.replace({ path: "/" }); # go to business dashboard
-              })
-            .catch((error) => {
-              alert(error.message);
+
+
+          /*database.collection("users").doc(userRecord.getUid()).get().then((doc) => {
+             if (doc.exists) {
+              if (doc.data().business==false) { 
+                firebase
+                .auth()
+                .signInWithEmailAndPassword(this.email, this.password)
+                .then(() => {
+                  console.log("Successfully logged in");
+                  this.$router.replace({ path: "/" });
+                  })
+                .catch((error) => {
+                  alert(error.message);
+                });
+              } else {
+                firebase
+                .auth()
+                .signInWithEmailAndPassword(this.email, this.password)
+                .then(() => {
+                  console.log("Successfully logged in");
+                  this.$router.replace({ path: "/merchant" });
+                  })
+                .catch((error) => {
+                  alert(error.message);
+                });
+              }
+            } else {
+                console.log("User do not exist!");
+            }
+          }).catch((error) => {
+              console.log("Error getting document:", error);
           });
-        }
+
+          console.log('Successfully fetched user data'); */
+        })
+        .catch((error) => {
+          console.log('Error fetching user data:', error);
+        });
       }
     }
   }
@@ -88,7 +124,7 @@ input {
 }
 
 #submit {
-  background-color: #D25A7E;
+  background-color: #ED83A7;
   width: auto;
   color:white;
   padding-left: 20px;
@@ -98,12 +134,13 @@ input {
   height: auto;
   margin: 0px;
   border-style: none;
+  cursor: pointer;
 }
 
 h1 {
   margin: 0pc;
   margin-bottom: 20px;
-  color:#D25A7E;
+  color:#ED83A7;
 }
 ::placeholder {
   color: #b86a9960;
@@ -134,8 +171,9 @@ form {
 #biz, #forgetPW, a {
   text-decoration-line: underline;
   font-size: 12px;
-  color: #A90065;
+  color: #ED83A7;
   margin: 0px;
+  cursor: pointer;
 }
 
 </style>

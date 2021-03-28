@@ -1,12 +1,12 @@
 <template>
   <div class="footer">
     <footer>
-      <div class="subscribe">
-      <form id="form">
-        <label for="email">Receive monthly newsletters and exclusive promotions:</label><br>
-        <input type="textArea" id="email" v-model="email" /><br>
-        <input type="submit" value="Subscribe" v-on:click="displayMsg" id="submitBtn">
-      </form><br>
+      <div id="subscribe">
+        <label for="email">Receive monthly newsletters and exclusive promotions:</label>
+        <span>
+          <input type="textArea" id="address" v-model="email" />
+          <input type="submit" value="Subscribe" v-on:click="displayMsg" id="submitBtn">
+        </span><br>
       </div>
       <p id="AboutUs">About us    </p>
       <p id="Partnership">Partnership    </p>
@@ -29,23 +29,37 @@
   footer {
     background-color:#ED83A7;
     /*background-opacity:0.6;*/
-    padding:5px;
+    padding:20px;
     height: 200px;
     color: #000000;
     font-size: 18px;
     
   }
-  #email, #submitBtn {
-    display: inline-flex;
+
+  label {
+    margin-bottom:50px;
   }
-  
+
+  span {
+    display: block;
+    overflow: hidden;
+    padding: 0px 4px 0px 6px;
+  }
+
+  input {
+    border-radius: 5px;
+  }
+
+  #subscribe {
+    margin-bottom: 50px;
+  }
+
   #submitBtn {
     background-color:#D25A7e;
     font-size: 20px;
-    border-radius: 8px;
-    padding: 7px 20px;
     color: #403939;
     border: none;
+    cursor: pointer;
   }
   p {
     font-size: 10px;
