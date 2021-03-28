@@ -60,7 +60,17 @@
         <div class="submitReview">
           <star-rating :show-rating="false" @rating-selected="setRating">
           </star-rating>
-          <textarea v-model="reviewTextArea" id="input" name="input" />
+          <textarea
+            :style="[
+              loggedIn
+                ? { backgroundColor: 'white'}
+                : { backgroundColor: '#DCDCDC' },
+            ]"
+            v-model="reviewTextArea"
+            id="input"
+            name="input"
+          />
+
           <br />
           <button @click="submitReview">SUBMIT REVIEW</button>
         </div>
@@ -88,7 +98,6 @@ export default {
       shopType: "",
       documentId: "",
       reviews: [],
-      newReviews: [],
       stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       reviewTextArea: "",
       uid: "",
@@ -103,7 +112,7 @@ export default {
     },
     submitReview() {
       //this.newReviews = this.reviews.slice();
-      if ((this.loggedIn === false)) {
+      if (this.loggedIn === false) {
         alert("Please log in to submit a review");
       } else if (this.rating === 0) {
         alert("Please select a rating!");
@@ -126,6 +135,10 @@ export default {
           })
           .then(() => {
             location.reload();
+            this.get();
+            this.fetchDetails();
+            this.updateStars();
+            this.updateDate();
           });
       }
     },
