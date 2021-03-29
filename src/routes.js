@@ -12,6 +12,7 @@ import ShopPage from './components/Shop/ShopPage.vue'
 import EatDetailTemplate from './components/Eat/EatDetailTemplate.vue'
 import ChangePW from './components/ChangePW.vue'
 import MerchantHome from './components/Merchant/MerchantHome.vue'
+import BizSignUp from './components/BizSignUp.vue'
 
 export default[
   {path: '/', component: Home},
@@ -27,4 +28,5 @@ export default[
   {path:'/playDetail', component:PlayDetailPage},
   {path:'/changepw', component:ChangePW},
   {path:'/merchant', component:MerchantHome},
+  {path:'/bizsignup', component:BizSignUp}
 ]

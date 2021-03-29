@@ -156,11 +156,11 @@ export default {
 
 <style scoped>
 #homeImg {
-  width: 90%;
+  width: 80%;
   height: auto;
 }
 #display {
-  margin: 20px;;
+  margin: 90px;;
 }
 
 #eat {

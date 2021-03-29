@@ -11,6 +11,8 @@
         <a> <router-link to="/eat" exact>EAT</router-link></a>
         <a> <router-link to="/play" exact>PLAY</router-link></a>
         <a> <router-link to="/shop" exact>SHOP</router-link></a>
+        <a> <router-link to="/bizsignup" exact>FOR BUSINESS</router-link></a>
+        
       </div>
       <div id="side" class="flexCol">
         <router-link to="/cart" exact>My Cart</router-link>
@@ -107,7 +109,7 @@ export default {
 .header a {
   color: #ed83a7;
   text-align: center;
-  padding: 12px;
+  padding: 8px;
   text-decoration: none;
   line-height: 25px;
 }
