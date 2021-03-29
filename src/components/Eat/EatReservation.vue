@@ -71,12 +71,12 @@ label {
   display: block;
   margin-top: 10px;
   margin-bottom: 10px;
-
+  
 }
 #book {
   border: 1px solid #c4c4c4;
   border-radius: 5px;
-  background-color: rgba(214, 142, 208, 0.781);
+  background-color: #fff;
   padding: 3px 5px;
   box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
   width: 190px;
