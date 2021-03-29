@@ -7,8 +7,10 @@
         </router-link>
       </div>
       <div class="flexCol" id='title'>
-        <a id="home"> <router-link to="/" exact>HOME</router-link></a>
-        CATEGORY
+        <a> <router-link to="/" exact>HOME</router-link></a>
+        <a> <router-link to="/eat" exact>EAT</router-link></a>
+        <a> <router-link to="/play" exact>PLAY</router-link></a>
+        <a> <router-link to="/shop" exact>SHOP</router-link></a>
       </div>
       <div id="side" class="flexCol">
         <router-link to="/cart" exact>My Cart</router-link>
@@ -121,7 +123,7 @@ button {
 }
 a.router-link-active {
   text-decoration: underline;
-  text-decoration-color: grey;
+  text-decoration-color: rgb(248, 0, 112);
   text-decoration-thickness: 2px;
 }
 button.router-link-active {

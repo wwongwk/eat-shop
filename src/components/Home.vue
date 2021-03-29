@@ -165,7 +165,6 @@ export default {
 
 #eat {
   width: 100%;
-  
   max-width: 90%;
   margin: 0px;
   padding: 0 px;

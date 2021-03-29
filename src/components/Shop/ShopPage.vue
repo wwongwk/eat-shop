@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-header></app-header>
     <h1>SHOP</h1>
     <div id="selected">
         <p>Selected</p>
@@ -18,6 +19,8 @@
 
 <script>
 import database from "../../firebase.js";
+import Header from "../Header.vue";
+
 export default {
     data() {
     return {
@@ -35,6 +38,9 @@ export default {
           });
         });
     },
+  },
+  components: {
+    "app-header":Header
   },
   created() {
     this.fetchShops();

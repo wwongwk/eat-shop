@@ -408,7 +408,7 @@ h3 {
   text-align: left;
   padding-left: 5%;
   color: #ed83a7;
-  font-size: 40px;
+  font-size: 30px;
   letter-spacing: 0.1em;
 }
 

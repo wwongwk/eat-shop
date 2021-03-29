@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-header></app-header>
     <h1>PLAY</h1>
     <div id="selected">
       <p>Selected</p>
@@ -17,6 +18,7 @@
 
 <script>
 import database from "../../firebase.js";
+import Header from "../Header.vue"
 
 export default {
   data() {
@@ -35,6 +37,9 @@ export default {
           });
         });
     },
+  },
+  components: {
+    "app-header":Header
   },
   created() {
     this.fetchActivities();
