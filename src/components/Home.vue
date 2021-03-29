@@ -4,6 +4,7 @@
       <app-header></app-header>
       <img id="homeImg" src="../assets/TopPic.png" />
     </div>
+    <div id='display'>
     <h3>EAT</h3>
     <div id="eat">
       <ul>
@@ -50,6 +51,7 @@
         <button id="seeMore">See More</button>
       </ul>
     </div>
+  </div>
   </div>
 </template>
 
@@ -154,12 +156,16 @@ export default {
 
 <style scoped>
 #homeImg {
-  width: 100%;
+  width: 90%;
   height: auto;
+}
+#display {
+  margin: 20px;;
 }
 
 #eat {
   width: 100%;
+  
   max-width: 90%;
   margin: 0px;
   padding: 0 px;
@@ -186,7 +192,7 @@ ul {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  padding: 0;
+  padding: 0px;
   height: 100%;
   width: 100%;
   margin-left: 50px;
@@ -205,45 +211,37 @@ li {
 }
 
 img {
-  height: 220px;
+  height: 150px;
   width: 100%;
   background-size: 80% 50%;
   border-radius: 10px;
+  margin: 0px;
 }
 
 div.polaroid {
-  width: 270px;
+  width: 200px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   border-radius: 10px;
-}
 
+}
 div.container {
   text-align: center;
-  padding: 10px 20px;
+  align-content: center;
   border-radius: 10px;
+  margin: 0px;
+  align-self: center;
+  padding-bottom:10px;
+  width: 200px;
 }
-
-#foodName {
-  font-size: 25px;
-  text-align: center;
-  font-weight: 10;
-}
-
 h3 {
   text-align: left;
   padding-left: 5%;
   color: #ED83A7;
-  font-size: 40px;
+  font-size: 30px;
   letter-spacing: 0.1em;
 }
-
-h1 {
-  font-family: monospace;
-  font-size: 50px;
-}
-
 #seeMore {
   background-color: #ED83A7;
   border: none;
@@ -251,7 +249,7 @@ h1 {
   text-align: center;
   text-decoration: none;
   border-radius: 8px;
-  font-size: 20px;
+  font-size: 15px;
   padding-right: 10px;
   margin-top: 90px;
   height: 50px;
@@ -260,13 +258,13 @@ h1 {
 
 #names {
   background-color: white;
-  font-size: 20px;
+  font-size: 13px;
   border-radius: 8px;
-  padding: 7px 20px;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #403939;
   border: none;
   cursor: pointer;
   text-decoration: none;
+  margin-left: 5px;;
+
 }
 </style>

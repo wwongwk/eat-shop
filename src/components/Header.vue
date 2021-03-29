@@ -6,7 +6,7 @@
           <img id="logo" src="../assets/logo.png" />
         </router-link>
       </div>
-      <div class="flexCol">
+      <div class="flexCol" id='title'>
         <a id="home"> <router-link to="/" exact>HOME</router-link></a>
         CATEGORY
       </div>
@@ -63,17 +63,24 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: "Segoe UI";
+  font-size: 16px;
+}
 .flexWrap {
   display: flex;
   overflow: hidden;
-  margin: 30px;
-  margin-bottom: 15px;
+  margin: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
   border-bottom: 1px solid #000;
 }
 .flexCol {
   box-sizing: border-box;
-  padding: 10px;
+  padding: 5px;
   width: 33.3%;
+  align-self:center;
 }
 
 /* (B) BREAK DOWN 1 COLUMN ON SMALL SCREENS */
@@ -100,7 +107,6 @@ export default {
   text-align: center;
   padding: 12px;
   text-decoration: none;
-  font-size: 18px;
   line-height: 25px;
 }
 
@@ -128,11 +134,4 @@ button.router-linl-active{
   color: white;
 }
 
-/* Change the background color on mouse-over */
-/* .header a:hover {
-  background-color: #ddd;
-  color: black;
-}
-*/
-/*Style the active/current link*/
 </style>
