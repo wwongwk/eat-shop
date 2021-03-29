@@ -80,8 +80,6 @@ export default {
   margin: 30px;
   margin-bottom: 15px;
   border-bottom: 1px solid #000;
-  
- 
 }
 .flexCol {
   box-sizing: border-box;
