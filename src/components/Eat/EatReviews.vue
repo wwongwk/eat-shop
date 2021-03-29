@@ -87,6 +87,10 @@ import database from "../../firebase.js";
 import firebase from "firebase/app";
 
 export default {
+  props: {
+    shop: []
+  },
+
   name: "EatReview",
   components: {
     StarRating: StarRating,
@@ -164,12 +168,12 @@ export default {
       }
     },
     get() {
-      var shop = JSON.parse(localStorage.getItem("KEY"));
-      console.log(shop);
-      this.shopName = shop["name"];
-      this.documentId = shop["document_id"];
-      this.shopType = shop["type"];
-      this.reviews = shop["reviews"];
+      /* var shop = JSON.parse(localStorage.getItem("KEY"));
+      console.log(shop); */
+      this.shopName = this.shop["name"];
+      this.documentId = this.shop["document_id"];
+      this.shopType = this.shop["type"];
+      this.reviews = this.shop["reviews"];
     },
     updateDate() {
       for (let i = 0; i < this.reviews.length; i++) {

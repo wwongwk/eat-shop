@@ -29,6 +29,10 @@
 
 <script>
 export default {
+  props: {
+    shop: []
+  },
+
   components: {
   },
   data() {
@@ -63,13 +67,14 @@ export default {
       this.Reservation = true;
     },
     get: function() {
-      var shop = JSON.parse(localStorage.getItem("KEY"));
-      console.log(shop)
-      this.description = shop["description"];
-      this.telephone = shop["telephone"];
-      this.openHours = shop["openingHours"];
-      this.address = shop["address"];
-      this.mapSrc=shop["mapSrc"];
+      /* var shop = JSON.parse(localStorage.getItem("KEY"));
+      console.log(shop) */
+
+      this.description = this.shop["description"];
+      this.telephone = this.shop["telephone"];
+      this.openHours = this.shop["openingHours"];
+      this.address = this.shop["address"];
+      this.mapSrc=this.shop["mapSrc"];
     },
   },
   created() {

@@ -24,15 +24,15 @@
     </div>
     <h2>{{ shopName }}</h2>
     <div id="body" v-show="About">
-      <eat-about></eat-about>
+      <eat-about v-bind:shop = "shop" ></eat-about>
     </div>
 
     <div id="body" v-show="Review">
-      <eat-reviews></eat-reviews>
+      <eat-reviews v-bind:shop = "shop" ></eat-reviews>
     </div>
 
     <div id="body" v-show="Reservation">
-      <eat-reservation></eat-reservation>
+      <eat-reservation v-bind:shop = "shop" ></eat-reservation>
     </div>
   </div>
 </template>
@@ -57,6 +57,8 @@ export default {
       Reservation: false,
       shopName: "",
       resImages: [],
+      shop:{}
+
     };
   },
   methods: {
@@ -86,7 +88,11 @@ export default {
     }
   },
   created() {
-      this.get();
+      //this.get();
+      console.log(this.$route.params);
+      this.shop = this.$route.params;
+      this.shopName = this.shop["name"];
+      this.resImages = this.shop["resImages"]
   },
   destroyed() {
       localStorage.clear();
