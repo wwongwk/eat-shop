@@ -12,7 +12,7 @@
         <div class="btn-group">
           <a id="info" @click="toggleInformation">Information</a>
           <a id="dashboard" @click="toggleDashboard">Dashboard</a>
-          <button v-on:click="logOut()" >Log Out</button>
+          <button id="logout" v-on:click="logOut()" >Log Out</button>
         </div>
       </div>
       
@@ -49,15 +49,18 @@ export default {
     toggleInformation() {
       this.information = true;
       this.dashboard = false;
-      document.getElementById("info").style.borderBottom="2px solid";
-      document.getElementById("dashboard").style.borderBottom="none";
-
+      document.getElementById("info").style.backgroundColor="#ED83A7";
+      document.getElementById("info").style.color="white";
+      document.getElementById("dashboard").style.backgroundColor="white";
+      document.getElementById("dashboard").style.color="black";
     },
     toggleDashboard() {
       this.information = false;
       this.dashboard = true;
-      document.getElementById("dashboard").style.borderBottom="1px solid";
-      document.getElementById("info").style.borderBottom="none";
+      document.getElementById("dashboard").style.backgroundColor="#ED83A7";
+      document.getElementById("dashboard").style.color="white";
+      document.getElementById("info").style.backgroundColor="white";
+      document.getElementById("info").style.color="black";
     },
     
     logOut: function() {
@@ -104,8 +107,9 @@ export default {
 #title {
   top: 50%;
   font-size: 50px;
-  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+  //font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
   font-weight: bold;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 #nav {
@@ -114,22 +118,23 @@ export default {
   text-align: end;
 }
 
-a, button {
-  color: #ed83a7;
+#info, #dashboard, #logout {
   text-align: center;
-  margin: 12px;
-  padding:2px;
   text-decoration: none;
   font-size: 18px;
-  line-height: 25px;
-  border: none;
+  margin: 3px;
   background-color: white;
-  font-weight: bold;
+  border-radius: 11px;
+  border-style: solid;
+  border-color: #ed83a7;
+  border-width: 2px;
+  padding: 3px 12px;
   cursor: pointer;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 a:hover, button:hover {
-  color: rgba(255, 0, 106, 0.875);
+  color: #ed83a7;
 }
 
 </style>

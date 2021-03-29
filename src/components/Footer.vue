@@ -33,7 +33,7 @@
     height: 200px;
     color: #000000;
     font-size: 18px;
-    
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
   }
 
   label {
@@ -48,6 +48,7 @@
 
   input {
     border-radius: 5px;
+    padding: 5px 5px;
   }
 
   #subscribe {
@@ -56,8 +57,8 @@
 
   #submitBtn {
     background-color:#D25A7e;
-    font-size: 20px;
-    color: #403939;
+    font-size: 18px;
+    //color: #403939;
     border: none;
     cursor: pointer;
   }
@@ -65,20 +66,17 @@
     font-size: 10px;
     color: #000000;
     display: inline;
-    margin: 50px;
+    margin: 70px;
   }
   #AboutUs {
-    /* font-family:; */
     color: #000000;
     font-size: 18px;
   }
   #Partnership{
-    /* font-family: ; */
     color: #000000;
     font-size: 18px;
   }
   #Terms {
-    /* font-family: ; */
     color: #000000;
     font-size: 18px;
   }
