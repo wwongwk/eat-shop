@@ -13,6 +13,21 @@
       />
       <button id="resetBtn" v-on:click="reset()">RESET</button>
     </div>
+       <div id="ratingFilter">
+      <p>Sort By:</p>
+      <v-select
+        label="criteria"
+        :options="sortByOptions"
+        :value="selectedCriteria"
+        :clearable="false"
+        v-model="chosenCriteria"
+        @input="sortFood"
+      >
+        <template slot="option" slot-scope="option">
+          {{ option.criteria }}
+        </template>
+      </v-select>
+    </div>
     <div id="filterDropdown">
       <p>Cuisine Type:</p>
       <v-select
@@ -28,20 +43,7 @@
         </template>
       </v-select>
     </div>
-    <div id="ratingFilter">
-      <p>Sort By:</p>
-      <v-select
-        label="criteria"
-        :options="sortByOptions"
-        :value="selectedCriteria"
-        v-model="chosenCriteria"
-        @input="sortFood"
-      >
-        <template slot="option" slot-scope="option">
-          {{ option.cuisineType }}
-        </template>
-      </v-select>
-    </div>
+ 
     <div id="errorMessage" v-show="errorShown">
       {{ error }}
     </div>
@@ -427,16 +429,17 @@ h1 {
   margin-top: 3%;
 }
 
-#filterDropdown p {
+#filterDropdown p, #ratingFilter p {
   font-size: 20px;
   color: #ed83a7;
 }
 
 #ratingFilter {
-  width: 30%;
+  width: 20%;
   margin: 0 auto;
-  margin-top: 3%;
-  float: right;
+  float: left;
+  padding-left: 10%;
+  margin-top: 0%;
 }
 
 h4 {
