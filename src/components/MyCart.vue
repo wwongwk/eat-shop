@@ -1,6 +1,7 @@
 <template>
   <div>
-    <CartHeader></CartHeader>
+    <Header></Header>
+    <h1>My Cart</h1>
     <table class="table">
       <tr>
         <th></th>
@@ -30,12 +31,12 @@
 </template>
 
 <script>
-import CartHeader from './CartHeader.vue'
+import Header from './Header.vue'
 
 export default {
   name: "My cart",
   components: {
-    CartHeader: CartHeader,
+    Header: Header,
   },
 
   data() {
@@ -83,6 +84,13 @@ export default {
 </script>
 
 <style scoped>
+  h1 {
+  font-size: 60px;
+  color: #403939;
+  text-align: center;
+  letter-spacing: 0.1em;
+  //border-bottom: 1px solid #000;
+  }
 
   th {
     vertical-align: center;

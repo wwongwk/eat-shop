@@ -133,16 +133,21 @@ input {
   width: 300px;
   height: 25px;
   font-size: 20px;
-  
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 textarea {
   width: 300px;
   height: 80px;
   font-size: 20px;
   resize: none;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 #submit {
   cursor: pointer;
+  background-color:#D25A7e;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 </style>
