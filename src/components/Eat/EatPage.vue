@@ -13,7 +13,6 @@
       />
       <button id="resetBtn" v-on:click="reset()">RESET</button>
     </div>
-
     <div id="filterDropdown">
       <p>Cuisine Type:</p>
       <v-select
@@ -23,6 +22,20 @@
         :clearable="false"
         v-model="selected"
         @input="filterFood"
+      >
+        <template slot="option" slot-scope="option">
+          {{ option.cuisineType }}
+        </template>
+      </v-select>
+    </div>
+    <div id="ratingFilter">
+      <p>Sort By:</p>
+      <v-select
+        label="criteria"
+        :options="sortByOptions"
+        :value="selectedCriteria"
+        v-model="chosenCriteria"
+        @input="sortFood"
       >
         <template slot="option" slot-scope="option">
           {{ option.cuisineType }}
@@ -40,10 +53,10 @@
             <div class="container">
               <router-link to="/eatDetailTemplate" exact>
                 <button v-on:click="sendData(restaurant.id)" id="names">
-                {{ restaurant.name }}
+                  {{ restaurant.name }}
                 </button>
               </router-link>
-            </div> 
+            </div>
           </div>
         </li>
       </ul>
@@ -56,7 +69,7 @@
             <div class="container">
               <router-link to="/eatDetailTemplate" exact>
                 <button v-on:click="sendData(restaurant.id)" id="selectedNames">
-                {{ restaurant.name }}
+                  {{ restaurant.name }}
                 </button>
               </router-link>
             </div>
@@ -72,8 +85,11 @@
             <img v-bind:src="restaurant.imageURL" /><br />
             <div class="container">
               <router-link to="/eatDetailTemplate" exact>
-                <button v-on:click="sendData(restaurant.id)" id="recommendedNames">
-                {{ restaurant.name }}
+                <button
+                  v-on:click="sendData(restaurant.id)"
+                  id="recommendedNames"
+                >
+                  {{ restaurant.name }}
                 </button>
               </router-link>
             </div>
@@ -89,7 +105,7 @@
             <div class="container">
               <router-link to="/eatDetailTemplate" exact>
                 <button v-on:click="sendData(restaurant.id)" id="filteredNames">
-                {{ restaurant.name }}
+                  {{ restaurant.name }}
                 </button>
               </router-link>
             </div>
@@ -116,6 +132,7 @@ export default {
       filtered: [],
       search: "",
       selectedCuisine: "",
+      selectedCriteria: "",
       allRestaurants: true,
       selectedRestaurants: false,
       errorShown: false,
@@ -128,6 +145,7 @@ export default {
         { code: "WEST", cuisineType: "Western" },
         { code: "ALL", cuisineType: "All" },
       ],
+      sortByOptions: [{ code: "1", criteria: "Best reviewed" }],
     };
   },
   methods: {
@@ -228,6 +246,25 @@ export default {
       this.errorShown = false;
       this.filteredRestaurants = true;
     },
+
+    sortFood: function (value) {
+      if (this.filtered.length > 0) {
+        this.filtered.length = 0;
+      }
+      if (value.criteria === "Best reviewed") {
+        this.restaurants.sort(function (restaurant1, restaurant2) {
+          return (
+            parseFloat(restaurant1.overallRating) -
+            parseFloat(restaurant2.overallRating)
+          );
+        });
+        this.selectedRestaurants = false;
+        this.recommendedRestaurants = false;
+        this.errorShown = false;
+        this.filteredRestaurants = false;
+        this.allRestaurants = true;
+      }
+    },
   },
   created() {
     this.fetchRestaurants();
@@ -245,7 +282,7 @@ export default {
 }
 
 button {
-  background-color: #ED83A7;
+  background-color: #ed83a7;
   border: none;
   color: #403939;
   text-align: center;
@@ -333,7 +370,10 @@ img {
   border-radius: 10px;
 }
 
-#names, #selectedNames, #filteredNames, #recommendedNames {
+#names,
+#selectedNames,
+#filteredNames,
+#recommendedNames {
   background-color: white;
   font-size: 20px;
   border-radius: 8px;
@@ -365,7 +405,7 @@ img {
 h3 {
   text-align: left;
   padding-left: 5%;
-  color: #ED83A7;
+  color: #ed83a7;
   font-size: 40px;
   letter-spacing: 0.1em;
 }
@@ -389,7 +429,14 @@ h1 {
 
 #filterDropdown p {
   font-size: 20px;
-  color: #ED83A7;
+  color: #ed83a7;
+}
+
+#ratingFilter {
+  width: 30%;
+  margin: 0 auto;
+  margin-top: 3%;
+  float: right;
 }
 
 h4 {
