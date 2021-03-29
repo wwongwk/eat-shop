@@ -24,7 +24,7 @@ export default[
   {path:'/play', component:PlayPage},
   {path:'/shop', component:ShopPage},
   {path:'/eatDetail', component:EatDetailPage},
-  {path:'/eat/Detail', name: 'N', component:EatDetailTemplate},
+  {path:'/eatDetailTemplate', name: 'eatDetail', component:EatDetailTemplate},
   {path:'/playDetail', component:PlayDetailPage},
   {path:'/changepw', component:ChangePW},
   {path:'/merchant', component:MerchantHome},

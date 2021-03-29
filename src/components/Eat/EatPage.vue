@@ -225,7 +225,7 @@ export default {
       for (var x of this.restaurants) {
         if (x["id"] === id) {
           console.log(x);
-          this.$router.push({ name: 'N', params: x })
+          this.$router.push({ name: 'eatDetail', params: x })
           
         }
       }
