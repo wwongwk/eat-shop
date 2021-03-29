@@ -254,8 +254,8 @@ export default {
       if (value.criteria === "Best reviewed") {
         this.restaurants.sort(function (restaurant1, restaurant2) {
           return (
-            parseFloat(restaurant1.overallRating) -
-            parseFloat(restaurant2.overallRating)
+            parseFloat(restaurant2.overallRating) -
+            parseFloat(restaurant1.overallRating)
           );
         });
         this.selectedRestaurants = false;
