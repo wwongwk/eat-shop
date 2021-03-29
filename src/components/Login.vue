@@ -18,7 +18,6 @@
       </form>
 
       <br>
-      <div id='biz' v-if="!biz" @click="biz=true">FOR BUSINESS</div>
       <div id='signup' v-if="!biz" style="font-size: 13px; margin: 10px; ">NO ACCOUNT? 
         <router-link to="/signup" exact> SIGN UP!</router-link>  
       </div>

@@ -53,11 +53,11 @@
           <div class="polaroid">
             <img v-bind:src="restaurant.imageURL" /><br />
             <div class="container">
-              <router-link to="/eatDetailTemplate" exact>
+              <!-- <router-link to="/eatDetailTemplate" exact> -->
                 <button v-on:click="sendData(restaurant.id)" id="names">
                   {{ restaurant.name }}
                 </button>
-              </router-link>
+             <!--  </router-link> -->
             </div>
           </div>
         </li>
@@ -225,7 +225,8 @@ export default {
       for (var x of this.restaurants) {
         if (x["id"] === id) {
           console.log(x);
-          localStorage.setItem("KEY", JSON.stringify(x));
+          this.$router.push({ name: 'eatDetail', params: x })
+          
         }
       }
     },
@@ -408,7 +409,7 @@ h3 {
   text-align: left;
   padding-left: 5%;
   color: #ed83a7;
-  font-size: 40px;
+  font-size: 30px;
   letter-spacing: 0.1em;
 }
 
