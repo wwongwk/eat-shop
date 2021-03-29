@@ -44,24 +44,7 @@ export default {
     };
   },
   methods: {
-    toggleAbout: function () {
-      //window.history.scrollRestoration = "manual"
-      this.About = true;
-      this.Review = false;
-      this.Reservation = false;
-    },
-    toggleReview: function () {
-      //window.history.scrollRestoration = "manual"
-      this.About = false;
-      this.Review = true;
-      this.Reservation = false;
-    },
-    toggleReservation: function () {
-      //window.history.scrollRestoration = "manual"
-      this.About = false;
-      this.Review = false;
-      this.Reservation = true;
-    },
+    
     get: function() {
       var shop = JSON.parse(localStorage.getItem("KEY"));
       console.log(shop)

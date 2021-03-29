@@ -19,8 +19,10 @@
 
     <div class="btn-group">
       <button v-on:click="toggleAbout()">About</button>
+      <button v-on:click="toggleMenu()">Menu</button>
       <button v-on:click="toggleReview()">Reviews</button>
       <button v-on:click="toggleReservation()">Reservation</button>
+      
     </div>
     <h2>{{ shopName }}</h2>
     <div id="body" v-show="About">
@@ -34,6 +36,11 @@
     <div id="body" v-show="Reservation">
       <eat-reservation></eat-reservation>
     </div>
+
+    <div id="body" v-show="Menu">
+      <eat-menu></eat-menu>
+    </div>
+
   </div>
 </template>
 
@@ -42,6 +49,7 @@ import Header from "../Header.vue";
 import EatAbout from "./EatAbout.vue";
 import EatReservation from "./EatReservation.vue";
 import EatReviews from "./EatReviews.vue";
+import EatMenu from "./EatMenu.vue";
 
 export default {
   components: {
@@ -49,12 +57,14 @@ export default {
     EatAbout: EatAbout,
     EatReservation: EatReservation,
     EatReviews: EatReviews,
+    EatMenu: EatMenu,
   },
   data() {
     return {
       About: true,
       Review: false,
       Reservation: false,
+      Menu: false,
       shopName: "",
       resImages: [],
     };
@@ -65,18 +75,28 @@ export default {
       this.About = true;
       this.Review = false;
       this.Reservation = false;
+      this.Menu = false;
     },
     toggleReview: function () {
       //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = true;
       this.Reservation = false;
+      this.Menu = false;
     },
     toggleReservation: function () {
       //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = false;
       this.Reservation = true;
+      this.Menu = false;
+    },
+    toggleMenu: function () {
+      //window.history.scrollRestoration = "manual"
+      this.About = false;
+      this.Review = false;
+      this.Reservation = false;
+      this.Menu = true;
     },
     get: function() {
       var shop = JSON.parse(localStorage.getItem("KEY"));
