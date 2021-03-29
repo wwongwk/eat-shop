@@ -2,6 +2,7 @@
   <div>
     uid : {{ uid }} <br />
     email: {{ email }} <br />
+    username: {{ name }} <br />
     Reviews: {{ reviews }} <br />
     Rating : {{ rating }} <br />
     Shop Name: {{ shopName }} <br />
@@ -103,6 +104,7 @@ export default {
       reviewTextArea: "",
       uid: "",
       email: "",
+      name: "",
       loggedIn: false,
     };
   },
@@ -123,7 +125,7 @@ export default {
         var myTimestamp = firebase.firestore.Timestamp.fromDate(new Date());
         this.reviews.unshift({
           date: myTimestamp,
-          username: this.email,
+          username: this.name,
           review: this.reviewTextArea,
           stars: this.rating,
         });
@@ -133,7 +135,7 @@ export default {
           .doc(this.documentId)
           .update({
             reviews: this.reviews,
-            overallRating : parseFloat(this.overallRating),
+            overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
             location.reload();
@@ -141,6 +143,7 @@ export default {
             this.fetchDetails();
             this.updateStars();
             this.updateDate();
+            this.updateOverallRating();
           });
       }
     },
@@ -148,7 +151,14 @@ export default {
       try {
         this.uid = firebase.auth().currentUser.uid;
         this.email = firebase.auth().currentUser.email;
-        this.loggedIn = true;
+        database
+          .collection("users")
+          .doc(this.uid)
+          .get()
+          .then((doc) => {
+            this.name = doc.data().name;
+            this.loggedIn = true;
+          });
       } catch (err) {
         this.loggedIn = false;
       }
