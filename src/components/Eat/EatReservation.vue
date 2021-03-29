@@ -27,16 +27,7 @@ export default {
     return {
       About: true,
       Review: false,
-      Reservation: false,
-      shopName: "Sum Dim Sum",
-      description:
-        "Housed below a timeless shophouse, the restaurant’s Tiffany blue colour was striking," +
-        "and customers can easily spot its storefront from afar. Sum Dim Sum serves up delicious dim sum " +
-        "in a beautiful atmosphere. Its menu is extensive with steamed, pan-fried, deep-fried, baked items," +
-        "noodles, porridge, rice and desserts.",
-      telephone: "9005 9381",
-      openHours: "11.30am - 12am (Mon - Sun)",
-      address: "161 Jalan Besar Singapore 208876",
+      Reservation: false
     };
   },
   methods: {
@@ -80,11 +71,12 @@ label {
   display: block;
   margin-top: 10px;
   margin-bottom: 10px;
+
 }
 #book {
   border: 1px solid #c4c4c4;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: rgba(214, 142, 208, 0.781);
   padding: 3px 5px;
   box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
   width: 190px;
