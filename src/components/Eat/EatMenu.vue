@@ -1,29 +1,18 @@
 <template>
     <div>
         <ul>
-            <li>
-                <div id="float-container">
-                    <div id="foodImage">
-                        <img src="https://www.fairprice.com.sg/wp-content/uploads/2020/05/chicken-rice-970x526-2.jpg" width="200" height="200">
-                    </div>
-                    <div id="foodDescription">
-                        <h1>Food Name here</h1> 
-                        <h2>$9.99</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt deserunt minima praesentium blanditiis, ipsum dicta quam laborum esse magnam nemo unde consequatur autem mollitia consequuntur quaerat vel quis quos error.</p>
-                    </div><br><br><br>
-                    <hr>
-                </div>
-            </li>
 
-            <li>
+
+            <li v-for="food in menu" :key="food.id">
                 <div id="float-container">
                     <div id="foodImage">
-                        <img src="https://www.jessicagavin.com/wp-content/uploads/2018/06/how-to-reverse-sear-a-steak-3.jpg" width="200" height="200">
+                        <img :src='food["foodImage"]'
+                        width="200" height="200">
                     </div>
                     <div id="foodDescription">
-                        <h1>Food Name 2 here</h1> 
-                        <h2>$69.69</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt deserunt minima praesentium blanditiis, ipsum dicta quam laborum esse magnam nemo unde consequatur autem mollitia consequuntur quaerat vel quis quos error.</p>
+                        <h1>{{ food["foodName"] }}</h1> 
+                        <h2>{{ food["foodPrice"] }}</h2>
+                        <p>{{ food["foodDescription"] }}</p>
                     </div><br><br><br>
                     <hr>
                 </div>
@@ -35,24 +24,21 @@
 
 <script>
 export default {
-    components: {
-
+    props: {
+        shop:[]
     },
     data(){
         return{
-            menu: {},
-
+            menu: {}
         };
     },
 
     methods: {
         get: function() {
-            var shop = JSON.parse(localStorage.getItem("KEY"));
-            this.menu = shop["menu"];
+            this.shop = this.$route.params;
+            this.menu = this.shop["menu"];
         },
-        setMenu() {
-
-        }
+    
     },
     created() {
         this.get();

@@ -38,7 +38,7 @@
     </div>
 
     <div id="body" v-show="Menu">
-      <eat-menu></eat-menu>
+      <eat-menu v-bind:shop = "shop"></eat-menu>
     </div>
 
   </div>
