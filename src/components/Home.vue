@@ -13,7 +13,7 @@
             <img v-bind:src="restaurant.imageURL" /><br />
             <div class="container">
               <router-link to="/eatDetailTemplate" exact>
-                <button id="names" v-on:click="sendData(restaurant.id, eat)">
+                <button id="names" v-on:click="sendData(restaurant.id, 1)">
                 {{ restaurant.name }}
                 </button>
               </router-link>
@@ -31,7 +31,7 @@
             <img v-bind:src="shop.imageURL" /><br />
             <div class="container">
               <router-link to="/shopDetail" exact id="names">
-              <button id="names" v-on:click="sendData(shop.id, shop)">
+              <button id="names" v-on:click="sendData(shop.id, 2)">
                 {{ shop.name }}
                 </button>
               </router-link>
@@ -128,7 +128,7 @@ export default {
     },
 
     sendData: function (id, type) {
-      if (type=='eat') {
+      if (type === 1) {
         for (var x of this.restaurants) {
           if (x["id"] === id) {
             console.log(x);
