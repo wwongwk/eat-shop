@@ -1,119 +1,120 @@
 <template>
   <div>
     <Header></Header>
-    <h3>RESTAURANTS</h3>
-    <div id="searchBar">
-      <h4><label>What restaurant are you looking for today?</label></h4>
-      <input
-        type="text"
-        name="name"
-        v-model.lazy="search"
-        placeholder="Enter Restaurant's Name"
-        v-on:keyup.enter="findRestaurant()"
-      />
-      <button id="resetBtn" v-on:click="reset()">RESET</button>
-    </div>
-       <div id="ratingFilter">
-      <p>Sort By:</p>
-      <v-select
-        label="criteria"
-        :options="sortByOptions"
-        :value="selectedCriteria"
-        :clearable="false"
-        v-model="chosenCriteria"
-        @input="sortFood"
-      >
-        <template slot="option" slot-scope="option">
-          {{ option.criteria }}
-        </template>
-      </v-select>
-    </div>
-    <div id="filterDropdown">
-      <p>Cuisine Type:</p>
-      <v-select
-        label="cuisineType"
-        :options="dropdownOptions"
-        :value="selectedCuisine"
-        :clearable="false"
-        v-model="selected"
-        @input="filterFood"
-      >
-        <template slot="option" slot-scope="option">
-          {{ option.cuisineType }}
-        </template>
-      </v-select>
-    </div>
- 
-    <div id="errorMessage" v-show="errorShown">
-      {{ error }}
-    </div>
-    <div id="food" v-show="allRestaurants">
-      <ul>
-        <li v-for="restaurant in restaurants" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
-              <!-- <router-link to="/eatDetailTemplate" exact> -->
-                <button v-on:click="sendData(restaurant.id)" id="names">
-                  {{ restaurant.name }}
-                </button>
-             <!--  </router-link> -->
+    <div id='display'>
+      <h3>RESTAURANTS</h3>
+      <div id="searchBar">
+        <h4><label>What restaurant are you looking for today?</label></h4>
+        <input
+          type="text"
+          name="name"
+          v-model.lazy="search"
+          placeholder="Enter Restaurant's Name"
+          v-on:keyup.enter="findRestaurant()"/>
+        <button id="resetBtn" v-on:click="reset()">RESET</button>
+      </div>
+        <div id="ratingFilter">
+        <p>Sort By:</p>
+        <v-select
+          label="criteria"
+          :options="sortByOptions"
+          :value="selectedCriteria"
+          :clearable="false"
+          v-model="chosenCriteria"
+          @input="sortFood">
+
+          <template slot="option" slot-scope="option">
+            {{ option.criteria }}
+          </template>
+        </v-select>
+      </div>
+      <div id="filterDropdown">
+        <p>Cuisine Type:</p>
+        <v-select
+          label="cuisineType"
+          :options="dropdownOptions"
+          :value="selectedCuisine"
+          :clearable="false"
+          v-model="selected"
+          @input="filterFood"
+        >
+          <template slot="option" slot-scope="option">
+            {{ option.cuisineType }}
+          </template>
+        </v-select>
+      </div>
+  
+      <div id="errorMessage" v-show="errorShown">
+        {{ error }}
+      </div>
+      <div id="food" v-show="allRestaurants">
+        <ul>
+          <li v-for="restaurant in restaurants" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <!-- <router-link to="/eatDetailTemplate" exact> -->
+                  <button v-on:click="sendData(restaurant.id)" id="names">
+                    {{ restaurant.name }}
+                  </button>
+              <!--  </router-link> -->
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div id="selectedFood" v-show="selectedRestaurants">
-      <ul>
-        <li v-for="restaurant in selectedFood" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
-              <router-link to="/eatDetailTemplate" exact>
-                <button v-on:click="sendData(restaurant.id)" id="selectedNames">
-                  {{ restaurant.name }}
-                </button>
-              </router-link>
+          </li>
+        </ul>
+      </div>
+      <div id="selectedFood" v-show="selectedRestaurants">
+        <ul>
+          <li v-for="restaurant in selectedFood" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <router-link to="/eatDetailTemplate" exact>
+                  <button v-on:click="sendData(restaurant.id)" id="selectedNames">
+                    {{ restaurant.name }}
+                  </button>
+                </router-link>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div id="recommendedFood" v-show="recommendedRestaurants">
-      <div id="msg">We think you may like the following as well:</div>
-      <ul>
-        <li v-for="restaurant in recommended" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
-              <router-link to="/eatDetailTemplate" exact>
-                <button
-                  v-on:click="sendData(restaurant.id)"
-                  id="recommendedNames"
-                >
-                  {{ restaurant.name }}
-                </button>
-              </router-link>
+          </li>
+        </ul>
+      </div>
+      <div id="recommendedFood" v-show="recommendedRestaurants">
+        <div id="msg">We think you may like the following as well:</div>
+        <ul>
+          <li v-for="restaurant in recommended" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <router-link to="/eatDetailTemplate" exact>
+                  <button
+                    v-on:click="sendData(restaurant.id)"
+                    id="recommendedNames"
+                  >
+                    {{ restaurant.name }}
+                  </button>
+                </router-link>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div id="filteredFood" v-show="filteredRestaurants">
-      <ul>
-        <li v-for="restaurant in filtered" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
-              <router-link to="/eatDetailTemplate" exact>
-                <button v-on:click="sendData(restaurant.id)" id="filteredNames">
-                  {{ restaurant.name }}
-                </button>
-              </router-link>
+          </li>
+        </ul>
+      </div>
+      <div id="filteredFood" v-show="filteredRestaurants">
+        <ul>
+          <li v-for="restaurant in filtered" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <router-link to="/eatDetailTemplate" exact>
+                  <button v-on:click="sendData(restaurant.id)" id="filteredNames">
+                    {{ restaurant.name }}
+                  </button>
+                </router-link>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -276,11 +277,17 @@ export default {
 </script>
 
 <style scoped>
+#display {
+  margin: 30px;
+  margin-left: 60px;
+  margin-right: 60px;
+
+}
+
 #food {
   width: 100%;
-  max-width: 80%;
+  max-width: 90%;
   margin: 0px;
-  padding: 0 px;
   box-sizing: border-box;
 }
 
@@ -343,7 +350,7 @@ li {
   flex-grow: 1;
   flex-basis: 300px;
   text-align: center;
-  margin: 10px;
+  margin: 5px;
   margin-bottom: 40px;
   padding: 10px;
   font-size: 25px;
@@ -353,22 +360,26 @@ li {
 }
 
 div.polaroid {
-  width: 270px;
+  width: 200px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border-radius: 10px;
 }
 
 div.container {
   text-align: center;
-  padding: 10px 10px;
+  align-content: center;
   border-radius: 10px;
+  margin: 0px;
+  align-self: center;
+  padding-bottom:10px;
+  width: 200px;
 }
 
 img {
-  height: 220px;
-  width: 270px;
+  height: 150px;
+  width: 100%;
   background-size: 80% 50%;
   border-radius: 10px;
 }
@@ -378,19 +389,14 @@ img {
 #filteredNames,
 #recommendedNames {
   background-color: white;
-  font-size: 20px;
+  font-size: 13px;
   border-radius: 8px;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #403939;
   border: none;
   cursor: pointer;
   text-decoration: none;
-}
+  margin-left: 5px;;
 
-#foodName {
-  font-size: 25px;
-  text-align: center;
-  font-weight: 10;
 }
 
 #searchBar {
@@ -407,7 +413,7 @@ img {
 }
 h3 {
   text-align: left;
-  padding-left: 5%;
+  padding-left: 20px;
   color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;

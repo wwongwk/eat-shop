@@ -13,7 +13,7 @@
             <img v-bind:src="restaurant.imageURL" /><br />
             <div class="container">
               <router-link to="/eatDetailTemplate" exact>
-                <button id="names" v-on:click="sendData(restaurant.id)">
+                <button id="names" v-on:click="sendData(restaurant.id, eat)">
                 {{ restaurant.name }}
                 </button>
               </router-link>
@@ -26,15 +26,19 @@
     <h3>SHOP</h3>
     <div id="shops">
       <ul>
-        <li v-for="shop in shopsList" :key="shop.id">
+        <li v-for="shop in filteredShops" :key="shop.id">
           <div class="polaroid">
             <img v-bind:src="shop.imageURL" /><br />
             <div class="container">
-              <router-link to="/cart" exact id="names">{{ shop.name }}</router-link>
+              <router-link to="/shopDetail" exact id="names">
+              <button id="names" v-on:click="sendData(shop.id, shop)">
+                {{ shop.name }}
+                </button>
+              </router-link>
             </div>
           </div>
         </li>
-        <button id="seeMore">See More</button>
+        <router-link to='/shop' tag="button" id="seeMore">See More</router-link>
       </ul>
     </div>
     <h3>PLAY</h3>
@@ -66,26 +70,7 @@ export default {
     return {
       restaurants: [],
 
-      shopsList: [
-        {
-          id: "#003",
-          name: "Overjoyed",
-          imageURL:
-            "https://thesmartlocal.com/images/easyblog_articles/6880/b2ap3_large_crafts---overjoyed.png",
-        },
-        {
-          id: "#005",
-          name: "Curious Creatures",
-          imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2018/08/curious-creatures.png",
-        },
-        {
-          id: "#004",
-          name: "The Tinsel Rack",
-          imageURL:
-            "https://static.thehoneycombers.com/wp-content/uploads/sites/2/2020/03/the-tinsel-rack.png",
-        },
-      ],
+      shopsList: [],
       activities: [
         {
           id: "#004",
@@ -120,8 +105,20 @@ export default {
             restaurant = doc.data();
             restaurant.id = doc.id;
             this.restaurants.push(restaurant);
-            //console.log(doc.data());
-            localStorage.clear();
+          });
+        });
+    },
+    
+    fetchShops: function () {
+      database
+        .collection("shop")
+        .get()
+        .then((snapshot) => {
+          let shop = {};
+          snapshot.forEach((doc) => {
+            shop = doc.data();
+            shop.id = doc.id;
+            this.shopsList.push(shop);
           });
         });
     },
@@ -130,13 +127,22 @@ export default {
       this.$router.push("/eat");
     },
 
-    sendData: function (id) {
-      //console.log(id);
-      for (var x of this.restaurants) {
-        //console.log(x)
-        if (x["id"] === id) {
-          console.log(x);
-          localStorage.setItem("KEY", JSON.stringify(x));
+    sendData: function (id, type) {
+      if (type=='eat') {
+        for (var x of this.restaurants) {
+          if (x["id"] === id) {
+            console.log(x);
+            this.$router.push({ name: 'eatDetail', params: x })
+            break;
+          }
+        }
+      } else {
+        for (var y of this.shopsList) {
+          if (y["id"] === id) {
+            console.log(y);
+            this.$router.push({ name: 'shopDetail', params: y })
+            break;
+          }
         }
       }
     },
@@ -146,10 +152,14 @@ export default {
     filteredRestaurants() {
       return this.restaurants.slice(0, 3);
     },
+    filteredShops() {
+      return this.shopsList.slice(0, 3);
+    }
   },
 
   created() {
     this.fetchRestaurants();
+    this.fetchShops();
   },
 };
 </script>
