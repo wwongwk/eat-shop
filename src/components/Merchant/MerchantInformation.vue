@@ -52,6 +52,72 @@
       </form>
       <br />
     </div>
+    <hr>
+    <!-- MENU PORTION FOR BUSINESS -->
+    <div id="menuInfo" class="flexbox">
+      <h2> Menu Items </h2>
+      <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
+      <div id="addFood" name="addFood" v-show="add">
+        <br>
+        <form id="addForm">
+          <label for="foodName">Name of food item:</label> &nbsp;
+            <input
+              id="addForm"
+              name="foodName"
+              v-model="foodName"
+              required
+            ><br><br>
+
+          <label for="foodPrice">Price of food item:</label> &nbsp;
+            <input
+              id="addForm"
+              name="foodPrice"
+              v-model="foodPrice"
+              required
+            ><br><br>
+
+          <label for="foodImage">Image URL of food item:</label> &nbsp;
+            <input
+              id="addForm"
+              name="foodImage"
+              v-model="foodImage"
+              required
+            ><br><br>
+
+          <label for="foodDescription">Description of food item:</label> &nbsp;
+            <textarea
+              id="addForm"
+              name="foodDescription"
+              v-model="foodDescription"
+              required
+            ></textarea><br><br>
+
+          <input type="button" id="submit" value="Add to menu" v-on:click="required()"/>
+        </form>
+        <br>
+      </div>
+      <ul>
+          <li v-for="food in menu" :key="food.index">
+              <div id="float-container">
+                  <div id="foodImage">
+                      <img :src='food["foodImage"]'
+                      width="200" height="200">
+                  </div>
+                  <div id="foodDescription">
+                      <h1>{{ food["foodName"] }}</h1> 
+                      <h2>{{ food["foodPrice"] }}</h2>
+                      <p>{{ food["foodDescription"] }}</p>
+                      <br><br>
+                      <button id="menuBtn" v-on:click="deleteFood(food)">Delete</button> &nbsp;
+                      <button id="menuBtn">Edit</button>
+                  </div>    
+              </div>
+              <hr>
+          </li>
+      </ul>  
+      
+
+    </div>
   </div>
 </template>
 
@@ -73,9 +139,18 @@ export default {
       address: "",
       openingHours: "",
       description: "",
+      menu: {},
       information: true,
       dashboard: false,
       merchant: false,
+      
+      // Attributes for Add functionality
+      add:true, // change back to false
+      foodName: "",
+      foodPrice: "",
+      foodDescription: "",
+      foodImage: "",
+
     };
   },
   methods: {
@@ -94,6 +169,8 @@ export default {
               this.description = doc.data().description;
               this.type = doc.data().type;
               this.documentId = doc.data().document_id;
+              this.menu = doc.data().menu;         
+              //console.log(typeof this.menu)             
             }
             localStorage.clear();
           });
@@ -120,6 +197,61 @@ export default {
           location.reload();
         });
     },
+    required() {
+      if (this.foodName === ""){
+        alert("Please input a food name");
+      } else if (this.foodPrice === "") {
+        alert("Please input a food price");
+      } else if (this.foodImage === "") {
+        alert("Please input a food image URL");
+      } else if (this.foodDescription === "") {
+        alert("Please input a food description");
+      } else {
+        this.addFood();
+      }
+    },
+    addFood() {
+      console.log(this.menu)
+      var newFood = {foodName: this.foodName,
+                     foodPrice: this.foodPrice,
+                     foodDescription: this.foodDescription,
+                     foodImage: this.foodImage}
+                    
+      this.menu[this.foodName] = newFood;
+                    
+      database
+        .collection(this.type)
+        .doc(this.documentId)
+        .update({
+          menu: this.menu,
+        })
+        .then(() => {
+          location.reload();
+        });
+    },
+    deleteFood(food) {
+      
+      for (var x in this.menu) {
+        if (this.menu[x] == food){
+          delete this.menu[x];
+          break;
+        }
+      }
+
+      database
+        .collection(this.type)
+        .doc(this.documentId)
+        .update({
+          menu: this.menu,
+        })
+        .then(() => {
+          location.reload();
+        });
+    },
+    toogleAddItem() {
+      this.add = !this.add;
+    },
+
   },
   created() {
     this.fetchDetails();
@@ -149,5 +281,51 @@ textarea {
   border: none;
   border-radius: 5px;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+}
+
+#menuBtn {
+  cursor: pointer;
+  background-color:#D25A7e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+}
+
+#addForm {
+  align-items: flex-start;
+}
+
+ul{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#float-container {
+    border: 3px solid #fff;
+    padding: 10px;
+    height: 200px;
+}
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+h2 {
+    margin: 0;
+}
+
+#foodImage {
+    float: left;
+    padding-right: 10px;
+}
+
+#foodDescription {
+    margin-top: 0;
+    padding: 10px;
+    padding-top: 0;
+    text-align: left;
 }
 </style>
