@@ -58,6 +58,7 @@
                     {{ restaurant.name }}
                     <br>
                     {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
                   </button>
               <!--  </router-link> -->
               </div>
@@ -74,6 +75,9 @@
                 <router-link to="/eatDetailTemplate" exact>
                   <button v-on:click="sendData(restaurant.id)" id="selectedNames">
                     {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
               </div>
@@ -94,6 +98,9 @@
                     id="recommendedNames"
                   >
                     {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
               </div>
@@ -110,6 +117,9 @@
                 <router-link to="/eatDetailTemplate" exact>
                   <button v-on:click="sendData(restaurant.id)" id="filteredNames">
                     {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
               </div>
