@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div id="box">
     <div class="background">
       <section class="booking">
         <label for="start">Please select a booking date:</label>
-        <input type="date" id="book" name="booking-date" />
+        <input type="date" id="bookingDate" name="booking-date" />
       </section>
 
       <div id="timeDropdown">
@@ -21,20 +21,29 @@
           </template>
         </v-select>
       </div>
+      <br />
 
       <section class="pax">
-        <label for="pax-count"> Number of People: </label>
-        <button v-on:click = "decrement" class="minus">-</button>
-        {{adultsCount}}
-        <button v-on:click = "increment" class="plus">+</button>
+        <label for="pax-count"> Number of Adults: </label>
+        <button v-on:click="decrementAdults()" class="minus">-</button>
+        {{ adultsCount }}
+        <button v-on:click="incrementAdults()" class="plus">+</button>
       </section>
 
-      <button>Book Now</button>
+      <section class="pax">
+        <label for="pax-count"> Number of Children: </label>
+        <button v-on:click="decrementChild()" class="minus">-</button>
+        {{ childrenCount }}
+        <button v-on:click="incrementChild()" class="plus">+</button>
+      </section>
+
+      <button id="bookNow" v-on:click="book()">Book Now</button>
     </div>
   </div>
 </template>
 
 <script>
+//import database from "../../firebase.js";
 export default {
   components: {},
   props: {},
@@ -56,41 +65,89 @@ export default {
         { code: "10", time: "8:30 pm" },
       ],
       adultsCount: 0,
+      childrenCount: 0,
     };
   },
   methods: {
     toggleAbout: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = true;
       this.Review = false;
       this.Reservation = false;
     },
     toggleReview: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = true;
       this.Reservation = false;
     },
     toggleReservation: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = false;
       this.Reservation = true;
     },
-    increment: function () {
-      if (this.adultsCount === 8) {
-        alert("In accordance to safe distancing measures, we are unable to accept bookings of more than 8 people.");
+    incrementAdults: function () {
+      //do not allow user to book more than 8 people
+      if (this.adultsCount + this.childrenCount === 8) {
+        alert(
+          "In accordance to safe distancing measures, we are unable to accept bookings of more than 8 people."
+        );
       } else {
         this.adultsCount++;
       }
-      //this.$emit('counter', this.item, this.counter)
     },
-    decrement: function () {
+    decrementAdults: function () {
+      //booking number cannot be negative value
       if (this.adultsCount !== 0) {
         this.adultsCount--;
       }
-      //this.$emit('counter', this.item, this.counter)
     },
+
+    incrementChild: function () {
+      //do not allow user to book more than 8 people
+      if (this.adultsCount + this.childrenCount === 8) {
+        alert(
+          "In accordance to safe distancing measures, we are unable to accept bookings of more than 8 people."
+        );
+      } else {
+        this.childrenCount++;
+      }
+    },
+    decrementChild: function () {
+      //booking number cannot be negative value
+      if (this.childrenCount !== 0) {
+        this.childrenCount--;
+      }
+    },
+    
+    book: function () {
+      /*
+      var chosenDate = new Date(document.getElementById("bookingDate").value);
+      console.log(chosenDate);
+      var myTimestamp = database.Timestamp;
+      console.log(myTimestamp);
+      */
+    },
+
+    setCalendarLimits: function () {
+      //set minimum day of calendar to current date because user cannot choose a previous date
+      //and maximum day of calendar to end of the year 
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1; //January is 0
+      var yyyy = today.getFullYear();
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+      today = yyyy + "-" + mm + "-" + dd;
+      var lastDay = yyyy + "-" + 12 + "-" + 31;
+      document.getElementById("bookingDate").setAttribute("min", today);
+      document.getElementById("bookingDate").setAttribute("max", lastDay);
+    },
+  },
+  mounted() {
+    this.setCalendarLimits();
   },
 };
 </script>
@@ -123,6 +180,13 @@ label {
   width: 190px;
 }
 
+#box {
+  background-color: #ffdde6;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
 span {
   cursor: pointer;
 }
@@ -133,13 +197,14 @@ span {
 .plus {
   width: 30px;
   height: 30px;
-  background: #f2f2f2;
+  background: #fdfdfd;
   border-radius: 5px;
   padding: 8px 5px 8px 5px;
   border: 1px solid #ddd;
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  cursor: pointer;
 }
 
 #pax-count {
@@ -152,10 +217,20 @@ span {
   display: inline-block;
   vertical-align: middle;
 }
-button {
-  margin-top: 10px;
+
+#bookNow {
+  margin-top: 30px;
   margin-bottom: 20px;
-  size: 40px;
+  background-color: #dba514;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 17px;
+  padding-right: 10px;
+  height: 40px;
+  cursor: pointer;
 }
 
 #timeDropdown {
