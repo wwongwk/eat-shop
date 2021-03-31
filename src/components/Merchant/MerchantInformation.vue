@@ -109,7 +109,7 @@
                       <p>{{ food["foodDescription"] }}</p>
                       <br><br>
                       <button id="menuBtn" v-on:click="deleteFood(food)">Delete</button> &nbsp;
-                      <button id="menuBtn">Edit</button>
+                      
                   </div>    
               </div>
               <hr>
