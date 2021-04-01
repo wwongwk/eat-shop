@@ -12,11 +12,9 @@
           <div class="polaroid">
             <img v-bind:src="restaurant.imageURL" /><br />
             <div class="container">
-              <router-link to="/eatDetailTemplate" exact>
                 <button id="names" v-on:click="sendData(restaurant.id, 1)">
                 {{ restaurant.name }}
                 </button>
-              </router-link>
             </div>
           </div>
         </li>
@@ -30,11 +28,11 @@
           <div class="polaroid">
             <img v-bind:src="shop.imageURL" /><br />
             <div class="container">
-              <router-link to="/shopDetail" exact id="names">
+              
               <button id="names" v-on:click="sendData(shop.id, 2)">
                 {{ shop.name }}
                 </button>
-              </router-link>
+             
             </div>
           </div>
         </li>
@@ -131,16 +129,14 @@ export default {
       if (type === 1) {
         for (var x of this.restaurants) {
           if (x["id"] === id) {
-            console.log(x);
-            this.$router.push({ name: 'eatDetail', params: x })
+            this.$router.push({ path:'/eatDetailTemplate', query: x });
             break;
           }
         }
       } else {
         for (var y of this.shopsList) {
           if (y["id"] === id) {
-            console.log(y);
-            this.$router.push({ name: 'shopDetail', params: y })
+            this.$router.push({ path:'/shopDetail', query: y })
             break;
           }
         }

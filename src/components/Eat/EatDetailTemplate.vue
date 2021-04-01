@@ -50,6 +50,7 @@ import EatAbout from "./EatAbout.vue";
 import EatReservation from "./EatReservation.vue";
 import EatReviews from "./EatReviews.vue";
 import EatMenu from "./EatMenu.vue";
+//import database from "../../firebase.js";
 
 export default {
   components: {
@@ -102,17 +103,33 @@ export default {
     },
     get: function() {
       var shop = JSON.parse(localStorage.getItem("KEY"));
-      console.log(shop)
       this.shopName = shop["name"];
       this.resImages = shop["resImages"]
     }
   },
   created() {
       //this.get();
-      console.log(this.$route.params);
-      this.shop = this.$route.params;
+      this.shop = this.$route.query;
       this.shopName = this.shop["name"];
       this.resImages = this.shop["resImages"]
+      //localStorage.setItem("KEY", JSON.stringify(this.shop));
+
+
+      /*i f (this.shop["name"]==null) {
+        database
+          .collection("eat")
+          .doc(localStorage.getItem("KEY"))
+          .get()
+          .then((doc) => {
+            this.shop=doc.data();
+            this.shopName = this.shop["name"];
+            this.resImages = this.shop["resImages"]
+        });
+        
+      } else {
+        console.log();
+      } */
+
   },
   destroyed() {
       localStorage.clear();
