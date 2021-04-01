@@ -47,7 +47,7 @@
       <div id="errorMessage" v-show="errorShown">
         {{ error }}
       </div>
-      <div id="food" v-show="allRestaurants">
+      <div id="food" v-show="allShown">
         <ul>
           <li v-for="restaurant in restaurants" :key="restaurant.id">
             <div class="polaroid">
@@ -56,6 +56,9 @@
                 <!-- <router-link to="/eatDetailTemplate" exact> -->
                   <button v-on:click="sendData(restaurant.id)" id="names">
                     {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
                   </button>
               <!--  </router-link> -->
               </div>
@@ -63,7 +66,7 @@
           </li>
         </ul>
       </div>
-      <div id="selectedFood" v-show="selectedRestaurants">
+      <div id="selectedFood" v-show="selectedShown">
         <ul>
           <li v-for="restaurant in selectedFood" :key="restaurant.id">
             <div class="polaroid">
@@ -72,6 +75,9 @@
                 <router-link to="/eatDetailTemplate" exact>
                   <button v-on:click="sendData(restaurant.id)" id="selectedNames">
                     {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
               </div>
@@ -79,7 +85,7 @@
           </li>
         </ul>
       </div>
-      <div id="recommendedFood" v-show="recommendedRestaurants">
+      <div id="recommendedFood" v-show="recommendedShown">
         <div id="msg">We think you may like the following as well:</div>
         <ul>
           <li v-for="restaurant in recommended" :key="restaurant.id">
@@ -92,6 +98,9 @@
                     id="recommendedNames"
                   >
                     {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
               </div>
@@ -99,7 +108,7 @@
           </li>
         </ul>
       </div>
-      <div id="filteredFood" v-show="filteredRestaurants">
+      <div id="filteredFood" v-show="filteredShown">
         <ul>
           <li v-for="restaurant in filtered" :key="restaurant.id">
             <div class="polaroid">
@@ -108,6 +117,9 @@
                 <router-link to="/eatDetailTemplate" exact>
                   <button v-on:click="sendData(restaurant.id)" id="filteredNames">
                     {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
               </div>
@@ -136,12 +148,12 @@ export default {
       search: "",
       selectedCuisine: "",
       selectedCriteria: "",
-      allRestaurants: true,
-      selectedRestaurants: false,
+      allShown: true,
+      selectedShown: false,
       errorShown: false,
       error: "",
-      recommendedRestaurants: false,
-      filteredRestaurants: false,
+      recommendedShown: false,
+      filteredShown: false,
       dropdownOptions: [
         { code: "CHI", cuisineType: "Chinese" },
         { code: "JAP", cuisineType: "Japanese" },
@@ -171,9 +183,9 @@ export default {
         this.recommended.length = 0;
       }
       if (this.search === "") {
-        this.allRestaurants = true;
-        this.selectedRestaurants = false;
-        this.recommendedRestaurants = false;
+        this.allShown = true;
+        this.selectedShown = false;
+        this.recommendedShown = false;
         this.errorShown = false;
       } else {
         var found = false;
@@ -182,6 +194,7 @@ export default {
           if (
             restaurant.name.toLowerCase().includes(this.search.toLowerCase())
           ) {
+            //loop through current list of restaurants to find that particular restaurant
             this.selectedFood.push(restaurant);
             var cuisine = restaurant.cuisine;
             for (let j = 0; j < this.restaurants.length; j++) {
@@ -190,37 +203,40 @@ export default {
                 current.cuisine === cuisine &&
                 current.name != restaurant.name
               ) {
-                //other restaurants of similar cuisine
+                //recommend other restaurants of similar cuisine
                 //push to recommended restaurants array
                 this.recommended.push(current);
               }
             }
-            this.allRestaurants = false;
-            this.selectedRestaurants = true;
-            this.recommendedRestaurants = true;
+            this.allShown = false;
+            this.selectedShown = true;
+            this.recommendedShown = true;
             this.errorShown = false;
-            this.filteredRestaurants = false;
+            this.filteredShown = false;
             found = true;
             break;
           }
         }
         if (!found) {
+          // if restaurant cannot be found after looping through all restaurants
+          // display error message
           this.error = "Sorry, we couldn't find anything. Looking for these?";
-          this.selectedRestaurants = false;
+          this.selectedShown = false;
           this.errorShown = true;
-          this.allRestaurants = true;
-          this.recommendedRestaurants = false;
-          this.filteredRestaurants = false;
+          this.allShown = true;
+          this.recommendedShown = false;
+          this.filteredShown = false;
         }
       }
     },
     reset: function () {
+      //clears the search bar
       this.errorShown = false;
-      this.recommendedRestaurants = false;
-      this.selectedRestaurants = false;
-      this.allRestaurants = true;
+      this.recommendedShown = false;
+      this.selectedShown = false;
+      this.allShown = true;
       this.search = "";
-      this.filteredRestaurants = false;
+      this.filteredShown = false;
     },
     sendData: function (id) {
       for (var x of this.restaurants) {
@@ -231,22 +247,24 @@ export default {
     },
     filterFood: function (value) {
       if (this.filtered.length > 0) {
+        //clears previous filter results 
         this.filtered.length = 0;
       }
       if (value.cuisineType === "All") {
-        this.allRestaurants = true;
+        this.allShown = true;
       }
       for (let i = 0; i < this.restaurants.length; i++) {
         var restaurant = this.restaurants[i];
         if (restaurant.cuisine === value.cuisineType.toLowerCase()) {
+          //filters the list of restaurants by cuisine type
           this.filtered.push(restaurant);
-          this.allRestaurants = false;
+          this.allShown = false;
         }
       }
-      this.selectedRestaurants = false;
-      this.recommendedRestaurants = false;
+      this.selectedShown = false;
+      this.recommendedShown = false;
       this.errorShown = false;
-      this.filteredRestaurants = true;
+      this.filteredShown = true;
     },
 
     sortFood: function (value) {
@@ -254,17 +272,18 @@ export default {
         this.filtered.length = 0;
       }
       if (value.criteria === "Best reviewed") {
+        //sort the restaurants by their overall rating values in descending order
         this.restaurants.sort(function (restaurant1, restaurant2) {
           return (
             parseFloat(restaurant2.overallRating) -
             parseFloat(restaurant1.overallRating)
           );
         });
-        this.selectedRestaurants = false;
-        this.recommendedRestaurants = false;
+        this.selectedShown = false;
+        this.recommendedShown = false;
         this.errorShown = false;
-        this.filteredRestaurants = false;
-        this.allRestaurants = true;
+        this.filteredShown = false;
+        this.allShown = true;
       }
     },
   },
@@ -304,19 +323,6 @@ button {
 #resetBtn {
   font-size: 18px;
 }
-
-/*
-button:hover {
-  border: 1px #c6c6c6 solid;
-  box-shadow: 1px 1px 1px #eaeaea;
-  color: #333333;
-  background: rgb(245, 73, 159);
-}
-
-button:active {
-  box-shadow: inset 1px 1px 1px #dfdfdf;
-}
-*/
 
 #selectedFood {
   width: 100%;
