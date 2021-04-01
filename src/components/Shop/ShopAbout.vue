@@ -5,7 +5,6 @@
     <p id="para">
       {{ description }}
       <br /><br /><br />
-      Tel +65 {{ telephone }}
     </p>
     <br /><br />
 
@@ -41,7 +40,6 @@ export default {
       Review: false,
       Reservation: false,
       description: "",
-      telephone: "",
       openHours: "", 
       address: "", 
       mapSrc:""
@@ -50,11 +48,8 @@ export default {
   methods: {
     
     get: function() {
-      /* var shop = JSON.parse(localStorage.getItem("KEY"));
-      console.log(shop) */
 
       this.description = this.shop["description"];
-      this.telephone = this.shop["telephone"];
       this.openHours = this.shop["openingHours"];
       this.address = this.shop["address"];
       this.mapSrc=this.shop["mapSrc"];

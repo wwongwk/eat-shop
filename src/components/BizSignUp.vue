@@ -28,8 +28,6 @@
 
 <script>
   import Header from './Header.vue';
-  import database from '../firebase.js'
-  import firebase from "firebase/app"
   import 'firebase/auth'
 
   export default {
@@ -38,7 +36,6 @@
         form: {
           name: "",
           email: "",
-          password: "",
           mobile:""
         },
       };
@@ -50,29 +47,10 @@
    
     methods: {
        register: function() {
-         if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
+         if (this.form.name=="" || this.form.email=="" || this.form.mobile=="") {
           alert("Incomplete submission!");
         } else {    
-          firebase
-          .auth()
-          .createUserWithEmailAndPassword(this.form.email, this.form.password)
-          .then((data) => {
-            database
-            .collection("users")
-            .doc(data.user.uid)
-            .set({
-              user_id: data.user.uid,
-              name: this.form.name,
-              mobile:this.form.mobile,
-              business:false
-              })
-              .then(() => {
-                alert('Successfully sign up'); 
-                this.$router.replace({ path: "/" });
-              });
-            }).catch((error) => {
-            console.log(error.message);
-          });
+          console.log();
         }
       },
     },

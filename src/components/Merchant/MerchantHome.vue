@@ -107,7 +107,7 @@ export default {
 #title {
   top: 50%;
   font-size: 50px;
-  //font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+/*   //font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;*/  
   font-weight: bold;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }

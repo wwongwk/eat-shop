@@ -1,119 +1,132 @@
 <template>
   <div>
     <Header></Header>
-    <h3>RESTAURANTS</h3>
-    <div id="searchBar">
-      <h4><label>What restaurant are you looking for today?</label></h4>
-      <input
-        type="text"
-        name="name"
-        v-model.lazy="search"
-        placeholder="Enter Restaurant's Name"
-        v-on:keyup.enter="findRestaurant()"
-      />
-      <button id="resetBtn" v-on:click="reset()">RESET</button>
-    </div>
-       <div id="ratingFilter">
-      <p>Sort By:</p>
-      <v-select
-        label="criteria"
-        :options="sortByOptions"
-        :value="selectedCriteria"
-        :clearable="false"
-        v-model="chosenCriteria"
-        @input="sortFood"
-      >
-        <template slot="option" slot-scope="option">
-          {{ option.criteria }}
-        </template>
-      </v-select>
-    </div>
-    <div id="filterDropdown">
-      <p>Cuisine Type:</p>
-      <v-select
-        label="cuisineType"
-        :options="dropdownOptions"
-        :value="selectedCuisine"
-        :clearable="false"
-        v-model="selected"
-        @input="filterFood"
-      >
-        <template slot="option" slot-scope="option">
-          {{ option.cuisineType }}
-        </template>
-      </v-select>
-    </div>
- 
-    <div id="errorMessage" v-show="errorShown">
-      {{ error }}
-    </div>
-    <div id="food" v-show="allRestaurants">
-      <ul>
-        <li v-for="restaurant in restaurants" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
-              <!-- <router-link to="/eatDetailTemplate" exact> -->
-                <button v-on:click="sendData(restaurant.id)" id="names">
-                  {{ restaurant.name }}
-                </button>
-             <!--  </router-link> -->
+    <div id='display'>
+      <h3>RESTAURANTS</h3>
+      <div id="searchBar">
+        <h4><label>What restaurant are you looking for today?</label></h4>
+        <input
+          type="text"
+          name="name"
+          v-model.lazy="search"
+          placeholder="Enter Restaurant's Name"
+          v-on:keyup.enter="findRestaurant()"/>
+        <button id="resetBtn" v-on:click="reset()">RESET</button>
+      </div>
+        <div id="ratingFilter">
+        <p>Sort By:</p>
+        <v-select
+          label="criteria"
+          :options="sortByOptions"
+          :value="selectedCriteria"
+          :clearable="false"
+          v-model="chosenCriteria"
+          @input="sortFood">
+
+          <template slot="option" slot-scope="option">
+            {{ option.criteria }}
+          </template>
+        </v-select>
+      </div>
+      <div id="filterDropdown">
+        <p>Cuisine Type:</p>
+        <v-select
+          label="cuisineType"
+          :options="dropdownOptions"
+          :value="selectedCuisine"
+          :clearable="false"
+          v-model="selected"
+          @input="filterFood"
+        >
+          <template slot="option" slot-scope="option">
+            {{ option.cuisineType }}
+          </template>
+        </v-select>
+      </div>
+  
+      <div id="errorMessage" v-show="errorShown">
+        {{ error }}
+      </div>
+      <div id="food" v-show="allShown">
+        <ul>
+          <li v-for="restaurant in restaurants" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <!-- <router-link to="/eatDetailTemplate" exact> -->
+                  <button v-on:click="sendData(restaurant.id)" id="names">
+                    {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
+                  </button>
+              <!--  </router-link> -->
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div id="selectedFood" v-show="selectedRestaurants">
-      <ul>
-        <li v-for="restaurant in selectedFood" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
-              <router-link to="/eatDetailTemplate" exact>
-                <button v-on:click="sendData(restaurant.id)" id="selectedNames">
-                  {{ restaurant.name }}
-                </button>
-              </router-link>
+          </li>
+        </ul>
+      </div>
+      <div id="selectedFood" v-show="selectedShown">
+        <ul>
+          <li v-for="restaurant in selectedFood" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <router-link to="/eatDetailTemplate" exact>
+                  <button v-on:click="sendData(restaurant.id)" id="selectedNames">
+                    {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
+                  </button>
+                </router-link>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div id="recommendedFood" v-show="recommendedRestaurants">
-      <div id="msg">We think you may like the following as well:</div>
-      <ul>
-        <li v-for="restaurant in recommended" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
-              <router-link to="/eatDetailTemplate" exact>
-                <button
-                  v-on:click="sendData(restaurant.id)"
-                  id="recommendedNames"
-                >
-                  {{ restaurant.name }}
-                </button>
-              </router-link>
+          </li>
+        </ul>
+      </div>
+      <div id="recommendedFood" v-show="recommendedShown">
+        <div id="msg">We think you may like the following as well:</div>
+        <ul>
+          <li v-for="restaurant in recommended" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <router-link to="/eatDetailTemplate" exact>
+                  <button
+                    v-on:click="sendData(restaurant.id)"
+                    id="recommendedNames"
+                  >
+                    {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
+                  </button>
+                </router-link>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div id="filteredFood" v-show="filteredRestaurants">
-      <ul>
-        <li v-for="restaurant in filtered" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
-              <router-link to="/eatDetailTemplate" exact>
-                <button v-on:click="sendData(restaurant.id)" id="filteredNames">
-                  {{ restaurant.name }}
-                </button>
-              </router-link>
+          </li>
+        </ul>
+      </div>
+      <div id="filteredFood" v-show="filteredShown">
+        <ul>
+          <li v-for="restaurant in filtered" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
+                <router-link to="/eatDetailTemplate" exact>
+                  <button v-on:click="sendData(restaurant.id)" id="filteredNames">
+                    {{ restaurant.name }}
+                    <br>
+                    {{ restaurant.overallRating}}
+                    <span style="color: pink">&starf;</span>
+                  </button>
+                </router-link>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -135,12 +148,12 @@ export default {
       search: "",
       selectedCuisine: "",
       selectedCriteria: "",
-      allRestaurants: true,
-      selectedRestaurants: false,
+      allShown: true,
+      selectedShown: false,
       errorShown: false,
       error: "",
-      recommendedRestaurants: false,
-      filteredRestaurants: false,
+      recommendedShown: false,
+      filteredShown: false,
       dropdownOptions: [
         { code: "CHI", cuisineType: "Chinese" },
         { code: "JAP", cuisineType: "Japanese" },
@@ -170,9 +183,9 @@ export default {
         this.recommended.length = 0;
       }
       if (this.search === "") {
-        this.allRestaurants = true;
-        this.selectedRestaurants = false;
-        this.recommendedRestaurants = false;
+        this.allShown = true;
+        this.selectedShown = false;
+        this.recommendedShown = false;
         this.errorShown = false;
       } else {
         var found = false;
@@ -181,6 +194,7 @@ export default {
           if (
             restaurant.name.toLowerCase().includes(this.search.toLowerCase())
           ) {
+            //loop through current list of restaurants to find that particular restaurant
             this.selectedFood.push(restaurant);
             var cuisine = restaurant.cuisine;
             for (let j = 0; j < this.restaurants.length; j++) {
@@ -189,37 +203,40 @@ export default {
                 current.cuisine === cuisine &&
                 current.name != restaurant.name
               ) {
-                //other restaurants of similar cuisine
+                //recommend other restaurants of similar cuisine
                 //push to recommended restaurants array
                 this.recommended.push(current);
               }
             }
-            this.allRestaurants = false;
-            this.selectedRestaurants = true;
-            this.recommendedRestaurants = true;
+            this.allShown = false;
+            this.selectedShown = true;
+            this.recommendedShown = true;
             this.errorShown = false;
-            this.filteredRestaurants = false;
+            this.filteredShown = false;
             found = true;
             break;
           }
         }
         if (!found) {
+          // if restaurant cannot be found after looping through all restaurants
+          // display error message
           this.error = "Sorry, we couldn't find anything. Looking for these?";
-          this.selectedRestaurants = false;
+          this.selectedShown = false;
           this.errorShown = true;
-          this.allRestaurants = true;
-          this.recommendedRestaurants = false;
-          this.filteredRestaurants = false;
+          this.allShown = true;
+          this.recommendedShown = false;
+          this.filteredShown = false;
         }
       }
     },
     reset: function () {
+      //clears the search bar
       this.errorShown = false;
-      this.recommendedRestaurants = false;
-      this.selectedRestaurants = false;
-      this.allRestaurants = true;
+      this.recommendedShown = false;
+      this.selectedShown = false;
+      this.allShown = true;
       this.search = "";
-      this.filteredRestaurants = false;
+      this.filteredShown = false;
     },
     sendData: function (id) {
       for (var x of this.restaurants) {
@@ -232,22 +249,24 @@ export default {
     },
     filterFood: function (value) {
       if (this.filtered.length > 0) {
+        //clears previous filter results 
         this.filtered.length = 0;
       }
       if (value.cuisineType === "All") {
-        this.allRestaurants = true;
+        this.allShown = true;
       }
       for (let i = 0; i < this.restaurants.length; i++) {
         var restaurant = this.restaurants[i];
         if (restaurant.cuisine === value.cuisineType.toLowerCase()) {
+          //filters the list of restaurants by cuisine type
           this.filtered.push(restaurant);
-          this.allRestaurants = false;
+          this.allShown = false;
         }
       }
-      this.selectedRestaurants = false;
-      this.recommendedRestaurants = false;
+      this.selectedShown = false;
+      this.recommendedShown = false;
       this.errorShown = false;
-      this.filteredRestaurants = true;
+      this.filteredShown = true;
     },
 
     sortFood: function (value) {
@@ -255,17 +274,18 @@ export default {
         this.filtered.length = 0;
       }
       if (value.criteria === "Best reviewed") {
+        //sort the restaurants by their overall rating values in descending order
         this.restaurants.sort(function (restaurant1, restaurant2) {
           return (
             parseFloat(restaurant2.overallRating) -
             parseFloat(restaurant1.overallRating)
           );
         });
-        this.selectedRestaurants = false;
-        this.recommendedRestaurants = false;
+        this.selectedShown = false;
+        this.recommendedShown = false;
         this.errorShown = false;
-        this.filteredRestaurants = false;
-        this.allRestaurants = true;
+        this.filteredShown = false;
+        this.allShown = true;
       }
     },
   },
@@ -276,11 +296,17 @@ export default {
 </script>
 
 <style scoped>
+#display {
+  margin: 30px;
+  margin-left: 60px;
+  margin-right: 60px;
+
+}
+
 #food {
   width: 100%;
-  max-width: 80%;
+  max-width: 90%;
   margin: 0px;
-  padding: 0 px;
   box-sizing: border-box;
 }
 
@@ -299,19 +325,6 @@ button {
 #resetBtn {
   font-size: 18px;
 }
-
-/*
-button:hover {
-  border: 1px #c6c6c6 solid;
-  box-shadow: 1px 1px 1px #eaeaea;
-  color: #333333;
-  background: rgb(245, 73, 159);
-}
-
-button:active {
-  box-shadow: inset 1px 1px 1px #dfdfdf;
-}
-*/
 
 #selectedFood {
   width: 100%;
@@ -343,7 +356,7 @@ li {
   flex-grow: 1;
   flex-basis: 300px;
   text-align: center;
-  margin: 10px;
+  margin: 5px;
   margin-bottom: 40px;
   padding: 10px;
   font-size: 25px;
@@ -353,22 +366,26 @@ li {
 }
 
 div.polaroid {
-  width: 270px;
+  width: 200px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border-radius: 10px;
 }
 
 div.container {
   text-align: center;
-  padding: 10px 10px;
+  align-content: center;
   border-radius: 10px;
+  margin: 0px;
+  align-self: center;
+  padding-bottom:10px;
+  width: 200px;
 }
 
 img {
-  height: 220px;
-  width: 270px;
+  height: 150px;
+  width: 100%;
   background-size: 80% 50%;
   border-radius: 10px;
 }
@@ -378,19 +395,14 @@ img {
 #filteredNames,
 #recommendedNames {
   background-color: white;
-  font-size: 20px;
+  font-size: 13px;
   border-radius: 8px;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #403939;
   border: none;
   cursor: pointer;
   text-decoration: none;
-}
+  margin-left: 5px;;
 
-#foodName {
-  font-size: 25px;
-  text-align: center;
-  font-weight: 10;
 }
 
 #searchBar {
@@ -407,7 +419,7 @@ img {
 }
 h3 {
   text-align: left;
-  padding-left: 5%;
+  padding-left: 20px;
   color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;
