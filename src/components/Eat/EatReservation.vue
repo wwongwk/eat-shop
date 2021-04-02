@@ -123,6 +123,14 @@ export default {
     },
 
     book: function () {
+      //if the user didn't select a date or time or number of people 
+      //alert pop-up 
+      if (!document.getElementById("bookingDate").value
+      || this.selected === "" 
+      || this.adultsCount + this.childrenCount === 0) {
+        alert("Your reservation is incomplete!");
+      }
+
       //converts javascript date object to timestamp object to be saved to database 
       //alert pop-up to inform user of successful reservation 
       //NOTE: havent pushed merchant data and user data to db yet 
