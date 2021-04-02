@@ -13,6 +13,7 @@
 
     dashboard: {{ dashboard }}
 
+    <!-- INFO FORM FOR BUSINESS -->
     <h2>{{name}}</h2>
     <div id="content" class="flexbox">
       <form>
@@ -60,22 +61,23 @@
       <div id="addFood" name="addFood" v-show="add">
         <br>
         <form id="addForm">
-          <label for="foodName">Name of food item:</label> &nbsp;
-            <input
-              id="addForm"
-              name="foodName"
-              v-model="foodName"
-              required
-            ><br><br>
-
-          <label for="foodPrice">Price of food item:</label> &nbsp;
-            <input
-              id="addForm"
-              name="foodPrice"
-              v-model="foodPrice"
-              required
-            ><br><br>
-
+          
+            <label for="foodName">Name of food item:</label> &nbsp;
+              <input
+                id="addForm"
+                name="foodName"
+                v-model="foodName"
+                required
+              ><br><br>
+          
+            <label for="foodPrice">Price of food item:</label> &nbsp;
+              <input
+                id="addForm"
+                name="foodPrice"
+                v-model="foodPrice"
+                required
+              ><br><br>
+         
           <label for="foodImage">Image URL of food item:</label> &nbsp;
             <input
               id="addForm"
@@ -107,7 +109,7 @@
                       <h1>{{ food["foodName"] }}</h1> 
                       <h2>{{ food["foodPrice"] }}</h2>
                       <p>{{ food["foodDescription"] }}</p>
-                      <br><br>
+                      
                       <button id="menuBtn" v-on:click="deleteFood(food)">Delete</button> &nbsp;
                       
                   </div>    
@@ -261,26 +263,76 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  margin: 50px;
+}
+#content {
+  align-items: center;
+  width:450px;
+	padding:30px;
+	margin:40px auto;
+	background: #FFF;
+	border-radius: 10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+}
+
+#menuInfo {
+  width:1000px;
+	padding:30px;
+	margin:40px auto;
+	background: #FFF;
+	border-radius: 10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+}
+
 input {
-  width: 300px;
-  height: 25px;
-  font-size: 20px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	outline: none;
+	display: block;
+	width: 100%;
+	padding: 7px;
+	font: 16px Arial, Helvetica, sans-serif;
+	height: 45px;
+  border-radius:15px;
+  border:0;
+  box-shadow:4px 4px 10px rgba(0,0,0,0.06);
 }
 textarea {
-  width: 300px;
-  height: 80px;
-  font-size: 20px;
-  resize: none;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	outline: none;
+	display: block;
+	width: 100%;
+	padding: 7px;
+	font: 16px Arial, Helvetica, sans-serif;
+	height: 45px;
+  border-radius:15px;
+  border:0;
+  box-shadow:4px 4px 10px rgba(0,0,0,0.06);
 }
 
 #submit {
   cursor: pointer;
-  background-color:#D25A7e;
+  background-color:#ED83A7;
   border: none;
   border-radius: 5px;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+}
+
+#submit:hover {
+  box-shadow:0 0 4px rgba(0,0,0,0.5);
 }
 
 #menuBtn {
@@ -290,6 +342,12 @@ textarea {
   border: none;
   border-radius: 5px;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  padding: 12px 7px;
+  margin-top: 5px;
+}
+#menuBtn:hover {
+  box-shadow:0 0 4px rgba(0,0,0,0.5);
 }
 
 #addForm {
@@ -324,8 +382,9 @@ h2 {
 
 #foodDescription {
     margin-top: 0;
-    padding: 10px;
+    //padding: 10px;
     padding-top: 0;
     text-align: left;
 }
+
 </style>
