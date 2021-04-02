@@ -34,6 +34,9 @@
     color: #000000;
     font-size: 18px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    clear: both;
+    //position: absolute;
+    bottom: 0;
   }
 
   label {
@@ -53,12 +56,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     outline: none;
-    //display: block;
-    //width: 100%;
-    //padding: 7px;
-    font: 16px Arial, Helvetica, sans-serif;
     height: 45px;
-    //border-radius:15px;
     border:0;
     box-shadow:4px 4px 10px rgba(0,0,0,0.06);
   }

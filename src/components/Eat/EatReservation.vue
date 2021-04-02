@@ -14,8 +14,9 @@
           :value="selectedTime"
           :clearable="false"
           v-model="selected"
+          id="drop"
         >
-          <template slot="option" slot-scope="option">
+          <template slot="option" slot-scope="option" id="drop">
             {{ option.time }}
           </template>
         </v-select>
@@ -182,21 +183,29 @@ label {
 }
 
 #book {
-  border: 1px solid #c4c4c4;
+  border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #fff;
-  padding: 3px 5px;
+  padding: 4px 5px;
   box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
   width: 190px;
 }
-
+#bookingDate {
+  border: 1px solid #ddd;
+  padding: 4px 10px;
+}
+#drop {
+  background-color: #fff;
+}
 #box {
   background-color: #ffdde6;
   width: 100%;
   max-width: 100%;
   margin: 0;
 }
-
+.background {
+  margin-left: 20px;
+}
 span {
   cursor: pointer;
 }
