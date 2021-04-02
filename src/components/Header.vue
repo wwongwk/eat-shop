@@ -19,7 +19,7 @@
         <router-link tag="button" to="/signup" v-show="!login">Sign Up</router-link>
         <router-link tag="button" to="/login" v-show="!login"  exact>My Account</router-link>
         <router-link tag="button" to="/profile" exact v-show="login">Profile</router-link>
-        <button v-on:click="logOut()" v-show="login" >Log Out</button>
+        <button id="logOutBtn" v-on:click="logOut()" v-show="login" >Log Out</button>
       </div>
     </div>
   </div>

@@ -153,8 +153,8 @@ img {
 #body {
   text-align: justify;
   text-size-adjust: 90%;
-  margin-right: 20%;
-  margin-left: 20px;
+  //margin-right: 20%;
+  //margin-left: 20px;
 }
 
 #openHours {

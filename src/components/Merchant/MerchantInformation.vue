@@ -305,7 +305,7 @@ input {
 	height: 45px;
   border-radius:15px;
   border:0;
-  box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+  box-shadow:4px 4px 10px rgba(0,0,0,0.1);
 }
 textarea {
   box-sizing: border-box;
@@ -319,7 +319,7 @@ textarea {
 	height: 45px;
   border-radius:15px;
   border:0;
-  box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+  box-shadow:4px 4px 10px rgba(0,0,0,0.1);
 }
 
 #submit {
@@ -328,7 +328,7 @@ textarea {
   border: none;
   border-radius: 5px;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.1);
 }
 
 #submit:hover {
@@ -337,12 +337,12 @@ textarea {
 
 #menuBtn {
   cursor: pointer;
-  background-color:#D25A7e;
+  background-color:#ED83A7;
   color: #fff;
   border: none;
   border-radius: 5px;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.1);
   padding: 12px 7px;
   margin-top: 5px;
 }

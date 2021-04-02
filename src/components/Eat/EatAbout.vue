@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='container'>
     <b>Brand Story</b>
 
     <p id="para">
@@ -67,6 +67,9 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  margin-left: 20px;
+}
 
 #body {
   text-align: justify;
