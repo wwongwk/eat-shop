@@ -74,28 +74,24 @@ export default {
   },
   methods: {
     toggleAbout: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = true;
       this.Review = false;
       this.Reservation = false;
       this.Menu = false;
     },
     toggleReview: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = true;
       this.Reservation = false;
       this.Menu = false;
     },
     toggleReservation: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = false;
       this.Reservation = true;
       this.Menu = false;
     },
     toggleMenu: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = false;
       this.Reservation = false;
@@ -108,28 +104,9 @@ export default {
     }
   },
   created() {
-      //this.get();
       this.shop = this.$route.query;
       this.shopName = this.shop["name"];
       this.resImages = this.shop["resImages"]
-      //localStorage.setItem("KEY", JSON.stringify(this.shop));
-
-
-      /*i f (this.shop["name"]==null) {
-        database
-          .collection("eat")
-          .doc(localStorage.getItem("KEY"))
-          .get()
-          .then((doc) => {
-            this.shop=doc.data();
-            this.shopName = this.shop["name"];
-            this.resImages = this.shop["resImages"]
-        });
-        
-      } else {
-        console.log();
-      } */
-
   },
   destroyed() {
       localStorage.clear();
