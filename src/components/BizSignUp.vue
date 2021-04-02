@@ -5,20 +5,29 @@
     <div class='signup'>
       <img id='logo' src="../assets/logo.png"/>
       <h1>LET'S COLLAB!!</h1>
+      
       <form>
         <input type="name" id="name" name="name" placeholder="NAME" v-model="form.name"><br><br>
         <input type="email" id="email1" name="email" placeholder="BIZ EMAIL" v-model="form.email"><br><br>
         <input type="number" id="mobile" name="mobile" placeholder= "CONTACT NUMBER" v-model="form.mobile"><br>
-
-        <input type="radio" id="eat" name="type" value="eat">
-        <label for="male">EAT</label><br>
-        <input type="radio" id="play" name="type" value="play">
-        <label for="female">PLAY</label><br>
-        <input type="radio" id="shop" name="type" value="shop">
-        <label for="shop">SHOP</label>
-
+        
+        <div class='container'>
+          <div class='radioBtn'>
+            <input type="radio" id="eat" name="type" value="eat">
+            <label for="male">EAT</label><br>
+          </div>
+          <div class='radioBtn'>
+            <input type="radio" id="play" name="type" value="play">
+            <label for="female">PLAY</label><br>
+          </div>
+          <div class='radioBtn'>
+            <input type="radio" id="shop" name="type" value="shop">
+            <label for="shop">SHOP</label>
+          </div>
+        </div>
         <input type="button" id='submit' value="SIGN UP" v-on:click="register()">
-      </form>      
+      </form>  
+          
       <router-link to="/" id='no' exact> NO, THANK YOU</router-link>
    
     </div>   
@@ -106,7 +115,34 @@ h1 {
 form {
   padding-left: 50px;
   padding-right: 50px;
-
+}
+.container {
+  width: 100px;
+  //clear: both;
+  align-items: left;
+  text-align: left;
+  padding-left: 45px;
+}
+#eat, #play, #shop {
+  //align-items: left;
+  //text-align: left;
+  padding-left: 30px;
+  position: absolute;
+  //padding-right: 10px;
+}
+label {
+  display:block;
+  padding-left:80px; 
+  position: relative;
+}
+.radioBtn {
+  display:flex;
+  flex-direction: row; 
+  justify-content: center; 
+  align-items: center;
+  padding-top:10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
 }
 #logo {
   width: 150px;
