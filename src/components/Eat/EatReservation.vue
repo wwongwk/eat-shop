@@ -14,7 +14,6 @@
           :value="selectedTime"
           :clearable="false"
           v-model="selected"
-          @input="filterFood"
         >
           <template slot="option" slot-scope="option">
             {{ option.time }}
@@ -43,29 +42,33 @@
 </template>
 
 <script>
-//import database from "../../firebase.js";
+import firebase from 'firebase';
+import database from '../../firebase';
+
 export default {
   components: {},
-  props: {},
+  props: ['shop'],
+
   data() {
     return {
       About: true,
       Review: false,
       Reservation: false,
       dropdownOptions: [
-        { code: "1", time: "11:30 am" },
-        { code: "2", time: "12:30 pm" },
-        { code: "3", time: "1:30 pm" },
-        { code: "4", time: "2:30 pm" },
-        { code: "5", time: "3:30 pm" },
-        { code: "6", time: "4:30 pm" },
-        { code: "7", time: "5:30 pm" },
-        { code: "8", time: "6:30 pm" },
-        { code: "9", time: "7:30 pm" },
-        { code: "10", time: "8:30 pm" },
+        { code: "1", time: "11:30" },
+        { code: "2", time: "12:30" },
+        { code: "3", time: "13:30" },
+        { code: "4", time: "14:30" },
+        { code: "5", time: "15:30" },
+        { code: "6", time: "16:30" },
+        { code: "7", time: "17:30" },
+        { code: "8", time: "18:30" },
+        { code: "9", time: "19:30" },
+        { code: "10", time: "20:30" },
       ],
       adultsCount: 0,
       childrenCount: 0,
+      selected: ""
     };
   },
   methods: {
@@ -117,14 +120,18 @@ export default {
         this.childrenCount--;
       }
     },
-    
+
     book: function () {
-      /*
+      //converts javascript date object to timestamp object to be saved to database 
+      // alert pop-up to inform user of successful renovation 
       var chosenDate = new Date(document.getElementById("bookingDate").value);
-      console.log(chosenDate);
-      var myTimestamp = database.Timestamp;
-      console.log(myTimestamp);
-      */
+      const created = firebase.firestore.Timestamp.fromDate(new Date(chosenDate)).toDate();
+      let booking = new Object();
+      booking["date"] = created;
+      booking["document_id"] = this.shop.document_id;
+      booking["time"] = this.selected;
+      database.collection("reservation").add(booking).then(() => location.reload()); 
+      alert("Your reservation is confirmed!");
     },
 
     setCalendarLimits: function () {
