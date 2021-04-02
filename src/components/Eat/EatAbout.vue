@@ -29,9 +29,7 @@
 
 <script>
 export default {
-  props: {
-    shop: []
-  },
+  props: ['shop'],
 
   components: {
   },
@@ -50,8 +48,7 @@ export default {
   methods: {
     
     get: function() {
-      /* var shop = JSON.parse(localStorage.getItem("KEY"));
-      console.log(shop) */
+      /* var shop = JSON.parse(localStorage.getItem("KEY"));*/
 
       this.description = this.shop["description"];
       this.telephone = this.shop["telephone"];
@@ -62,6 +59,8 @@ export default {
   },
   created() {
     this.get();
+
+
   }
 
 };

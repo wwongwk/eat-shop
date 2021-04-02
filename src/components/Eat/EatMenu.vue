@@ -1,8 +1,6 @@
 <template>
     <div>
         <ul>
-
-
             <li v-for="food in menu" :key="food.id">
                 <div id="float-container">
                     <div id="foodImage">
@@ -14,9 +12,10 @@
                         <h2>{{ food["foodPrice"] }}</h2>
                         <p>{{ food["foodDescription"] }}</p>
                     </div><br><br><br>
-                    <hr>
                 </div>
+                <hr>
             </li>
+            
         </ul>
 
     </div>
