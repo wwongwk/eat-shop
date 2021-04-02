@@ -123,13 +123,16 @@ export default {
 
     book: function () {
       //converts javascript date object to timestamp object to be saved to database 
-      // alert pop-up to inform user of successful renovation 
+      //alert pop-up to inform user of successful reservation 
+      //NOTE: havent pushed merchant data and user data to db yet 
       var chosenDate = new Date(document.getElementById("bookingDate").value);
       const created = firebase.firestore.Timestamp.fromDate(new Date(chosenDate)).toDate();
       let booking = new Object();
       booking["date"] = created;
       booking["document_id"] = this.shop.document_id;
-      booking["time"] = this.selected;
+      booking["time"] = this.selected.time;
+      booking["adults"] = this.adultsCount;
+      booking["children"] = this.childrenCount;
       database.collection("reservation").add(booking).then(() => location.reload()); 
       alert("Your reservation is confirmed!");
     },
