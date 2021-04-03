@@ -335,10 +335,9 @@ input {
     box-shadow:4px 4px 10px rgba(0,0,0,0.1);
 }
 #resetBtn {
-  font-size: 18px;
+  font-size: 14px;
   background-color:#ed83a7;
-  font-size: 18px;
-  //color: #403939;
+  color: #ddd;
   border: none;
   cursor: pointer;
   box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
