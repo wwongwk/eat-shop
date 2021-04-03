@@ -43,12 +43,12 @@
 </template>
 
 <script>
-import firebase from 'firebase';
-import database from '../../firebase';
+import firebase from "firebase";
+import database from "../../firebase";
 
 export default {
   components: {},
-  props: ['shop'],
+  props: ["shop"],
 
   data() {
     return {
@@ -69,7 +69,7 @@ export default {
       ],
       adultsCount: 0,
       childrenCount: 0,
-      selected: ""
+      selected: "",
     };
   },
   methods: {
@@ -123,32 +123,39 @@ export default {
     },
 
     book: function () {
-      //if the user didn't select a date or time or number of people 
-      //alert pop-up 
-      if (!document.getElementById("bookingDate").value
-      || this.selected === "" 
-      || this.adultsCount + this.childrenCount === 0) {
+      //if the user didn't select a date or time or number of people
+      //alert pop-up
+      if (
+        !document.getElementById("bookingDate").value ||
+        this.selected === "" ||
+        this.adultsCount + this.childrenCount === 0
+      ) {
         alert("Your reservation is incomplete!");
+      } else {
+        //converts javascript date object to timestamp object to be saved to database
+        //alert pop-up to inform user of successful reservation
+        //NOTE: havent pushed merchant data and user data to db yet
+        var chosenDate = new Date(document.getElementById("bookingDate").value);
+        const created = firebase.firestore.Timestamp.fromDate(
+          new Date(chosenDate)
+        ).toDate();
+        let booking = new Object();
+        booking["date"] = created;
+        booking["document_id"] = this.shop.document_id;
+        booking["time"] = this.selected.time;
+        booking["adults"] = this.adultsCount;
+        booking["children"] = this.childrenCount;
+        database
+          .collection("reservation")
+          .add(booking)
+          .then(() => location.reload());
+        alert("Your reservation is confirmed!");
       }
-
-      //converts javascript date object to timestamp object to be saved to database 
-      //alert pop-up to inform user of successful reservation 
-      //NOTE: havent pushed merchant data and user data to db yet 
-      var chosenDate = new Date(document.getElementById("bookingDate").value);
-      const created = firebase.firestore.Timestamp.fromDate(new Date(chosenDate)).toDate();
-      let booking = new Object();
-      booking["date"] = created;
-      booking["document_id"] = this.shop.document_id;
-      booking["time"] = this.selected.time;
-      booking["adults"] = this.adultsCount;
-      booking["children"] = this.childrenCount;
-      database.collection("reservation").add(booking).then(() => location.reload()); 
-      alert("Your reservation is confirmed!");
     },
 
     setCalendarLimits: function () {
       //set minimum day of calendar to current date because user cannot choose a previous date
-      //and maximum day of calendar to end of the year 
+      //and maximum day of calendar to end of the year
       var today = new Date();
       var dd = today.getDate();
       var mm = today.getMonth() + 1; //January is 0
