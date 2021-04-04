@@ -135,6 +135,7 @@ export default {
         //converts javascript date object to timestamp object to be saved to database
         //alert pop-up to inform user of successful reservation
         //NOTE: havent pushed merchant data and user data to db yet
+        //var user = firebase.auth().currentUser;
         var chosenDate = new Date(document.getElementById("bookingDate").value);
         const created = firebase.firestore.Timestamp.fromDate(
           new Date(chosenDate)
@@ -145,6 +146,9 @@ export default {
         booking["time"] = this.selected.time;
         booking["adults"] = this.adultsCount;
         booking["children"] = this.childrenCount;
+        //booking["user_id"] = user.uid;
+        booking["merchant_type"] = "eat";
+        booking["merchant_name"] = this.shop.name;
         database
           .collection("reservation")
           .add(booking)
