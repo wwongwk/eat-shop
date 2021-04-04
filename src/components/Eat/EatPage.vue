@@ -243,6 +243,7 @@ export default {
     sendData: function (id) {
       for (var x of this.restaurants) {
         if (x["id"] === id) {
+          x["menu_str"] = JSON.stringify(x["menu"])
           this.$router.push({ path:'/eatDetailTemplate', query: x })
         }
       }
@@ -310,18 +311,6 @@ export default {
   box-sizing: border-box;
 }
 
-button {
-  /*background-color: #ed83a7;
-  border: none;
-  color: #403939;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 18px;
-  padding-right: 10px;
-  height: 30px;*/
-  
-}
 input {
   border-radius: 5px;
     padding: 5px 10px;
@@ -456,10 +445,6 @@ h3 {
   font-size: 25px;
 }
 
-h1 {
-  font-size: 50px;
-}
-
 #filterDropdown {
   width: 30%;
   margin: 0 auto;
@@ -488,10 +473,6 @@ h1 {
   outline: none;
 }
 
-/*h4 {
-  font-size: 18px;
-  color: #ed83a7;
-}*/
 #searchBar p, #filterDropdown p, #ratingFilter p {
   display:flex;
   flex-direction: column; 

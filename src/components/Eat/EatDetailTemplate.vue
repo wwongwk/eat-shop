@@ -50,7 +50,6 @@ import EatAbout from "./EatAbout.vue";
 import EatReservation from "./EatReservation.vue";
 import EatReviews from "./EatReviews.vue";
 import EatMenu from "./EatMenu.vue";
-//import database from "../../firebase.js";
 
 export default {
   components: {
@@ -68,8 +67,7 @@ export default {
       Menu: false,
       shopName: "",
       resImages: [],
-      shop:{}
-
+      shop:{},
     };
   },
   methods: {
@@ -97,11 +95,6 @@ export default {
       this.Reservation = false;
       this.Menu = true;
     },
-    get: function() {
-      var shop = JSON.parse(localStorage.getItem("KEY"));
-      this.shopName = shop["name"];
-      this.resImages = shop["resImages"]
-    }
   },
   created() {
       this.shop = this.$route.query;
@@ -153,8 +146,8 @@ img {
 #body {
   text-align: justify;
   text-size-adjust: 90%;
-  //margin-right: 20%;
-  //margin-left: 20px;
+  margin-right: 20%;
+  margin-left: 20px;
 }
 
 #openHours {
