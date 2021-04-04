@@ -32,9 +32,7 @@ export default {
  
     methods: {
         get: function() {
- 
-        this.menu = JSON.parse(this.shop["menu_str"])
-      
+            this.menu = JSON.parse(this.shop["menu_str"])
         },
     
     },
