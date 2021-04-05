@@ -6,7 +6,7 @@
     Method Axis: {{ reservationAxis }} <br />
 
     <div class="chart">
-      <chart> </chart>
+      <chart :key="reservations.length"> </chart>
     </div>
   </div>
 </template>
@@ -80,6 +80,7 @@ export default {
         );
       }
     },
+    
   },
   mounted() {
     this.fetchDetails();

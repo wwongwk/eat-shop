@@ -11,7 +11,6 @@
         <v-select
           label="time"
           :options="dropdownOptions"
-          :value="selectedTime"
           :clearable="false"
           v-model="selected"
           id="drop"

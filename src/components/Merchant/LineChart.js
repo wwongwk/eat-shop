@@ -61,11 +61,12 @@ export default {
                         }
                     });
                     this.generateAxes();
+                    this.renderChart(this.datacollection, this.options);
                     console.log('X-axis is ' + this.datacollection.labels)
                     console.log('Y-axis is ' + this.datacollection.datasets[0].data)
-                    this.renderChart(this.datacollection, this.options)
+                    
                 });
-
+            //this.renderChart(this.datacollection, this.options);
 
         },
         fetchDetails() {
@@ -87,9 +88,19 @@ export default {
             }
         },
     },
-    mounted() {
+    watch: {
+        data: function() {
+          //this._chart.destroy();
+          //this.renderChart(this.data, this.options);
+          this.renderChart(this.datacollection, this.options);
+        }
+      },
+    mounted() {  
         this.fetchDetails();
         this.fetchReservations();
-        this.renderChart(this.datacollection, this.options)
+        //this.renderChart(this.datacollection, this.options);
+    },
+    created () {
+        
     },
 }
