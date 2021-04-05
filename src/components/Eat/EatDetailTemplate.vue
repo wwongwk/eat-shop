@@ -67,34 +67,29 @@ export default {
       Menu: false,
       shopName: "",
       resImages: [],
-      shop:{}
-
+      shop:{},
     };
   },
   methods: {
     toggleAbout: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = true;
       this.Review = false;
       this.Reservation = false;
       this.Menu = false;
     },
     toggleReview: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = true;
       this.Reservation = false;
       this.Menu = false;
     },
     toggleReservation: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = false;
       this.Reservation = true;
       this.Menu = false;
     },
     toggleMenu: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = false;
       this.Reservation = false;
@@ -108,9 +103,7 @@ export default {
     // }
   },
   created() {
-      //this.get();
-      console.log(this.$route.params);
-      this.shop = this.$route.params;
+      this.shop = this.$route.query;
       this.shopName = this.shop["name"];
       this.resImages = this.shop["resImages"]
   },

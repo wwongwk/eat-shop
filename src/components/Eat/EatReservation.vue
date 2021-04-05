@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div id="box">
     <div class="background">
       <section class="booking">
         <label for="start">Please select a booking date:</label>
-        <input type="date" id="book" name="booking-date" />
+        <input type="date" id="bookingDate" name="booking-date" />
       </section>
 
       <div id="timeDropdown">
@@ -14,83 +14,169 @@
           :value="selectedTime"
           :clearable="false"
           v-model="selected"
-          @input="filterFood"
+          id="drop"
         >
-          <template slot="option" slot-scope="option">
+          <template slot="option" slot-scope="option" id="drop">
             {{ option.time }}
           </template>
         </v-select>
       </div>
+      <br />
 
       <section class="pax">
-        <label for="pax-count"> Number of People: </label>
-        <button v-on:click = "decrement" class="minus">-</button>
-        {{adultsCount}}
-        <button v-on:click = "increment" class="plus">+</button>
+        <label for="pax-count"> Number of Adults: </label>
+        <button v-on:click="decrementAdults()" class="minus">-</button>
+        {{ adultsCount }}
+        <button v-on:click="incrementAdults()" class="plus">+</button>
       </section>
 
-      <button>Book Now</button>
+      <section class="pax">
+        <label for="pax-count"> Number of Children: </label>
+        <button v-on:click="decrementChild()" class="minus">-</button>
+        {{ childrenCount }}
+        <button v-on:click="incrementChild()" class="plus">+</button>
+      </section>
+
+      <button id="bookNow" v-on:click="book()">Book Now</button>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from "firebase";
+import database from "../../firebase";
+
 export default {
   components: {},
-  props: {},
+  props: ["shop"],
+
   data() {
     return {
       About: true,
       Review: false,
       Reservation: false,
       dropdownOptions: [
-        { code: "1", time: "11:30 am" },
-        { code: "2", time: "12:30 pm" },
-        { code: "3", time: "1:30 pm" },
-        { code: "4", time: "2:30 pm" },
-        { code: "5", time: "3:30 pm" },
-        { code: "6", time: "4:30 pm" },
-        { code: "7", time: "5:30 pm" },
-        { code: "8", time: "6:30 pm" },
-        { code: "9", time: "7:30 pm" },
-        { code: "10", time: "8:30 pm" },
+        { code: "1", time: "11:30" },
+        { code: "2", time: "12:30" },
+        { code: "3", time: "13:30" },
+        { code: "4", time: "14:30" },
+        { code: "5", time: "15:30" },
+        { code: "6", time: "16:30" },
+        { code: "7", time: "17:30" },
+        { code: "8", time: "18:30" },
+        { code: "9", time: "19:30" },
+        { code: "10", time: "20:30" },
       ],
       adultsCount: 0,
+      childrenCount: 0,
+      selected: "",
     };
   },
   methods: {
     toggleAbout: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = true;
       this.Review = false;
       this.Reservation = false;
     },
     toggleReview: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = true;
       this.Reservation = false;
     },
     toggleReservation: function () {
-      //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Review = false;
       this.Reservation = true;
     },
-    increment: function () {
-      if (this.adultsCount === 8) {
-        alert("In accordance to safe distancing measures, we are unable to accept bookings of more than 8 people.");
+    incrementAdults: function () {
+      //do not allow user to book more than 8 people
+      if (this.adultsCount + this.childrenCount === 8) {
+        alert(
+          "In accordance to safe distancing measures, we are unable to accept bookings of more than 8 people."
+        );
       } else {
         this.adultsCount++;
       }
-      //this.$emit('counter', this.item, this.counter)
     },
-    decrement: function () {
+    decrementAdults: function () {
+      //booking number cannot be negative value
       if (this.adultsCount !== 0) {
         this.adultsCount--;
       }
-      //this.$emit('counter', this.item, this.counter)
     },
+
+    incrementChild: function () {
+      //do not allow user to book more than 8 people
+      if (this.adultsCount + this.childrenCount === 8) {
+        alert(
+          "In accordance to safe distancing measures, we are unable to accept bookings of more than 8 people."
+        );
+      } else {
+        this.childrenCount++;
+      }
+    },
+    decrementChild: function () {
+      //booking number cannot be negative value
+      if (this.childrenCount !== 0) {
+        this.childrenCount--;
+      }
+    },
+
+    book: function () {
+      //if the user didn't select a date or time or number of people
+      //alert pop-up
+      if (
+        !document.getElementById("bookingDate").value ||
+        this.selected === "" ||
+        this.adultsCount + this.childrenCount === 0
+      ) {
+        alert("Your reservation is incomplete!");
+      } else {
+        //converts javascript date object to timestamp object to be saved to database
+        //alert pop-up to inform user of successful reservation
+        var user = firebase.auth().currentUser;
+        var chosenDate = new Date(document.getElementById("bookingDate").value);
+        const created = firebase.firestore.Timestamp.fromDate(
+          new Date(chosenDate)
+        ).toDate();
+        let booking = new Object();
+        booking["date"] = created;
+        booking["document_id"] = this.shop.document_id;
+        booking["time"] = this.selected.time;
+        booking["adults"] = this.adultsCount;
+        booking["children"] = this.childrenCount;
+        booking["user_id"] = user.uid;
+        booking["merchant_type"] = "eat";
+        booking["merchant_name"] = this.shop.name;
+        database
+          .collection("reservation")
+          .add(booking)
+          .then(() => location.reload());
+        alert("Your reservation is confirmed!");
+      }
+    },
+
+    setCalendarLimits: function () {
+      //set minimum day of calendar to current date because user cannot choose a previous date
+      //and maximum day of calendar to end of the year
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1; //January is 0
+      var yyyy = today.getFullYear();
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+      today = yyyy + "-" + mm + "-" + dd;
+      var lastDay = yyyy + "-" + 12 + "-" + 31;
+      document.getElementById("bookingDate").setAttribute("min", today);
+      document.getElementById("bookingDate").setAttribute("max", lastDay);
+    },
+  },
+  mounted() {
+    this.setCalendarLimits();
   },
 };
 </script>
@@ -115,14 +201,29 @@ label {
 }
 
 #book {
-  border: 1px solid #c4c4c4;
+  border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #fff;
-  padding: 3px 5px;
+  padding: 4px 5px;
   box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
   width: 190px;
 }
-
+#bookingDate {
+  border: 1px solid #ddd;
+  padding: 4px 10px;
+}
+#drop {
+  background-color: #fff;
+}
+#box {
+  background-color: #ffdde6;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+.background {
+  margin-left: 20px;
+}
 span {
   cursor: pointer;
 }
@@ -133,13 +234,14 @@ span {
 .plus {
   width: 30px;
   height: 30px;
-  background: #f2f2f2;
+  background: #fdfdfd;
   border-radius: 5px;
   padding: 8px 5px 8px 5px;
   border: 1px solid #ddd;
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  cursor: pointer;
 }
 
 #pax-count {
@@ -152,10 +254,20 @@ span {
   display: inline-block;
   vertical-align: middle;
 }
-button {
-  margin-top: 10px;
+
+#bookNow {
+  margin-top: 30px;
   margin-bottom: 20px;
-  size: 40px;
+  background-color: #dba514;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 17px;
+  padding-right: 10px;
+  height: 40px;
+  cursor: pointer;
 }
 
 #timeDropdown {

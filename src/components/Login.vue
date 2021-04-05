@@ -32,7 +32,7 @@
   import Header from './Header.vue'
   import firebase from "firebase/app";
   import 'firebase/auth'
-import database from '../firebase';
+  import database from '../firebase';
 
   export default {
     components: {

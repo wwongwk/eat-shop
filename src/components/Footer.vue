@@ -34,6 +34,9 @@
     color: #000000;
     font-size: 18px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    clear: both;
+    //position: absolute;
+    bottom: 0;
   }
 
   label {
@@ -48,7 +51,14 @@
 
   input {
     border-radius: 5px;
-    padding: 5px 5px;
+    padding: 10px 3px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    height: 45px;
+    border:0;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.06);
   }
 
   #subscribe {
@@ -61,6 +71,10 @@
     //color: #403939;
     border: none;
     cursor: pointer;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  }
+  #submitBtn:hover {
+    box-shadow:0 0 4px rgba(0,0,0,0.5);
   }
   p {
     font-size: 10px;

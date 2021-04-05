@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='container'>
     <b>Brand Story</b>
 
     <p id="para">
@@ -29,9 +29,7 @@
 
 <script>
 export default {
-  props: {
-    shop: []
-  },
+  props: ['shop'],
 
   components: {
   },
@@ -47,12 +45,10 @@ export default {
       mapSrc:""
     };
   },
-  methods: {
-    
-    get: function() {
-      /* var shop = JSON.parse(localStorage.getItem("KEY"));
-      console.log(shop) */
 
+  methods: {
+    get: function() {
+      /* var shop = JSON.parse(localStorage.getItem("KEY"));*/
       this.description = this.shop["description"];
       this.telephone = this.shop["telephone"];
       this.openHours = this.shop["openingHours"];
@@ -63,11 +59,13 @@ export default {
   created() {
     this.get();
   }
-
 };
 </script>
 
 <style scoped>
+.container {
+  margin-left: 20px;
+}
 
 #body {
   text-align: justify;

@@ -4,7 +4,7 @@
     <div id='display'>
       <h3>RESTAURANTS</h3>
       <div id="searchBar">
-        <h4><label>What restaurant are you looking for today?</label></h4>
+        <p><label>What restaurant are you looking for today?</label></p>
         <input
           type="text"
           name="name"
@@ -21,7 +21,8 @@
           :value="selectedCriteria"
           :clearable="false"
           v-model="chosenCriteria"
-          @input="sortFood">
+          @input="sortFood"
+          id="drop">
 
           <template slot="option" slot-scope="option">
             {{ option.criteria }}
@@ -37,6 +38,7 @@
           :clearable="false"
           v-model="selected"
           @input="filterFood"
+          id="drop"
         >
           <template slot="option" slot-scope="option">
             {{ option.cuisineType }}
@@ -241,9 +243,8 @@ export default {
     sendData: function (id) {
       for (var x of this.restaurants) {
         if (x["id"] === id) {
-          console.log(x);
-          this.$router.push({ name: 'eatDetail', params: x })
-          
+          x["menu_str"] = JSON.stringify(x["menu"])
+          this.$router.push({ path:'/eatDetailTemplate', query: x })
         }
       }
     },
@@ -310,21 +311,31 @@ export default {
   box-sizing: border-box;
 }
 
-button {
-  background-color: #ed83a7;
-  border: none;
-  color: #403939;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 18px;
-  padding-right: 10px;
-  height: 30px;
+input {
+  border-radius: 5px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    height: 30px;
+    width: 180px;
+    border:1px solid #ddd;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.1);
 }
-
 #resetBtn {
-  font-size: 18px;
+  font-size: 14px;
+  background-color:#ed83a7;
+  color: #ddd;
+  border: none;
+  cursor: pointer;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  border-radius: 5px;
+  padding: 5px 5px;
 }
+#resetBtn:hover {
+    box-shadow:0 0 4px rgba(0,0,0,0.5);
+  }
 
 #selectedFood {
   width: 100%;
@@ -407,8 +418,10 @@ img {
 
 #searchBar {
   float: right;
+  margin-top: 0px;
   margin-right: 50px;
-  max-width: 20%;
+  max-width: 30%;
+  margin-bottom: 30px;
   top: 0;
 }
 
@@ -432,17 +445,15 @@ h3 {
   font-size: 25px;
 }
 
-h1 {
-  font-size: 50px;
-}
-
 #filterDropdown {
   width: 30%;
   margin: 0 auto;
-  margin-top: 3%;
+  margin-top: 50px;
+  border: none;
+  outline: none;
 }
 
-#filterDropdown p, #ratingFilter p {
+#filterDropdown p, #ratingFilter p, #searchBar p{
   font-size: 20px;
   color: #ed83a7;
 }
@@ -452,10 +463,19 @@ h1 {
   margin: 0 auto;
   float: left;
   padding-left: 10%;
-  margin-top: 0%;
+  margin-top: 0px;
+  border: none;
+  outline: none;
+}
+#drop {
+  box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  border: none;
+  outline: none;
 }
 
-h4 {
-  font-size: 18px;
+#searchBar p, #filterDropdown p, #ratingFilter p {
+  display:flex;
+  flex-direction: column; 
+  justify-content: center; 
 }
 </style>

@@ -70,8 +70,7 @@ export default {
     },
   },
   created() {
-      console.log(this.$route.params);
-      this.shop = this.$route.params;
+      this.shop = this.$route.query;
       this.shopName = this.shop["name"];
       this.resImages = this.shop["resImages"]
   },
