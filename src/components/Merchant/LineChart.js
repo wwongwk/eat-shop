@@ -88,17 +88,10 @@ export default {
             }
         },
     },
-    watch: {
-        data: function() {
-          //this._chart.destroy();
-          //this.renderChart(this.data, this.options);
-          this.renderChart(this.datacollection, this.options);
-        }
-      },
     mounted() {  
         this.fetchDetails();
         this.fetchReservations();
-        //this.renderChart(this.datacollection, this.options);
+        this.renderChart(this.datacollection, this.options);
     },
     created () {
         

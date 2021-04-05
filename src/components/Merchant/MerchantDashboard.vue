@@ -1,12 +1,22 @@
 <template>
+  
   <div>
+
+    <div class = "clicks">
+      CLICKS: 1
+    </div>
+
+    <div class = "rating">
+      RATING: 4.5
+    </div>
+    uid : {{uid}} <br>
     datesMonthYear: {{ datesMonthYear }} <br />
     {{ datesFormatted }} <br />
     DatesAxis {{ datesAxis }} <br />
     Method Axis: {{ reservationAxis }} <br />
 
     <div class="chart">
-      <chart :key="reservations.length"> </chart>
+      <chart> </chart>
     </div>
   </div>
 </template>
@@ -26,6 +36,8 @@ export default {
       reservations: [],
       uid: "",
       phone: "",
+      clicks: "",
+      rating : "",
       datesMonthYear: [],
       datesFormatted: [],
       reservationAxis: [],
@@ -34,6 +46,7 @@ export default {
   },
   methods: {
     fetchReservations() {
+      console.log('fetchReservations() running')
       database
         .collection("reservation")
         .get()
@@ -90,4 +103,6 @@ export default {
 </script>
 
 <style scoped>
+
+
 </style>
