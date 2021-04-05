@@ -45,11 +45,10 @@ export default {
       mapSrc:""
     };
   },
+
   methods: {
-    
     get: function() {
       /* var shop = JSON.parse(localStorage.getItem("KEY"));*/
-
       this.description = this.shop["description"];
       this.telephone = this.shop["telephone"];
       this.openHours = this.shop["openingHours"];
@@ -59,10 +58,7 @@ export default {
   },
   created() {
     this.get();
-
-
   }
-
 };
 </script>
 

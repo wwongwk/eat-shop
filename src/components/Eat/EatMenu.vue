@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <li v-for="food in menu" :key="food.id">
+            <li v-for="food in menu" :key="food.index">
                 <div id="float-container">
                     <div id="foodImage">
                         <img :src='food["foodImage"]'
@@ -23,19 +23,16 @@
 
 <script>
 export default {
-    props: {
-        shop:[]
-    },
-    data(){
+    props: ['shop'], 
+     data(){
         return{
             menu: {}
         };
     },
-
+ 
     methods: {
         get: function() {
-            this.shop = this.$route.params;
-            this.menu = this.shop["menu"];
+            this.menu = JSON.parse(this.shop["menu_str"])
         },
     
     },

@@ -28,10 +28,7 @@
 
 <script>
 export default {
-  props: {
-    shop: []
-  },
-
+  props: ["shop"],
   components: {
   },
   data() {
@@ -48,7 +45,6 @@ export default {
   methods: {
     
     get: function() {
-
       this.description = this.shop["description"];
       this.openHours = this.shop["openingHours"];
       this.address = this.shop["address"];
@@ -58,7 +54,6 @@ export default {
   created() {
     this.get();
   }
-
 };
 </script>
 

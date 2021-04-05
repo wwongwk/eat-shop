@@ -11,33 +11,26 @@
         <input type="email" id="email1" name="email" placeholder="BIZ EMAIL" v-model="form.email"><br><br>
         <input type="number" id="mobile" name="mobile" placeholder= "CONTACT NUMBER" v-model="form.mobile"><br>
         
-        <div class='container'>
-          <div class='radioBtn'>
-            <input type="radio" id="eat" name="type" value="eat">
-            <label for="male">EAT</label><br>
-          </div>
-          <div class='radioBtn'>
-            <input type="radio" id="play" name="type" value="play">
-            <label for="female">PLAY</label><br>
-          </div>
-          <div class='radioBtn'>
-            <input type="radio" id="shop" name="type" value="shop">
-            <label for="shop">SHOP</label>
-          </div>
-        </div>
+        <label for="eat">EAT</label>
+        <input type="radio" name="radioBtn" id ="eat" value="eat" v-model="form.type">
+        
+        <label for="play">PLAY</label>
+        <input type="radio" name="radioBtn" id="play" value="play" v-model="form.type">
+        
+        <label for="shop">SHOP</label>
+        <input type="radio" name="radioBtn" id="shop" value="shop" v-model="form.type">
+        
+        <br>
         <input type="button" id='submit' value="SIGN UP" v-on:click="register()">
       </form>  
-          
       <router-link to="/" id='no' exact> NO, THANK YOU</router-link>
-   
     </div>   
   </div>
-
 </template>
 
 <script>
   import Header from './Header.vue';
-  import 'firebase/auth'
+  import db from "../firebase.js"
 
   export default {
     data() {
@@ -45,7 +38,9 @@
         form: {
           name: "",
           email: "",
-          mobile:""
+          mobile:"",
+          type:""
+          
         },
       };
     },
@@ -56,10 +51,12 @@
    
     methods: {
        register: function() {
-         if (this.form.name=="" || this.form.email=="" || this.form.mobile=="") {
+         if (this.form.name=="" || this.form.email=="" || this.form.mobile=="" || this.form.type=="") {
           alert("Incomplete submission!");
         } else {    
-          console.log();
+          db.collection("pendingShops").add(this.form);
+          alert("Your submission has been recorded! We will get back to you soon! Have a nice day! :)");
+          this.$router.replace({ path: "/" });
         }
       },
     },
@@ -116,34 +113,18 @@ form {
   padding-left: 50px;
   padding-right: 50px;
 }
-.container {
-  width: 100px;
-  //clear: both;
-  align-items: left;
-  text-align: left;
-  padding-left: 45px;
+
+label {
+  color:#D25A7E;
 }
 #eat, #play, #shop {
-  //align-items: left;
-  //text-align: left;
-  padding-left: 30px;
-  position: absolute;
-  //padding-right: 10px;
+  width:20px;
+  height:auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 5px;
 }
-label {
-  display:block;
-  padding-left:80px; 
-  position: relative;
-}
-.radioBtn {
-  display:flex;
-  flex-direction: row; 
-  justify-content: center; 
-  align-items: center;
-  padding-top:10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-}
+
 #logo {
   width: 150px;
   
