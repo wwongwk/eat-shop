@@ -14,7 +14,6 @@
         
       </div>
       <div id="side" class="flexCol">
-        <router-link to="/cart" exact>My Cart</router-link>
         <router-link tag="button" to="/signup" v-show="!login">Sign Up</router-link>
         <router-link tag="button" to="/login" v-show="!login"  exact>Login</router-link>
         <router-link tag="button" to="/profile" exact v-show="login">Profile</router-link>
