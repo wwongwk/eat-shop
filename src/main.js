@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Routes from './routes.js'
 import vSelect from 'vue-select'
 import firebase from 'firebase'
+import VueAnalytics from 'vue-analytics';
 
 Vue.component('v-select', vSelect);
 import 'vue-select/dist/vue-select.css';
@@ -29,6 +30,12 @@ if (!app) {
    }).$mount("#app");
  }
 });
+
+Vue.use(VueAnalytics, {
+  id: 265257878,
+  VueRouter
+})
+
 
 /* new Vue({
   render: h => h(App),
