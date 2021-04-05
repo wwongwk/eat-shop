@@ -142,12 +142,14 @@ export default {
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
-            location.reload();
+            //location.reload();
             this.get();
             this.fetchDetails();
             this.updateStars();
             this.updateDate();
             this.updateOverallRating();
+            this.reviewTextArea="";
+            window.scrollTo(0,0);
           });
       }
     },
