@@ -25,6 +25,7 @@
       
     </div>
     <h2>{{ shopName }}</h2>
+    <h2>Favorite &#9825;</h2>
     <div id="body" v-show="About">
       <eat-about v-bind:shop = "shop" ></eat-about>
     </div>
