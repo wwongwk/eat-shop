@@ -1,14 +1,5 @@
 <template>
   <div>
-    uid : {{ uid }} <br />
-    email: {{ email }} <br />
-    username: {{ name }} <br />
-    Reviews: {{ reviews }} <br />
-    Rating : {{ rating }} <br />
-    Shop Name: {{ shopName }} <br />
-    DateNow : {{ Date.now() }}<br />
-    Document Id: {{ documentId }} <br />
-    stars : {{ overallRating }}
     <div id="scores">
       <p id="overall">{{ overallRating }}/5</p>
       <div id="stars">
@@ -262,7 +253,10 @@ export default {
 
 #overall {
   font-size: 70px;
-  margin: 60px;
+  margin-left: 60px;
+  margin-top:0px;
+  margin-bottom:0px;
+
 }
 #one,
 #two,
