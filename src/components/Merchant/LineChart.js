@@ -90,6 +90,6 @@ export default {
     mounted() {
         this.fetchDetails();
         this.fetchReservations();
-        //this.renderChart(this.datacollection, this.options)
+        this.renderChart(this.datacollection, this.options)
     },
 }
