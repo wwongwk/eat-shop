@@ -382,7 +382,7 @@ h2 {
 
 #foodDescription {
     margin-top: 0;
-    //padding: 10px;
+    /*padding: 10px;*/
     padding-top: 0;
     text-align: left;
 }
