@@ -100,12 +100,12 @@ export default {
       this.Reservation = false;
       this.Menu = true;
     },
-    get: function() {
-      var shop = JSON.parse(localStorage.getItem("KEY"));
-      console.log(shop)
-      this.shopName = shop["name"];
-      this.resImages = shop["resImages"]
-    }
+    // get: function() {
+    //   var shop = JSON.parse(localStorage.getItem("KEY"));
+    //   console.log(shop)
+    //   this.shopName = shop["name"];
+    //   this.resImages = shop["resImages"]
+    // }
   },
   created() {
       //this.get();
