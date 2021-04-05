@@ -12,13 +12,7 @@
             <div class="polaroid">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <button
-                  id="names"
-                  v-on:click="
-                    sendData(restaurant.id, 1);
-                    increaseCounter();
-                  "
-                >
+                <button id="names" v-on:click="sendData(restaurant.id, 1)">
                   {{ restaurant.name }}
                 </button>
               </div>
@@ -34,7 +28,7 @@
             <div class="polaroid">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button id="names" v-on:click="sendData(shop.id, 2); increaseCounter(shop.id)">
+                <button id="names" v-on:click="sendData(shop.id, 2)">
                   {{ shop.name }}
                 </button>
               </div>
@@ -137,8 +131,9 @@ export default {
       if (type === 1) {
         for (var x of this.restaurants) {
           if (x["id"] === id) {
-            x["menu_str"] = JSON.stringify(x["menu"])
-            this.$router.push({ path:'/eatDetailTemplate', query: x });
+            x["menu_str"] = JSON.stringify(x["menu"]);
+            this.increaseCounter(x);
+            this.$router.push({ path: "/eatDetailTemplate", query: x });
             break;
           }
         }
@@ -151,27 +146,22 @@ export default {
         }
       }
     },
-    increaseCounter(id) {
-      let clicks = 0;
-      for (var x of this.restaurants){
-        if (x["id"] === id) {
-          database
-          .collection(x["type"])
-          .doc(x["document_id"])
-          .get()
-          .then((doc) => {
-            clicks = doc.data().clicks;
-            clicks ++
-          });
-          database
-            .collection(x["type"])
-            .doc(x["document_id"])
-            .update({
-              clicks : clicks 
-            })
-          break;
-        }
-      }
+    increaseCounter(x) {
+      console.log("increaseCounter loop");
+      var clicks = 0;
+      console.log("Before access: " + clicks);
+      database
+        .collection(x["type"])
+        .doc(x["document_id"])
+        .get()
+        .then((doc) => {
+          clicks = doc.data().clicks;
+        });
+      clicks++;
+      console.log("After access: " + clicks);
+      database.collection(x["type"]).doc(x["document_id"]).update({
+        clicks: clicks,
+      });
     },
   },
 
