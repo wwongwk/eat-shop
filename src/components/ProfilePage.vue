@@ -26,6 +26,8 @@
       <br>
     </div>
       </section>
+
+      <upcoming-reservations></upcoming-reservations>
     </div>
   </div>
 </template>
@@ -35,10 +37,12 @@
   import firebase from "firebase/app"
   import db from "../firebase.js"
   import 'firebase/auth'
+  import UpcomingReservations from './UpcomingReservations.vue'
 
   export default {
     components: {
-      AppHeader:Header
+      AppHeader:Header,
+      UpcomingReservations
     },
     data() {
       return {  

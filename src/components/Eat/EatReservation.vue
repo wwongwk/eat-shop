@@ -135,12 +135,12 @@ export default {
         //converts javascript date object to timestamp object to be saved to database
         //alert pop-up to inform user of successful reservation
         var user = firebase.auth().currentUser;
-        var chosenDate = new Date(document.getElementById("bookingDate").value);
-        const created = firebase.firestore.Timestamp.fromDate(
+        var chosenDate = new Date(document.getElementById("bookingDate").value+'T'+this.selected.time+":00");
+        /* const created = firebase.firestore.Timestamp.fromDate(
           new Date(chosenDate)
-        ).toDate();
+        ).toDate(); */
         let booking = new Object();
-        booking["date"] = created;
+        booking["date"] = chosenDate;
         booking["document_id"] = this.shop.document_id;
         booking["time"] = this.selected.time;
         booking["adults"] = this.adultsCount;
