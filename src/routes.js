@@ -11,6 +11,9 @@ import ChangePW from './components/ChangePW.vue'
 import MerchantHome from './components/Merchant/MerchantHome.vue'
 import BizSignUp from './components/BizSignUp.vue'
 import ShopDetail from './components/Shop/ShopDetailPage'
+import MyFavorites from './components/MyFavorites.vue'
+import UpcomingReservations from './components/UpcomingReservations.vue'
+import PastEvents from './components/PastEvents.vue'
 
 export default[
   {path: '/', component: Home},
@@ -25,5 +28,8 @@ export default[
   {path:'/playDetail', component:PlayDetailPage},
   {path:'/changepw', component:ChangePW},
   {path:'/merchant', component:MerchantHome},
-  {path:'/bizsignup', component:BizSignUp}
+  {path:'/bizsignup', component:BizSignUp},
+  {path:'/myFav', component:MyFavorites},
+  {path:'/upcoming', component:UpcomingReservations},
+  {path:'/past', component:PastEvents}
 ]

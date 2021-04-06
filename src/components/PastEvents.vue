@@ -1,22 +1,9 @@
 <template>
-<!-- <div>
-  <p>{{allReservations}}</p>
-  <p> past</p>
-  <ul>
-    <li v-for="event in past" v-bind:key="event.index">
-    {{event.merchant_name}}, {{event.date.toDate()}}
-    </li>
-    <p> upcoming</p>
-    <li v-for="event in upcoming" v-bind:key="event.index">
-    {{event.merchant_name}}, {{event.date.toDate()}}
-    </li>
-  </ul>
-</div> -->
 
 <!-- without firebase*/ -->
 <div>
     <Header></Header>
-    <h1>UPCOMING RESERVATIONS</h1>
+    <h1>PAST EVENTS</h1>
     <table class="table">
       <tr>
         <th></th>
@@ -25,7 +12,7 @@
         <th>Quantity</th>
         <th></th>
       </tr>
-      <tr v-for="item in upcoming" v-bind:key="item.name">
+      <tr v-for="item in past" v-bind:key="item.name">
         <a v-bind:href="item.link">
           <img v-bind:src="item.image"/>
         </a>
@@ -35,9 +22,6 @@
         </td>
         <td>
           {{item.quantity}}
-        </td>
-        <td>
-          <input type="button" id="deleteBtn" value="Delete" @click="deleteRow(item)">
         </td>
       </tr>
     </table>
@@ -55,8 +39,7 @@ export default {
   },
   data() {
     return {
-      //allReservations: [],
-      upcoming: [{
+      past: [{
                   name:'BBQ Place',
                   date: '20.03.2021',
                   quantity: '2',
@@ -85,35 +68,13 @@ export default {
                   link: 'https://tombalek.com/',
                   image:'https://zula.sg/wp-content/uploads/2020/10/xcraft-workshops-singapore-tombalek.jpg.pagespeed.ic.DBPg_Sbq6y.webp'
                   }],
-      //past:[],
     };
   },
   methods: {         
-    //fetch reservations data from firebase
-    /*fetchReservations: function () {
-      var user = firebase.auth().currentUser;
-      database
-        .collection("reservation")
-        .where("user_id", "==", user.uid)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            this.allReservations.push(doc.data());
-            var date = doc.data()['date'].toDate().getTime()
-            const nowDate = new Date();
-            const elapsedTime = nowDate.getTime() - date;
-            if (elapsedTime<=0) {
-              this.upcoming.push(doc.data());
-            } else {
-              this.past.push(doc.data());
-            }
-            
-          });
-        })
-    },*/
+    
   },
   created() {
-    //this.fetchReservations();
+    
   }
 };
 </script>
