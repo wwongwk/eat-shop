@@ -4,56 +4,58 @@
       <app-header></app-header>
       <img id="homeImg" src="../assets/TopPic.png" />
     </div>
-    <div id='display'>
-    <h3>EAT</h3>
-    <div id="eat">
-      <ul>
-        <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
-          <div class="polaroid">
-            <img v-bind:src="restaurant.imageURL" /><br />
-            <div class="container">
+    <div id="display">
+      <h3>EAT</h3>
+      <div id="eat">
+        <ul>
+          <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
+            <div class="polaroid">
+              <img v-bind:src="restaurant.imageURL" /><br />
+              <div class="container">
                 <button id="names" v-on:click="sendData(restaurant.id, 1)">
-                {{ restaurant.name }}
+                  {{ restaurant.name }}
                 </button>
+              </div>
             </div>
-          </div>
-        </li>
-        <button id="seeMore" v-on:click="GoToEat">See More</button>
-      </ul>
-    </div>
-    <h3>SHOP</h3>
-    <div id="shops">
-      <ul>
-        <li v-for="shop in filteredShops" :key="shop.id">
-          <div class="polaroid">
-            <img v-bind:src="shop.imageURL" /><br />
-            <div class="container">
-              
-              <button id="names" v-on:click="sendData(shop.id, 2)">
-                {{ shop.name }}
+          </li>
+          <button id="seeMore" v-on:click="GoToEat">See More</button>
+        </ul>
+      </div>
+      <h3>SHOP</h3>
+      <div id="shops">
+        <ul>
+          <li v-for="shop in filteredShops" :key="shop.id">
+            <div class="polaroid">
+              <img v-bind:src="shop.imageURL" /><br />
+              <div class="container">
+                <button id="names" v-on:click="sendData(shop.id, 2)">
+                  {{ shop.name }}
                 </button>
-             
+              </div>
             </div>
-          </div>
-        </li>
-        <router-link to='/shop' tag="button" id="seeMore">See More</router-link>
-      </ul>
-    </div>
-    <h3>PLAY</h3>
-    <div id="play">
-      <ul>
-        <li v-for="play in activities" :key="play.id">
-          <div class="polaroid">
-            <img v-bind:src="play.imageURL" /><br />
-            <div class="container">
-              <router-link to="/cart" exact id="names">{{ play.name }}</router-link>
+          </li>
+          <router-link to="/shop" tag="button" id="seeMore"
+            >See More</router-link
+          >
+        </ul>
+      </div>
+      <h3>PLAY</h3>
+      <div id="play">
+        <ul>
+          <li v-for="play in activities" :key="play.id">
+            <div class="polaroid">
+              <img v-bind:src="play.imageURL" /><br />
+              <div class="container">
+                <router-link to="/cart" exact id="names">{{
+                  play.name
+                }}</router-link>
+              </div>
             </div>
-          </div>
-        </li>
-        <button id="seeMore">See More</button>
-      </ul>
+          </li>
+          <button id="seeMore">See More</button>
+        </ul>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -67,7 +69,7 @@ export default {
   data() {
     return {
       restaurants: [],
-
+      clicks: 0,
       shopsList: [],
       activities: [
         {
@@ -106,7 +108,7 @@ export default {
           });
         });
     },
-    
+
     fetchShops: function () {
       database
         .collection("shop")
@@ -130,18 +132,36 @@ export default {
         for (var x of this.restaurants) {
           if (x["id"] === id) {
             x["menu_str"] = JSON.stringify(x["menu"]);
-            this.$router.push({ path:'/eatDetailTemplate', query: x });
+            this.increaseCounter(x);
+            this.$router.push({ path: "/eatDetailTemplate", query: x });
             break;
           }
         }
       } else {
         for (var y of this.shopsList) {
           if (y["id"] === id) {
-            this.$router.push({ path:'/shopDetail', query: y })
+            this.$router.push({ path: "/shopDetail", query: y });
             break;
           }
         }
       }
+    },
+    increaseCounter(x) {
+      console.log("increaseCounter loop");
+      var clicks = 0;
+      console.log("Before access: " + clicks);
+      database
+        .collection(x["type"])
+        .doc(x["document_id"])
+        .get()
+        .then((doc) => {
+          clicks = doc.data().clicks;
+        });
+      clicks++;
+      console.log("After access: " + clicks);
+      database.collection(x["type"]).doc(x["document_id"]).update({
+        clicks: clicks,
+      });
     },
   },
 
@@ -151,7 +171,7 @@ export default {
     },
     filteredShops() {
       return this.shopsList.slice(0, 3);
-    }
+    },
   },
 
   created() {
@@ -167,7 +187,7 @@ export default {
   height: auto;
 }
 #display {
-  margin: 90px;;
+  margin: 90px;
 }
 
 #eat {
@@ -230,7 +250,6 @@ div.polaroid {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 10px;
   border-radius: 10px;
-
 }
 div.container {
   text-align: center;
@@ -238,18 +257,18 @@ div.container {
   border-radius: 10px;
   margin: 0px;
   align-self: center;
-  padding-bottom:10px;
+  padding-bottom: 10px;
   width: 200px;
 }
 h3 {
   text-align: left;
   padding-left: 5%;
-  color: #ED83A7;
+  color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;
 }
 #seeMore {
-  background-color: #ED83A7;
+  background-color: #ed83a7;
   border: none;
   color: #403939;
   text-align: center;
@@ -270,7 +289,6 @@ h3 {
   border: none;
   cursor: pointer;
   text-decoration: none;
-  margin-left: 5px;;
-
+  margin-left: 5px;
 }
 </style>

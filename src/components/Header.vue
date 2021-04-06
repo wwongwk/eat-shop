@@ -11,13 +11,11 @@
         <a> <router-link to="/eat" exact>EAT</router-link></a>
         <a> <router-link to="/shop" exact>SHOP</router-link></a>
         <a> <router-link to="/play" exact>PLAY</router-link></a>
-        <a> <router-link to="/bizsignup" exact>FOR BUSINESS</router-link></a>
         
       </div>
       <div id="side" class="flexCol">
-        <router-link to="/cart" exact>My Cart</router-link>
         <router-link tag="button" to="/signup" v-show="!login">Sign Up</router-link>
-        <router-link tag="button" to="/login" v-show="!login"  exact>My Account</router-link>
+        <router-link tag="button" to="/login" v-show="!login"  exact>Login</router-link>
         <router-link tag="button" to="/profile" exact v-show="login">Profile</router-link>
         <button id="logOutBtn" v-on:click="logOut()" v-show="login" >Log Out</button>
       </div>

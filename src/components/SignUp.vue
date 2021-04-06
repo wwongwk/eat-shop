@@ -12,9 +12,8 @@
         <input type="number" id="mobile" name="mobile" placeholder= "MOBILE" v-model="form.mobile"><br><br>
         <input type="button" id='submit' value="SIGN UP" v-on:click="register()">
       </form>      
-      <router-link to="/" id='no' exact> NO, THANK YOU</router-link>
-
-
+      <router-link to="/" id='no' exact> NO, THANK YOU</router-link><br>
+      <router-link to="/bizsignup" id='biz' exact>FOR BUSINESS</router-link>
    
     </div>   
   </div>
@@ -92,12 +91,13 @@ input {
   color:white;
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 13px;
+  padding-bottom: 13px;
   height: auto;
   margin: 0px;
   border-style: none;
-  margin-bottom: 0px;
+  margin-bottom: 3px;
+  cursor: pointer;
 }
 
 h1 {
@@ -131,7 +131,7 @@ form {
   
 }
 
-#no {
+#no, #biz {
   text-decoration-line: underline;
   font-size: 10px;
   color: #A90065;

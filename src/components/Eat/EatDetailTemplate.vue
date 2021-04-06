@@ -25,6 +25,7 @@
       
     </div>
     <h2>{{ shopName }}</h2>
+    <h2>Favorite &#9825;</h2>
     <div id="body" v-show="About">
       <eat-about v-bind:shop = "shop" ></eat-about>
     </div>
@@ -152,8 +153,8 @@ img {
 #body {
   text-align: justify;
   text-size-adjust: 90%;
-  margin-right: 20%;
-  margin-left: 20px;
+  /*margin-right: 20%;*/
+  /*margin-left: 20px;*/
 }
 
 #openHours {

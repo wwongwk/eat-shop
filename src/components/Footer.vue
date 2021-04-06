@@ -35,7 +35,7 @@
     font-size: 18px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     clear: both;
-    //position: absolute;
+    /*position: absolute;*/
     bottom: 0;
   }
 
@@ -68,7 +68,7 @@
   #submitBtn {
     background-color:#D25A7e;
     font-size: 18px;
-    //color: #403939;
+    /*color: #403939;*/
     border: none;
     cursor: pointer;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);

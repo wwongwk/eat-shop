@@ -1,40 +1,57 @@
-<template></template>
+<template>
+<div>
+  <p>{{allReservations}}</p>
+  <p> past</p>
+  <ul>
+    <li v-for="event in past" v-bind:key="event.index">
+    {{event.merchant_name}}, {{event.date.toDate()}}
+    </li>
+    <p> upcoming</p>
+    <li v-for="event in upcoming" v-bind:key="event.index">
+    {{event.merchant_name}}, {{event.date.toDate()}}
+    </li>
+  </ul>
+</div>
+</template>
 
 <script>
 import firebase from "firebase";
-import database from "../../firebase";
+import database from "../firebase.js";
 
 export default {
   data() {
     return {
       allReservations: [],
-      ownReservations: [],
+      upcoming: [],
+      past:[],
     };
   },
-  methods: {
+  methods: {         
+    //fetch reservations data from firebase
     fetchReservations: function () {
-      //fetch reservations data from firebase
+       var user = firebase.auth().currentUser;
       database
         .collection("reservation")
+        .where("user_id", "==", user.uid)
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
             this.allReservations.push(doc.data());
-            localStorage.clear();
+            var date = doc.data()['date'].toDate().getTime()
+            const nowDate = new Date();
+            const elapsedTime = nowDate.getTime() - date;
+            if (elapsedTime<=0) {
+              this.upcoming.push(doc.data());
+            } else {
+              this.past.push(doc.data());
+            }
+            
           });
-        });
+        })
     },
-
-    getOwnReservations: function () {
-      //loop through all reservations to find particular user reservation
-      var user = firebase.auth().currentUser;
-      for (let i = 0; i < this.allReservations.length; i++) {
-        var current = this.allReservations[i];
-        if (current.user_id === user.uid) {
-          this.ownReservations.push(current);
-        }
-      }
-    },
+  },
+  created() {
+    this.fetchReservations();
   }
 };
 </script>

@@ -36,7 +36,6 @@
           :options="dropdownOptions"
           :value="selectedCuisine"
           :clearable="false"
-          v-model="selected"
           @input="filterFood"
           id="drop"
         >
@@ -456,6 +455,9 @@ h3 {
 #filterDropdown p, #ratingFilter p, #searchBar p{
   font-size: 20px;
   color: #ed83a7;
+  display:flex;
+  flex-direction: column; 
+  justify-content: center; 
 }
 
 #ratingFilter {
@@ -473,9 +475,4 @@ h3 {
   outline: none;
 }
 
-#searchBar p, #filterDropdown p, #ratingFilter p {
-  display:flex;
-  flex-direction: column; 
-  justify-content: center; 
-}
 </style>

@@ -8,7 +8,8 @@
     Shop Name: {{ shopName }} <br />
     DateNow : {{ Date.now() }}<br />
     Document Id: {{ documentId }} <br />
-    stars : {{ overallRating }}
+    stars : {{ overallRating }} <br>
+    clicks : {{clicks}}
     <div id="scores">
       <p id="overall">{{ overallRating }}/5</p>
       <div id="stars">
@@ -100,6 +101,7 @@ export default {
       shopName: "",
       shopType: "",
       overallRating: 0,
+      clicks : 0,
       documentId: "",
       reviews: [],
       stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
@@ -140,12 +142,14 @@ export default {
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
-            location.reload();
+            //location.reload();
             this.get();
             this.fetchDetails();
             this.updateStars();
             this.updateDate();
             this.updateOverallRating();
+            this.reviewTextArea="";
+            window.scrollTo(0,0);
           });
       }
     },
@@ -170,7 +174,8 @@ export default {
       this.shopName = this.shop["name"];
       this.documentId = this.shop["document_id"];
       this.shopType = this.shop["type"];
-      //this.reviews=this.shop["reviews"];
+      this.clicks = this.shop["clicks"]
+      this.overallRating = this.shop["overallRating"]
       database
           .collection(this.shopType)
           .doc(this.documentId)

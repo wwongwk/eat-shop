@@ -1,5 +1,12 @@
 <template>
+  
   <div>
+    <div class="clicks">CLICKS: {{ clicks }}</div>
+
+    <div class="rating">RATING: {{ rating }}</div>
+
+    type : {{ merchantType }} <br />
+    uid : {{ uid }} <br />
     datesMonthYear: {{ datesMonthYear }} <br />
     {{ datesFormatted }} <br />
     DatesAxis {{ datesAxis }} <br />
@@ -26,6 +33,10 @@ export default {
       reservations: [],
       uid: "",
       phone: "",
+      clicks: "",
+      rating: "",
+      merchantType: "",
+      reviews: [],
       datesMonthYear: [],
       datesFormatted: [],
       reservationAxis: [],
@@ -34,12 +45,14 @@ export default {
   },
   methods: {
     fetchReservations() {
+      console.log("fetchReservations() running");
       database
         .collection("reservation")
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             if (doc.data().user_id == this.uid) {
+              console.log("inside fetchReservations if clause");
               var seconds = doc.data().date.seconds;
               var nanoseconds = doc.data().date.nanoseconds;
               var date = new Date(seconds * 1000 + nanoseconds / 1000000);
@@ -48,16 +61,48 @@ export default {
               this.datesFormatted.push(date.toLocaleDateString());
             }
           });
-          console.log("fetchReservations() running");
-          //alert('fetchReservations() is running and the length of datesMonth is: ' + this.datesMonth.length)
           this.generateAxes();
         });
     },
     fetchDetails() {
+      //console.log(this.type)
       this.uid = firebase.auth().currentUser.uid;
       this.email = firebase.auth().currentUser.email;
       this.phone = firebase.auth().currentUser.phoneNumber;
+      database
+        .collection("users")
+        .doc(this.uid)
+        .get()
+        .then((doc) => {
+          console.log('fetchDetails(): ' + doc.data().business_type) // 
+          this.merchantType =  doc.data().business_type
+          this.reviews = doc.data().reviews
+          console.log(this.merchantType)
+        });
+      //this.merchantType = type;
+      console.log("type Fetched");
+      console.log("type : " + this.merchantType )
+      console.log(this.reviews) // does not update this.merchantType
     },
+
+    fetchClicksAndReviews() {
+      console.log('fetching Clicks and Reservations')
+      console.log(this.merchantType )
+      database
+        .collection(this.merchantType )
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.data().user_id == this.uid) {
+              //console.log('inside fetchReservations if clause')
+              this.clicks = doc.data().clicks;
+              this.rating = doc.data().overallRating;
+            }
+          });
+        });
+      console.log('fetched Clicks and Reservations')
+    },
+
     generateAxes() {
       console.log("generateAxes() running");
       //alert('generateAxes() is running and the length of datesMonth is: ' + this.datesMonth.length)
@@ -81,12 +126,15 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     this.fetchDetails();
+    this.fetchClicksAndReviews();
     this.fetchReservations();
   },
 };
 </script>
 
 <style scoped>
+
+
 </style>
