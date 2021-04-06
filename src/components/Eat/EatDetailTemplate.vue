@@ -24,8 +24,10 @@
       <button v-on:click="toggleReservation()">Reservation</button>
       
     </div>
-    <h2>{{ shopName }}</h2>
-    <h2>Favorite &#9825;</h2>
+    <div class="favName">
+      <h2 id="name">{{ shopName }} &nbsp;</h2>
+      <button id="fivorite" v-on:click="addFavorite">Favorite &#9825;</button>
+    </div>
     <div id="body" v-show="About">
       <eat-about v-bind:shop = "shop" ></eat-about>
     </div>
@@ -96,6 +98,9 @@ export default {
       this.Reservation = false;
       this.Menu = true;
     },
+    addFavorite: function () {
+      document.getElementById("fivorite").innerHTML="Favorite &#9829;";
+    }
   },
   created() {
       this.shop = this.$route.query;
@@ -119,9 +124,26 @@ h1 {
   letter-spacing: 0.1em;
 }
 
-h2 {
+.favName h2 {
   margin-left: 20px;
-  text-align: left;
+  margin-right: 10px;
+}
+.favName {
+  float: left;
+  margin-bottom: 20px;
+  white-space: nowrap;
+}
+.favName button, 
+.favName h2 {
+  display: inline-block;
+}
+
+.favName button {
+  color: #ED83A7;
+  font-size: 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 img {
@@ -147,8 +169,7 @@ img {
 #body {
   text-align: justify;
   text-size-adjust: 90%;
-  /*margin-right: 20%;*/
-  /*margin-left: 20px;*/
+  clear: both;
 }
 
 #openHours {
