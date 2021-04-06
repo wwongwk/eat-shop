@@ -8,8 +8,9 @@
       <section>
       <div>
         <router-link tag="button" to="/profile" exact>BASIC DETAILS</router-link><br>
-        <router-link tag="button" to="/" exact>UPCOMING <br>RESERVATIONS</router-link><br>
-        <router-link tag="button" to="/" exact>PAST EVENTS</router-link>
+        <router-link tag="button" to="/upcoming" exact>UPCOMING <br>RESERVATIONS</router-link><br>
+        <router-link tag="button" to="/past" exact>PAST EVENTS</router-link><br>
+        <router-link tag="button" to="/myFav" exact>MY FAVORITES</router-link>
       </div>
     <div id="content" class="flexbox">
       <form>
@@ -26,8 +27,6 @@
       <br>
     </div>
       </section>
-
-      <upcoming-reservations></upcoming-reservations>
     </div>
   </div>
 </template>
@@ -37,12 +36,12 @@
   import firebase from "firebase/app"
   import db from "../firebase.js"
   import 'firebase/auth'
-  import UpcomingReservations from './UpcomingReservations.vue'
+  //import UpcomingReservations from './UpcomingReservations.vue'
 
   export default {
     components: {
       AppHeader:Header,
-      UpcomingReservations
+      //UpcomingReservations
     },
     data() {
       return {  
