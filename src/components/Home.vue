@@ -129,6 +129,7 @@ export default {
       if (type === 1) {
         for (var x of this.restaurants) {
           if (x["id"] === id) {
+            x["menu_str"] = JSON.stringify(x["menu"]);
             this.$router.push({ path:'/eatDetailTemplate', query: x });
             break;
           }
