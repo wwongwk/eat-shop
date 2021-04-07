@@ -44,11 +44,9 @@
 <script>
 import firebase from "firebase";
 import database from "../../firebase";
-
 export default {
   components: {},
   props: ["shop"],
-
   data() {
     return {
       About: true,
@@ -105,7 +103,6 @@ export default {
         this.adultsCount--;
       }
     },
-
     incrementChild: function () {
       //do not allow user to book more than 8 people
       if (this.adultsCount + this.childrenCount === 8) {
@@ -122,7 +119,6 @@ export default {
         this.childrenCount--;
       }
     },
-
     fetchDetails() {
       try {
         this.uid = firebase.auth().currentUser.uid;
@@ -138,50 +134,98 @@ export default {
       }
     },
 
-    book: function () {
-      //if user is not logged in,
-      //alert pop-up to remind user to log in before making a reservation
-      if (this.loggedIn === false) {
-        alert("Please log in to make a reservation!");
-      } else {
-        //if the user didn't select a date or time or number of people
-        //alert pop-up
+    checkTime: function () {
+      //check if booking time is after current time
+      //get local date and time
+      this.canBook = true;
+      var today = new Date();
+      var currentDate = today.getDate();
+      var currentMonth = today.getMonth() + 1; //January is 0
+      var currentMinutes = today.getMinutes();
+      var currentHour = today.getHours();
+      if (currentHour === "0") {
+        currentHour = 24;
+      }
+
+      //get input date and time
+      var chosen = new Date(document.getElementById("bookingDate").value);
+      var chosenDate = chosen.getDate();
+      var chosenMonth = chosen.getMonth() + 1; //January is 0
+      if (this.selected.time) {
+        var selectedTime = this.selected.time.split(":");
+        var selectedHour = selectedTime[0];
+        var selectedMinutes = selectedTime[1];
+        //not possible for user to book a reservation for an earlier timing today
         if (
-          !document.getElementById("bookingDate").value ||
-          this.selected === "" ||
-          this.adultsCount + this.childrenCount === 0
+          chosenDate === currentDate &&
+          chosenMonth === currentMonth &&
+          currentHour > selectedHour
         ) {
-          alert("Your reservation is incomplete!");
-        } else {
-          //converts javascript date object to timestamp object to be saved to database
-          //alert pop-up to inform user of successful reservation
-          var chosenDate = new Date(
-            document.getElementById("bookingDate").value +
-              "T" +
-              this.selected.time +
-              ":00"
+          this.canBook = false;
+          alert(
+            "Reservation is unavailable at this timing. Please try another timing."
           );
-          /* const created = firebase.firestore.Timestamp.fromDate(
-          new Date(chosenDate)
-        ).toDate(); */
-          let booking = new Object();
-          booking["date"] = chosenDate;
-          booking["document_id"] = this.shop.document_id;
-          booking["time"] = this.selected.time;
-          booking["adults"] = this.adultsCount;
-          booking["children"] = this.childrenCount;
-          booking["user_id"] = this.uid;
-          booking["merchant_type"] = "eat";
-          booking["merchant_name"] = this.shop.name;
-          database
-            .collection("reservation")
-            .add(booking)
-            .then(() => location.reload());
-          alert("Your reservation is confirmed!");
+        } else if (
+          chosenDate === currentDate &&
+          chosenMonth === currentMonth &&
+          currentHour === selectedHour &&
+          currentMinutes > selectedMinutes
+        ) {
+          this.canBook = false;
+          alert(
+            "Reservation is unavailable at this timing. Please try another timing."
+          );
         }
       }
     },
 
+    book: function () {
+      //if user is not logged in,
+      //alert pop-up to remind user to log in before making a reservation
+      this.checkTime();
+      if (this.canBook) {
+        if (this.loggedIn === false) {
+          alert("Please log in to make a reservation!");
+        } else {
+          //if the user didn't select a date or time or number of people
+          //alert pop-up
+          if (
+            !document.getElementById("bookingDate").value ||
+            this.selected === "" ||
+            this.adultsCount + this.childrenCount === 0
+          ) {
+            alert("Your reservation is incomplete!");
+          } else {
+            //converts javascript date object to timestamp object to be saved to database
+            //alert pop-up to inform user of successful reservation
+            var chosenDate = new Date(
+              document.getElementById("bookingDate").value +
+                "T" +
+                this.selected.time +
+                ":00"
+            );
+            /* const created = firebase.firestore.Timestamp.fromDate(
+          new Date(chosenDate)
+        ).toDate(); */
+            let booking = new Object();
+            booking["date"] = chosenDate;
+            booking["document_id"] = this.shop.document_id;
+            booking["time"] = this.selected.time;
+            booking["adults"] = this.adultsCount;
+            booking["children"] = this.childrenCount;
+            booking["user_id"] = this.uid;
+            booking["merchant_type"] = "eat";
+            booking["merchant_name"] = this.shop.name;
+            database
+              .collection("reservation")
+              .add(booking)
+              .then(() => location.reload());
+            alert("Your reservation is confirmed!");
+            console.log(this.selected.time);
+          }
+        }
+      }
+    },
     setCalendarLimits: function () {
       //set minimum day of calendar to current date because user cannot choose a previous date
       //and maximum day of calendar to end of the year
@@ -201,7 +245,6 @@ export default {
       document.getElementById("bookingDate").setAttribute("max", lastDay);
     },
   },
-
   created() {
     this.fetchDetails();
   },
