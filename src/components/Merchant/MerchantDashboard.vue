@@ -1,5 +1,4 @@
 <template>
-  
   <div>
     <div class="clicks">CLICKS: {{ clicks }}</div>
 
@@ -13,7 +12,7 @@
     Method Axis: {{ reservationAxis }} <br />
 
     <div class="chart">
-      <chart> </chart>
+      <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
     </div>
   </div>
 </template>
@@ -21,12 +20,22 @@
 <script>
 import database from "../../firebase.js";
 import firebase from "firebase/app";
-import Chart from "./LineChart.js";
+import { Plotly } from "vue-plotly";
 
 export default {
-  components: { Chart },
+  components: { Plotly },
   data() {
     return {
+      data: [
+        {
+          x: [1, 2, 3, 4],
+          y: [10, 15, 13, 17],
+          type: "scatter",
+        },
+      ],
+      layout: {
+        title: "Monthly Reservations",
+      },
       name: "",
       email: "",
       mobile: "",
@@ -74,22 +83,22 @@ export default {
         .doc(this.uid)
         .get()
         .then((doc) => {
-          console.log('fetchDetails(): ' + doc.data().business_type) // 
-          this.merchantType =  doc.data().business_type
-          this.reviews = doc.data().reviews
-          console.log(this.merchantType)
+          console.log("fetchDetails(): " + doc.data().business_type); //
+          this.merchantType = doc.data().business_type;
+          this.reviews = doc.data().reviews;
+          console.log(this.merchantType);
         });
       //this.merchantType = type;
       console.log("type Fetched");
-      console.log("type : " + this.merchantType )
-      console.log(this.reviews) // does not update this.merchantType
+      console.log("type : " + this.merchantType);
+      console.log(this.reviews); // does not update this.merchantType
     },
 
     fetchClicksAndReviews() {
-      console.log('fetching Clicks and Reservations')
-      console.log(this.merchantType )
+      console.log("fetching Clicks and Reservations");
+      console.log(this.merchantType);
       database
-        .collection(this.merchantType )
+        .collection(this.merchantType)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
@@ -100,7 +109,7 @@ export default {
             }
           });
         });
-      console.log('fetched Clicks and Reservations')
+      console.log("fetched Clicks and Reservations");
     },
 
     generateAxes() {
@@ -135,6 +144,4 @@ export default {
 </script>
 
 <style scoped>
-
-
 </style>
