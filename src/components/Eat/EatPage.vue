@@ -36,6 +36,7 @@
           :options="dropdownOptions"
           :value="selectedCuisine"
           :clearable="false"
+          v-model="chosenCuisine"
           @input="filterFood"
           id="drop"
         >
