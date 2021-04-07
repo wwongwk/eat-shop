@@ -83,21 +83,24 @@ export default {
         .doc(this.uid)
         .get()
         .then((doc) => {
-          console.log("fetchDetails(): " + doc.data().business_type); //
+          console.log("fetchDetails(): " + doc.data().business_type); 
           this.merchantType = doc.data().business_type;
           this.reviews = doc.data().reviews;
           console.log(this.merchantType);
         });
       //this.merchantType = type;
       console.log("type Fetched");
-      console.log("type : " + this.merchantType);
-      console.log(this.reviews); // does not update this.merchantType
+
+      // does not update this.merchantType. Console is empty, but the template is accurate.
+      console.log("type : " + this.merchantType); 
+      console.log(this.reviews); 
     },
 
     fetchClicksAndReviews() {
       console.log("fetching Clicks and Reservations");
       console.log(this.merchantType);
       database
+        //Error because this.merchantType is empty.
         .collection(this.merchantType)
         .get()
         .then((snapshot) => {
