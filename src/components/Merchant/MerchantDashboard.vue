@@ -87,7 +87,10 @@ export default {
           this.merchantType = doc.data().business_type;
           this.reviews = doc.data().reviews;
           console.log(this.merchantType);
-        });
+        }).then(()=>{
+          this.fetchClicksAndReviews();
+          this.fetchReservations()
+          });
       //this.merchantType = type;
       console.log("type Fetched");
 
@@ -140,8 +143,8 @@ export default {
   },
   created() {
     this.fetchDetails();
-    this.fetchClicksAndReviews();
-    this.fetchReservations();
+    /* this.fetchClicksAndReviews();
+    this.fetchReservations(); */
   },
 };
 </script>
