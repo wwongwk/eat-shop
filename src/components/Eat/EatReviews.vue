@@ -59,6 +59,30 @@
           {{ item.review }}
           <hr />
         </li>
+
+        
+      
+
+
+
+      </ul>
+
+
+
+<ul class="pagination">
+				<li class="page-item">
+					<button type="button" class="page-link" v-if="page != 1" @click="page--"> Previous </button>
+				</li>
+				<li class="page-item">
+					<button type="button" class="page-link"
+           v-for="pageNumber in reviews.slice(page-1, page+5)" :key = "pageNumber.review"
+            @click="page = pageNumber"> {{pageNumber}} </button>
+				</li>
+				<li class="page-item">
+					<button type="button" @click="page++" v-if="page < reviews.length" class="page-link"> Next </button>
+				</li>
+			</ul>
+
         <div class="submitReview">
           <star-rating :show-rating="false" @rating-selected="setRating">
           </star-rating>
@@ -76,7 +100,8 @@
           <br />
           <button @click="submitReview">SUBMIT REVIEW</button>
         </div>
-      </ul>
+
+
     </div>
   </div>
 </template>
@@ -110,10 +135,15 @@ export default {
       email: "",
       name: "",
       loggedIn: false,
+      page: 1,
+			perPage: 8,
     };
   },
 
   methods: {
+    
+
+
     setRating: function (rating) {
       this.rating = rating;
     },
@@ -316,6 +346,11 @@ ul {
 }
 div.reviews {
   line-height: 2;
+}
+
+.submitReview {
+  margin-left: 60px;
+
 }
 
 textarea {

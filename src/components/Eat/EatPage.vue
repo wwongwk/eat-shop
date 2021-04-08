@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header></Header>
-    <div id='display'>
+    <div id="display">
       <h3>RESTAURANTS</h3>
       <div id="searchBar">
         <p><label>What restaurant are you looking for today?</label></p>
@@ -10,10 +10,11 @@
           name="name"
           v-model.lazy="search"
           placeholder="Enter Restaurant's Name"
-          v-on:keyup.enter="findRestaurant()"/>
+          v-on:keyup.enter="findRestaurant()"
+        />
         <button id="resetBtn" v-on:click="reset()">RESET</button>
       </div>
-        <div id="ratingFilter">
+      <div id="ratingFilter">
         <p>Sort By:</p>
         <v-select
           label="criteria"
@@ -22,8 +23,8 @@
           :clearable="false"
           v-model="chosenCriteria"
           @input="sortFood"
-          id="drop">
-
+          id="drop"
+        >
           <template slot="option" slot-scope="option">
             {{ option.criteria }}
           </template>
@@ -45,7 +46,7 @@
           </template>
         </v-select>
       </div>
-  
+
       <div id="errorMessage" v-show="errorShown">
         {{ error }}
       </div>
@@ -56,13 +57,13 @@
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
                 <!-- <router-link to="/eatDetailTemplate" exact> -->
-                  <button v-on:click="sendData(restaurant.id)" id="names">
-                    {{ restaurant.name }}
-                    <br>
-                    {{ restaurant.overallRating}}
-                    <span style="color: pink">&starf;</span>
-                  </button>
-              <!--  </router-link> -->
+                <button v-on:click="sendData(restaurant.id)" id="names">
+                  {{ restaurant.name }}
+                  <br />
+                  {{ restaurant.overallRating }}
+                  <span style="color: pink">&starf;</span>
+                </button>
+                <!--  </router-link> -->
               </div>
             </div>
           </li>
@@ -75,10 +76,13 @@
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
                 <router-link to="/eatDetailTemplate" exact>
-                  <button v-on:click="sendData(restaurant.id)" id="selectedNames">
+                  <button
+                    v-on:click="sendData(restaurant.id)"
+                    id="selectedNames"
+                  >
                     {{ restaurant.name }}
-                    <br>
-                    {{ restaurant.overallRating}}
+                    <br />
+                    {{ restaurant.overallRating }}
                     <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
@@ -100,8 +104,8 @@
                     id="recommendedNames"
                   >
                     {{ restaurant.name }}
-                    <br>
-                    {{ restaurant.overallRating}}
+                    <br />
+                    {{ restaurant.overallRating }}
                     <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
@@ -117,10 +121,13 @@
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
                 <router-link to="/eatDetailTemplate" exact>
-                  <button v-on:click="sendData(restaurant.id)" id="filteredNames">
+                  <button
+                    v-on:click="sendData(restaurant.id)"
+                    id="filteredNames"
+                  >
                     {{ restaurant.name }}
-                    <br>
-                    {{ restaurant.overallRating}}
+                    <br />
+                    {{ restaurant.overallRating }}
                     <span style="color: pink">&starf;</span>
                   </button>
                 </router-link>
@@ -243,14 +250,15 @@ export default {
     sendData: function (id) {
       for (var x of this.restaurants) {
         if (x["id"] === id) {
-          x["menu_str"] = JSON.stringify(x["menu"])
-          this.$router.push({ path:'/eatDetailTemplate', query: x })
+          x["menu_str"] = JSON.stringify(x["menu"]);
+          this.increaseCounter(x)
+          this.$router.push({ path: "/eatDetailTemplate", query: x });
         }
       }
     },
     filterFood: function (value) {
       if (this.filtered.length > 0) {
-        //clears previous filter results 
+        //clears previous filter results
         this.filtered.length = 0;
       }
       if (value.cuisineType === "All") {
@@ -289,6 +297,26 @@ export default {
         this.allShown = true;
       }
     },
+
+    increaseCounter(x) {
+      console.log("increaseCounter loop");
+      //var clicks = 0;
+      console.log("Before access: " + this.clicks);
+      database
+        .collection(x["type"])
+        .doc(x["document_id"])
+        .get()
+        .then((doc) => {
+          this.clicks = doc.data().clicks;
+          this.clicks++;
+        })
+        .then(() => {
+          console.log("After access: " + this.clicks);
+          database.collection(x["type"]).doc(x["document_id"]).update({
+            clicks: this.clicks,
+          });
+        });
+    },
   },
   created() {
     this.fetchRestaurants();
@@ -301,7 +329,6 @@ export default {
   margin: 30px;
   margin-left: 60px;
   margin-right: 60px;
-
 }
 
 #food {
@@ -313,29 +340,29 @@ export default {
 
 input {
   border-radius: 5px;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    outline: none;
-    height: 30px;
-    width: 180px;
-    border:1px solid #ddd;
-    box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  padding: 5px 10px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  height: 30px;
+  width: 180px;
+  border: 1px solid #ddd;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 #resetBtn {
   font-size: 14px;
-  background-color:#ed83a7;
+  background-color: #ed83a7;
   color: #ddd;
   border: none;
   cursor: pointer;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   border-radius: 5px;
   padding: 5px 5px;
 }
 #resetBtn:hover {
-    box-shadow:0 0 4px rgba(0,0,0,0.5);
-  }
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
 
 #selectedFood {
   width: 100%;
@@ -390,7 +417,7 @@ div.container {
   border-radius: 10px;
   margin: 0px;
   align-self: center;
-  padding-bottom:10px;
+  padding-bottom: 10px;
   width: 200px;
 }
 
@@ -412,8 +439,7 @@ img {
   border: none;
   cursor: pointer;
   text-decoration: none;
-  margin-left: 5px;;
-
+  margin-left: 5px;
 }
 
 #searchBar {
@@ -453,12 +479,14 @@ h3 {
   outline: none;
 }
 
-#filterDropdown p, #ratingFilter p, #searchBar p{
+#filterDropdown p,
+#ratingFilter p,
+#searchBar p {
   font-size: 20px;
   color: #ed83a7;
-  display:flex;
-  flex-direction: column; 
-  justify-content: center; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #ratingFilter {
@@ -471,9 +499,8 @@ h3 {
   outline: none;
 }
 #drop {
-  box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   border: none;
   outline: none;
 }
-
 </style>

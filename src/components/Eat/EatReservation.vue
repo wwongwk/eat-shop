@@ -213,9 +213,10 @@ export default {
             booking["time"] = this.selected.time;
             booking["adults"] = this.adultsCount;
             booking["children"] = this.childrenCount;
-            booking["user_id"] = this.uid;
+            booking["customer_id"] = this.uid;
             booking["merchant_type"] = "eat";
             booking["merchant_name"] = this.shop.name;
+            booking["user_id"] = this.shop.user_id
             database
               .collection("reservation")
               .add(booking)

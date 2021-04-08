@@ -148,20 +148,22 @@ export default {
     },
     increaseCounter(x) {
       console.log("increaseCounter loop");
-      var clicks = 0;
-      console.log("Before access: " + clicks);
+      //var clicks = 0;
+      console.log("Before access: " + this.clicks);
       database
         .collection(x["type"])
         .doc(x["document_id"])
         .get()
         .then((doc) => {
-          clicks = doc.data().clicks;
+          this.clicks = doc.data().clicks;
+          this.clicks++;
+        })
+        .then(() => {
+          console.log("After access: " + this.clicks);
+          database.collection(x["type"]).doc(x["document_id"]).update({
+            clicks: this.clicks,
+          });
         });
-      clicks++;
-      console.log("After access: " + clicks);
-      database.collection(x["type"]).doc(x["document_id"]).update({
-        clicks: clicks,
-      });
     },
   },
 
