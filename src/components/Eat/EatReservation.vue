@@ -207,23 +207,6 @@ export default {
             /* const created = firebase.firestore.Timestamp.fromDate(
           new Date(chosenDate)
         ).toDate(); */
-<<<<<<< HEAD
-          let booking = new Object();
-          booking["date"] = chosenDate;
-          booking["document_id"] = this.shop.document_id;
-          booking["time"] = this.selected.time;
-          booking["adults"] = this.adultsCount;
-          booking["children"] = this.childrenCount;
-          booking["user_id"] = this.uid;
-          booking["merchant_type"] = "eat";
-          booking["merchant_name"] = this.shop.name;
-          database
-            .collection("reservation")
-            .add(booking)
-            .then(() => location.reload());
-          alert("Your reservation is confirmed!");
-          //console.log(this.selected)
-=======
             let booking = new Object();
             booking["date"] = chosenDate;
             booking["document_id"] = this.shop.document_id;
@@ -240,7 +223,6 @@ export default {
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }
->>>>>>> c32107d0c4cd51ba3d7e81e871f2151656424be1
         }
       }
     },
