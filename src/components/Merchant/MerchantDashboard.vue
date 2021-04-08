@@ -99,11 +99,7 @@ export default {
           this.fetchClicksAndReviews();
           this.fetchReservations();
         });
-      //this.merchantType = type;
       console.log("type Fetched");
-
-      // Bug
-      // does not update this.merchantType. Console is empty, but the template is accurate.
       console.log("type : " + this.merchantType);
       console.log(this.reviews);
     },
@@ -112,13 +108,11 @@ export default {
       console.log("fetching Clicks and Reservations");
       console.log(this.merchantType);
       database
-        //Error because this.merchantType is empty.
         .collection(this.merchantType)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             if (doc.data().user_id == this.uid) {
-              //console.log('inside fetchReservations if clause')
               this.clicks = doc.data().clicks;
               this.rating = doc.data().overallRating;
             }
