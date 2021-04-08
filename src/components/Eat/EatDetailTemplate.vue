@@ -98,18 +98,15 @@ export default {
       this.Reservation = false;
       this.Menu = true;
     },
-<<<<<<< HEAD
     // get: function() {
     //   var shop = JSON.parse(localStorage.getItem("KEY"));
     //   console.log(shop)
     //   this.shopName = shop["name"];
     //   this.resImages = shop["resImages"]
     // }
-=======
     addFavorite: function () {
       document.getElementById("fivorite").innerHTML="Favorite &#9829;";
     }
->>>>>>> 70c77b99240279407f9f6d5c15e8785716cb45ea
   },
   created() {
       this.shop = this.$route.query;
