@@ -213,14 +213,16 @@ export default {
             booking["time"] = this.selected.time;
             booking["adults"] = this.adultsCount;
             booking["children"] = this.childrenCount;
-            booking["user_id"] = this.uid;
+            booking["customer_id"] = this.uid;
             booking["merchant_type"] = "eat";
             booking["merchant_name"] = this.shop.name;
             var newRef = database.collection("reservation").doc();
             booking["booking_id"]=newRef.id;
+            booking["user_id"] = this.shop.user_id
             
-            newRef.set(booking)
-              .then(() =>location.reload());
+            newRef.set(booking).then(() =>location.reload());
+
+            
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }

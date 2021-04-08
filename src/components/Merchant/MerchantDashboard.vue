@@ -6,10 +6,11 @@
 
     type : {{ merchantType }} <br />
     uid : {{ uid }} <br />
+    reservations : {{ reservations }} <br />
     datesMonthYear: {{ datesMonthYear }} <br />
-    {{ datesFormatted }} <br />
+    datesFormatted : {{ datesFormatted }} <br />
     DatesAxis {{ datesAxis }} <br />
-    Method Axis: {{ reservationAxis }} <br />
+    Reservation Axis: {{ reservationAxis }} <br />
 
     <div class="chart">
       <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
@@ -28,8 +29,8 @@ export default {
     return {
       data: [
         {
-          x: [1, 2, 3, 4],
-          y: [10, 15, 13, 17],
+          x: [],
+          y: [],
           type: "scatter",
         },
       ],
@@ -53,6 +54,7 @@ export default {
     };
   },
   methods: {
+    // Fetches reservation data from firestore
     fetchReservations() {
       console.log("fetchReservations() running");
       database
@@ -66,13 +68,18 @@ export default {
               var nanoseconds = doc.data().date.nanoseconds;
               var date = new Date(seconds * 1000 + nanoseconds / 1000000);
               this.reservations.push(doc.data());
-              this.datesMonthYear.push([date.getMonth(), date.getFullYear()]);
+              this.datesMonthYear.push([
+                date.getMonth(),
+                date.getFullYear(),
+              ]);
               this.datesFormatted.push(date.toLocaleDateString());
             }
           });
           this.generateAxes();
         });
     },
+
+    // Fetches Authentication details and Business details
     fetchDetails() {
       //console.log(this.type)
       this.uid = firebase.auth().currentUser.uid;
@@ -83,33 +90,29 @@ export default {
         .doc(this.uid)
         .get()
         .then((doc) => {
-          console.log("fetchDetails(): " + doc.data().business_type); 
+          console.log("fetchDetails(): " + doc.data().business_type);
           this.merchantType = doc.data().business_type;
           this.reviews = doc.data().reviews;
           console.log(this.merchantType);
-        }).then(()=>{
+        })
+        .then(() => {
           this.fetchClicksAndReviews();
-          this.fetchReservations()
-          });
-      //this.merchantType = type;
+          this.fetchReservations();
+        });
       console.log("type Fetched");
-
-      // does not update this.merchantType. Console is empty, but the template is accurate.
-      console.log("type : " + this.merchantType); 
-      console.log(this.reviews); 
+      console.log("type : " + this.merchantType);
+      console.log(this.reviews);
     },
 
     fetchClicksAndReviews() {
       console.log("fetching Clicks and Reservations");
       console.log(this.merchantType);
       database
-        //Error because this.merchantType is empty.
         .collection(this.merchantType)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             if (doc.data().user_id == this.uid) {
-              //console.log('inside fetchReservations if clause')
               this.clicks = doc.data().clicks;
               this.rating = doc.data().overallRating;
             }
@@ -118,21 +121,23 @@ export default {
       console.log("fetched Clicks and Reservations");
     },
 
+    // Generates the arrays needed for plotting
     generateAxes() {
       console.log("generateAxes() running");
       //alert('generateAxes() is running and the length of datesMonth is: ' + this.datesMonth.length)
       let obj = {};
-      for (let i = 0; i < this.datesMonthYear.length; i++) {
-        obj[this.datesMonthYear[i][0]] =
-          (obj[this.datesMonthYear[i][0]] || 0) + 1;
+      for (let i = 0; i < this.datesFormatted.length; i++) {
+        obj[this.datesFormatted[i][0]] =
+          (obj[this.datesFormatted[i][0]] || 0) + 1;
       }
-      this.reservationAxis = Object.values(obj);
+      this.data[0].y = Object.values(obj);
+
       var arr = Array.from(
         new Set(this.datesMonthYear.map(JSON.stringify)),
         JSON.parse
       ).sort();
       for (let i = 0; i < arr.length; i++) {
-        this.datesAxis.push(
+        this.data[0].x.push(
           "0" +
             (arr[i][0] + 1).toString() +
             "/" +

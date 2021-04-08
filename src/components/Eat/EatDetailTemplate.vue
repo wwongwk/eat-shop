@@ -98,6 +98,12 @@ export default {
       this.Reservation = false;
       this.Menu = true;
     },
+    // get: function() {
+    //   var shop = JSON.parse(localStorage.getItem("KEY"));
+    //   console.log(shop)
+    //   this.shopName = shop["name"];
+    //   this.resImages = shop["resImages"]
+    // }
     addFavorite: function () {
       document.getElementById("fivorite").innerHTML="Favorite &#9829;";
     }
