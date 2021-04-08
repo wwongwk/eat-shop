@@ -5,7 +5,7 @@
     <div class='profile'>
       <img id='logo' src="../assets/logo.png"/>
       <h1>MY PROFILE PAGE</h1>
-      <div id="content">
+      <div class="content">
         <div id='nav'>
 
           <button id="basic" v-bind:style='basic?activeStyling:styling' @click='toggleBasic()'><span>BASIC DETAILS</span></button><br>
@@ -29,6 +29,7 @@
             <input type="button" id='submit' value="SAVE" v-on:click="save()">
           </form>
           <upcoming-reservations v-show='upcoming'></upcoming-reservations>
+          <past-events v-show='past'></past-events>
         </div>
       </div>
     </div>
@@ -41,11 +42,13 @@
   import db from "../firebase.js"
   import 'firebase/auth'
   import UpcomingReservations from './UpcomingReservations.vue'
+  import PastEvents from './PastEvents.vue'
 
   export default {
     components: {
       AppHeader:Header,
-      UpcomingReservations
+      UpcomingReservations,
+      PastEvents
     },
     data() {
       return {  
@@ -146,7 +149,7 @@ button span:after {
   transition: 0.5s;
 }
 button:hover span {
-  padding-right: 25px;
+  padding-right: 15px;
 }
 
 button:hover span:after {
@@ -156,11 +159,13 @@ button:hover span:after {
 
 #nav {
   float:left;
-  width: 25%
+  width: 200px;
+  margin-left: 100px;
 }
 
-#content {
+.content {
   display: flex;
+  width: 100%
 }
   
 img {
@@ -169,8 +174,22 @@ img {
 }
 
 input {
-  width: 200px;
+  width: 300px;
   height: 25px;
+  margin-top: 10px;
+  //box-sizing: border-box;
+	//-webkit-box-sizing: border-box;
+	//-moz-box-sizing: border-box;
+	outline: none;
+	//display: block;
+	//width: 100%;
+	padding: 7px;
+	font: 16px Arial, Helvetica, sans-serif;
+	height: 45px;
+  border-radius:15px;
+  border:0;
+  box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
 }
 
 #submit {
@@ -185,6 +204,8 @@ input {
   margin: 0px;
   border-style: none;
   cursor: pointer;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  border-radius: 5px;
 }
 label {
   color: #ED83A7
@@ -208,8 +229,9 @@ h1 {
   margin-bottom: 70px;
 }
 form {
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 170px;
+  width: 100%;
+  vertical-align: center;
 
 }
 #logo {
