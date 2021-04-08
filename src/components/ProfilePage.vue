@@ -5,28 +5,32 @@
     <div class='profile'>
       <img id='logo' src="../assets/logo.png"/>
       <h1>MY PROFILE PAGE</h1>
-      <section>
-      <div>
-        <router-link tag="button" to="/profile" exact>BASIC DETAILS</router-link><br>
-        <router-link tag="button" to="/upcoming" exact>UPCOMING <br>RESERVATIONS</router-link><br>
-        <router-link tag="button" to="/past" exact>PAST EVENTS</router-link><br>
-        <router-link tag="button" to="/myFav" exact>MY FAVORITES</router-link>
+      <div id="content">
+        <div id='nav'>
+
+          <button id="basic" v-bind:style='basic?activeStyling:styling' @click='toggleBasic()'><span>BASIC DETAILS</span></button><br>
+          <button id="upcoming" v-bind:style='upcoming?activeStyling:styling' @click='toggleUpcoming()'><span>UPCOMING</span> <br>RESERVATIONS</button><br>
+          <button id="past" v-bind:style='past?activeStyling:styling' @click='togglePast()'><span>PAST EVENTS</span></button><br>
+          <button id="Fav" v-bind:style='fav?activeStyling:styling' @click='toggleFav()'><span>MY FAVORITES </span></button><br>
+          <!-- <router-link tag="button" to="/profile" exact>BASIC DETAILS</router-link><br>
+          <router-link tag="button" to="/upcoming" exact>UPCOMING <br>RESERVATIONS</router-link><br>
+          <router-link tag="button" to="/past" exact>PAST EVENTS</router-link><br>
+          <router-link tag="button" to="/myFav" exact>MY FAVORITES</router-link> -->
+        </div>
+        <div>
+          <form v-show='basic'>
+            <label for="name" >NAME:</label><br>
+            <input type="name" id="name" name="name" v-model="name"><br><br>
+            <label for="email">YOUR EMAIL:</label><br>
+            <input type="email" id="email" name="email" v-model="email"><br><br>
+            <label for="mobile">YOUR MOBILE:</label><br>
+            <input type="number" id="mobile" name="mobile" v-model="mobile"><br><br>
+          <router-link style="color: #ED83A7; text-decoration:underline" to="/changepw" exact> CLICK TO CHANGE PASSWORD</router-link><br><br>
+            <input type="button" id='submit' value="SAVE" v-on:click="save()">
+          </form>
+          <upcoming-reservations v-show='upcoming'></upcoming-reservations>
+        </div>
       </div>
-    <div id="content" class="flexbox">
-      <form>
-      
-        <label for="name" >NAME:</label><br>
-        <input type="name" id="name" name="name" v-model="name"><br><br>
-        <label for="email">YOUR EMAIL:</label><br>
-        <input type="email" id="email" name="email" v-model="email"><br><br>
-        <label for="mobile">YOUR MOBILE:</label><br>
-        <input type="number" id="mobile" name="mobile" v-model="mobile"><br><br>
-       <router-link style="color: #ED83A7; text-decoration:underline" to="/changepw" exact> CLICK TO CHANGE PASSWORD</router-link><br><br>
-        <input type="button" id='submit' value="SAVE" v-on:click="save()">
-      </form>
-      <br>
-    </div>
-      </section>
     </div>
   </div>
 </template>
@@ -36,18 +40,30 @@
   import firebase from "firebase/app"
   import db from "../firebase.js"
   import 'firebase/auth'
-  //import UpcomingReservations from './UpcomingReservations.vue'
+  import UpcomingReservations from './UpcomingReservations.vue'
 
   export default {
     components: {
       AppHeader:Header,
-      //UpcomingReservations
+      UpcomingReservations
     },
     data() {
       return {  
         name:"",
         email:"",
-        mobile:""
+        mobile:"",
+        basic:true,
+        upcoming:false,
+        past:false,
+        fav:false,
+        activeStyling: {
+          backgroundColor:"#ED83A7",
+          color:"white",
+        },
+        styling: {
+          backgroundColor:"white",
+          color:"#ED83A7",
+        },
       }
     },
     methods: {
@@ -58,7 +74,32 @@
           mobile: this.mobile
         });
       },
+      toggleUpcoming: function() {
+        this.upcoming=true;
+        this.basic=false;
+        this.fav=false;
+        this.past=false;
+      },
+      toggleBasic: function() {
+        this.upcoming=false;
+        this.basic=true;
+        this.fav=false;
+        this.past=false;
+      },
+      togglePast: function() {
+        this.upcoming=false;
+        this.basic=false;
+        this.fav=false;
+        this.past=true;
+      },
+      toggleFav: function() {
+        this.upcoming=false;
+        this.basic=false;
+        this.fav=true;
+        this.past=false;
+      }
     },
+    
     created() {
       var user = firebase.auth().currentUser;
       if (user != null) {
@@ -90,26 +131,36 @@ button {
   color: #ED83A7;
   cursor: pointer;
 }
-button.router-link-active {
+button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+button:hover span {
+  padding-right: 25px;
+}
 
-  border: 1px solid #ED83A7;
-  background-color: #ED83A7;
-  color: white;
+button:hover span:after {
+  opacity: 1;
+  right: 0;
 }
-section {
+
+#nav {
+  float:left;
+  width: 25%
+}
+
+#content {
   display: flex;
-  overflow: hidden;
-  margin: 30px;
-  text-align: left;
-  width: 800px;
-  border:1px solid #ED83A7;
-  
-  
-}
-.flexbox {
-  box-sizing: border-box;
-  padding: 10px;
-  border-left: 1px solid #ED83A7;
 }
   
 img {
@@ -150,11 +201,10 @@ h1 {
   padding:5px
 }
 .profile {
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 50px;
+  margin-right: 50px;
   padding:20px;
-  margin-top: 70px;
+  margin-top: 30px;
   margin-bottom: 70px;
 }
 form {

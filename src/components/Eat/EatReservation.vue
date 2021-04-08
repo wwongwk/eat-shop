@@ -216,10 +216,11 @@ export default {
             booking["user_id"] = this.uid;
             booking["merchant_type"] = "eat";
             booking["merchant_name"] = this.shop.name;
-            database
-              .collection("reservation")
-              .add(booking)
-              .then(() => location.reload());
+            var newRef = database.collection("reservation").doc();
+            booking["booking_id"]=newRef.id;
+            
+            newRef.set(booking)
+              .then(() =>location.reload());
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }
