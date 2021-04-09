@@ -7,7 +7,7 @@
       <th>Date</th>
       <th>Quantity</th>
     </tr>
-    <tr v-for="event in upcoming" v-bind:key="event.index">
+    <tr v-for="event in past" v-bind:key="event.index">
       <td>
         <img src="../assets/logo.png"/>
       </td>
@@ -18,6 +18,7 @@
       <td>{{event.adults}} x Adults, {{event.children}} x Children</td>
     </tr>
   </table>
+  <p v-show="noPast">You have no past events</p>
 </div> 
 </template>
 
@@ -33,6 +34,7 @@ export default {
       allReservations: [],
       upcoming: [],
       past:[],
+      noPast: false
     };
   },
   methods: {         
@@ -64,10 +66,16 @@ export default {
       }).catch((error) => {
         console.error("Error removing document: ", error);
       });
+    },
+    checkPast: function() {
+      if (this.past.length == 0) {
+        this.noPast = true;
+      }
     }
   },
   created() {
     this.fetchReservations();
+    this.checkPast();
   }
 };
 </script>

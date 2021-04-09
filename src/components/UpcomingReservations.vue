@@ -22,6 +22,7 @@
       </td>
     </tr>
   </table>
+  <p v-show="noUpcoming">You have no upcoming reservation</p>
 </div> 
 </template>
 
@@ -37,6 +38,7 @@ export default {
       allReservations: [],
       upcoming: [],
       past:[],
+      noUpcoming: false
     };
   },
   methods: {         
@@ -68,10 +70,16 @@ export default {
       }).catch((error) => {
         console.error("Error removing document: ", error);
       });
+    },
+    checkUpcoming: function() {
+      if (this.upcoming.length == 0) {
+        this.noUpcoming = true;
+      }
     }
   },
   created() {
     this.fetchReservations();
+    this.checkUpcoming();
   }
 };
 </script>
@@ -92,6 +100,7 @@ export default {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
     border-radius: 10px;
     background: #FFF;
+    text-align: center;
   }
   table {
     width: 950px;
