@@ -32,7 +32,8 @@ export default {
   
   data() {
     return {
-      noUpcoming: false
+      noUpcoming: false,
+
     };
   },
   props: ["upcoming"],
@@ -47,12 +48,13 @@ export default {
       });
     },
     checkUpcoming: function() {
-      if (this.upcoming.length == 0) {
+      if (this.upcoming == null) {
         this.noUpcoming = true;
       }
     }
   },
   created() {
+    console.log(this.upcoming)
     this.checkUpcoming();
   }
 };
