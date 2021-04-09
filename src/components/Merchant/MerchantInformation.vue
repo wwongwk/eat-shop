@@ -54,8 +54,8 @@
       <br />
     </div>
     <hr>
-    <!-- MENU PORTION FOR BUSINESS -->
-    <div id="menuInfo" class="flexbox">
+    <!-- MENU PORTION FOR EAT BUSINESS -->
+    <div id="menuInfo" class="flexbox" v-show="eat">
       <h2> Menu Items </h2>
       <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
       <div id="addFood" name="addFood" v-show="add">
@@ -65,7 +65,7 @@
             <label for="foodName">Name of food item:</label> &nbsp;
               <input
                 id="addForm"
-                name="foodName"
+                name="itemName"
                 v-model="foodName"
                 required
               ><br><br>
@@ -73,7 +73,7 @@
             <label for="foodPrice">Price of food item:</label> &nbsp;
               <input
                 id="addForm"
-                name="foodPrice"
+                name="itemPrice"
                 v-model="foodPrice"
                 required
               ><br><br>
@@ -81,7 +81,7 @@
           <label for="foodImage">Image URL of food item:</label> &nbsp;
             <input
               id="addForm"
-              name="foodImage"
+              name="itemImage"
               v-model="foodImage"
               required
             ><br><br>
@@ -89,37 +89,87 @@
           <label for="foodDescription">Description of food item:</label> &nbsp;
             <textarea
               id="addForm"
-              name="foodDescription"
+              name="itemDescription"
               v-model="foodDescription"
               required
             ></textarea><br><br>
 
-          <input type="button" id="submit" value="Add to menu" v-on:click="required()"/>
+          <input type="button" id="submit" value="Add to menu" v-on:click="requiredFood()"/>
         </form>
         <br>
       </div>
-      <ul>
-          <li v-for="food in menu" :key="food.index">
-              <div id="float-container">
-                  <div id="foodImage">
-                      <img :src='food["foodImage"]'
-                      width="200" height="200">
-                  </div>
-                  <div id="foodDescription">
-                      <h1>{{ food["foodName"] }}</h1> 
-                      <h2>{{ food["foodPrice"] }}</h2>
-                      <p>{{ food["foodDescription"] }}</p>
-                      
-                      <button id="menuBtn" v-on:click="deleteFood(food)">Delete</button> &nbsp;
-                      
-                  </div>    
-              </div>
-              <hr>
-          </li>
-      </ul>  
-      
-
     </div>
+
+    <!-- MENU PORTION FOR SHOP BUSINESS -->
+    <div id="menuInfo" class="flexbox" v-show="shop">
+      <h2> Products </h2>
+      <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
+      <div id="addProduct" name="addProduct" v-show="add">
+        <br>
+        <form id="addForm">
+          
+            <label for="productName">Name of product:</label> &nbsp;
+              <input
+                id="addForm"
+                name="itemName"
+                v-model="productName"
+                required
+              ><br><br>
+          
+            <label for="productPrice">Price of product:</label> &nbsp;
+              <input
+                id="addForm"
+                name="itemPrice"
+                v-model="productPrice"
+                required
+              ><br><br>
+         
+          <label for="productImage">Image URL of product:</label> &nbsp;
+            <input
+              id="addForm"
+              name="itemImage"
+              v-model="productImage"
+              required
+            ><br><br>
+
+          <label for="productDescription">Description of product:</label> &nbsp;
+            <textarea
+              id="addForm"
+              name="itemDescription"
+              v-model="productDescription"
+              required
+            ></textarea><br><br>
+
+          <input type="button" id="submit" value="Add to product listing" v-on:click="requiredProduct()"/>
+        </form>
+        <br>
+      </div>
+    </div>
+    <!-- Display list of food / product items for eat / shop respectively -->
+    <ul>
+        <li v-for="product in menu" :key="product.index">
+            <div id="float-container">
+                <div id="Image">
+                    <img :src='product["foodImage"]' width="200" height="200" v-show="eat">
+                    <img :src='product["productImage"]' width="200" height="200" v-show="shop">
+                </div>
+                <div id="Description">
+                    <h1>{{ product["foodName"] }}</h1> 
+                    <h1>{{ product["productName"] }}</h1> 
+
+                    <h2>{{ product["foodPrice"] }}</h2>
+                    <h2>{{ product["productPrice"] }}</h2>
+
+                    <p>{{ product["foodDescription"] }}</p>
+                    <p>{{ product["productDescription"] }}</p>
+                    
+                    <button id="menuBtn" v-on:click="deleteFood(product)" v-show="eat">Delete</button> &nbsp;
+                    <button id="menuBtn" v-on:click="deleteProduct(product)" v-show="shop">Delete</button> &nbsp;
+                </div>    
+            </div>
+            <hr>
+        </li>
+    </ul>     
   </div>
 </template>
 
@@ -146,12 +196,24 @@ export default {
       dashboard: false,
       merchant: false,
       
+      // check eat or shop to toggle merchant eat / shop information
+      eat: false,
+      shop: false,
+      
       // Attributes for Add functionality
       add:true, // change back to false
+
+      // inputs for eat merchant account
       foodName: "",
       foodPrice: "",
       foodDescription: "",
       foodImage: "",
+
+      // inputs for shop merchant account
+      productName: "",
+      productPrice: "",
+      productDescription: "",
+      productImage: "",
 
     };
   },
@@ -171,8 +233,31 @@ export default {
               this.description = doc.data().description;
               this.type = doc.data().type;
               this.documentId = doc.data().document_id;
-              this.menu = doc.data().menu;         
-              //console.log(typeof this.menu)             
+              this.menu = doc.data().menu;     
+              this.eat = true;    
+              //console.log("Checking eat collection")             
+            }
+            localStorage.clear();
+          });
+        });
+
+      database
+        .collection("shop")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.data().user_id == this.uid) {
+              this.merchantDetails.push(doc.data());
+              this.mobile = doc.data().telephone;
+              this.name = doc.data().name;
+              this.address = doc.data().address;
+              this.openingHours = doc.data().openingHours;
+              this.description = doc.data().description;
+              this.type = doc.data().type;
+              this.documentId = doc.data().document_id;
+              this.menu = doc.data().menu;   
+              this.shop = true;      
+              //console.log("Checking shop collection")             
             }
             localStorage.clear();
           });
@@ -199,7 +284,7 @@ export default {
           location.reload();
         });
     },
-    required() {
+    requiredFood() {
       if (this.foodName === ""){
         alert("Please input a food name");
       } else if (this.foodPrice === "") {
@@ -212,15 +297,69 @@ export default {
         this.addFood();
       }
     },
+
+    requiredProduct() {
+      console.log(this.productName)
+      if (this.productName === ""){
+        alert("Please input a product name");
+      } else if (this.productPrice === "") {
+        alert("Please input a product price");
+      } else if (this.productImage === "") {
+        alert("Please input a product image URL");
+      } else if (this.productDescription === "") {
+        alert("Please input a product description");
+      } else {
+        this.addProduct();
+      }
+    },
+
     addFood() {
-      console.log(this.menu)
+      //console.log(this.menu)
       var newFood = {foodName: this.foodName,
                      foodPrice: this.foodPrice,
                      foodDescription: this.foodDescription,
                      foodImage: this.foodImage}
                     
       this.menu[this.foodName] = newFood;
+      console.log(this.documentId)              
+      database
+        .collection("eat")
+        .doc(this.documentId)
+        .update({
+          menu: this.menu,
+        })
+        .then(() => {
+          location.reload();
+        });
+    },
+
+    addProduct() {
+      //console.log(this.menu)
+      var newProduct = {productName: this.productName,
+                        productPrice: this.productPrice,
+                        productDescription: this.productDescription,
+                        productImage: this.productImage}
                     
+      this.menu[this.productName] = newProduct;
+                    
+      database
+        .collection("shop")
+        .doc(this.documentId)
+        .update({
+          menu: this.menu,
+        })
+        .then(() => {
+          location.reload();
+        });
+    },
+
+    deleteFood(food) {     
+      for (var x in this.menu) {
+        if (this.menu[x] == food){
+          delete this.menu[x];
+          break;
+        }
+      }
       database
         .collection(this.type)
         .doc(this.documentId)
@@ -231,17 +370,16 @@ export default {
           location.reload();
         });
     },
-    deleteFood(food) {
-      
+
+    deleteProduct(product) {     
       for (var x in this.menu) {
-        if (this.menu[x] == food){
+        if (this.menu[x] == product){
           delete this.menu[x];
           break;
         }
       }
-
       database
-        .collection(this.type)
+        .collection("shop")
         .doc(this.documentId)
         .update({
           menu: this.menu,
@@ -378,12 +516,12 @@ h2 {
     margin: 0;
 }
 
-#foodImage {
+#Image {
     float: left;
     padding-right: 10px;
 }
 
-#foodDescription {
+#Description {
     margin-top: 0;
     /*padding: 10px;*/
     padding-top: 0;
