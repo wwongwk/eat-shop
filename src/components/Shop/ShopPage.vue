@@ -250,7 +250,8 @@ export default {
       for (var x of this.shops) {
         if (x["id"] === id) {
           console.log(x);
-          this.$router.push({ path: "shopDetail", query: x });
+          x["menu_str"] = JSON.stringify(x["menu"])
+          this.$router.push({ path: "/shopDetail", query: x });
         }
       }
     },
