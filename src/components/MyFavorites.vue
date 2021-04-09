@@ -1,27 +1,24 @@
 <template>
   <div>
-    <Header></Header>
     <div id='display'>
-      <h3>MY FAVORITES</h3>
   
       <div id="noFavError" v-show="errorShown">
         {{ error }}
       </div>
+    
       <div id="food">
         <ul>
-          <li v-for="favorite in favorites" :key="favorite.id">
+          <li v-for="favorite,key in favorites" :key="favorite.index">
             <div class="polaroid">
               <img v-bind:src="favorite.imageURL" /><br />
               <div class="container">
-                <!-- <router-link to="/eatDetailTemplate" exact> -->
-                  <button v-on:click="sendData(favorite.id)" id="names">
+                  <button v-on:click="sendData(key)" id="names">
                     {{ favorite.name }}
                     <span style="color: pink">&#9829;</span>
                     <br>
-                    {{ favorite.overallRating}}
+                    {{ favorite.overallRating }}
                     <span style="color: pink">&starf;</span>
                   </button>
-              <!--  </router-link> -->
               </div>
             </div>
           </li>
@@ -32,18 +29,15 @@
 </template>
 
 <script>
-  import Header from "./Header.vue";
   import database from "../firebase.js";
 
   export default {
-    components: {
-      Header: Header,
-    },
+    props:["favorites"],
+
     data() {
       return {
         errorShown: false,
         error: "",
-        favorites: [],
       }
     },
     methods: {
@@ -53,37 +47,27 @@
           this.error="You have not added any favorite restaurant";
         }
       },
-      fetchRestaurants: function () {
-        database
-        .collection("eat")
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            this.favorites.push(doc.data());
-            localStorage.clear();
-          });
-        });
-      },
+
       sendData: function (id) {
-        for (var x of this.favorites) {
-          if (x["id"] === id) {
-            x["menu_str"] = JSON.stringify(x["menu"])
-            this.$router.push({ path:'/eatDetailTemplate', query: x })
-          }
-        }
-      },
-    },
-    created() {
-      this.fetchRestaurants();
-    },
+        var item={}
+        database.collection("eat").doc(id).get().then((doc) => {
+          item=doc.data()
+           item["menu_str"] = JSON.stringify(item["menu"])
+            this.$router.push({ path:'/eatDetail', query: item })
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+           
+      }
+    }
   };
 </script>
 
 <style scoped>
 #display {
-  margin: 30px;
-  margin-left: 60px;
-  margin-right: 60px;
+  //margin: 30px;
+  //margin-left: 60px;
+  //margin-right: 60px;
 
 }
 
@@ -91,22 +75,24 @@
   width: 100%;
   max-width: 90%;
   margin: 0px;
-  box-sizing: border-box;
+  //box-sizing: border-box;
+  white-space: nowrap;
 }
 
 ul {
   display: flex;
   flex-wrap: wrap;
-  list-style-type: none;
+  //list-style-type: none;
   padding: 0;
   height: 100%;
   width: 100%;
   margin-left: 150px;
+  white-space: nowrap;
 }
 
 li {
-  flex-grow: 1;
-  flex-basis: 300px;
+  //flex-grow: 1;
+  //flex-basis: 200px;
   text-align: center;
   margin: 5px;
   margin-bottom: 40px;
@@ -115,10 +101,11 @@ li {
   text-align: center;
   font-weight: 10;
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  display: inline-block;
 }
 
 div.polaroid {
-  width: 200px;
+  width: 150px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 10px;
@@ -132,11 +119,11 @@ div.container {
   margin: 0px;
   align-self: center;
   padding-bottom:10px;
-  width: 200px;
+  width: 150px;
 }
 
 img {
-  height: 150px;
+  height: 100px;
   width: 100%;
   background-size: 80% 50%;
   border-radius: 10px;

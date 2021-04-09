@@ -4,12 +4,12 @@
     <tr>  
       <th></th> 
       <th>Item</th>
-      <th>Date</th>
+      <th>Date (DD/MM/YYYY)</th>
       <th>Quantity</th>
     </tr>
-    <tr v-for="event in upcoming" v-bind:key="event.index">
+    <tr v-for="event in past" v-bind:key="event.index">
       <td>
-        <img src="../assets/logo.png"/>
+        <img :src=event.imageURL>
       </td>
       <td>
         {{event.merchant_name}}
@@ -18,57 +18,28 @@
       <td>{{event.adults}} x Adults, {{event.children}} x Children</td>
     </tr>
   </table>
+  <p v-show="noPast">You have no past reservation</p>
 </div> 
 </template>
 
 <script>
-import firebase from "firebase";
-import database from "../firebase.js";
-
-
 export default {
-  
+  props:["past"],
   data() {
     return {
-      allReservations: [],
-      upcoming: [],
-      past:[],
+      noPast: false
     };
   },
   methods: {         
-    //fetch reservations data from firebase
-    fetchReservations: function () {
-      var user = firebase.auth().currentUser;
-      database
-        .collection("reservation")
-        .where("customer_id", "==", user.uid)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            this.allReservations.push(doc.data());
-            var date = doc.data()['date'].toDate().getTime()
-            const nowDate = new Date();
-            const elapsedTime = nowDate.getTime() - date;
-            if (elapsedTime<=0) {
-              this.upcoming.push(doc.data());
-            } else {
-              this.past.push(doc.data());
-            } 
-          });
-        })
-    }, 
-    deleteRow(event) {
-      database.collection("reservation").doc(event.booking_id).delete().then(() => {
-        console.log("Document successfully deleted!");
-        location.reload();
-      }).catch((error) => {
-        console.error("Error removing document: ", error);
-      });
+    checkPast: function() {
+      if (this.past.length == 0) {
+        this.noPast = true;
+      }
     }
   },
   created() {
-    this.fetchReservations();
-  }
+    this.checkPast();
+  },
 };
 </script>
 

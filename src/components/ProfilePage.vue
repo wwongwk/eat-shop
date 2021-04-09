@@ -10,12 +10,9 @@
 
           <button id="basic" v-bind:style='basic?activeStyling:styling' @click='toggleBasic()'><span>BASIC DETAILS</span></button><br>
           <button id="upcoming" v-bind:style='upcoming?activeStyling:styling' @click='toggleUpcoming()'><span>UPCOMING<br>RESERVATIONS</span></button><br>
-          <button id="past" v-bind:style='past?activeStyling:styling' @click='togglePast()'><span>PAST EVENTS</span></button><br>
+          <button id="past" v-bind:style='past?activeStyling:styling' @click='togglePast()'><span>PAST RESERVATIONS</span></button><br>
           <button id="Fav" v-bind:style='fav?activeStyling:styling' @click='toggleFav()'><span>MY FAVORITES </span></button><br>
-          <!-- <router-link tag="button" to="/profile" exact>BASIC DETAILS</router-link><br>
-          <router-link tag="button" to="/upcoming" exact>UPCOMING <br>RESERVATIONS</router-link><br>
-          <router-link tag="button" to="/past" exact>PAST EVENTS</router-link><br>
-          <router-link tag="button" to="/myFav" exact>MY FAVORITES</router-link> -->
+    
         </div>
         <div>
           <form v-show='basic'>
@@ -25,11 +22,12 @@
             <input type="email" id="email" name="email" v-model="email"><br><br>
             <label for="mobile">YOUR MOBILE:</label><br>
             <input type="number" id="mobile" name="mobile" v-model="mobile"><br><br>
-          <router-link style="color: #ED83A7; text-decoration:underline" to="/changepw" exact> CLICK TO CHANGE PASSWORD</router-link><br><br>
+            <router-link style="color: #ED83A7; text-decoration:underline" to="/changepw" exact> CLICK TO CHANGE PASSWORD</router-link><br><br>
             <input type="button" id='submit' value="SAVE" v-on:click="save()">
           </form>
-          <upcoming-reservations v-show='upcoming'></upcoming-reservations>
-          <past-events v-show='past'></past-events>
+          <upcoming-reservations v-bind:upcoming="upcomingRes" v-show='upcoming'></upcoming-reservations>
+          <past-events v-bind:past="pastRes" v-show='past'></past-events>
+          <my-favorite v-bind:favorites="favorites" v-show='fav'></my-favorite>
         </div>
       </div>
     </div>
@@ -43,18 +41,24 @@
   import 'firebase/auth'
   import UpcomingReservations from './UpcomingReservations.vue'
   import PastEvents from './PastEvents.vue'
+  import MyFavorite from './MyFavorites.vue'
 
   export default {
     components: {
       AppHeader:Header,
       UpcomingReservations,
-      PastEvents
+      PastEvents,
+      MyFavorite,
     },
     data() {
       return {  
         name:"",
         email:"",
         mobile:"",
+        upcomingRes:[],
+        pastRes:[],
+        allReservations:[],
+        favorites:{},
         basic:true,
         upcoming:false,
         past:false,
@@ -77,6 +81,25 @@
           mobile: this.mobile
         });
       },
+      fetchReservations: function () {
+      var user = firebase.auth().currentUser;
+      db.collection("reservation")
+        .where("customer_id", "==", user.uid)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.allReservations.push(doc.data());
+            var date = doc.data()['date'].toDate().getTime()
+            const nowDate = new Date();
+            const elapsedTime = nowDate.getTime() - date;
+            if (elapsedTime<=0) {
+              this.upcomingRes.push(doc.data());
+            } else {
+              this.pastRes.push(doc.data());
+            } 
+          });
+        })
+      }, 
       toggleUpcoming: function() {
         this.upcoming=true;
         this.basic=false;
@@ -113,12 +136,15 @@
           if (doc.exists) {
               this.name = doc.data().name;
               this.mobile=doc.data().mobile;
+              this.favorites=doc.data().favorites;
+            
           } else {
               console.log("No such document!");
           }
         }).catch((error) => {
             console.log("Error getting document:", error);
         });
+        this.fetchReservations();
       }
     }
   }
@@ -177,12 +203,13 @@ input {
   width: 300px;
   height: 25px;
   margin-top: 10px;
-  //box-sizing: border-box;
-	//-webkit-box-sizing: border-box;
-	//-moz-box-sizing: border-box;
+  /* box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+  display: block;
+	width: 100%;*/
 	outline: none;
-	//display: block;
-	//width: 100%;
+	
 	padding: 7px;
 	font: 16px Arial, Helvetica, sans-serif;
 	height: 45px;
