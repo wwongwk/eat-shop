@@ -306,6 +306,7 @@ input {
   border-radius:15px;
   border:0;
   box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  margin-top: 10px;
 }
 textarea {
   box-sizing: border-box;
@@ -320,6 +321,7 @@ textarea {
   border-radius:15px;
   border:0;
   box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  margin-top: 10px;
 }
 
 #submit {
@@ -329,6 +331,7 @@ textarea {
   border-radius: 5px;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   box-shadow:0 0 15px 4px rgba(0,0,0,0.1);
+  color: white;
 }
 
 #submit:hover {

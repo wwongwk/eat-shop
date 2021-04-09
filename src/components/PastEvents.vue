@@ -1,132 +1,112 @@
 <template>
-
-<!-- without firebase*/ -->
-<div>
-    <Header></Header>
-    <h1>PAST EVENTS</h1>
-    <table class="table">
-      <tr>
-        <th></th>
-        <th>Item</th>
-        <th>Date</th>
-        <th>Quantity</th>
-        <th></th>
-      </tr>
-      <tr v-for="item in past" v-bind:key="item.name">
-        <a v-bind:href="item.link">
-          <img v-bind:src="item.image"/>
-        </a>
-        <td>{{item.name}}</td>
-        <td>
-          {{item.date}}
+ <div>
+  <table class="table">
+    <tr>  
+      <th></th> 
+      <th>Item</th>
+      <th>Date</th>
+      <th>Quantity</th>
+    </tr>
+    <tr v-for="event in upcoming" v-bind:key="event.index">
+      <td>
+        <img src="../assets/logo.png"/>
+      </td>
+      <td>
+        {{event.merchant_name}}
         </td>
-        <td>
-          {{item.quantity}}
-        </td>
-      </tr>
-    </table>
-  </div>
+      <td>{{event.date.toDate().toLocaleDateString()}}, {{event.date.toDate().getHours()}}:{{event.date.toDate().getMinutes()}}</td>
+      <td>{{event.adults}} x Adults, {{event.children}} x Children</td>
+    </tr>
+  </table>
+</div> 
 </template>
 
 <script>
-//import firebase from "firebase";
-//import database from "../firebase.js";
-import Header from './Header.vue'
+import firebase from "firebase";
+import database from "../firebase.js";
+
 
 export default {
-  components: {
-    Header: Header,
-  },
+  
   data() {
     return {
-      past: [{
-                  name:'BBQ Place',
-                  date: '20.03.2021',
-                  quantity: '2',
-                  image:'https://withlocals-com-res.cloudinary.com/image/upload/w_750,h_424,c_fill,g_auto,q_auto,dpr_2.0,f_auto/0f88182574826cc51cdc182eecd1c5db'
-                  },
-                  {name:'Botany Workshop',
-                  date: '21.03.2021',
-                  quantity: '3',
-                  image:'https://sf1.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/22218212_801883149982834_2264372406007038949_o-617x410.jpg'
-                  },
-                  {name:'Marui Sushi',
-                  date: '25.03.2021',
-                  quantity: '2',
-                  link: 'http://maruisushi4u.com/',
-                  image:'https://www.misstamchiak.com/wp-content/uploads/2018/03/38853624650_64b7bca360_h.jpg'
-                  },
-                  {name:"Sunday Folks",
-                  date: '10.03.2021',
-                  quantity: '2',
-                  link: 'https://www.facebook.com/sundayfolks.singapore',
-                  image:'https://media.timeout.com/images/101732859/1372/772/image.jpg'
-                  },
-                  {name:'Tombalek',
-                  date: '01.04.2021',
-                  quantity: '1',
-                  link: 'https://tombalek.com/',
-                  image:'https://zula.sg/wp-content/uploads/2020/10/xcraft-workshops-singapore-tombalek.jpg.pagespeed.ic.DBPg_Sbq6y.webp'
-                  }],
+      allReservations: [],
+      upcoming: [],
+      past:[],
     };
   },
   methods: {         
-    
+    //fetch reservations data from firebase
+    fetchReservations: function () {
+      var user = firebase.auth().currentUser;
+      database
+        .collection("reservation")
+        .where("customer_id", "==", user.uid)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.allReservations.push(doc.data());
+            var date = doc.data()['date'].toDate().getTime()
+            const nowDate = new Date();
+            const elapsedTime = nowDate.getTime() - date;
+            if (elapsedTime<=0) {
+              this.upcoming.push(doc.data());
+            } else {
+              this.past.push(doc.data());
+            } 
+          });
+        })
+    }, 
+    deleteRow(event) {
+      database.collection("reservation").doc(event.booking_id).delete().then(() => {
+        console.log("Document successfully deleted!");
+        location.reload();
+      }).catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+    }
   },
   created() {
-    
+    this.fetchReservations();
   }
 };
 </script>
 
 <style scoped>
-  h1 {
-    text-align: center;
-    color: #ed83a7;
-    font-size: 30px;
-    letter-spacing: 0.1em;
-    }
-
   th {
-    vertical-align: center;
-    border-bottom:1px solid #403939;
-    margin: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    color: #ED83A7;
   }
   td {
-    vertical-align: center;
-    border-bottom:1px solid #403939;
+    white-space: nowrap;
+    overflow: hidden;
   }
-
+  tr {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+    border-radius: 10px;
+    background: #FFF;
+  }
   table {
-    width: 95%;
+    width: 850px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    vertical-align: center;
     font-size: 18px;
     color: #403939;
+    padding-left: 0px;
+    table-layout:fixed;
   }
   hr {
     color: #403939;
     height: 1px;
   }
   img {
-    width: 200px;
-    height: 135px;
+    width: 100px;
+    height: 80px;
     border-radius: 8px;
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
     margin-bottom: 30px;
     margin-top: 30px;
-  }
-  #deleteBtn {
-    background-color: #ED83A7;
-    font-size: 18px;
-    padding: 5px 15px;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #403939;
-    border: none;
-    cursor: pointer;
-    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-    border-radius: 5px;
   }
 
 
