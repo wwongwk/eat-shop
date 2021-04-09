@@ -64,25 +64,18 @@
 </script>
 
 <style scoped>
-#display {
-  //margin: 30px;
-  //margin-left: 60px;
-  //margin-right: 60px;
 
-}
 
 #food {
   width: 100%;
   max-width: 90%;
   margin: 0px;
-  //box-sizing: border-box;
   white-space: nowrap;
 }
 
 ul {
   display: flex;
   flex-wrap: wrap;
-  //list-style-type: none;
   padding: 0;
   height: 100%;
   width: 100%;
@@ -91,8 +84,6 @@ ul {
 }
 
 li {
-  //flex-grow: 1;
-  //flex-basis: 200px;
   text-align: center;
   margin: 5px;
   margin-bottom: 40px;

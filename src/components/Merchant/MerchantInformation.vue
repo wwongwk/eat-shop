@@ -53,7 +53,7 @@
       </form>
       <br />
     </div>
-    <hr>
+    
     <!-- MENU PORTION FOR EAT BUSINESS -->
     <div id="menuInfo" class="flexbox" v-show="eat">
       <h2> Menu Items </h2>
