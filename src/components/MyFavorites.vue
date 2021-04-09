@@ -1,27 +1,24 @@
 <template>
   <div>
-    <Header></Header>
     <div id='display'>
-      <h3>MY FAVORITES</h3>
   
       <div id="noFavError" v-show="errorShown">
         {{ error }}
       </div>
+    
       <div id="food">
         <ul>
-          <li v-for="favorite in favorites" :key="favorite.id">
+          <li v-for="favorite,key in favorites" :key="favorite.index">
             <div class="polaroid">
               <img v-bind:src="favorite.imageURL" /><br />
               <div class="container">
-                <!-- <router-link to="/eatDetailTemplate" exact> -->
-                  <button v-on:click="sendData(favorite.id)" id="names">
+                  <button v-on:click="sendData(key)" id="names">
                     {{ favorite.name }}
                     <span style="color: pink">&#9829;</span>
                     <br>
                     {{ favorite.overallRating}}
                     <span style="color: pink">&starf;</span>
                   </button>
-              <!--  </router-link> -->
               </div>
             </div>
           </li>
@@ -32,18 +29,15 @@
 </template>
 
 <script>
-  import Header from "./Header.vue";
   import database from "../firebase.js";
 
   export default {
-    components: {
-      Header: Header,
-    },
+    props:["favorites"],
+
     data() {
       return {
         errorShown: false,
         error: "",
-        favorites: [],
       }
     },
     methods: {
@@ -53,29 +47,19 @@
           this.error="You have not added any favorite restaurant";
         }
       },
-      fetchRestaurants: function () {
-        database
-        .collection("eat")
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            this.favorites.push(doc.data());
-            localStorage.clear();
-          });
-        });
-      },
+
       sendData: function (id) {
-        for (var x of this.favorites) {
-          if (x["id"] === id) {
-            x["menu_str"] = JSON.stringify(x["menu"])
-            this.$router.push({ path:'/eatDetailTemplate', query: x })
-          }
-        }
-      },
-    },
-    created() {
-      this.fetchRestaurants();
-    },
+        var item={}
+        database.collection("eat").doc(id).get().then((doc) => {
+          item=doc.data()
+           item["menu_str"] = JSON.stringify(item["menu"])
+            this.$router.push({ path:'/eatDetail', query: item })
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+           
+      }
+    }
   };
 </script>
 

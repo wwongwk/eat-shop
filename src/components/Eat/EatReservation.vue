@@ -42,11 +42,12 @@
 </template>
 
 <script>
-import firebase from "firebase";
+//import firebase from "firebase";
 import database from "../../firebase";
 export default {
   components: {},
-  props: ["shop"],
+  props:
+    ["shop","uid", "loggedIn"],
   data() {
     return {
       About: true,
@@ -67,9 +68,8 @@ export default {
       adultsCount: 0,
       childrenCount: 0,
       selected: "",
-      uid: "",
-      loggedIn: false,
-    };
+     
+     };
   },
   methods: {
     toggleAbout: function () {
@@ -117,20 +117,6 @@ export default {
       //booking number cannot be negative value
       if (this.childrenCount !== 0) {
         this.childrenCount--;
-      }
-    },
-    fetchDetails() {
-      try {
-        this.uid = firebase.auth().currentUser.uid;
-        database
-          .collection("users")
-          .doc(this.uid)
-          .get()
-          .then(() => {
-            this.loggedIn = true;
-          });
-      } catch (err) {
-        this.loggedIn = false;
       }
     },
 
@@ -216,6 +202,7 @@ export default {
             booking["customer_id"] = this.uid;
             booking["merchant_type"] = "eat";
             booking["merchant_name"] = this.shop.name;
+            booking["imageURL"] = this.shop.imageURL;
             var newRef = database.collection("reservation").doc();
             booking["booking_id"]=newRef.id;
             booking["user_id"] = this.shop.user_id
@@ -247,9 +234,7 @@ export default {
       document.getElementById("bookingDate").setAttribute("max", lastDay);
     },
   },
-  created() {
-    this.fetchDetails();
-  },
+
   mounted() {
     this.setCalendarLimits();
   },
