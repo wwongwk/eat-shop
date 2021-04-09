@@ -22,13 +22,21 @@
       </td>
     </tr>
   </table>
+  <p v-show="noUpcoming">You have no upcoming reservation</p>
 </div> 
 </template>
 
 <script>
 import database from "../firebase.js";
 export default {
+  
+  data() {
+    return {
+      noUpcoming: false
+    };
+  },
   props: ["upcoming"],
+  
   methods: {         
     deleteRow(event) {
       database.collection("reservation").doc(event.booking_id).delete().then(() => {
@@ -37,8 +45,16 @@ export default {
       }).catch((error) => {
         console.error("Error removing document: ", error);
       });
+    },
+    checkUpcoming: function() {
+      if (this.upcoming.length == 0) {
+        this.noUpcoming = true;
+      }
     }
   },
+  created() {
+    this.checkUpcoming();
+  }
 };
 </script>
 
@@ -58,6 +74,7 @@ export default {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
     border-radius: 10px;
     background: #FFF;
+    text-align: center;
   }
   table {
     width: 950px;

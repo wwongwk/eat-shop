@@ -18,12 +18,28 @@
       <td>{{event.adults}} x Adults, {{event.children}} x Children</td>
     </tr>
   </table>
+  <p v-show="noPast">You have no past reservation</p>
 </div> 
 </template>
 
 <script>
 export default {
   props:["past"],
+  data() {
+    return {
+      noPast: false
+    };
+  },
+  methods: {         
+    checkPast: function() {
+      if (this.past.length == 0) {
+        this.noPast = true;
+      }
+    }
+  },
+  created() {
+    this.checkPast();
+  },
 };
 </script>
 

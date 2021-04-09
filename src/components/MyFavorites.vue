@@ -16,7 +16,7 @@
                     {{ favorite.name }}
                     <span style="color: pink">&#9829;</span>
                     <br>
-                    {{ favorite.overallRating}}
+                    {{ favorite.overallRating }}
                     <span style="color: pink">&starf;</span>
                   </button>
               </div>
@@ -65,9 +65,9 @@
 
 <style scoped>
 #display {
-  margin: 30px;
-  margin-left: 60px;
-  margin-right: 60px;
+  //margin: 30px;
+  //margin-left: 60px;
+  //margin-right: 60px;
 
 }
 
@@ -75,22 +75,24 @@
   width: 100%;
   max-width: 90%;
   margin: 0px;
-  box-sizing: border-box;
+  //box-sizing: border-box;
+  white-space: nowrap;
 }
 
 ul {
   display: flex;
   flex-wrap: wrap;
-  list-style-type: none;
+  //list-style-type: none;
   padding: 0;
   height: 100%;
   width: 100%;
   margin-left: 150px;
+  white-space: nowrap;
 }
 
 li {
-  flex-grow: 1;
-  flex-basis: 300px;
+  //flex-grow: 1;
+  //flex-basis: 200px;
   text-align: center;
   margin: 5px;
   margin-bottom: 40px;
@@ -99,10 +101,11 @@ li {
   text-align: center;
   font-weight: 10;
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  display: inline-block;
 }
 
 div.polaroid {
-  width: 200px;
+  width: 150px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 10px;
@@ -116,11 +119,11 @@ div.container {
   margin: 0px;
   align-self: center;
   padding-bottom:10px;
-  width: 200px;
+  width: 150px;
 }
 
 img {
-  height: 150px;
+  height: 100px;
   width: 100%;
   background-size: 80% 50%;
   border-radius: 10px;

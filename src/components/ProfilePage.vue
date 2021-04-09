@@ -10,7 +10,7 @@
 
           <button id="basic" v-bind:style='basic?activeStyling:styling' @click='toggleBasic()'><span>BASIC DETAILS</span></button><br>
           <button id="upcoming" v-bind:style='upcoming?activeStyling:styling' @click='toggleUpcoming()'><span>UPCOMING<br>RESERVATIONS</span></button><br>
-          <button id="past" v-bind:style='past?activeStyling:styling' @click='togglePast()'><span>PAST EVENTS</span></button><br>
+          <button id="past" v-bind:style='past?activeStyling:styling' @click='togglePast()'><span>PAST RESERVATIONS</span></button><br>
           <button id="Fav" v-bind:style='fav?activeStyling:styling' @click='toggleFav()'><span>MY FAVORITES </span></button><br>
     
         </div>
