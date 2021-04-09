@@ -26,18 +26,18 @@
     </div>
     <div class="favName">
       <h2 id="name">{{ shopName }} &nbsp;</h2>
-      <button id="fivorite" v-on:click="addFavorite">Favorite &#9825;</button>
+      <button id="favorite" v-on:click="addFavorite()">Favorite &#9825;</button>
     </div>
     <div id="body" v-show="About">
       <eat-about v-bind:shop = "shop" ></eat-about>
     </div>
 
     <div id="body" v-show="Review">
-      <eat-reviews v-bind:shop = "shop" ></eat-reviews>
+      <eat-reviews v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn" ></eat-reviews>
     </div>
 
     <div id="body" v-show="Reservation">
-      <eat-reservation v-bind:shop = "shop" ></eat-reservation>
+      <eat-reservation v-bind:shop="shop" :uid="uid" :loggedIn="loggedIn" ></eat-reservation>
     </div>
 
     <div id="body" v-show="Menu">
@@ -53,6 +53,8 @@ import EatAbout from "./EatAbout.vue";
 import EatReservation from "./EatReservation.vue";
 import EatReviews from "./EatReviews.vue";
 import EatMenu from "./EatMenu.vue";
+import database from '../../firebase';
+import firebase from 'firebase'
 
 export default {
   components: {
@@ -71,9 +73,32 @@ export default {
       shopName: "",
       resImages: [],
       shop:{},
+      loggedIn: false,
+      added:false,
+      uid:"",
+      fav:{}
     };
   },
   methods: {
+    fetchDetails() {
+      try {
+        this.uid = firebase.auth().currentUser.uid;
+        database
+          .collection("users")
+          .doc(this.uid)
+          .get()
+          .then((doc) => {
+            this.loggedIn = true;
+            this.fav=doc.data().favorites
+            if (this.fav[this.shop["document_id"]]!=null) {
+              this.added=true;
+              document.getElementById("favorite").innerHTML="Favorite &#9829;";
+            }
+          });
+      } catch (err) {
+        this.loggedIn = false;
+      }
+    },
     toggleAbout: function () {
       this.About = true;
       this.Review = false;
@@ -98,23 +123,45 @@ export default {
       this.Reservation = false;
       this.Menu = true;
     },
-    // get: function() {
-    //   var shop = JSON.parse(localStorage.getItem("KEY"));
-    //   console.log(shop)
-    //   this.shopName = shop["name"];
-    //   this.resImages = shop["resImages"]
-    // }
+   
     addFavorite: function () {
-      document.getElementById("fivorite").innerHTML="Favorite &#9829;";
+      //if user is not logged in,
+      //alert pop-up to remind user to log in before favoriting
+      if (this.loggedIn === false) {
+        alert("Please log in to favorite it!");
+      } else {
+        if (this.added===false) {
+          document.getElementById("favorite").innerHTML="Favorite &#9829;";
+          this.added=true;
+        } else {
+          document.getElementById("favorite").innerHTML="Favorite &#9825;";
+          this.added=false
+        }
+      }
     }
   },
   created() {
       this.shop = this.$route.query;
       this.shopName = this.shop["name"];
       this.resImages = this.shop["resImages"]
+      this.fetchDetails();
+
   },
   destroyed() {
-      localStorage.clear();
+    if (this.loggedIn === true) {
+      var document_id =this.shop["document_id"]
+      if (this.added===true) {
+        this.fav[document_id]={imageURL:this.shop["imageURL"], name:this.shopName, overallRating:this.shop.overallRating} 
+
+      } else {
+        delete this.fav[document_id];
+      }
+        database.collection("users").doc(this.uid).update({
+              //favorites: firebase.firestore.FieldValue.arrayUnion(this.fav)   
+              favorites : this.fav
+        });
+    }
+    localStorage.clear();
   }
 };
 </script>
