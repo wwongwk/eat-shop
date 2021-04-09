@@ -8,100 +8,84 @@
     Shop Name: {{ shopName }} <br />
     DateNow : {{ Date.now() }}<br />
     Document Id: {{ documentId }} <br />
-    stars : {{ overallRating }} <br>
-    clicks : {{clicks}}
+    stars : {{ overallRating }} <br />
+    clicks : {{ clicks }} <br />
+    reviewId : {{ reviewId }} <br />
+    <!-- RESTAURANT RATING -->
     <div id="scores">
-      <p id="overall">{{ overallRating }}/5</p>
+      <p id="overall">{{ overallRating }}/5.0</p>
       <div id="stars">
         <div id="one">
-          <span style="color: pink">&starf;&star;&star;&star;&star;</span>
+          <span style="color: #ed83a7">&starf;&star;&star;&star;&star;</span>
           <p>{{ stars[1] }}</p>
         </div>
         <div id="two">
-          <span style="color: pink">&starf;&starf;&star;&star;&star;</span>
+          <span style="color: #ed83a7">&starf;&starf;&star;&star;&star;</span>
           <p>{{ stars[2] }}</p>
         </div>
         <div id="three">
-          <span style="color: pink">&starf;&starf;&starf;&star;&star;</span>
+          <span style="color: #ed83a7">&starf;&starf;&starf;&star;&star;</span>
           <p>{{ stars[3] }}</p>
         </div>
         <div id="four">
-          <span style="color: pink">&starf;&starf;&starf;&starf;&star;</span>
+          <span style="color: #ed83a7">&starf;&starf;&starf;&starf;&star;</span>
           <p>{{ stars[4] }}</p>
         </div>
         <div id="five">
-          <span style="color: pink">&starf;&starf;&starf;&starf;&starf;</span>
+          <span style="color: #ed83a7"
+            >&starf;&starf;&starf;&starf;&starf;</span
+          >
           <p>{{ stars[5] }}</p>
         </div>
       </div>
     </div>
 
+    <!-- RESTAURANT REVIEWS -->
     <div class="reviews">
       <ul>
-        <li v-for="item in reviews" v-bind:key="item.review">
-          {{ item.username }}&nbsp; {{ item.date.toLocaleDateString() }}<br />
+        <li v-for="item in reviews" :key="item.id">
+          {{ item.username }}&nbsp;
+          <p id="date">{{ item.date.toLocaleDateString("en-GB") }}</p>
+          <br />
 
-          <span style="color: pink" v-if="item.stars == 1"
+          <span style="color: #ed83a7" v-if="item.stars == 1"
             >&starf;&star;&star;&star;&star;</span
           >
-          <span style="color: pink" v-else-if="item.stars == 2"
+          <span style="color: #ed83a7" v-else-if="item.stars == 2"
             >&starf;&starf;&star;&star;&star;</span
           >
-          <span style="color: pink" v-else-if="item.stars == 3"
+          <span style="color: #ed83a7" v-else-if="item.stars == 3"
             >&starf;&starf;&starf;&star;&star;</span
           >
-          <span style="color: pink" v-else-if="item.stars == 4"
+          <span style="color: #ed83a7" v-else-if="item.stars == 4"
             >&starf;&starf;&starf;&starf;&star;</span
           >
-          <span style="color: pink" v-else
+          <span style="color: #ed83a7" v-else
             >&starf;&starf;&starf;&starf;&starf;</span
           ><br />
           {{ item.review }}
           <hr />
         </li>
-
-        
-      
-
-
-
       </ul>
 
+      <div class="submitReview">
+        <p>Submit your review below:</p>
+        <star-rating :show-rating="false" @rating-selected="setRating">
+        </star-rating>
+        <textarea
+          :style="[
+            loggedIn
+              ? { backgroundColor: 'white' }
+              : { backgroundColor: '#DCDCDC' },
+          ]"
+          v-model="reviewTextArea"
+          id="input"
+          name="input"
+        />
 
-
-<ul class="pagination">
-				<li class="page-item">
-					<button type="button" class="page-link" v-if="page != 1" @click="page--"> Previous </button>
-				</li>
-				<li class="page-item">
-					<button type="button" class="page-link"
-           v-for="pageNumber in reviews.slice(page-1, page+5)" :key = "pageNumber.review"
-            @click="page = pageNumber"> {{pageNumber}} </button>
-				</li>
-				<li class="page-item">
-					<button type="button" @click="page++" v-if="page < reviews.length" class="page-link"> Next </button>
-				</li>
-			</ul>
-
-        <div class="submitReview">
-          <star-rating :show-rating="false" @rating-selected="setRating">
-          </star-rating>
-          <textarea
-            :style="[
-              loggedIn
-                ? { backgroundColor: 'white' }
-                : { backgroundColor: '#DCDCDC' },
-            ]"
-            v-model="reviewTextArea"
-            id="input"
-            name="input"
-          />
-
-          <br />
-          <button @click="submitReview">SUBMIT REVIEW</button>
-        </div>
-
-
+        <br />
+        <button @click="submitReview">SUBMIT</button>
+      </div>
     </div>
   </div>
 </template>
@@ -113,7 +97,7 @@ import database from "../../firebase.js";
 import firebase from "firebase/app";
 
 export default {
-  props: ['shop'],
+  props: ["shop"],
 
   name: "EatReview",
   components: {
@@ -126,8 +110,9 @@ export default {
       shopName: "",
       shopType: "",
       overallRating: 0,
-      clicks : 0,
+      clicks: 0,
       documentId: "",
+      reviewId: "",
       reviews: [],
       stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       reviewTextArea: "",
@@ -135,18 +120,16 @@ export default {
       email: "",
       name: "",
       loggedIn: false,
-      page: 1,
-			perPage: 8,
     };
   },
 
   methods: {
-    
-
-
+    // Sets the rating when clicked by the user
     setRating: function (rating) {
       this.rating = rating;
     },
+
+    // Submits a review and updates Firestore
     submitReview() {
       //this.newReviews = this.reviews.slice();
       if (this.loggedIn === false) {
@@ -161,6 +144,7 @@ export default {
           date: myTimestamp,
           username: this.name,
           review: this.reviewTextArea,
+          id: this.reviewId,
           stars: this.rating,
         });
         alert("Review submitted!");
@@ -178,11 +162,12 @@ export default {
             this.updateStars();
             this.updateDate();
             this.updateOverallRating();
-            this.reviewTextArea="";
-            window.scrollTo(0,0);
+            this.reviewTextArea = "";
+            window.scrollTo(0, 0);
           });
       }
     },
+    // Fetches user information from firestore
     fetchDetails() {
       try {
         this.uid = firebase.auth().currentUser.uid;
@@ -199,37 +184,37 @@ export default {
         this.loggedIn = false;
       }
     },
+    // Fetches shop information from firestore
     get() {
       /* var shop = JSON.parse(localStorage.getItem("KEY")); */
       this.shopName = this.shop["name"];
       this.documentId = this.shop["document_id"];
       this.shopType = this.shop["type"];
-      this.clicks = this.shop["clicks"]
-      this.overallRating = this.shop["overallRating"]
+      this.clicks = this.shop["clicks"];
+      this.overallRating = this.shop["overallRating"];
       database
-          .collection(this.shopType)
-          .doc(this.documentId)
-          .get()
-          .then((doc) => {
-            this.reviews = doc.data().reviews;
-            this.fetchDetails();
-            this.updateStars();
-            this.updateDate();
-            this.updateOverallRating();
-          });
+        .collection(this.shopType)
+        .doc(this.documentId)
+        .get()
+        .then((doc) => {
+          this.reviews = doc.data().reviews;
+          this.reviewId = doc.data().reviews[0].id + 1;
+          this.fetchDetails();
+          this.updateStars();
+          this.updateDate();
+          this.updateOverallRating();
+        });
     },
+    // Converts a Firestore Timestamp object to a Javascript Date object
     updateDate() {
       for (let i = 0; i < this.reviews.length; i++) {
         let seconds = this.reviews[i].date.seconds;
         let nanoseconds = this.reviews[i].date.nanoseconds;
         let date = new Date(seconds * 1000 + nanoseconds / 1000000);
-        //let year = date.getYear();
-        //let month = date.getMonth();
-        //let day = date.getDay();
         this.reviews[i].date = date;
       }
     },
-
+    // Updates the stars Object to properly display the breakdown of the reviews
     updateStars() {
       for (let i = 0; i < this.reviews.length; i++) {
         if (this.reviews[i].stars == 1) {
@@ -249,6 +234,7 @@ export default {
         }
       }
     },
+    // Updates the restaurant's overall rating
     updateOverallRating() {
       let sum = 0;
       let length = 0;
@@ -265,6 +251,7 @@ export default {
     },
   },
   computed: {
+    // Updates the restaurant's overall rating
     averageStars() {
       let sum = 0;
       let length = 0;
@@ -283,7 +270,6 @@ export default {
   created() {
     this.get();
   },
-
 };
 </script>
 
@@ -307,28 +293,34 @@ export default {
 #five {
   white-space: nowrap;
   margin: 10px;
-  height: 5px;
+  height: 10px;
+  width: 20px;
 }
 
 #one > p {
   display: inline-block;
   margin: 10px;
+  color: #ed83a7;
 }
 #two > p {
   display: inline-block;
   margin: 10px;
+  color: #ed83a7;
 }
 #three > p {
   display: inline-block;
   margin: 10px;
+  color: #ed83a7;
 }
 #four > p {
   display: inline-block;
   margin: 10px;
+  color: #ed83a7;
 }
 #five > p {
   display: inline-block;
   margin: 10px;
+  color: #ed83a7;
 }
 
 li {
@@ -337,6 +329,7 @@ li {
   margin: 10px;
   border-radius: 4px;
   padding: 25px 20px;
+  width: 1400px;
 }
 
 ul {
@@ -344,31 +337,44 @@ ul {
   width: 100%;
   margin-bottom: 100px;
 }
+#date {
+  float: right;
+}
 div.reviews {
   line-height: 2;
 }
 
 .submitReview {
   margin-left: 60px;
-
 }
 
 textarea {
-  padding: 25px 20px;
-  width: 600px;
-  height: 80px;
-  font-size: 20px;
-  resize: none;
-  color: #403939;
-  font-size: 18px;
-  margin: 10px;
-  border-radius: 4px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 500px;
+  height: 100px;
+  padding: 7px;
+  font: 16px Arial, Helvetica, sans-serif;
+  border-radius: 15px;
+  border: 0;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
 }
 
 button {
+  background-color: #ed83a7;
+  border: none;
+  border-radius: 5px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.1);
+  color: white;
   font-size: 18px;
-  margin: 10px;
-  border-radius: 4px;
-  cursor: pointer;
+  margin-bottom: 50px;
+}
+.submitReview p {
+  font-size: 18px;
 }
 </style>
