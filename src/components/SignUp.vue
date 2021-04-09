@@ -6,7 +6,7 @@
       <img id='logo' src="../assets/logo.png"/>
       <h1>JOIN US</h1>
       <form>
-        <input type="name" id="name" name="name" placeholder="NAME" v-model="form.name"><br><br>
+        <input type="name" id="name" name="name" placeholder="USERNAME" v-model="form.name"><br><br>
         <input type="email" id="email1" name="email" placeholder="YOUR EMAIL" v-model="form.email"><br><br>
         <input type="password" id="password" name="password" placeholder= "PASSWORD" v-model="form.password"><br><br>
         <input type="number" id="mobile" name="mobile" placeholder= "MOBILE" v-model="form.mobile"><br><br>
@@ -65,7 +65,7 @@
               business:false
               })
               .then(() => {
-                alert('Successfully sign up'); 
+                alert('Successfully signed up'); 
                 this.$router.replace({ path: "/" });
               });
             }).catch((error) => {
