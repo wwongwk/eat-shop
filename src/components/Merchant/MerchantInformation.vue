@@ -13,7 +13,7 @@
 
     dashboard: {{ dashboard }}
 
-    <!-- INFO FORM FOR BUSINESS -->
+    <!-- INFO FORM FOR ALL BUSINESS -->
     <h2>{{name}}</h2>
     <div id="content" class="flexbox">
       <form>
@@ -201,7 +201,7 @@ export default {
       shop: false,
       
       // Attributes for Add functionality
-      add:true, // change back to false
+      add:true, // change back to false ############################################## NOTE ##################################################
 
       // inputs for eat merchant account
       foodName: "",
@@ -284,6 +284,8 @@ export default {
           location.reload();
         });
     },
+
+    //Check all inputs for new food filled up
     requiredFood() {
       if (this.foodName === ""){
         alert("Please input a food name");
@@ -298,6 +300,7 @@ export default {
       }
     },
 
+    //Check all inputs for new product filled up
     requiredProduct() {
       console.log(this.productName)
       if (this.productName === ""){
@@ -313,8 +316,8 @@ export default {
       }
     },
 
+    // add food to eat business menu
     addFood() {
-      //console.log(this.menu)
       var newFood = {foodName: this.foodName,
                      foodPrice: this.foodPrice,
                      foodDescription: this.foodDescription,
@@ -333,8 +336,8 @@ export default {
         });
     },
 
+    // add product to shop business menu
     addProduct() {
-      //console.log(this.menu)
       var newProduct = {productName: this.productName,
                         productPrice: this.productPrice,
                         productDescription: this.productDescription,
@@ -353,6 +356,7 @@ export default {
         });
     },
 
+    // delete food from eat business menu
     deleteFood(food) {     
       for (var x in this.menu) {
         if (this.menu[x] == food){
@@ -371,6 +375,7 @@ export default {
         });
     },
 
+    // delete product from shop business menu
     deleteProduct(product) {     
       for (var x in this.menu) {
         if (this.menu[x] == product){
@@ -388,6 +393,8 @@ export default {
           location.reload();
         });
     },
+
+    // toggle display showing adding new food / product form or not
     toogleAddItem() {
       this.add = !this.add;
     },
