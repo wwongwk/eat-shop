@@ -19,12 +19,17 @@
 
     <div class="btn-group">
       <button v-on:click="toggleAbout()">About</button>
+      <button v-on:click="toggleProduct()">Products</button>
       <button v-on:click="toggleReview()">Reviews</button>
       
     </div>
     <h2>{{ shopName }}</h2>
     <div id="body" v-show="About">
       <shop-about v-bind:shop = "shop" ></shop-about>
+    </div>
+
+    <div id="body" v-show="Product">
+      <shop-product v-bind:shop = "shop" ></shop-product>
     </div>
 
     <div id="body" v-show="Review">
@@ -37,20 +42,22 @@
 <script>
 import Header from "../Header.vue";
 import ShopAbout from "./ShopAbout.vue";
+import ShopProduct from "./ShopProduct.vue";
 import ShopReviews from "./ShopReview.vue";
 
 export default {
   components: {
     AppHeader: Header,
     ShopAbout: ShopAbout,
+    ShopProduct: ShopProduct,
     ShopReviews: ShopReviews,
   },
   data() {
     return {
       About: true,
+      Product: false,
       Review: false,
-      Reservation: false,
-      Menu: false,
+      
       shopName: "",
       resImages: [],
       shop:{}
@@ -61,11 +68,19 @@ export default {
     toggleAbout: function () {
       //window.history.scrollRestoration = "manual"
       this.About = true;
+      this.Product = false;
+      this.Review = false;
+    },
+    toggleProduct: function () {
+      //window.history.scrollRestoration = "manual"
+      this.About = false;
+      this.Product = true;
       this.Review = false;
     },
     toggleReview: function () {
       //window.history.scrollRestoration = "manual"
       this.About = false;
+      this.Product = false;
       this.Review = true;
     },
   },

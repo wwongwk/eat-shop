@@ -55,7 +55,7 @@
           alert("Incomplete submission!");
         } else {    
           db.collection("pendingShops").add(this.form);
-          alert("Your submission has been recorded! We will get back to you soon! Have a nice day! :)");
+          alert("Your submission has been recorded! Kindly give us 3 working days to confirm your details! Have a nice day! :)");
           this.$router.replace({ path: "/" });
         }
       },
