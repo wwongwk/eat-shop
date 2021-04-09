@@ -20,6 +20,7 @@
     "vue-analytics": "^5.22.1",
     "vue-chartjs": "^3.5.1",
     "vue-clickaway": "^2.2.2",
+    "vue-paginate": "^3.6.0",
     "vue-plotly": "^1.1.0",
     "vue-router": "^3.5.1",
     "vue-select": "^3.11.2",
