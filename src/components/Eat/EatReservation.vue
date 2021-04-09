@@ -222,7 +222,6 @@ export default {
             
             newRef.set(booking).then(() =>location.reload());
 
-            
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }

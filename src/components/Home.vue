@@ -127,13 +127,14 @@ export default {
       this.$router.push("/eat");
     },
 
+  //find the correct shop object and send the details to the detail page of the shop/resturant
     sendData: function (id, type) {
       if (type === 1) {
         for (var x of this.restaurants) {
           if (x["id"] === id) {
             x["menu_str"] = JSON.stringify(x["menu"]);
             this.increaseCounter(x);
-            this.$router.push({ path: "/eatDetailTemplate", query: x });
+            this.$router.push({ path: "/eatDetail", query: x });
             break;
           }
         }

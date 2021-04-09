@@ -17,7 +17,7 @@ const myRouter = new VueRouter({
   mode: 'history'
   });
 
-  var app
+var app
 firebase.auth().onAuthStateChanged(async () => {
 if (!app) {
    //wait to get user
@@ -35,9 +35,3 @@ Vue.use(VueAnalytics, {
   id: 265257878,
   VueRouter
 })
-
-
-/* new Vue({
-  render: h => h(App),
-  router:myRouter
-}).$mount('#app') */

@@ -6,7 +6,7 @@ import EatPage from './components/Eat/EatPage.vue'
 import PlayPage from './components/Play/PlayPage.vue'
 import PlayDetailPage from './components/Play/PlayDetailPage.vue'
 import ShopPage from './components/Shop/ShopPage.vue'
-import EatDetailTemplate from './components/Eat/EatDetailTemplate.vue'
+import EatDetail from './components/Eat/EatDetail.vue'
 import ChangePW from './components/ChangePW.vue'
 import MerchantHome from './components/Merchant/MerchantHome.vue'
 import BizSignUp from './components/BizSignUp.vue'
@@ -24,7 +24,7 @@ export default[
   {path:'/play', component:PlayPage},
   {path:'/shop', component:ShopPage},
   {path:'/shopDetail', name: 'shopDetail', component:ShopDetail},
-  {path:'/eatDetailTemplate', name: 'eatDetail', component:EatDetailTemplate},
+  {path:'/eatDetail', name: 'eatDetail', component:EatDetail},
   {path:'/playDetail', component:PlayDetailPage},
   {path:'/changepw', component:ChangePW},
   {path:'/merchant', component:MerchantHome},

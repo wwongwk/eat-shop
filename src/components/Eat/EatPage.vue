@@ -10,8 +10,7 @@
           name="name"
           v-model.lazy="search"
           placeholder="Enter Restaurant's Name"
-          v-on:keyup.enter="findRestaurant()"
-        />
+          v-on:keyup.enter="findRestaurant()"/>
         <button id="resetBtn" v-on:click="reset()">RESET</button>
       </div>
       <div id="ratingFilter">
@@ -23,8 +22,7 @@
           :clearable="false"
           v-model="chosenCriteria"
           @input="sortFood"
-          id="drop"
-        >
+          id="drop">
           <template slot="option" slot-scope="option">
             {{ option.criteria }}
           </template>
@@ -39,8 +37,8 @@
           :clearable="false"
           v-model="chosenCuisine"
           @input="filterFood"
-          id="drop"
-        >
+          id="drop">
+
           <template slot="option" slot-scope="option">
             {{ option.cuisineType }}
           </template>
@@ -56,14 +54,12 @@
             <div class="polaroid">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <!-- <router-link to="/eatDetailTemplate" exact> -->
                 <button v-on:click="sendData(restaurant.id)" id="names">
                   {{ restaurant.name }}
                   <br />
                   {{ restaurant.overallRating }}
                   <span style="color: pink">&starf;</span>
                 </button>
-                <!--  </router-link> -->
               </div>
             </div>
           </li>
@@ -75,17 +71,14 @@
             <div class="polaroid">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <router-link to="/eatDetailTemplate" exact>
                   <button
                     v-on:click="sendData(restaurant.id)"
-                    id="selectedNames"
-                  >
+                    id="selectedNames">
                     {{ restaurant.name }}
                     <br />
                     {{ restaurant.overallRating }}
                     <span style="color: pink">&starf;</span>
                   </button>
-                </router-link>
               </div>
             </div>
           </li>
@@ -98,17 +91,12 @@
             <div class="polaroid">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <router-link to="/eatDetailTemplate" exact>
-                  <button
-                    v-on:click="sendData(restaurant.id)"
-                    id="recommendedNames"
-                  >
+                  <button v-on:click="sendData(restaurant.id)" id="recommendedNames">
                     {{ restaurant.name }}
                     <br />
                     {{ restaurant.overallRating }}
                     <span style="color: pink">&starf;</span>
                   </button>
-                </router-link>
               </div>
             </div>
           </li>
@@ -120,17 +108,14 @@
             <div class="polaroid">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <router-link to="/eatDetailTemplate" exact>
                   <button
                     v-on:click="sendData(restaurant.id)"
-                    id="filteredNames"
-                  >
+                    id="filteredNames">
                     {{ restaurant.name }}
                     <br />
                     {{ restaurant.overallRating }}
                     <span style="color: pink">&starf;</span>
                   </button>
-                </router-link>
               </div>
             </div>
           </li>
@@ -247,12 +232,14 @@ export default {
       this.search = "";
       this.filteredShown = false;
     },
+
+    //find the correct shop object and send the details to eat Detail Page
     sendData: function (id) {
       for (var x of this.restaurants) {
         if (x["id"] === id) {
           x["menu_str"] = JSON.stringify(x["menu"]);
           this.increaseCounter(x)
-          this.$router.push({ path: "/eatDetailTemplate", query: x });
+          this.$router.push({ path: "/eatDetail", query: x });
         }
       }
     },

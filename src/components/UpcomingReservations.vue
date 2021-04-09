@@ -41,7 +41,7 @@ export default {
       var user = firebase.auth().currentUser;
       database
         .collection("reservation")
-        .where("user_id", "==", user.uid)
+        .where("customer_id", "==", user.uid)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {

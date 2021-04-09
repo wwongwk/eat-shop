@@ -44,6 +44,9 @@
     },
    
     methods: {
+
+      // user sign up with email and password,
+      //Ensure that form is filled, else there will be an alert
        register: function() {
          if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
           alert("Incomplete submission!");

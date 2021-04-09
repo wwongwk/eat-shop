@@ -10,8 +10,8 @@
           name="name"
           v-model.lazy="search"
           placeholder="Enter Shop's Name"
-          v-on:keyup.enter="findShop()"
-        />
+          v-on:keyup.enter="findShop()"/>
+
         <button id="resetBtn" v-on:click="reset()">RESET</button>
       </div>
       <div id="ratingFilter">
@@ -23,8 +23,7 @@
           :clearable="false"
           v-model="chosenCriteria"
           @input="sortShops"
-          id="drop"
-        >
+          id="drop">
           <template slot="option" slot-scope="option">
             {{ option.criteria }}
           </template>
@@ -39,8 +38,7 @@
           :clearable="false"
           v-model="chosenItemType"
           @input="filterShops"
-          id="drop"
-        >
+          id="drop">
           <template slot="option" slot-scope="option">
             {{ option.productType }}
           </template>
@@ -56,14 +54,12 @@
             <div class="polaroid">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <!-- <router-link to="/eatDetailTemplate" exact> -->
                 <button v-on:click="sendData(shop.id)" id="names">
                   {{ shop.name }}
                     <br>
                     {{ shop.overallRating}}
                     <span style="color: pink">&starf;</span>
                 </button>
-                <!--  </router-link> -->
               </div>
             </div>
           </li>
@@ -75,17 +71,14 @@
             <div class="polaroid">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <router-link to="/eatDetailTemplate" exact>
                   <button
                     v-on:click="sendData(shop.id)"
-                    id="selectedNames"
-                  >
+                    id="selectedNames">
                     {{ shop.name }}
                     <br>
                     {{ shop.overallRating}}
                     <span style="color: pink">&starf;</span>
                   </button>
-                </router-link>
               </div>
             </div>
           </li>
@@ -98,17 +91,16 @@
             <div class="polaroid">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <router-link to="/eatDetailTemplate" exact>
+                
                   <button
                     v-on:click="sendData(shop.id)"
-                    id="recommendedNames"
-                  >
+                    id="recommendedNames">
                     {{ shop.name }}
                     <br>
                     {{ shop.overallRating}}
                     <span style="color: pink">&starf;</span>
                   </button>
-                </router-link>
+                
               </div>
             </div>
           </li>
@@ -120,17 +112,14 @@
             <div class="polaroid">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <router-link to="/eatDetailTemplate" exact>
                   <button
                     v-on:click="sendData(shop.id)"
-                    id="filteredNames"
-                  >
+                    id="filteredNames">
                     {{ shop.name }}
                     <br>
                     {{ shop.overallRating}}
                     <span style="color: pink">&starf;</span>
                   </button>
-                </router-link>
               </div>
             </div>
           </li>
@@ -246,6 +235,8 @@ export default {
       this.search = "";
       this.filteredShown = false;
     },
+
+    //find the correct shop object and send the details to the detail page of the shop/resturant
     sendData: function (id) {
       for (var x of this.shops) {
         if (x["id"] === id) {

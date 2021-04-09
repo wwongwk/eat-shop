@@ -46,6 +46,10 @@
       }
     },
     methods: {
+
+      /* user authentication with email and password,
+      if it is a business account, go to the business account page for business owners
+      else lead to home page with customer logged in */
        login: function() {
         firebase.auth().fetchSignInMethodsForEmail(this.email)
         .then(() => {
@@ -67,41 +71,6 @@
           .catch((error) => {
             alert(error.message);
           });
-
-
-          /*database.collection("users").doc(userRecord.getUid()).get().then((doc) => {
-             if (doc.exists) {
-              if (doc.data().business==false) { 
-                firebase
-                .auth()
-                .signInWithEmailAndPassword(this.email, this.password)
-                .then(() => {
-                  console.log("Successfully logged in");
-                  this.$router.replace({ path: "/" });
-                  })
-                .catch((error) => {
-                  alert(error.message);
-                });
-              } else {
-                firebase
-                .auth()
-                .signInWithEmailAndPassword(this.email, this.password)
-                .then(() => {
-                  console.log("Successfully logged in");
-                  this.$router.replace({ path: "/merchant" });
-                  })
-                .catch((error) => {
-                  alert(error.message);
-                });
-              }
-            } else {
-                console.log("User do not exist!");
-            }
-          }).catch((error) => {
-              console.log("Error getting document:", error);
-          });
-
-          console.log('Successfully fetched user data'); */
         })
         .catch((error) => {
           console.log('Error fetching user data:', error);
