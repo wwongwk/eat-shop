@@ -218,6 +218,7 @@ export default {
     };
   },
   methods: {
+    // Fetches Merchant/Business information
     fetchMerchant() {
       database
         .collection("eat")
@@ -263,11 +264,13 @@ export default {
           });
         });
     },
+    // Fetches current user's details
     fetchDetails() {
       this.uid = firebase.auth().currentUser.uid;
       this.email = firebase.auth().currentUser.email;
       this.phone = firebase.auth().currentUser.phoneNumber;
     },
+    // Saves the user's contact information and updates Firestore
     save() {
       database
         .collection(this.type)

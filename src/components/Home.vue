@@ -9,10 +9,10 @@
       <div id="eat">
         <ul>
           <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid"  v-on:click="sendData(restaurant.id, 1)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <button id="names" v-on:click="sendData(restaurant.id, 1)">
+                <button id="names" >
                   {{ restaurant.name }}
                 </button>
               </div>
@@ -25,10 +25,10 @@
       <div id="shops">
         <ul>
           <li v-for="shop in filteredShops" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id, 2)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button id="names" v-on:click="sendData(shop.id, 2)">
+                <button id="names">
                   {{ shop.name }}
                 </button>
               </div>
@@ -253,6 +253,7 @@ div.polaroid {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 10px;
   border-radius: 10px;
+  cursor : pointer;
 }
 div.container {
   text-align: center;

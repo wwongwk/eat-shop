@@ -6,11 +6,11 @@
       <img id='logo' src="../assets/logo.png"/>
       <h1>JOIN US</h1>
       <form>
-        <input type="name" id="name" name="name" placeholder="USERNAME" v-model="form.name"><br><br>
-        <input type="email" id="email1" name="email" placeholder="YOUR EMAIL" v-model="form.email"><br><br>
-        <input type="password" id="password" name="password" placeholder= "PASSWORD" v-model="form.password"><br><br>
-        <input type="number" id="mobile" name="mobile" placeholder= "MOBILE" v-model="form.mobile"><br><br>
-        <input type="button" id='submit' value="SIGN UP" v-on:click="register()">
+        <input type="name" id="name" name="name" placeholder="USERNAME" v-model="form.name" v-on:keyup.enter="register"><br><br>
+        <input type="email" id="email1" name="email" placeholder="YOUR EMAIL" v-model="form.email" v-on:keyup.enter="register"><br><br>
+        <input type="password" id="password" name="password" placeholder= "PASSWORD" v-model="form.password" v-on:keyup.enter="register"><br><br>
+        <input type="number" id="mobile" name="mobile" placeholder= "MOBILE" v-model="form.mobile" v-on:keyup.enter="register"><br><br>
+        <input type="button" id='submit' value="SIGN UP" v-on:click="register">
       </form>      
       <router-link to="/" id='no' exact> NO, THANK YOU</router-link><br>
       <router-link to="/bizsignup" id='biz' exact>FOR BUSINESS</router-link>
@@ -82,7 +82,11 @@ img {
   width: 80%;
   height: auto;
 }
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 input {
   width: 200px;
   height: 25px;

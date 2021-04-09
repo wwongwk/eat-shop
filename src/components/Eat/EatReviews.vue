@@ -8,8 +8,10 @@
     Shop Name: {{ shopName }} <br />
     DateNow : {{ Date.now() }}<br />
     Document Id: {{ documentId }} <br />
-    stars : {{ overallRating }} <br>
-    clicks : {{clicks}}
+    stars : {{ overallRating }} <br />
+    clicks : {{ clicks }} <br />
+    reviewId : {{ reviewId }} <br />
+    <!-- RESTAURANT RATING -->
     <div id="scores">
       <p id="overall">{{ overallRating }}/5.0</p>
       <div id="stars">
@@ -36,9 +38,10 @@
       </div>
     </div>
 
+    <!-- RESTAURANT REVIEWS -->
     <div class="reviews">
       <ul>
-        <li v-for="item in reviews" v-bind:key="item.review">
+        <li v-for="item in reviews" v-bind:key="item.id">
           {{ item.username }}&nbsp; 
           <p id="date">{{ item.date.toLocaleDateString() }}</p><br />
 
@@ -60,50 +63,26 @@
           {{ item.review }}
           <hr />
         </li>
-
-        
-      
-
-
-
       </ul>
 
+      <div class="submitReview">
+        <p>Submit your review below:</p>
+        <star-rating :show-rating="false" @rating-selected="setRating">
+        </star-rating>
+        <textarea
+          :style="[
+            loggedIn
+              ? { backgroundColor: 'white' }
+              : { backgroundColor: '#DCDCDC' },
+          ]"
+          v-model="reviewTextArea"
+          id="input"
+          name="input"
+        />
 
-
-      <ul class="pagination">
-				<li class="page-item">
-					<button type="button" class="page-link" v-if="page != 1" @click="page--"> Previous </button>
-				</li>
-				<li class="page-item">
-					<button type="button" class="page-link"
-           v-for="pageNumber in reviews.slice(page-1, page+5)" :key = "pageNumber.review"
-            @click="page = pageNumber"> {{pageNumber}} </button>
-				</li>
-				<li class="page-item">
-					<button type="button" @click="page++" v-if="page < reviews.length" class="page-link"> Next </button>
-				</li>
-			</ul>
-
-        <div class="submitReview">
-          <p>Submit your review below:</p>
-          <star-rating :show-rating="false" @rating-selected="setRating">
-          </star-rating>
-          <textarea
-            :style="[
-              loggedIn
-                ? { backgroundColor: 'white' }
-                : { backgroundColor: '#DCDCDC' },
-            ]"
-            v-model="reviewTextArea"
-            id="input"
-            name="input"
-          />
-
-          <br />
-          <button @click="submitReview">SUBMIT</button>
-        </div>
-
-
+        <br />
+        <button @click="submitReview">SUBMIT</button>
+      </div>
     </div>
   </div>
 </template>
@@ -115,7 +94,7 @@ import database from "../../firebase.js";
 import firebase from "firebase/app";
 
 export default {
-  props: ['shop'],
+  props: ["shop"],
 
   name: "EatReview",
   components: {
@@ -128,8 +107,9 @@ export default {
       shopName: "",
       shopType: "",
       overallRating: 0,
-      clicks : 0,
+      clicks: 0,
       documentId: "",
+      reviewId: "",
       reviews: [],
       stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       reviewTextArea: "",
@@ -137,18 +117,16 @@ export default {
       email: "",
       name: "",
       loggedIn: false,
-      page: 1,
-			perPage: 8,
     };
   },
 
   methods: {
-    
-
-
+    // Sets the rating when clicked by the user
     setRating: function (rating) {
       this.rating = rating;
     },
+
+    // Submits a review and updates Firestore
     submitReview() {
       //this.newReviews = this.reviews.slice();
       if (this.loggedIn === false) {
@@ -163,6 +141,7 @@ export default {
           date: myTimestamp,
           username: this.name,
           review: this.reviewTextArea,
+          id: this.reviewId,
           stars: this.rating,
         });
         alert("Review submitted!");
@@ -180,11 +159,12 @@ export default {
             this.updateStars();
             this.updateDate();
             this.updateOverallRating();
-            this.reviewTextArea="";
-            window.scrollTo(0,0);
+            this.reviewTextArea = "";
+            window.scrollTo(0, 0);
           });
       }
     },
+    // Fetches user information from firestore
     fetchDetails() {
       try {
         this.uid = firebase.auth().currentUser.uid;
@@ -201,37 +181,37 @@ export default {
         this.loggedIn = false;
       }
     },
+    // Fetches shop information from firestore
     get() {
       /* var shop = JSON.parse(localStorage.getItem("KEY")); */
       this.shopName = this.shop["name"];
       this.documentId = this.shop["document_id"];
       this.shopType = this.shop["type"];
-      this.clicks = this.shop["clicks"]
-      this.overallRating = this.shop["overallRating"]
+      this.clicks = this.shop["clicks"];
+      this.overallRating = this.shop["overallRating"];
       database
-          .collection(this.shopType)
-          .doc(this.documentId)
-          .get()
-          .then((doc) => {
-            this.reviews = doc.data().reviews;
-            this.fetchDetails();
-            this.updateStars();
-            this.updateDate();
-            this.updateOverallRating();
-          });
+        .collection(this.shopType)
+        .doc(this.documentId)
+        .get()
+        .then((doc) => {
+          this.reviews = doc.data().reviews;
+          this.reviewId = doc.data().reviews[0].id + 1;
+          this.fetchDetails();
+          this.updateStars();
+          this.updateDate();
+          this.updateOverallRating();
+        });
     },
+    // Converts a Firestore Timestamp object to a Javascript Date object
     updateDate() {
       for (let i = 0; i < this.reviews.length; i++) {
         let seconds = this.reviews[i].date.seconds;
         let nanoseconds = this.reviews[i].date.nanoseconds;
         let date = new Date(seconds * 1000 + nanoseconds / 1000000);
-        //let year = date.getYear();
-        //let month = date.getMonth();
-        //let day = date.getDay();
         this.reviews[i].date = date;
       }
     },
-
+    // Updates the stars Object to properly display the breakdown of the reviews
     updateStars() {
       for (let i = 0; i < this.reviews.length; i++) {
         if (this.reviews[i].stars == 1) {
@@ -251,6 +231,7 @@ export default {
         }
       }
     },
+    // Updates the restaurant's overall rating
     updateOverallRating() {
       let sum = 0;
       let length = 0;
@@ -267,6 +248,7 @@ export default {
     },
   },
   computed: {
+    // Updates the restaurant's overall rating
     averageStars() {
       let sum = 0;
       let length = 0;
@@ -285,7 +267,6 @@ export default {
   created() {
     this.get();
   },
-
 };
 </script>
 
@@ -362,7 +343,6 @@ div.reviews {
 
 .submitReview {
   margin-left: 60px;
-
 }
 
 textarea {
