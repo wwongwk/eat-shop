@@ -266,6 +266,7 @@ export default {
   },
   created() {
     this.get();
+    console.log("eat login: " + this.loggedIn)
   },
 };
 </script>

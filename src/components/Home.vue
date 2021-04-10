@@ -141,6 +141,7 @@ export default {
       } else {
         for (var y of this.shopsList) {
           if (y["id"] === id) {
+            y["menu_str"] = JSON.stringify(y["menu"])
             this.$router.push({ path: "/shopDetail", query: y });
             break;
           }
