@@ -123,27 +123,30 @@ export default {
           date: myTimestamp,
           username: this.name,
           review: this.reviewTextArea,
+          id: this.reviewId,
           stars: this.rating,
         });
         alert("Review submitted!");
         database
-          .collection(this.shopType)
+          .collection("shop")
           .doc(this.documentId)
           .update({
             reviews: this.reviews,
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
-            location.reload();
+            //location.reload();
             this.get();
             this.fetchDetails();
             this.updateStars();
             this.updateDate();
             this.updateOverallRating();
+            this.reviewTextArea = "";
+            window.scrollTo(0, 0);
           });
       }
     },
-    fetchDetails() {
+    fetchDetails() {     
       try {
         this.uid = firebase.auth().currentUser.uid;
         this.email = firebase.auth().currentUser.email;
@@ -154,6 +157,7 @@ export default {
           .then((doc) => {
             this.name = doc.data().name;
             this.loggedIn = true;
+            //console.log("fetch details login:" + this.loggedIn)
           });
       } catch (err) {
         this.loggedIn = false;
@@ -162,13 +166,16 @@ export default {
     get() {
       this.shopName = this.shop["name"];
       this.documentId = this.shop["document_id"];
-      this.shopType = this.shop["type"];
+      this.shopType = "shop"; // set as shop since shop type used for clothing / handcraft / toys
+      //this.clicks = this.shop["clicks"];
+      this.overallRating = this.shop["overallRating"];
       database
           .collection(this.shopType)
           .doc(this.documentId)
           .get()
           .then((doc) => {
             this.reviews = doc.data().reviews;
+            this.reviewId = doc.data().reviews[0].id + 1;
             this.fetchDetails();
             this.updateStars();
             this.updateDate();
@@ -239,6 +246,7 @@ export default {
   },
   created() {
     this.get();
+    //console.log("shop login: " + this.loggedIn)
   },
 
 };
