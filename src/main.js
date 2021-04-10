@@ -4,7 +4,10 @@ import VueRouter from 'vue-router'
 import Routes from './routes.js'
 import vSelect from 'vue-select'
 import firebase from 'firebase'
-import VueAnalytics from 'vue-analytics';
+import JwPagination from 'jw-vue-pagination';
+
+
+Vue.component('jw-pagination', JwPagination);
 
 Vue.component('v-select', vSelect);
 import 'vue-select/dist/vue-select.css';
@@ -31,7 +34,4 @@ if (!app) {
  }
 });
 
-Vue.use(VueAnalytics, {
-  id: 265257878,
-  VueRouter
-})
+
