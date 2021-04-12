@@ -43,7 +43,7 @@
     <!-- RESTAURANT REVIEWS -->
     <div class="reviews">
       <ul>
-        <li v-for="item in reviews" v-bind:key="item.id">
+        <li v-for="item in pageOfItems" v-bind:key="item.id">
           {{ item.username }}&nbsp;
           <p id="date">{{ item.date.toLocaleDateString() }}</p>
           <br />
@@ -66,8 +66,14 @@
           {{ item.review }}
           <hr />
         </li>
-        
-        <jw-pagination :items="reviews" :pageSize = 3 @changePage="onChangePage"></jw-pagination>
+
+        <div>
+          <jw-pagination
+            :items="reviews"
+            :pageSize="4"
+            @changePage="onChangePage"
+          ></jw-pagination>
+        </div>
       </ul>
 
       <div class="submitReview">
@@ -100,7 +106,6 @@ import firebase from "firebase/app";
 
 export default {
   props: ["shop"],
-
   name: "EatReview",
   components: {
     StarRating: StarRating,
@@ -122,8 +127,7 @@ export default {
       email: "",
       name: "",
       loggedIn: false,
-      exampleItems : [...Array(150).keys()].map(i => ({ id: (i+1), name: 'Item ' + (i+1) })),
-      pageofItems : [],
+      pageOfItems: [],
     };
   },
 
@@ -277,7 +281,7 @@ export default {
   },
   created() {
     this.get();
-    console.log("eat login: " + this.loggedIn)
+    console.log("eat login: " + this.loggedIn);
   },
 };
 </script>
