@@ -151,7 +151,7 @@ export default {
     if (this.loggedIn === true) {
       var document_id =this.shop["document_id"]
       if (this.added===true) {
-        this.fav[document_id]={imageURL:this.shop["imageURL"], name:this.shopName, overallRating:this.shop.overallRating} 
+        this.fav[document_id]={imageURL:this.shop["imageURL"], name:this.shopName, overallRating:this.shop.overallRating, type:this.shop.type} 
 
       } else {
         delete this.fav[document_id];
@@ -175,6 +175,11 @@ h1 {
   width: 100%;
   font-size: 55px;
   letter-spacing: 0.1em;
+}
+
+h2 {
+  margin-left: 20px;
+  text-align: left;
 }
 
 .favName h2 {
