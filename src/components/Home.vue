@@ -152,6 +152,19 @@ export default {
       console.log("increaseCounter loop");
       //var clicks = 0;
       console.log("Before access: " + this.clicks);
+      /*
+      database
+        .collection('clicks')
+        .get()
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
+            if (x["user_id"] == doc.data().user_id) {
+              this.clicks.push(doc.data())
+            }
+            shop.id = doc.id;
+            this.shopsList.push(shop);
+          });
+        }); */
       database
         .collection(x["type"])
         .doc(x["document_id"])
