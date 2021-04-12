@@ -193,7 +193,7 @@ export default {
           ) {
             //loop through current list of shops to find that particular shop
             this.selectedShops.push(shop);
-            var type = shop.type;
+            var type = shop.shopCategory;
             for (let j = 0; j < this.shops.length; j++) {
               var current = this.shops[j];
               if (
@@ -256,8 +256,8 @@ export default {
         this.allShown = true;
       }
       for (let i = 0; i < this.shops.length; i++) {
-        var shop = this.shops[i];
-        if (shop.type.toLowerCase() === value.productType.toLowerCase()) {
+        var shop = this.shops[i]; 
+        if (shop.shopCategory.toLowerCase() === value.productType.toLowerCase()) {
           //filters the list of shops by the type of products they sell
           this.filtered.push(shop);
           this.allShown = false;
