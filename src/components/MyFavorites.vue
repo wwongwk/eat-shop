@@ -2,17 +2,52 @@
   <div>
     <div id='display'>
   
+      <div id="filterDropdown">
+        <p>Filter by:</p>
+        <v-select
+          label="type"
+          :options="dropdownOptions"
+          :value="selectedType"
+          :clearable="false"
+          v-model="chosenType"
+          @input="filter"
+          id="drop">
+
+          <template slot="option" slot-scope="option">
+            {{ option.type }}
+          </template>
+        </v-select>
+      </div>
+
       <div id="noFavError" v-show="errorShown">
         {{ error }}
       </div>
     
-      <div id="food">
+      <div id="food" v-show="allShown">
         <ul>
           <li v-for="favorite,key in favorites" :key="favorite.index">
             <div class="polaroid">
               <img v-bind:src="favorite.imageURL" /><br />
               <div class="container">
-                  <button v-on:click="sendData(key)" id="names">
+                  <button v-on:click="sendData(key, favorite.type)" id="names">
+                    {{ favorite.name }}
+                    <span style="color: pink">&#9829;</span>
+                    <br>
+                    {{ favorite.overallRating }}
+                    <span style="color: pink">&starf;</span>
+                  </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div id="filteredFood" v-show="filteredShown">
+        <ul>
+          <li v-for="favorite in filtered" :key="favorite.index">
+            <div class="polaroid">
+              <img v-bind:src="favorite.imageURL" /><br />
+              <div class="container">
+                  <button v-on:click="sendData(favorite.key,favorite.type)" id="names">
                     {{ favorite.name }}
                     <span style="color: pink">&#9829;</span>
                     <br>
@@ -38,20 +73,70 @@
       return {
         errorShown: false,
         error: "",
+        dropdownOptions: [
+          { code: "ALL", type: "ALL" },
+          { code: "EAT", type: "EAT" },
+          { code: "SHOP", type: "SHOP" },
+        ],
+        selectedType: "",
+        filtered: [],
+        allShown: true,
+        filteredShown: false,
       }
     },
     methods: {
-      sendData: function (id) {
+      sendData: function (id, type) {
         var item={}
-        database.collection("eat").doc(id).get().then((doc) => {
-          item=doc.data()
-           item["menu_str"] = JSON.stringify(item["menu"])
+        if (type=="eat") {
+          database
+          .collection("eat")
+          .doc(id)
+          .get()
+          .then((doc) => {
+            item=doc.data()
+            item["menu_str"] = JSON.stringify(item["menu"])
             this.$router.push({ path:'/eatDetail', query: item })
-        }).catch((error) => {
+          }).catch((error) => {
+              console.log("Error getting document:", error);
+          });  
+        } else {
+          database
+          .collection("shop")
+          .doc(id)
+          .get()
+          .then((doc) => {
+            item=doc.data()
+            item["menu_str"] = JSON.stringify(item["menu"])
+            this.$router.push({ path: "/shopDetail", query: item });
+          }).catch((error) => {
             console.log("Error getting document:", error);
-        });
-           
-      }
+          });  
+        } 
+      },
+
+      filter: function (value) {
+        if (this.filtered.length > 0) {
+          //clears previous filter results
+          this.filtered.length= 0;
+        }
+        if (value.type === "ALL") {
+          this.allShown = true;
+        }
+
+        for (var favorite in this.favorites) {
+
+          if (this.favorites[favorite].type === value.type.toLowerCase()) {
+            //filters the list of restaurants by cuisine type
+           // this.filtered[favorite]=this.favorites[favorite]
+           this.favorites[favorite].key=favorite
+           this.filtered.push(this.favorites[favorite])
+            this.allShown = false;
+          }
+        }
+
+        this.errorShown = false;
+        this.filteredShown = true;
+      },
     }
   };
 </script>
@@ -144,5 +229,38 @@ h3 {
   color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;
+}
+
+#drop {
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  outline: none;
+}
+
+#filterDropdown {
+  width: 30%;
+  margin: 0 auto;
+  margin-top: 50px;
+  border: none;
+  outline: none;
+}
+
+#filteredFood {
+  width: 100%;
+  max-width: 80%;
+  margin: 0px;
+  padding: 0 px;
+  box-sizing: border-box;
+}
+
+#filteredNames{
+  background-color: white;
+  font-size: 13px;
+  border-radius: 8px;
+  color: #403939;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 5px;
 }
 </style>

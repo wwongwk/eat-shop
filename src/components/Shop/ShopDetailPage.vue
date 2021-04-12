@@ -8,7 +8,7 @@
           <div class="slide">
             <img
               :src="image"
-              width="550px"
+              width="600px"
               height="400px"
             />
           </div>
@@ -21,9 +21,12 @@
       <button v-on:click="toggleAbout()">About</button>
       <button v-on:click="toggleProduct()">Products</button>
       <button v-on:click="toggleReview()">Reviews</button>
-      
     </div>
-    <h2>{{ shopName }}</h2>
+    <div class="favName">
+      <h2 id="name">{{ shopName }} &nbsp;</h2>
+      <button id="favorite" v-on:click="addFavorite()">Favorite &#9825;</button>
+     </div>
+
     <div id="body" v-show="About">
       <shop-about v-bind:shop = "shop" ></shop-about>
     </div>
@@ -33,7 +36,7 @@
     </div>
 
     <div id="body" v-show="Review">
-      <shop-reviews v-bind:shop = "shop" ></shop-reviews>
+      <shop-reviews v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn"></shop-reviews>
     </div>
 
   </div>
@@ -44,6 +47,8 @@ import Header from "../Header.vue";
 import ShopAbout from "./ShopAbout.vue";
 import ShopProduct from "./ShopProduct.vue";
 import ShopReviews from "./ShopReview.vue";
+import database from '../../firebase';
+import firebase from 'firebase';
 
 export default {
   components: {
@@ -60,11 +65,35 @@ export default {
       
       shopName: "",
       resImages: [],
-      shop:{}
+      shop:{},
+
+      loggedIn: false,
+      added:false,
+      uid:"",
+      fav:{}
 
     };
   },
   methods: {
+    fetchDetails() {
+      try {
+        this.uid = firebase.auth().currentUser.uid;
+        database
+          .collection("users")
+          .doc(this.uid)
+          .get()
+          .then((doc) => {
+            this.loggedIn = true;
+            this.fav=doc.data().favorites
+            if (this.fav[this.shop["document_id"]]!=null) {
+              this.added=true;
+              document.getElementById("favorite").innerHTML="Favorite &#9829;";
+            }
+          });
+      } catch (err) {
+        this.loggedIn = false;
+      }
+    },
     toggleAbout: function () {
       //window.history.scrollRestoration = "manual"
       this.About = true;
@@ -83,14 +112,44 @@ export default {
       this.Product = false;
       this.Review = true;
     },
+    addFavorite: function () {
+      //if user is not logged in,
+      //alert pop-up to remind user to log in before favoriting
+      if (this.loggedIn === false) {
+        alert("Please log in to favorite it!");
+      } else {
+        if (this.added===false) {
+          document.getElementById("favorite").innerHTML="Favorite &#9829;";
+          this.added=true;
+        } else {
+          document.getElementById("favorite").innerHTML="Favorite &#9825;";
+          this.added=false
+        }
+      }
+    },
   },
   created() {
       this.shop = this.$route.query;
       this.shopName = this.shop["name"];
       this.resImages = this.shop["resImages"]
+      this.fetchDetails();
+
   },
   destroyed() {
-      localStorage.clear();
+    if (this.loggedIn === true) {
+      var document_id =this.shop["document_id"]
+      if (this.added===true) {
+        this.fav[document_id]={imageURL:this.shop["imageURL"], name:this.shopName, overallRating:this.shop.overallRating, type:this.shop.type} 
+
+      } else {
+        delete this.fav[document_id];
+      }
+        database.collection("users").doc(this.uid).update({
+              //favorites: firebase.firestore.FieldValue.arrayUnion(this.fav)   
+              favorites : this.fav
+        });
+    }
+    localStorage.clear();
   }
 };
 </script>
@@ -109,6 +168,27 @@ h1 {
 h2 {
   margin-left: 20px;
   text-align: left;
+}
+.favName h2 {
+  margin-left: 20px;
+  margin-right: 10px;
+}
+.favName {
+  float: left;
+  margin-bottom: 20px;
+  white-space: nowrap;
+}
+.favName button, 
+.favName h2 {
+  display: inline-block;
+}
+
+.favName button {
+  color: #ED83A7;
+  font-size: 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 img {
@@ -134,9 +214,9 @@ img {
 #body {
   text-align: justify;
   text-size-adjust: 90%;
-  margin-right: 20%;
-  margin-left: 20px;
+  clear: both;
 }
+
 
 #openHours {
   background-color: aquamarine;
