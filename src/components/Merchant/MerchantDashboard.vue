@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div class="clicks">CLICKS: {{ clicks }}</div>
-
-    <div class="rating">RATING: {{ rating }}</div>
-
     type : {{ merchantType }} <br />
     uid : {{ uid }} <br />
     reservations : {{ reservations }} <br />
@@ -11,6 +7,29 @@
     datesFormatted : {{ datesFormatted }} <br />
     DatesAxis {{ datesAxis }} <br />
     Reservation Axis: {{ reservationAxis }} <br />
+    <div class="clicks">
+      VISITORS:
+      <animated-number
+        :value="clicks"
+        :formatValue="formatClicks"
+        :duration="1000"
+      />
+    </div>
+    <div class="rating">
+      RATING:
+      <animated-number
+        :value="rating"
+        :formatValue="formatRating"
+        :duration="1000"
+      />
+
+      <star-rating
+        :rating="4.2"
+        :increment="0.01"
+        :fixed-points="2"
+        :show-rating="false"
+      ></star-rating>
+    </div>
 
     <div class="chart">
       <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
@@ -22,9 +41,11 @@
 import database from "../../firebase.js";
 import firebase from "firebase/app";
 import { Plotly } from "vue-plotly";
+import AnimatedNumber from "animated-number-vue";
+import StarRating from "vue-star-rating";
 
 export default {
-  components: { Plotly },
+  components: { Plotly, AnimatedNumber, StarRating },
   data() {
     return {
       data: [
@@ -51,6 +72,7 @@ export default {
       datesFormatted: [],
       reservationAxis: [],
       datesAxis: [],
+      duration: 1000,
     };
   },
   methods: {
@@ -68,10 +90,7 @@ export default {
               var nanoseconds = doc.data().date.nanoseconds;
               var date = new Date(seconds * 1000 + nanoseconds / 1000000);
               this.reservations.push(doc.data());
-              this.datesMonthYear.push([
-                date.getMonth(),
-                date.getFullYear(),
-              ]);
+              this.datesMonthYear.push([date.getMonth(), date.getFullYear()]);
               this.datesFormatted.push(date.toLocaleDateString());
             }
           });
@@ -145,6 +164,12 @@ export default {
         );
       }
     },
+    formatClicks(value) {
+      return `${value.toFixed(0)}`;
+    },
+    formatRating(value) {
+      return `${value.toFixed(1)}`;
+    },
   },
   created() {
     this.fetchDetails();
@@ -155,4 +180,27 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
+.clicks {
+  float: left;
+  width: 50%;
+  border-style: solid;
+  box-sizing: border-box;
+  width: 300px;
+  height: 150px;
+  padding: 30px;
+}
+.rating {
+  float: right;
+  width: 50%;
+  border-style: solid;
+  box-sizing: border-box;
+  width: 300px;
+  height: 150px;
+  padding: 30px;
+}
+.chart {
+  margin-top: 200px;
+}
 </style>

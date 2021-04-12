@@ -19,11 +19,11 @@
     </div>
   </div>
 
-    <div id="body" v-show="information">
+    <div id="body" v-if="information">
       <merchant-information> </merchant-information>
     </div>
 
-    <div id="body" v-show="dashboard">
+    <div id="body" v-else-if="dashboard">
       <merchant-dashboard> </merchant-dashboard>
     </div>
   </div>
