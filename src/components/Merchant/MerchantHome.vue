@@ -65,7 +65,7 @@ export default {
     
     logOut: function() {
       firebase.auth().signOut().then(() => {
-        console.log("signout");
+        alert("Successfully signed out!");        
         this.login=false;
         this.$router.replace({ path: "/" });
       }).catch((error) => {

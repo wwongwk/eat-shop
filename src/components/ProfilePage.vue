@@ -123,16 +123,17 @@
         this.basic=false;
         this.fav=true;
         this.past=false;
-      }
-    },
-    
-    created() {
+      },
+    getData() {
       var user = firebase.auth().currentUser;
       if (user != null) {
         this.email=user.email;
         
         var uid = user.uid;
-        db.collection("users").doc(uid).get().then((doc) => {
+        db.collection("users").doc(uid).onSnapshot({
+        // Listen for document metadata changes
+        includeMetadataChanges: true
+    }, (doc) => {
           if (doc.exists) {
               this.name = doc.data().name;
               this.mobile=doc.data().mobile;
@@ -146,6 +147,11 @@
         });
         this.fetchReservations();
       }
+    }
+    },
+    
+    created() {
+      this.getData();
     }
   }
 </script>

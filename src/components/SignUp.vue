@@ -9,7 +9,7 @@
         <input type="name" id="name" name="name" placeholder="USERNAME" v-model="form.name" v-on:keyup.enter="register"><br><br>
         <input type="email" id="email1" name="email" placeholder="YOUR EMAIL" v-model="form.email" v-on:keyup.enter="register"><br><br>
         <input type="password" id="password" name="password" placeholder= "PASSWORD" v-model="form.password" v-on:keyup.enter="register"><br><br>
-        <input type="number" id="mobile" name="mobile" placeholder= "MOBILE" v-model="form.mobile" v-on:keyup.enter="register"><br><br>
+        <input type="tel" id="mobile" name="mobile" placeholder= "MOBILE" v-on:keyup="onlyNumberKey($event)"  v-model="form.mobile" v-on:keyup.enter="register"><br><br>
         <input type="button" id='submit' value="SIGN UP" v-on:click="register">
       </form>      
       <router-link to="/" id='no' exact> NO, THANK YOU</router-link><br>
@@ -45,9 +45,20 @@
    
     methods: {
 
+      onlyNumberKey(evt) {
+          
+        // Only numbers allowed in mobile
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
+          alert("please key in only numbers")
+          this.form.mobile=""
+        }
+      },
+
       // user sign up with email and password,
-      //Ensure that form is filled, else there will be an alert
-       register: function() {
+      //Conditions: Ensure that form is filled, ensure user is not registered
+      //Else: there will be an alert
+      register: function() {
          if (this.form.name=="" || this.form.email=="" || this.form.password=="" || this.form.mobile=="") {
           alert("Incomplete submission!");
         } else {    
@@ -70,7 +81,7 @@
                 this.$router.replace({ path: "/" });
               });
             }).catch((error) => {
-            console.log(error.message);
+            alert(error.message);
           });
         }
       },

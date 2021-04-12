@@ -74,34 +74,38 @@ export default {
   },
   methods: {
     login: function () {
-      firebase
-        .auth()
-        .fetchSignInMethodsForEmail(this.email)
-        .then(() => {
-          firebase
-            .auth()
-            .signInWithEmailAndPassword(this.email, this.password)
-            .then(() => {
-              console.log("Successfully logged in");
-              database
-                .collection("users")
-                .doc(firebase.auth().currentUser.uid)
-                .get()
-                .then((doc) => {
-                  if (doc.exists) {
-                    if (doc.data().business == false) {
-                      this.$router.replace({ path: "/" });
-                    } else {
-                      this.$router.replace({ path: "/merchant" });
+      if (this.email=="" || this.password=="") {
+        alert("Incomplete submission!");
+      } else {    
+        firebase
+          .auth()
+          .fetchSignInMethodsForEmail(this.email)
+          .then(() => {
+            firebase
+              .auth()
+              .signInWithEmailAndPassword(this.email, this.password)
+              .then(() => {
+                console.log("Successfully logged in");
+                database
+                  .collection("users")
+                  .doc(firebase.auth().currentUser.uid)
+                  .get()
+                  .then((doc) => {
+                    if (doc.exists) {
+                      if (doc.data().business == false) {
+                        this.$router.replace({ path: "/" });
+                      } else {
+                        this.$router.replace({ path: "/merchant" });
+                      }
                     }
-                  }
-                });
-            });
-        })
-        .catch((error) => {
-          console.log("Error fetching user data:", error);
-          alert(error.message);
-        });
+                  });
+              });
+          })
+          .catch((error) => {
+            console.log("Error fetching user data:", error);
+            alert(error.message);
+          });
+      }
     },
   },
 };
