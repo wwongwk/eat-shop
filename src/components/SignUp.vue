@@ -62,7 +62,8 @@
               user_id: data.user.uid,
               name: this.form.name,
               mobile:this.form.mobile,
-              business:false
+              business:false,
+              favorites:{}
               })
               .then(() => {
                 alert('Successfully signed up'); 
