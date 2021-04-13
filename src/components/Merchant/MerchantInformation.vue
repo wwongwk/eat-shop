@@ -150,7 +150,7 @@
       </div>
     </div>
     <!-- Display list of food / product items for eat / shop respectively -->
-    <ul>
+    <ul id="displayFood">
         <li v-for="product in menu" :key="product.index">
             <div id="float-container">
                 <div id="Image">
@@ -518,7 +518,19 @@ ul{
   padding: 0;
   margin: 0;
 }
-
+#displayFood {
+  width: 1000px;
+  padding:30px;
+	margin:40px auto;
+	background: #FFF;
+	border-radius: 10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  
+}
 #float-container {
     border: 3px solid #fff;
     padding: 10px;
