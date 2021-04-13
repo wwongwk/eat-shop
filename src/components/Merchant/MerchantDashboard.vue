@@ -12,7 +12,7 @@
       <animated-number
         :value="clicks"
         :formatValue="formatClicks"
-        :duration="1000"
+        :duration="3000"
       />
     </div>
     <div class="rating">
@@ -20,11 +20,11 @@
       <animated-number
         :value="rating"
         :formatValue="formatRating"
-        :duration="1000"
+        :duration="3000"
       />
 
       <star-rating
-        :rating="4.2"
+        :rating="rating"
         :increment="0.01"
         :fixed-points="2"
         :show-rating="false"
