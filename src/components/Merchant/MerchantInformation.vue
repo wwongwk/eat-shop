@@ -16,6 +16,7 @@
     <!-- INFO FORM FOR ALL BUSINESS -->
     <h2>{{name}}</h2>
     <div id="content" class="flexbox">
+      <h2>Business Information</h2>
       <form>
         <label for="name">NAME:</label><br />
         <input type="name" id="name" name="name" v-model="name" /><br /><br />
@@ -53,7 +54,7 @@
       </form>
       <br />
     </div>
-    <hr>
+    
     <!-- MENU PORTION FOR EAT BUSINESS -->
     <div id="menuInfo" class="flexbox" v-show="eat">
       <h2> Menu Items </h2>
