@@ -21,6 +21,7 @@
         :increment="0.01"
         :fixed-points="2"
         :show-rating="false"
+        :read-only = "true"
       ></star-rating>
     </div>
 

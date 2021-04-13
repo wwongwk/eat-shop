@@ -356,6 +356,7 @@ textarea {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 10px;
   background-color: #fff;
+  resize: none;
 }
 
 button {
