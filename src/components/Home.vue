@@ -170,6 +170,11 @@ increaseCounter: function(x) {
               break;
             }
           }
+          for (var k = 0; k < doc.data().numClicks.length; k++) {
+            if (doc.data().numClicks[k] === 0) {
+              clicksArr.push(doc.data().numClicks[k]);
+            }
+          }
         })
         .then(() => {
           console.log("After access: " + this.clicks);
