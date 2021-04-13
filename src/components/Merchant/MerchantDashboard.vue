@@ -1,18 +1,11 @@
 <template>
   <div>
-    type : {{ merchantType }} <br />
-    uid : {{ uid }} <br />
-    reservations : {{ reservations }} <br />
-    datesMonthYear: {{ datesMonthYear }} <br />
-    datesFormatted : {{ datesFormatted }} <br />
-    DatesAxis {{ datesAxis }} <br />
-    Reservation Axis: {{ reservationAxis }} <br />
     <div class="clicks">
       VISITORS:
       <animated-number
         :value="clicks"
         :formatValue="formatClicks"
-        :duration="1000"
+        :duration="3000"
       />
     </div>
     <div class="rating">
@@ -20,19 +13,23 @@
       <animated-number
         :value="rating"
         :formatValue="formatRating"
-        :duration="1000"
+        :duration="3000"
       />
 
       <star-rating
-        :rating="4.2"
+        :rating="rating"
         :increment="0.01"
         :fixed-points="2"
         :show-rating="false"
+        :read-only = "true"
       ></star-rating>
     </div>
 
     <div class="chart">
       <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
+    </div>
+    <div id="barchart">
+      <Plotly :data="clicksData" :layout="barLayout" :display-mode-bar="false"></Plotly>
     </div>
   </div>
 </template>
@@ -53,10 +50,20 @@ export default {
           x: [],
           y: [],
           type: "scatter",
-        },
+        }
+      ],
+      clicksData: [
+        { 
+          x: [],
+          y: [],
+          type: "bar",
+        }
       ],
       layout: {
         title: "Monthly Reservations",
+      },
+      barLayout: {
+        title: "Monthly Clicks",
       },
       name: "",
       email: "",
@@ -72,10 +79,38 @@ export default {
       datesFormatted: [],
       reservationAxis: [],
       datesAxis: [],
+      monthsAxis: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
       duration: 1000,
     };
   },
   methods: {
+    //fetch number of clicks per month from firestore
+    fetchClicks() {
+      this.uid = firebase.auth().currentUser.uid;
+      database
+        .collection("eat")
+        .where("user_id", "==", this.uid)
+        .get()
+        .then((querySnapShot) => {
+          querySnapShot.forEach((doc) => {
+            for (var j = 0; j < doc.data().numClicks.length; j++) {
+              if (doc.data().numClicks[j] != 0) {
+                this.clicksData[0].y.push(doc.data().numClicks[j]);
+              }
+            }
+            this.generateMonthlyAxis(this.clicksData[0].y);
+          })
+        });
+        console.log(this.clicksData[0].x);
+    },
+
+    //updates x axis to be past and current months only 
+    generateMonthlyAxis: function(clickArray) {
+      for (var i = 0; i < clickArray.length; i++) {
+          this.clicksData[0].x.push(this.monthsAxis[i]);
+        }
+      },
+
     // Fetches reservation data from firestore
     fetchReservations() {
       console.log("fetchReservations() running");
@@ -173,6 +208,7 @@ export default {
   },
   created() {
     this.fetchDetails();
+    this.fetchClicks();
     /* this.fetchClicksAndReviews();
     this.fetchReservations(); */
   },

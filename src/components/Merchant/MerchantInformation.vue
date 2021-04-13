@@ -16,6 +16,7 @@
     <!-- INFO FORM FOR ALL BUSINESS -->
     <h2>{{name}}</h2>
     <div id="content" class="flexbox">
+      <h2>Business Information</h2>
       <form>
         <label for="name">NAME:</label><br />
         <input type="name" id="name" name="name" v-model="name" /><br /><br />
@@ -34,7 +35,10 @@
           v-model="mobile"
         /><br /><br />
         <label for="address">ADDRESS:</label><br />
-        <textarea id="address" name="address" v-model="address" /><br /><br />
+        <textarea 
+        id="address" 
+        name="address" 
+        v-model="address" /><br /><br />
         <label for="openingHours">Opening Hours:</label><br />
         <input
           type="text"
@@ -53,7 +57,7 @@
       </form>
       <br />
     </div>
-    <hr>
+    
     <!-- MENU PORTION FOR EAT BUSINESS -->
     <div id="menuInfo" class="flexbox" v-show="eat">
       <h2> Menu Items </h2>
@@ -455,6 +459,7 @@ input {
   border:0;
   box-shadow:4px 4px 10px rgba(0,0,0,0.1);
   margin-top: 10px;
+  resize: none;
 }
 textarea {
   box-sizing: border-box;
@@ -465,13 +470,16 @@ textarea {
 	width: 100%;
 	padding: 7px;
 	font: 16px Arial, Helvetica, sans-serif;
-	height: 45px;
+	height: 100px;
   border-radius:15px;
   border:0;
   box-shadow:4px 4px 10px rgba(0,0,0,0.1);
   margin-top: 10px;
+  resize: none;
 }
-
+#address {
+  height: 45px;
+}
 #submit {
   cursor: pointer;
   background-color:#ED83A7;
