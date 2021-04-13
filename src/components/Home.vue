@@ -148,35 +148,39 @@ export default {
         }
       }
     },
-    increaseCounter(x) {
+increaseCounter: function(x) {
       console.log("increaseCounter loop");
-      //var clicks = 0;
       console.log("Before access: " + this.clicks);
-      /*
-      database
-        .collection('clicks')
-        .get()
-        .then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (x["user_id"] == doc.data().user_id) {
-              this.clicks.push(doc.data())
-            }
-            shop.id = doc.id;
-            this.shopsList.push(shop);
-          });
-        }); */
+      var today = new Date();
+      var month = today.getMonth(); //January is 0
+      var clicksArr = [];
       database
         .collection(x["type"])
         .doc(x["document_id"])
         .get()
         .then((doc) => {
           this.clicks = doc.data().clicks;
+          //update the total number of clicks 
           this.clicks++;
+          //update the monthly clicks 
+          for (var i = 0; i < doc.data().numClicks.length; i++) {
+            clicksArr.push(doc.data().numClicks[i]);
+            if (i === month) {
+              clicksArr[i] += 1;
+              break;
+            }
+          }
+          for (var k = 0; k < doc.data().numClicks.length; k++) {
+            if (doc.data().numClicks[k] === 0) {
+              clicksArr.push(doc.data().numClicks[k]);
+            }
+          }
         })
         .then(() => {
           console.log("After access: " + this.clicks);
           database.collection(x["type"]).doc(x["document_id"]).update({
             clicks: this.clicks,
+            numClicks: clicksArr
           });
         });
     },
