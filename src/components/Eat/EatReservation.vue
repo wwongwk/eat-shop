@@ -1,5 +1,9 @@
 <template>
   <div id="box">
+    <div id="reservationNotice"  v-show="displayResNotice">
+      <p>We are currently not accepting any reservations. We apologise for the inconvience caused.</p>
+    </div>
+
     <div class="background">
       <section class="booking">
         <label for="start">Please select a booking date:</label>
@@ -38,6 +42,7 @@
 
       <button id="bookNow" v-on:click="book()">Book Now</button>
     </div>
+
   </div>
 </template>
 
@@ -53,6 +58,8 @@ export default {
       About: true,
       Review: false,
       Reservation: false,
+      acceptReservation: true,
+      displayResNotice: "",
       dropdownOptions: [
         { code: "1", time: "11:30" },
         { code: "2", time: "12:30" },
@@ -165,7 +172,7 @@ export default {
       }
     },
 
-    book: function () {
+     book: function () {
       //if user is not logged in,
       //alert pop-up to remind user to log in before making a reservation
       this.checkTime();
@@ -208,7 +215,6 @@ export default {
             booking["user_id"] = this.shop.user_id
             
             newRef.set(booking).then(() =>location.reload());
-
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }
@@ -233,10 +239,25 @@ export default {
       document.getElementById("bookingDate").setAttribute("min", today);
       document.getElementById("bookingDate").setAttribute("max", lastDay);
     },
+
   },
 
+  created() {
+      this.shop = this.$route.query;
+      this.acceptReservation = this.shop["acceptReservations"];
+      //this.displayResNotice = !(this.shop["acceptReservations"])
+      if (this.acceptReservation === false) {
+        this.displayResNotice = true;
+      }
+      //this.displayResNotice = !(this.acceptReservation);
+      console.log("this.acceptReservation: " + this.acceptReservation)
+      console.log("this.shop['acceptReservations']: " + this.shop["acceptReservations"])
+      console.log("this.displayResNotice: " + this.displayResNotice)
+      console.log("test:" + !false)
+  },
   mounted() {
     this.setCalendarLimits();
+    
   },
 };
 </script>
@@ -284,6 +305,13 @@ label {
 .background {
   margin-left: 20px;
 }
+
+#reservationNotice {
+  margin-left: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
 span {
   cursor: pointer;
 }
