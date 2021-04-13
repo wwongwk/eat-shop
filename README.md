@@ -1,5 +1,8 @@
 # eat-shop-play
 
+## Description
+Eat. Shop. Play. is a services booking platform for small local businesses.
+
 ## Project setup
 ```
 npm install
