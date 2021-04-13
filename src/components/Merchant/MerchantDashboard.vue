@@ -1,12 +1,5 @@
 <template>
   <div>
-    type : {{ merchantType }} <br />
-    uid : {{ uid }} <br />
-    reservations : {{ reservations }} <br />
-    datesMonthYear: {{ datesMonthYear }} <br />
-    datesFormatted : {{ datesFormatted }} <br />
-    DatesAxis {{ datesAxis }} <br />
-    Reservation Axis: {{ reservationAxis }} <br />
     <div class="clicks">
       VISITORS:
       <animated-number
@@ -60,7 +53,7 @@ export default {
       ],
       clicksData: [
         { 
-          x: ["Jan", "Feb", "March", "April"],
+          x: [],
           y: [],
           type: "bar",
         }
@@ -105,8 +98,6 @@ export default {
               }
             }
             this.generateMonthlyAxis(this.clicksData[0].y);
-             //console.log(this.clicksData.y);
-            //console.log(this.clicksData[0].y); // console output: [0, 6, 8, 14]
           })
         });
         console.log(this.clicksData[0].x);
