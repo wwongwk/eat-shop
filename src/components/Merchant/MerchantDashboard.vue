@@ -166,7 +166,7 @@ export default {
     sortClicks: function (value) {
       this.uid = firebase.auth().currentUser.uid;
       database
-        .collection("eat")
+        .collection(this.merchantType)
         .where("user_id", "==", this.uid)
         .get()
         .then((querySnapShot) => {
@@ -242,7 +242,7 @@ export default {
           console.log("fetchDetails(): " + doc.data().business_type);
           this.merchantType = doc.data().business_type;
           this.reviews = doc.data().reviews;
-          console.log(this.merchantType);
+          console.log("hello" + this.merchantType);
         })
         .then(() => {
           this.fetchClicksAndReviews();
@@ -312,7 +312,6 @@ export default {
 .container {
   display: flex;
   justify-content: space-between;
-  //align-items: center;
   width: 90%;
   margin-left: 70px;
 }
