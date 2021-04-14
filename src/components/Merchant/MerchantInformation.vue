@@ -1,17 +1,5 @@
 <template>
   <div>
-    user: {{ uid }}
-    <br />
-  
-    <br />
-    merchant : {{ merchantDetails }}
-
-    <br />
-    mobile : {{ mobile }}
-
-    document_id: {{ documentId }}
-
-    dashboard: {{ dashboard }}
 
     <!-- INFO FORM FOR ALL BUSINESS -->
     <h2>{{name}}</h2>
