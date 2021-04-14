@@ -12,6 +12,7 @@
         <div class="btn-group">
           <a id="info" @click="toggleInformation">Information</a>
           <a id="dashboard" @click="toggleDashboard">Dashboard</a>
+          <a id="enquiries" @click="toggleEnquiries">Enquiries</a>
           <button id="logout" v-on:click="logOut()" >Log Out</button>
         </div>
       </div>
@@ -26,23 +27,31 @@
     <div id="body" v-else-if="dashboard">
       <merchant-dashboard> </merchant-dashboard>
     </div>
+
+    <div id="body" v-else-if="enquiries">
+      <merchant-enquiry> </merchant-enquiry>
+    </div>
   </div>
 </template>
 
 <script>
 import MerchantInformation from "./MerchantInformation.vue";
 import MerchantDashboard from "./MerchantDashboard.vue";
+import MerchantEnquiry from "./MerchantEnquiry.vue";
+
 import firebase from "firebase/app";
 
 export default {
   components: {
     MerchantInformation: MerchantInformation,
     MerchantDashboard: MerchantDashboard,
+    MerchantEnquiry: MerchantEnquiry,
   },
   data() {
     return {
       information: true,
       dashboard: false,
+      enquiries: false,
     };
   },
   methods: {
@@ -53,6 +62,8 @@ export default {
       document.getElementById("info").style.color="white";
       document.getElementById("dashboard").style.backgroundColor="white";
       document.getElementById("dashboard").style.color="black";
+      document.getElementById("enquiries").style.backgroundColor="white";
+      document.getElementById("enquiries").style.color="black";
     },
     toggleDashboard() {
       this.information = false;
@@ -61,7 +72,21 @@ export default {
       document.getElementById("dashboard").style.color="white";
       document.getElementById("info").style.backgroundColor="white";
       document.getElementById("info").style.color="black";
+      document.getElementById("enquiries").style.backgroundColor="white";
+      document.getElementById("enquiries").style.color="black";
     },
+    toggleEnquiries() {
+      this.information = false;
+      this.dashboard = false;
+      this.enquiries = true;
+      document.getElementById("enquiries").style.backgroundColor="#ED83A7";
+      document.getElementById("enquiries").style.color="white";
+      document.getElementById("info").style.backgroundColor="white";
+      document.getElementById("info").style.color="black";
+      document.getElementById("dashboard").style.backgroundColor="white";
+      document.getElementById("dashboard").style.color="black";
+    },
+    
     
     logOut: function() {
       firebase.auth().signOut().then(() => {
@@ -118,7 +143,7 @@ export default {
   text-align: end;
 }
 
-#info, #dashboard, #logout {
+#info, #dashboard, #enquiries, #logout {
   text-align: center;
   text-decoration: none;
   font-size: 18px;
