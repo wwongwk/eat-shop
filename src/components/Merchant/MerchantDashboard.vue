@@ -1,48 +1,50 @@
 <template>
   <div>
-    <div class="clicks">
-      VISITORS:
-      <animated-number
-        :value="clicks"
-        :formatValue="formatClicks"
-        :duration="3000"
-      />
-    </div>
-    <div class="rating">
-      RATING:
-      <animated-number
-        :value="rating"
-        :formatValue="formatRating"
-        :duration="3000"
-      />
+    <div class="container">
+      <div class="clicks">
+        VISITORS:
+        <animated-number
+          :value="clicks"
+          :formatValue="formatClicks"
+          :duration="3000"
+        />
+      </div>
+      <div class="rating">
+        RATING:
+        <animated-number
+          :value="rating"
+          :formatValue="formatRating"
+          :duration="3000"
+        />
 
-      <star-rating
-        :rating="rating"
-        :increment="0.01"
-        :fixed-points="2"
-        :show-rating="false"
-        :read-only="true"
-      ></star-rating>
+        <star-rating
+          :rating="rating"
+          :increment="0.01"
+          :fixed-points="2"
+          :show-rating="false"
+          :read-only="true"
+        ></star-rating>
+      </div>
+
+      <div id="yearDropdown">
+        <p>Choose</p>
+        <v-select
+          label="year"
+          :options="sortByOptions"
+          :value="selectedYear"
+          :clearable="false"
+          v-model="chosenYear"
+          @input="sortClicks"
+          id="drop"
+        >
+          <template slot="option" slot-scope="option">
+            {{ option.year }}
+          </template>
+        </v-select>
+      </div>
     </div>
 
-    <div id="yearDropdown">
-      <p>Choose</p>
-      <v-select
-        label="year"
-        :options="sortByOptions"
-        :value="selectedYear"
-        :clearable="false"
-        v-model="chosenYear"
-        @input="sortClicks"
-        id="drop"
-      >
-        <template slot="option" slot-scope="option">
-          {{ option.year }}
-        </template>
-      </v-select>
-    </div>
-
-    <div id="barchart">
+    <div id="barchart" class ="chart">
       <Plotly
         :data="clicksData"
         :layout="barLayout"
@@ -50,7 +52,10 @@
       ></Plotly>
     </div>
     <div class="chart">
-      <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
+      <Plotly 
+      :data="data" 
+      :layout="layout" 
+      :display-mode-bar="false"></Plotly>
     </div>
   </div>
 </template>
@@ -71,6 +76,9 @@ export default {
           x: [],
           y: [],
           type: "scatter",
+          marker: {
+            color: "#ED83A7",
+          },
         },
       ],
       clicksData: [
@@ -78,13 +86,39 @@ export default {
           x: [],
           y: [],
           type: "bar",
+          width: 0.5,
+          marker: {
+            color: "#ED83A7",
+          },
         },
       ],
       layout: {
-        title: "Monthly Reservations",
+        title: {
+          text: "MONTHLY RESERVATIONS",
+          font: {
+            size: 20,
+          },
+        },
+        xaxis: {
+          title: "Month",
+        },
+        yaxis: {
+          title: "Number of reservations",
+        }
       },
       barLayout: {
-        title: "Monthly Clicks",
+        title: {
+          text: "MONTHLY CLICKS",
+          font: {
+            size: 20,
+          },
+        },
+        xaxis: {
+          title: "Month",
+        },
+        yaxis: {
+          title: "Number of clicks",
+        }
       },
       sortByOptions: [
         { code: "2021", year: 2021 },
@@ -275,29 +309,45 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
-
+.container {
+  display: flex;
+  justify-content: space-between;
+  //align-items: center;
+  width: 90%;
+  margin-left: 70px;
+}
 .clicks {
   float: left;
   width: 50%;
-  border-style: solid;
   box-sizing: border-box;
   width: 300px;
   height: 150px;
   padding: 30px;
+  box-shadow:4px 4px 10px rgba(0.1,0.1,0.1,0.1);
+  border-radius:15px;
 }
 .rating {
   float: right;
   width: 50%;
-  border-style: solid;
   box-sizing: border-box;
   width: 300px;
   height: 150px;
   padding: 30px;
+  box-shadow:4px 4px 4px rgba(0.1,0.1,0.1,0.1);
+  border-radius:15px;
 }
-.chart {
-  margin-top: 200px;
+.chart  {
+  margin-top: 100px;
+  color: #ED83A7;
+  font-size: 18px;
 }
-
+#barchart {
+  color: #ED83A7;
+  font-size: 18px;
+}
+#yearDropdown {
+  width: 400px;
+}
 #yearDropdown p {
   font-size: 20px;
   color: #ed83a7;
