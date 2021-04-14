@@ -10,7 +10,8 @@
           name="name"
           v-model.lazy="search"
           placeholder="Enter Shop's Name"
-          v-on:keyup.enter="findShop()"/>
+          v-on:keyup.enter="findShop()"
+        />
 
         <button id="resetBtn" v-on:click="reset()">RESET</button>
       </div>
@@ -23,7 +24,8 @@
           :clearable="false"
           v-model="chosenCriteria"
           @input="sortShops"
-          id="drop">
+          id="drop"
+        >
           <template slot="option" slot-scope="option">
             {{ option.criteria }}
           </template>
@@ -38,7 +40,8 @@
           :clearable="false"
           v-model="chosenItemType"
           @input="filterShops"
-          id="drop">
+          id="drop"
+        >
           <template slot="option" slot-scope="option">
             {{ option.productType }}
           </template>
@@ -56,9 +59,9 @@
               <div class="container">
                 <button v-on:click="sendData(shop.id)" id="names">
                   {{ shop.name }}
-                    <br>
-                    {{ shop.overallRating}}
-                    <span style="color: pink">&starf;</span>
+                  <br />
+                  {{ shop.overallRating }}
+                  <span style="color: pink">&starf;</span>
                 </button>
               </div>
             </div>
@@ -71,14 +74,12 @@
             <div class="polaroid">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                  <button
-                    v-on:click="sendData(shop.id)"
-                    id="selectedNames">
-                    {{ shop.name }}
-                    <br>
-                    {{ shop.overallRating}}
-                    <span style="color: pink">&starf;</span>
-                  </button>
+                <button v-on:click="sendData(shop.id)" id="selectedNames">
+                  {{ shop.name }}
+                  <br />
+                  {{ shop.overallRating }}
+                  <span style="color: pink">&starf;</span>
+                </button>
               </div>
             </div>
           </li>
@@ -91,16 +92,12 @@
             <div class="polaroid">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                
-                  <button
-                    v-on:click="sendData(shop.id)"
-                    id="recommendedNames">
-                    {{ shop.name }}
-                    <br>
-                    {{ shop.overallRating}}
-                    <span style="color: pink">&starf;</span>
-                  </button>
-                
+                <button v-on:click="sendData(shop.id)" id="recommendedNames">
+                  {{ shop.name }}
+                  <br />
+                  {{ shop.overallRating }}
+                  <span style="color: pink">&starf;</span>
+                </button>
               </div>
             </div>
           </li>
@@ -112,14 +109,12 @@
             <div class="polaroid">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                  <button
-                    v-on:click="sendData(shop.id)"
-                    id="filteredNames">
-                    {{ shop.name }}
-                    <br>
-                    {{ shop.overallRating}}
-                    <span style="color: pink">&starf;</span>
-                  </button>
+                <button v-on:click="sendData(shop.id)" id="filteredNames">
+                  {{ shop.name }}
+                  <br />
+                  {{ shop.overallRating }}
+                  <span style="color: pink">&starf;</span>
+                </button>
               </div>
             </div>
           </li>
@@ -152,7 +147,8 @@ export default {
       error: "",
       recommendedShown: false,
       filteredShown: false,
-      sortByOptions: [{ code: "1", criteria: "Best reviewed" }],
+      sortByOptions: [{ code: "1", criteria: "Best reviewed" },
+      {code: "2", criteria: "Most Popular"}],
       dropdownOptions: [
         { code: "2", productType: "Clothing" },
         { code: "3", productType: "Toys" },
@@ -188,18 +184,13 @@ export default {
         var found = false;
         for (let i = 0; i < this.shops.length; i++) {
           var shop = this.shops[i];
-          if (
-            shop.name.toLowerCase().includes(this.search.toLowerCase())
-          ) {
+          if (shop.name.toLowerCase().includes(this.search.toLowerCase())) {
             //loop through current list of shops to find that particular shop
             this.selectedShops.push(shop);
             var type = shop.shopCategory;
             for (let j = 0; j < this.shops.length; j++) {
               var current = this.shops[j];
-              if (
-                current.type === type &&
-                current.name != shop.name
-              ) {
+              if (current.type === type && current.name != shop.name) {
                 //recommend other shops selling similar products
                 //push to recommended shops array
                 this.recommended.push(current);
@@ -241,7 +232,7 @@ export default {
       for (var x of this.shops) {
         if (x["id"] === id) {
           console.log(x);
-          x["menu_str"] = JSON.stringify(x["menu"])
+          x["menu_str"] = JSON.stringify(x["menu"]);
           this.$router.push({ path: "/shopDetail", query: x });
         }
       }
@@ -249,15 +240,17 @@ export default {
 
     filterShops: function (value) {
       if (this.filtered.length > 0) {
-        //clears previous filter results 
+        //clears previous filter results
         this.filtered.length = 0;
       }
       if (value.productType === "All") {
         this.allShown = true;
       }
       for (let i = 0; i < this.shops.length; i++) {
-        var shop = this.shops[i]; 
-        if (shop.shopCategory.toLowerCase() === value.productType.toLowerCase()) {
+        var shop = this.shops[i];
+        if (
+          shop.shopCategory.toLowerCase() === value.productType.toLowerCase()
+        ) {
           //filters the list of shops by the type of products they sell
           this.filtered.push(shop);
           this.allShown = false;
@@ -269,7 +262,6 @@ export default {
       this.filteredShown = true;
     },
 
-
     sortShops: function (value) {
       if (this.filtered.length > 0) {
         this.filtered.length = 0;
@@ -278,16 +270,20 @@ export default {
         //sort the shops by their overall rating values in descending order
         this.shops.sort(function (shop1, shop2) {
           return (
-            parseFloat(shop2.overallRating) -
-            parseFloat(shop1.overallRating)
+            parseFloat(shop2.overallRating) - parseFloat(shop1.overallRating)
           );
         });
-        this.selectedShown = false;
-        this.recommendedShown = false;
-        this.errorShown = false;
-        this.filteredShown = false;
-        this.allShown = true;
+      } else {
+        //sorting by most popular -- number of clicks
+        this.shops.sort(function (shop1, shop2) {
+          return parseFloat(shop2.clicks) - parseFloat(shop1.clicks);
+        });
       }
+      this.selectedShown = false;
+      this.recommendedShown = false;
+      this.errorShown = false;
+      this.filteredShown = false;
+      this.allShown = true;
     },
   },
   created() {
@@ -300,7 +296,6 @@ export default {
   margin: 30px;
   margin-left: 60px;
   margin-right: 60px;
-
 }
 
 #shop {
@@ -312,29 +307,29 @@ export default {
 
 input {
   border-radius: 5px;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    outline: none;
-    height: 30px;
-    width: 180px;
-    border:1px solid #ddd;
-    box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  padding: 5px 10px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  height: 30px;
+  width: 180px;
+  border: 1px solid #ddd;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 #resetBtn {
   font-size: 14px;
-  background-color:#ed83a7;
+  background-color: #ed83a7;
   color: #ddd;
   border: none;
   cursor: pointer;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   border-radius: 5px;
   padding: 5px 5px;
 }
 #resetBtn:hover {
-    box-shadow:0 0 4px rgba(0,0,0,0.5);
-  }
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
 
 #selectedShops {
   width: 100%;
@@ -389,7 +384,7 @@ div.container {
   border-radius: 10px;
   margin: 0px;
   align-self: center;
-  padding-bottom:10px;
+  padding-bottom: 10px;
   width: 200px;
 }
 
@@ -411,8 +406,7 @@ img {
   border: none;
   cursor: pointer;
   text-decoration: none;
-  margin-left: 5px;;
-
+  margin-left: 5px;
 }
 
 #searchBar {
@@ -452,12 +446,14 @@ h3 {
   outline: none;
 }
 
-#filterDropdown p, #ratingFilter p, #searchBar p{
+#filterDropdown p,
+#ratingFilter p,
+#searchBar p {
   font-size: 20px;
   color: #ed83a7;
-  display:flex;
-  flex-direction: column; 
-  justify-content: center; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #ratingFilter {
@@ -470,7 +466,7 @@ h3 {
   outline: none;
 }
 #drop {
-  box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   border: none;
   outline: none;
 }
