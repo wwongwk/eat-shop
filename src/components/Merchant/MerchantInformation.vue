@@ -16,6 +16,17 @@
     <!-- INFO FORM FOR ALL BUSINESS -->
     <h2>{{name}}</h2>
     <div id="content" class="flexbox">
+
+    <!-- TOGGLE RESERVATIONS FOR EAT BUSINESS -->
+      <div v-show="eat">
+        <h2>Reservation Status:</h2>
+          <p v-show="acceptReservation==true">Currently Accepting Reservations</p>
+          <p v-show="acceptReservation==false">Currently Not Accepting Reservations</p>
+
+        <button id="resToggle" v-on:click="acceptRes()">Accept Reservations</button> <button id="resToggle" v-on:click="stopRes()">Do Not Accept Reservations</button>
+      </div>
+
+      <br>
       <h2>Business Information</h2>
       <form>
         <label for="name">NAME:</label><br />
@@ -195,6 +206,7 @@ export default {
       address: "",
       openingHours: "",
       description: "",
+      acceptReservation: true,
       menu: {},
       information: true,
       dashboard: false,
@@ -240,7 +252,8 @@ export default {
               this.documentId = doc.data().document_id;
               this.menu = doc.data().menu;     
               this.eat = true;    
-              //console.log("Checking eat collection")             
+              this.acceptReservation = doc.data().acceptReservations;
+              //console.log(doc.data().acceptReservations);       
             }
             localStorage.clear();
           });
@@ -406,6 +419,40 @@ export default {
       this.add = !this.add;
     },
 
+    // accepting reservations 
+    acceptRes() {
+      if (this.acceptReservation== true) {
+        return
+      }
+      this.acceptReservation = true;
+      database
+        .collection("eat")
+        .doc(this.documentId)
+        .update({
+          acceptReservations: this.acceptReservation,
+        })
+        .then(() => {
+          location.reload();
+        });
+    },
+
+    // stop accepting reservations 
+    stopRes() {
+      if (this.acceptReservation== false) {
+        return
+      }
+      this.acceptReservation = false;
+      database
+        .collection("eat")
+        .doc(this.documentId)
+        .update({
+          acceptReservations: this.acceptReservation,
+        })
+        .then(() => {
+          location.reload();
+        });
+    }
+
   },
   created() {
     this.fetchDetails();
@@ -556,6 +603,17 @@ h2 {
     /*padding: 10px;*/
     padding-top: 0;
     text-align: left;
+}
+
+#resToggle {
+  cursor: pointer;
+  background-color:#ED83A7;
+  border: none;
+  height: 30px;
+  border-radius: 5px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.1);
+  color: white;
 }
 
 </style>

@@ -10,7 +10,8 @@
           name="name"
           v-model.lazy="search"
           placeholder="Enter Restaurant's Name"
-          v-on:keyup.enter="findRestaurant()"/>
+          v-on:keyup.enter="findRestaurant()"
+        />
         <button id="resetBtn" v-on:click="reset()">RESET</button>
       </div>
       <div id="ratingFilter">
@@ -22,7 +23,8 @@
           :clearable="false"
           v-model="chosenCriteria"
           @input="sortFood"
-          id="drop">
+          id="drop"
+        >
           <template slot="option" slot-scope="option">
             {{ option.criteria }}
           </template>
@@ -37,8 +39,8 @@
           :clearable="false"
           v-model="chosenCuisine"
           @input="filterFood"
-          id="drop">
-
+          id="drop"
+        >
           <template slot="option" slot-scope="option">
             {{ option.cuisineType }}
           </template>
@@ -71,14 +73,12 @@
             <div class="polaroid">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                  <button
-                    v-on:click="sendData(restaurant.id)"
-                    id="selectedNames">
-                    {{ restaurant.name }}
-                    <br />
-                    {{ restaurant.overallRating }}
-                    <span style="color: pink">&starf;</span>
-                  </button>
+                <button v-on:click="sendData(restaurant.id)" id="selectedNames">
+                  {{ restaurant.name }}
+                  <br />
+                  {{ restaurant.overallRating }}
+                  <span style="color: pink">&starf;</span>
+                </button>
               </div>
             </div>
           </li>
@@ -91,12 +91,15 @@
             <div class="polaroid">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                  <button v-on:click="sendData(restaurant.id)" id="recommendedNames">
-                    {{ restaurant.name }}
-                    <br />
-                    {{ restaurant.overallRating }}
-                    <span style="color: pink">&starf;</span>
-                  </button>
+                <button
+                  v-on:click="sendData(restaurant.id)"
+                  id="recommendedNames"
+                >
+                  {{ restaurant.name }}
+                  <br />
+                  {{ restaurant.overallRating }}
+                  <span style="color: pink">&starf;</span>
+                </button>
               </div>
             </div>
           </li>
@@ -108,14 +111,12 @@
             <div class="polaroid">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                  <button
-                    v-on:click="sendData(restaurant.id)"
-                    id="filteredNames">
-                    {{ restaurant.name }}
-                    <br />
-                    {{ restaurant.overallRating }}
-                    <span style="color: pink">&starf;</span>
-                  </button>
+                <button v-on:click="sendData(restaurant.id)" id="filteredNames">
+                  {{ restaurant.name }}
+                  <br />
+                  {{ restaurant.overallRating }}
+                  <span style="color: pink">&starf;</span>
+                </button>
               </div>
             </div>
           </li>
@@ -154,7 +155,10 @@ export default {
         { code: "WEST", cuisineType: "Western" },
         { code: "ALL", cuisineType: "All" },
       ],
-      sortByOptions: [{ code: "1", criteria: "Best reviewed" }],
+      sortByOptions: [
+        { code: "1", criteria: "Best reviewed" },
+        { code: "2", criteria: "Most Popular" },
+      ],
     };
   },
   methods: {
@@ -238,7 +242,7 @@ export default {
       for (var x of this.restaurants) {
         if (x["id"] === id) {
           x["menu_str"] = JSON.stringify(x["menu"]);
-          this.increaseCounter(x)
+          this.increaseCounter(x);
           this.$router.push({ path: "/eatDetail", query: x });
         }
       }
@@ -277,52 +281,62 @@ export default {
             parseFloat(restaurant1.overallRating)
           );
         });
-        this.selectedShown = false;
-        this.recommendedShown = false;
-        this.errorShown = false;
-        this.filteredShown = false;
-        this.allShown = true;
+      } else {
+        //sorting by most popular -- number of clicks
+        this.restaurants.sort(function (restaurant1, restaurant2) {
+          return (
+            parseFloat(restaurant2.clicks) - parseFloat(restaurant1.clicks)
+          );
+        });
       }
+      this.selectedShown = false;
+      this.recommendedShown = false;
+      this.errorShown = false;
+      this.filteredShown = false;
+      this.allShown = true;
     },
 
-   increaseCounter: function(x) {
-      console.log("increaseCounter loop");
-      //var clicks = 0;
-      console.log("Before access: " + this.clicks);
+    //update the monthly clicks in the database
+    increaseCounter: function (x) {
       var today = new Date();
       var month = today.getMonth(); //January is 0
-      var clicksArr = [];
+      var year = today.getFullYear();
+
+      var yearlyClicks = [];
       database
         .collection(x["type"])
         .doc(x["document_id"])
         .get()
         .then((doc) => {
-          this.clicks = doc.data().clicks;
-          //update the total number of clicks 
-          this.clicks++;
-          //update the monthly clicks 
-          for (var i = 0; i < doc.data().numClicks.length; i++) {
-            clicksArr.push(doc.data().numClicks[i]);
+          var done = false;
+          console.log(doc.data().totalClicks);
+          var currentArray = [];
+          currentArray = doc.data().totalClicks[year];
+          for (var i = 0; i < currentArray.length; i++) {
+            yearlyClicks.push(currentArray[i]);
             if (i === month) {
-              clicksArr[i] += 1;
-              break;
-            }
-          } 
-          for (var k = 0; k < doc.data().numClicks.length; k++) {
-            if (doc.data().numClicks[k] === 0) {
-              clicksArr.push(doc.data().numClicks[k]);
+              //clicks for that month is already added into the array
+              yearlyClicks[i] += 1;
+              done = true;
             }
           }
+          if (!done) {
+            //month clicks is not added yet -- start of the month
+            yearlyClicks.push(1);
+            done = true;
+          }
+          this.totalClicks = doc.data().totalClicks;
+          this.totalClicks[year] = yearlyClicks;
+          console.log(this.totalClicks);
         })
         .then(() => {
-          console.log("After access: " + this.clicks);
           database.collection(x["type"]).doc(x["document_id"]).update({
-            clicks: this.clicks,
-            numClicks: clicksArr
+            totalClicks: this.totalClicks,
           });
         });
     },
   },
+
   created() {
     this.fetchRestaurants();
   },

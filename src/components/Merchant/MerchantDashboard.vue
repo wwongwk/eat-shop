@@ -21,15 +21,36 @@
         :increment="0.01"
         :fixed-points="2"
         :show-rating="false"
-        :read-only = "true"
+        :read-only="true"
       ></star-rating>
     </div>
 
+    <div id="yearDropdown">
+      <p>Choose</p>
+      <v-select
+        label="year"
+        :options="sortByOptions"
+        :value="selectedYear"
+        :clearable="false"
+        v-model="chosenYear"
+        @input="sortClicks"
+        id="drop"
+      >
+        <template slot="option" slot-scope="option">
+          {{ option.year }}
+        </template>
+      </v-select>
+    </div>
+
+    <div id="barchart">
+      <Plotly
+        :data="clicksData"
+        :layout="barLayout"
+        :display-mode-bar="false"
+      ></Plotly>
+    </div>
     <div class="chart">
       <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
-    </div>
-    <div id="barchart">
-      <Plotly :data="clicksData" :layout="barLayout" :display-mode-bar="false"></Plotly>
     </div>
   </div>
 </template>
@@ -50,14 +71,14 @@ export default {
           x: [],
           y: [],
           type: "scatter",
-        }
+        },
       ],
       clicksData: [
-        { 
+        {
           x: [],
           y: [],
           type: "bar",
-        }
+        },
       ],
       layout: {
         title: "Monthly Reservations",
@@ -65,6 +86,14 @@ export default {
       barLayout: {
         title: "Monthly Clicks",
       },
+      sortByOptions: [
+        { code: "2021", year: 2021 },
+        { code: "2022", year: 2022 },
+        { code: "2023", year: 2023 },
+        { code: "2024", year: 2024 },
+        { code: "2025", year: 2025 },
+      ],
+      selectedYear: "",
       name: "",
       email: "",
       mobile: "",
@@ -79,11 +108,50 @@ export default {
       datesFormatted: [],
       reservationAxis: [],
       datesAxis: [],
-      monthsAxis: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      monthsAxis: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
       duration: 1000,
     };
   },
   methods: {
+    //fetch monthly clicks data for a particular year chosen by user
+    sortClicks: function (value) {
+      this.uid = firebase.auth().currentUser.uid;
+      database
+        .collection("eat")
+        .where("user_id", "==", this.uid)
+        .get()
+        .then((querySnapShot) => {
+          querySnapShot.forEach((doc) => {
+            var yearArray = doc.data().totalClicks[value.year];
+            this.clicksData[0].y = yearArray;
+            console.log("hello" + this.clicksData[0].y);
+            this.generateMonthlyAxis(this.clicksData[0].y);
+          });
+        });
+    },
+
+    //updates x axis to be past and current months only
+    generateMonthlyAxis: function (array) {
+      for (var i = 0; i < array.length; i++) {
+        this.clicksData[0].x.push(this.monthsAxis[i]);
+      }
+    },
+
     //fetch number of clicks per month from firestore
     fetchClicks() {
       this.uid = firebase.auth().currentUser.uid;
@@ -99,17 +167,10 @@ export default {
               }
             }
             this.generateMonthlyAxis(this.clicksData[0].y);
-          })
+          });
         });
-        console.log(this.clicksData[0].x);
+      console.log(this.clicksData[0].x);
     },
-
-    //updates x axis to be past and current months only 
-    generateMonthlyAxis: function(clickArray) {
-      for (var i = 0; i < clickArray.length; i++) {
-          this.clicksData[0].x.push(this.monthsAxis[i]);
-        }
-      },
 
     // Fetches reservation data from firestore
     fetchReservations() {
@@ -208,9 +269,6 @@ export default {
   },
   created() {
     this.fetchDetails();
-    this.fetchClicks();
-    /* this.fetchClicksAndReviews();
-    this.fetchReservations(); */
   },
 };
 </script>
@@ -238,5 +296,19 @@ export default {
 }
 .chart {
   margin-top: 200px;
+}
+
+#yearDropdown p {
+  font-size: 20px;
+  color: #ed83a7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#drop {
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  outline: none;
 }
 </style>
