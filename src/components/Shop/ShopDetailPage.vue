@@ -21,6 +21,7 @@
       <button v-on:click="toggleAbout()">About</button>
       <button v-on:click="toggleProduct()">Products</button>
       <button v-on:click="toggleReview()">Reviews</button>
+      <button v-on:click="toggleEnquiry()">Get In Touch</button>
     </div>
     <div class="favName">
       <h2 id="name">{{ shopName }} &nbsp;</h2>
@@ -39,6 +40,10 @@
       <shop-reviews v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn"></shop-reviews>
     </div>
 
+    <div id="body" v-show="Enquiry">
+      <shop-enquiry v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn"></shop-enquiry>
+    </div>
+
   </div>
 </template>
 
@@ -47,6 +52,7 @@ import Header from "../Header.vue";
 import ShopAbout from "./ShopAbout.vue";
 import ShopProduct from "./ShopProduct.vue";
 import ShopReviews from "./ShopReview.vue";
+import ShopEnquiry from "./ShopEnquiry.vue";
 import database from '../../firebase';
 import firebase from 'firebase';
 
@@ -56,12 +62,14 @@ export default {
     ShopAbout: ShopAbout,
     ShopProduct: ShopProduct,
     ShopReviews: ShopReviews,
+    ShopEnquiry: ShopEnquiry
   },
   data() {
     return {
       About: true,
       Product: false,
       Review: false,
+      Enquiry: false,
       
       shopName: "",
       resImages: [],
@@ -99,18 +107,28 @@ export default {
       this.About = true;
       this.Product = false;
       this.Review = false;
+      this.Enquiry = false;
     },
     toggleProduct: function () {
       //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Product = true;
       this.Review = false;
+      this.Enquiry = false;
     },
     toggleReview: function () {
       //window.history.scrollRestoration = "manual"
       this.About = false;
       this.Product = false;
       this.Review = true;
+      this.Enquiry = false;
+    },
+    toggleEnquiry: function () {
+      //window.history.scrollRestoration = "manual"
+      this.About = false;
+      this.Product = false;
+      this.Review = false;
+      this.Enquiry = true;
     },
     addFavorite: function () {
       //if user is not logged in,
