@@ -1,5 +1,12 @@
 <template>
   <div id="box">
+    <div id="reservationNotice" v-show="displayResNotice">
+      <p>
+        We are currently not accepting any reservations. We apologise for the
+        inconvience caused.
+      </p>
+    </div>
+
     <div class="background">
       <section class="booking">
         <label for="start">Please select a booking date:</label>
@@ -35,8 +42,8 @@
         {{ childrenCount }}
         <button v-on:click="incrementChild()" class="plus">+</button>
       </section>
-
-      <button id="bookNow" v-on:click="book()">Book Now</button>
+      <br>
+      <button id="bookNow" v-on:click="book()" v-show="acceptReservation">Book Now</button>
     </div>
   </div>
 </template>
@@ -46,13 +53,14 @@
 import database from "../../firebase";
 export default {
   components: {},
-  props:
-    ["shop","uid", "loggedIn"],
+  props: ["shop", "uid", "loggedIn"],
   data() {
     return {
       About: true,
       Review: false,
       Reservation: false,
+      acceptReservation: true,
+      displayResNotice: false,
       dropdownOptions: [
         { code: "1", time: "11:30" },
         { code: "2", time: "12:30" },
@@ -68,8 +76,7 @@ export default {
       adultsCount: 0,
       childrenCount: 0,
       selected: "",
-     
-     };
+    };
   },
   methods: {
     toggleAbout: function () {
@@ -204,11 +211,10 @@ export default {
             booking["merchant_name"] = this.shop.name;
             booking["imageURL"] = this.shop.imageURL;
             var newRef = database.collection("reservation").doc();
-            booking["booking_id"]=newRef.id;
-            booking["user_id"] = this.shop.user_id
-            
-            newRef.set(booking).then(() =>location.reload());
+            booking["booking_id"] = newRef.id;
+            booking["user_id"] = this.shop.user_id;
 
+            newRef.set(booking).then(() => location.reload());
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }
@@ -233,8 +239,22 @@ export default {
       document.getElementById("bookingDate").setAttribute("min", today);
       document.getElementById("bookingDate").setAttribute("max", lastDay);
     },
-  },
+    alterDisplay() {
+      console.log("Function running");
+      this.shop = this.$route.query;
+      this.acceptReservation = JSON.parse(this.shop["acceptReservations"]);
 
+      // this.shop["acceptReservations"] returns String
+      console.log('accept Reservation: ' + this.acceptReservation)
+      if (this.acceptReservation === false) {
+        this.displayResNotice = true;
+        console.log("Inside loop");
+      }
+    },
+  },
+  created() {
+    this.alterDisplay();
+  },
   mounted() {
     this.setCalendarLimits();
   },
@@ -284,6 +304,13 @@ label {
 .background {
   margin-left: 20px;
 }
+
+#reservationNotice {
+  margin-left: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
 span {
   cursor: pointer;
 }
