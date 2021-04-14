@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h4>Send Us A Message</h4>
     <form>
       <input
@@ -113,7 +113,7 @@ div {
 h2 {
   margin: 50px;
 }
-#content {
+.container {
   align-items: center;
   width: 450px;
   padding: 30px;
@@ -159,9 +159,7 @@ textarea {
   margin-top: 10px;
   resize: none;
 }
-#address {
-  height: 45px;
-}
+
 #submit {
   cursor: pointer;
   background-color: #ed83a7;
@@ -174,53 +172,5 @@ textarea {
 
 #submit:hover {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-}
-
-#addForm {
-  align-items: flex-start;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-#float-container {
-  border: 3px solid #fff;
-  padding: 10px;
-  height: 200px;
-}
-
-h1 {
-  margin-top: 0;
-  margin-bottom: 0px;
-}
-
-h2 {
-  margin: 0;
-}
-
-#Image {
-  float: left;
-  padding-right: 10px;
-}
-
-#Description {
-  margin-top: 0;
-  /*padding: 10px;*/
-  padding-top: 0;
-  text-align: left;
-}
-
-#resToggle {
-  cursor: pointer;
-  background-color: #ed83a7;
-  border: none;
-  height: 30px;
-  border-radius: 5px;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.1);
-  color: white;
 }
 </style>
