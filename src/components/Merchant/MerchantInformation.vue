@@ -15,151 +15,155 @@
 
     <!-- INFO FORM FOR ALL BUSINESS -->
     <h2>{{name}}</h2>
-    <div id="content" class="flexbox">
+    <div id="container">
+      <div id="content" class="flexbox">
 
-    <!-- TOGGLE RESERVATIONS FOR EAT BUSINESS -->
-      <div v-show="eat">
-        <h2>Reservation Status:</h2>
-          <p v-show="acceptReservation==true">Currently Accepting Reservations</p>
-          <p v-show="acceptReservation==false">Currently Not Accepting Reservations</p>
+      <!-- TOGGLE RESERVATIONS FOR EAT BUSINESS -->
+        <div v-show="eat">
+          <h2>Reservation Status:</h2>
+            <p v-show="acceptReservation==true">Currently Accepting Reservations</p>
+            <p v-show="acceptReservation==false">Currently Not Accepting Reservations</p>
 
-        <button id="resToggle" v-on:click="acceptRes()">Accept Reservations</button> <button id="resToggle" v-on:click="stopRes()">Do Not Accept Reservations</button>
-      </div>
+          <button id="resToggle" v-on:click="acceptRes()">Accept Reservations</button> <button id="resToggle" v-on:click="stopRes()">Do Not Accept Reservations</button>
+        </div>
 
-      <br>
-      <h2>Business Information</h2>
-      <form>
-        <label for="name">NAME:</label><br />
-        <input type="name" id="name" name="name" v-model="name" /><br /><br />
-        <label for="email">EMAIL:</label><br />
-        <input
-          type="email"
-          id="email"
-          name="email"
-          v-model="email"
-        /><br /><br />
-        <label for="mobile">CONTACT NUMBER:</label><br />
-        <input
-          type="text"
-          id="mobile"
-          name="mobile"
-          v-model="mobile"
-        /><br /><br />
-        <label for="address">ADDRESS:</label><br />
-        <textarea 
-        id="address" 
-        name="address" 
-        v-model="address" /><br /><br />
-        <label for="openingHours">Opening Hours:</label><br />
-        <input
-          type="text"
-          id="openingHours"
-          name="openingHours"
-          v-model="openingHours"
-        /><br /><br />
-        <label for="description">Description:</label><br />
-        <textarea
-          id="description"
-          name="description"
-          v-model="description"
-        ></textarea>
-        <br /><br />
-        <input type="button" id="submit" value="SAVE" @click="save" />
-      </form>
-      <br />
-    </div>
-    
-    <!-- MENU PORTION FOR EAT BUSINESS -->
-    <div id="menuInfo" class="flexbox" v-show="eat">
-      <h2> Menu Items </h2>
-      <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
-      <div id="addFood" name="addFood" v-show="add">
         <br>
-        <form id="addForm">
-          
-            <label for="foodName">Name of food item:</label> &nbsp;
-              <input
-                id="addForm"
-                name="itemName"
-                v-model="foodName"
-                required
-              ><br><br>
-          
-            <label for="foodPrice">Price of food item:</label> &nbsp;
-              <input
-                id="addForm"
-                name="itemPrice"
-                v-model="foodPrice"
-                required
-              ><br><br>
-         
-          <label for="foodImage">Image URL of food item:</label> &nbsp;
-            <input
-              id="addForm"
-              name="itemImage"
-              v-model="foodImage"
-              required
-            ><br><br>
-
-          <label for="foodDescription">Description of food item:</label> &nbsp;
-            <textarea
-              id="addForm"
-              name="itemDescription"
-              v-model="foodDescription"
-              required
-            ></textarea><br><br>
-
-          <input type="button" id="submit" value="Add to menu" v-on:click="requiredFood()"/>
+        <h2>Business Information</h2>
+        <form>
+          <label for="name">NAME:</label><br />
+          <input type="name" id="name" name="name" v-model="name" /><br /><br />
+          <label for="email">EMAIL:</label><br />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            v-model="email"
+          /><br /><br />
+          <label for="mobile">CONTACT NUMBER:</label><br />
+          <input
+            type="text"
+            id="mobile"
+            name="mobile"
+            v-model="mobile"
+          /><br /><br />
+          <label for="address">ADDRESS:</label><br />
+          <textarea 
+          id="address" 
+          name="address" 
+          v-model="address" /><br /><br />
+          <label for="openingHours">Opening Hours:</label><br />
+          <input
+            type="text"
+            id="openingHours"
+            name="openingHours"
+            v-model="openingHours"
+          /><br /><br />
+          <label for="description">Description:</label><br />
+          <textarea
+            id="description"
+            name="description"
+            v-model="description"
+          ></textarea>
+          <br /><br />
+          <input type="button" id="submit" value="SAVE" @click="save" />
         </form>
-        <br>
+        <br />
+      </div>
+      
+      <!-- MENU PORTION FOR EAT BUSINESS -->
+      <div id="menuInfo" class="flexbox" v-show="eat">
+        <h2> Menu Items </h2>
+        <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
+        <div id="addFood" name="addFood" v-show="add">
+          <br>
+          <form id="addForm">
+            
+              <label for="foodName">Name of food item:</label> &nbsp;
+                <input
+                  id="addForm"
+                  name="itemName"
+                  v-model="foodName"
+                  required
+                ><br><br>
+            
+              <label for="foodPrice">Price of food item:</label> &nbsp;
+                <input
+                  id="addForm"
+                  name="itemPrice"
+                  v-model="foodPrice"
+                  required
+                ><br><br>
+          
+            <label for="foodImage">Image URL of food item:</label> &nbsp;
+              <input
+                id="addForm"
+                name="itemImage"
+                v-model="foodImage"
+                required
+              ><br><br>
+
+            <label for="foodDescription">Description of food item:</label> &nbsp;
+              <textarea
+                id="addForm"
+                name="itemDescription"
+                v-model="foodDescription"
+                required
+              ></textarea><br><br>
+
+            <input type="button" id="submit" value="Add to menu" v-on:click="requiredFood()"/>
+          </form>
+          <br>
+        </div>
+      </div>
+   
+
+      <!-- MENU PORTION FOR SHOP BUSINESS -->
+      <div id="menuInfo" class="flexbox" v-show="shop">
+        <h2> Products </h2>
+        <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
+        <div id="addProduct" name="addProduct" v-show="add">
+          <br>
+          <form id="addForm">
+            
+              <label for="productName">Name of product:</label> &nbsp;
+                <input
+                  id="addForm"
+                  name="itemName"
+                  v-model="productName"
+                  required
+                ><br><br>
+            
+              <label for="productPrice">Price of product:</label> &nbsp;
+                <input
+                  id="addForm"
+                  name="itemPrice"
+                  v-model="productPrice"
+                  required
+                ><br><br>
+          
+            <label for="productImage">Image URL of product:</label> &nbsp;
+              <input
+                id="addForm"
+                name="itemImage"
+                v-model="productImage"
+                required
+              ><br><br>
+
+            <label for="productDescription">Description of product:</label> &nbsp;
+              <textarea
+                id="addForm"
+                name="itemDescription"
+                v-model="productDescription"
+                required
+              ></textarea><br><br>
+
+            <input type="button" id="submit" value="Add to product listing" v-on:click="requiredProduct()"/>
+          </form>
+          <br>
+        </div>
       </div>
     </div>
 
-    <!-- MENU PORTION FOR SHOP BUSINESS -->
-    <div id="menuInfo" class="flexbox" v-show="shop">
-      <h2> Products </h2>
-      <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
-      <div id="addProduct" name="addProduct" v-show="add">
-        <br>
-        <form id="addForm">
-          
-            <label for="productName">Name of product:</label> &nbsp;
-              <input
-                id="addForm"
-                name="itemName"
-                v-model="productName"
-                required
-              ><br><br>
-          
-            <label for="productPrice">Price of product:</label> &nbsp;
-              <input
-                id="addForm"
-                name="itemPrice"
-                v-model="productPrice"
-                required
-              ><br><br>
-         
-          <label for="productImage">Image URL of product:</label> &nbsp;
-            <input
-              id="addForm"
-              name="itemImage"
-              v-model="productImage"
-              required
-            ><br><br>
-
-          <label for="productDescription">Description of product:</label> &nbsp;
-            <textarea
-              id="addForm"
-              name="itemDescription"
-              v-model="productDescription"
-              required
-            ></textarea><br><br>
-
-          <input type="button" id="submit" value="Add to product listing" v-on:click="requiredProduct()"/>
-        </form>
-        <br>
-      </div>
-    </div>
     <!-- Display list of food / product items for eat / shop respectively -->
     <ul id="displayFood">
         <li v-for="product in menu" :key="product.index">
@@ -465,9 +469,13 @@ export default {
 h2 {
   margin: 50px;
 }
+#container {
+  display: flex;
+}
+
 #content {
   align-items: center;
-  width:450px;
+  width:500px;
 	padding:30px;
 	margin:40px auto;
 	background: #FFF;
@@ -477,21 +485,28 @@ h2 {
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  
 }
 
 #menuInfo {
-  width:1000px;
+  width:800px;
 	padding:30px;
 	margin:40px auto;
 	background: #FFF;
 	border-radius: 10px;
 	-webkit-border-radius:10px;
-	-moz-border-radius: 10px;
+  -moz-border-radius: 10px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  
 }
-
+#addForm > input {
+  height: 70px;
+}
+#addForm > textarea {
+  height: 150px;
+}
 input {
   box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -566,7 +581,7 @@ ul{
   margin: 0;
 }
 #displayFood {
-  width: 1000px;
+  width: 1430px;
   padding:30px;
 	margin:40px auto;
 	background: #FFF;
