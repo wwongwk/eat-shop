@@ -59,7 +59,7 @@ export default {
       Review: false,
       Reservation: false,
       acceptReservation: true,
-      displayResNotice: "",
+      displayResNotice: false,
       dropdownOptions: [
         { code: "1", time: "11:30" },
         { code: "2", time: "12:30" },
