@@ -155,7 +155,10 @@ export default {
         { code: "WEST", cuisineType: "Western" },
         { code: "ALL", cuisineType: "All" },
       ],
-      sortByOptions: [{ code: "1", criteria: "Best reviewed" }],
+      sortByOptions: [
+        { code: "1", criteria: "Best reviewed" },
+        { code: "2", criteria: "Most Popular" },
+      ],
     };
   },
   methods: {
@@ -278,12 +281,19 @@ export default {
             parseFloat(restaurant1.overallRating)
           );
         });
-        this.selectedShown = false;
-        this.recommendedShown = false;
-        this.errorShown = false;
-        this.filteredShown = false;
-        this.allShown = true;
+      } else {
+        //sorting by most popular -- number of clicks
+        this.restaurants.sort(function (restaurant1, restaurant2) {
+          return (
+            parseFloat(restaurant2.clicks) - parseFloat(restaurant1.clicks)
+          );
+        });
       }
+      this.selectedShown = false;
+      this.recommendedShown = false;
+      this.errorShown = false;
+      this.filteredShown = false;
+      this.allShown = true;
     },
 
     //update the monthly clicks in the database
