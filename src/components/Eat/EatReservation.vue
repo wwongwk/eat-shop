@@ -42,8 +42,8 @@
         {{ childrenCount }}
         <button v-on:click="incrementChild()" class="plus">+</button>
       </section>
-
-      <button id="bookNow" v-on:click="book()">Book Now</button>
+      <br>
+      <button id="bookNow" v-on:click="book()" v-show="acceptReservation">Book Now</button>
     </div>
   </div>
 </template>
