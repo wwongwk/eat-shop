@@ -105,7 +105,7 @@
       </div>
    
 
-      <!-- MENU PORTION FOR SHOP BUSINESS -->
+      <!-- PRODUCTS PORTION FOR SHOP BUSINESS -->
       <div id="menuInfo" class="flexbox" v-show="shop">
         <h2> Products </h2>
         <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
@@ -244,8 +244,7 @@ export default {
               this.documentId = doc.data().document_id;
               this.menu = doc.data().menu;     
               this.eat = true;    
-              this.acceptReservation = doc.data().acceptReservations;
-              //console.log(doc.data().acceptReservations);       
+              this.acceptReservation = doc.data().acceptReservations;      
             }
             localStorage.clear();
           });
@@ -266,8 +265,7 @@ export default {
               this.type = doc.data().type;
               this.documentId = doc.data().document_id;
               this.menu = doc.data().menu;   
-              this.shop = true;      
-              //console.log("Checking shop collection")             
+              this.shop = true;                
             }
             localStorage.clear();
           });
