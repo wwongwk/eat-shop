@@ -9,10 +9,10 @@
       <div id="eat">
         <ul>
           <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
-            <div class="polaroid"  v-on:click="sendData(restaurant.id, 1)">
+            <div class="polaroid" v-on:click="sendData(restaurant.id, 1)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <button id="names" >
+                <button id="names">
                   {{ restaurant.name }}
                 </button>
               </div>
@@ -127,7 +127,7 @@ export default {
       this.$router.push("/eat");
     },
 
-  //find the correct shop object and send the details to the detail page of the shop/resturant
+    //find the correct shop object and send the details to the detail page of the shop/resturant
     sendData: function (id, type) {
       if (type === 1) {
         for (var x of this.restaurants) {
@@ -141,46 +141,50 @@ export default {
       } else {
         for (var y of this.shopsList) {
           if (y["id"] === id) {
-            y["menu_str"] = JSON.stringify(y["menu"])
+            y["menu_str"] = JSON.stringify(y["menu"]);
             this.$router.push({ path: "/shopDetail", query: y });
             break;
           }
         }
       }
     },
-increaseCounter: function(x) {
-      console.log("increaseCounter loop");
-      console.log("Before access: " + this.clicks);
+
+    //update the monthly clicks in the database
+    increaseCounter: function (x) {
       var today = new Date();
       var month = today.getMonth(); //January is 0
-      var clicksArr = [];
+      var year = today.getFullYear();
+
+      var yearlyClicks = [];
       database
         .collection(x["type"])
         .doc(x["document_id"])
         .get()
         .then((doc) => {
-          this.clicks = doc.data().clicks;
-          //update the total number of clicks 
-          this.clicks++;
-          //update the monthly clicks 
-          for (var i = 0; i < doc.data().numClicks.length; i++) {
-            clicksArr.push(doc.data().numClicks[i]);
+          var done = false;
+          console.log(doc.data().totalClicks);
+          var currentArray = [];
+          currentArray = doc.data().totalClicks[year];
+          for (var i = 0; i < currentArray.length; i++) {
+            yearlyClicks.push(currentArray[i]);
             if (i === month) {
-              clicksArr[i] += 1;
-              break;
+              //clicks for that month is already added into the array
+              yearlyClicks[i] += 1;
+              done = true;
             }
           }
-          for (var k = 0; k < doc.data().numClicks.length; k++) {
-            if (doc.data().numClicks[k] === 0) {
-              clicksArr.push(doc.data().numClicks[k]);
-            }
+          if (!done) {
+            //month clicks is not added yet -- start of the month
+            yearlyClicks.push(1);
+            done = true;
           }
+          this.totalClicks = doc.data().totalClicks;
+          this.totalClicks[year] = yearlyClicks;
+          console.log(this.totalClicks);
         })
         .then(() => {
-          console.log("After access: " + this.clicks);
           database.collection(x["type"]).doc(x["document_id"]).update({
-            clicks: this.clicks,
-            numClicks: clicksArr
+            totalClicks: this.totalClicks,
           });
         });
     },
@@ -271,7 +275,7 @@ div.polaroid {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 10px;
   border-radius: 10px;
-  cursor : pointer;
+  cursor: pointer;
 }
 div.container {
   text-align: center;

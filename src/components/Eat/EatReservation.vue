@@ -1,7 +1,10 @@
 <template>
   <div id="box">
-    <div id="reservationNotice"  v-show="displayResNotice">
-      <p>We are currently not accepting any reservations. We apologise for the inconvience caused.</p>
+    <div id="reservationNotice" v-show="displayResNotice">
+      <p>
+        We are currently not accepting any reservations. We apologise for the
+        inconvience caused.
+      </p>
     </div>
 
     <div class="background">
@@ -42,7 +45,6 @@
 
       <button id="bookNow" v-on:click="book()">Book Now</button>
     </div>
-
   </div>
 </template>
 
@@ -51,8 +53,7 @@
 import database from "../../firebase";
 export default {
   components: {},
-  props:
-    ["shop","uid", "loggedIn"],
+  props: ["shop", "uid", "loggedIn"],
   data() {
     return {
       About: true,
@@ -75,8 +76,7 @@ export default {
       adultsCount: 0,
       childrenCount: 0,
       selected: "",
-     
-     };
+    };
   },
   methods: {
     toggleAbout: function () {
@@ -172,7 +172,7 @@ export default {
       }
     },
 
-     book: function () {
+    book: function () {
       //if user is not logged in,
       //alert pop-up to remind user to log in before making a reservation
       this.checkTime();
@@ -211,10 +211,10 @@ export default {
             booking["merchant_name"] = this.shop.name;
             booking["imageURL"] = this.shop.imageURL;
             var newRef = database.collection("reservation").doc();
-            booking["booking_id"]=newRef.id;
-            booking["user_id"] = this.shop.user_id
-            
-            newRef.set(booking).then(() =>location.reload());
+            booking["booking_id"] = newRef.id;
+            booking["user_id"] = this.shop.user_id;
+
+            newRef.set(booking).then(() => location.reload());
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }
@@ -239,25 +239,24 @@ export default {
       document.getElementById("bookingDate").setAttribute("min", today);
       document.getElementById("bookingDate").setAttribute("max", lastDay);
     },
-
-  },
-
-  created() {
+    alterDisplay() {
+      console.log("Function running");
       this.shop = this.$route.query;
-      this.acceptReservation = this.shop["acceptReservations"];
-      //this.displayResNotice = !(this.shop["acceptReservations"])
+      this.acceptReservation = JSON.parse(this.shop["acceptReservations"]);
+
+      // this.shop["acceptReservations"] returns String
+      console.log('accept Reservation: ' + this.acceptReservation)
       if (this.acceptReservation === false) {
         this.displayResNotice = true;
+        console.log("Inside loop");
       }
-      //this.displayResNotice = !(this.acceptReservation);
-      console.log("this.acceptReservation: " + this.acceptReservation)
-      console.log("this.shop['acceptReservations']: " + this.shop["acceptReservations"])
-      console.log("this.displayResNotice: " + this.displayResNotice)
-      console.log("test:" + !false)
+    },
+  },
+  created() {
+    this.alterDisplay();
   },
   mounted() {
     this.setCalendarLimits();
-    
   },
 };
 </script>
