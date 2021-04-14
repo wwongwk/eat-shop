@@ -22,6 +22,7 @@
       <button v-on:click="toggleMenu()">Menu</button>
       <button v-on:click="toggleReview()">Reviews</button>
       <button v-on:click="toggleReservation()">Reservation</button>
+      <button v-on:click="toggleEnquiry()">Get In Touch</button>
       
     </div>
     <div class="favName">
@@ -44,6 +45,10 @@
       <eat-menu v-bind:shop = "shop"></eat-menu>
     </div>
 
+    <div id="body" v-show="Enquiry">
+      <eat-enquiry v-bind:shop = "shop"></eat-enquiry>
+    </div>
+
   </div>
 </template>
 
@@ -53,6 +58,7 @@ import EatAbout from "./EatAbout.vue";
 import EatReservation from "./EatReservation.vue";
 import EatReviews from "./EatReviews.vue";
 import EatMenu from "./EatMenu.vue";
+import EatEnquiry from "./EatEnquiry.vue";
 import database from '../../firebase';
 import firebase from 'firebase'
 
@@ -63,6 +69,7 @@ export default {
     EatReservation: EatReservation,
     EatReviews: EatReviews,
     EatMenu: EatMenu,
+    EatEnquiry: EatEnquiry,
   },
   data() {
     return {
@@ -70,6 +77,8 @@ export default {
       Review: false,
       Reservation: false,
       Menu: false,
+      Enquiry: false,
+
       shopName: "",
       resImages: [],
       shop:{},
@@ -104,24 +113,35 @@ export default {
       this.Review = false;
       this.Reservation = false;
       this.Menu = false;
+      this.Enquiry = false;
     },
     toggleReview: function () {
       this.About = false;
       this.Review = true;
       this.Reservation = false;
       this.Menu = false;
+      this.Enquiry = false;
     },
     toggleReservation: function () {
       this.About = false;
       this.Review = false;
       this.Reservation = true;
       this.Menu = false;
+      this.Enquiry = false;
     },
     toggleMenu: function () {
       this.About = false;
       this.Review = false;
       this.Reservation = false;
       this.Menu = true;
+      this.Enquiry = false;
+    },
+    toggleEnquiry() {
+      this.About = false;
+      this.Review = false;
+      this.Reservation = false;
+      this.Menu = false;
+      this.Enquiry = true;
     },
    
     addFavorite: function () {
