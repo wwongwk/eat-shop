@@ -523,9 +523,7 @@ h2 {
   -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
   -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
-#addForm > input {
-  height: 70px;
-}
+
 #addForm > textarea {
   height: 150px;
 }
@@ -586,8 +584,8 @@ textarea {
   border-radius: 5px;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.1);
-  padding: 12px 7px;
   margin-top: 5px;
+  padding: 7px;
 }
 #menuBtn:hover {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);

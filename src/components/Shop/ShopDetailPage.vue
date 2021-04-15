@@ -18,10 +18,10 @@
     <br />
 
     <div class="btn-group">
-      <button v-on:click="toggleAbout()">About</button>
-      <button v-on:click="toggleProduct()">Products</button>
-      <button v-on:click="toggleReview()">Reviews</button>
-      <button v-on:click="toggleEnquiry()">Get In Touch</button>
+      <button id="about" v-on:click="toggleAbout()">About</button>
+      <button id="product" v-on:click="toggleProduct()">Products</button>
+      <button id="review" v-on:click="toggleReview()">Reviews</button>
+      <button id="enquiry" v-on:click="toggleEnquiry()">Get In Touch</button>
     </div>
     <div class="favName">
       <h2 id="name">{{ shopName }} &nbsp;</h2>
@@ -108,6 +108,14 @@ export default {
       this.Product = false;
       this.Review = false;
       this.Enquiry = false;
+      document.getElementById("about").style.backgroundColor="#ED83A7";
+      document.getElementById("about").style.color="white";
+      document.getElementById("review").style.backgroundColor="white";
+      document.getElementById("review").style.color="black";
+      document.getElementById("product").style.backgroundColor="white";
+      document.getElementById("product").style.color="black";
+      document.getElementById("enquiry").style.backgroundColor="white";
+      document.getElementById("enquiry").style.color="black";
     },
     toggleProduct: function () {
       //window.history.scrollRestoration = "manual"
@@ -115,6 +123,14 @@ export default {
       this.Product = true;
       this.Review = false;
       this.Enquiry = false;
+      document.getElementById("product").style.backgroundColor="#ED83A7";
+      document.getElementById("product").style.color="white";
+      document.getElementById("review").style.backgroundColor="white";
+      document.getElementById("review").style.color="black";
+      document.getElementById("about").style.backgroundColor="white";
+      document.getElementById("about").style.color="black";
+      document.getElementById("enquiry").style.backgroundColor="white";
+      document.getElementById("enquiry").style.color="black";
     },
     toggleReview: function () {
       //window.history.scrollRestoration = "manual"
@@ -122,6 +138,14 @@ export default {
       this.Product = false;
       this.Review = true;
       this.Enquiry = false;
+      document.getElementById("review").style.backgroundColor="#ED83A7";
+      document.getElementById("review").style.color="white";
+      document.getElementById("about").style.backgroundColor="white";
+      document.getElementById("about").style.color="black";
+      document.getElementById("product").style.backgroundColor="white";
+      document.getElementById("product").style.color="black";
+      document.getElementById("enquiry").style.backgroundColor="white";
+      document.getElementById("enquiry").style.color="black";
     },
     toggleEnquiry: function () {
       //window.history.scrollRestoration = "manual"
@@ -129,6 +153,14 @@ export default {
       this.Product = false;
       this.Review = false;
       this.Enquiry = true;
+      document.getElementById("enquiry").style.backgroundColor="#ED83A7";
+      document.getElementById("enquiry").style.color="white";
+      document.getElementById("review").style.backgroundColor="white";
+      document.getElementById("review").style.color="black";
+      document.getElementById("product").style.backgroundColor="white";
+      document.getElementById("product").style.color="black";
+      document.getElementById("about").style.backgroundColor="white";
+      document.getElementById("about").style.color="black";
     },
     addFavorite: function () {
       //if user is not logged in,
@@ -247,23 +279,21 @@ img {
 
 .btn-group button {
   background-color: transparent;
-  border: 1px solid rgb(0, 0, 0); /* Green border */
   color: rgb(0, 0, 0); /* White text */
   padding: 10px 24px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
   float: left; /* Float the buttons side by side */
-  border-top: none;
   font-size: 18px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 5px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0);
 }
 
-.btn-group button:not(:last-child) {
-  border-right: none; /* Prevent double borders */
-}
-.btn-group button:is(:first-child) {
-  border-left: none; /* Prevent double borders */
-}
-.btn-group button:is(:last-child) {
-  border-right: none; /* Prevent double borders */
+#about {
+  background-color: #ED83A7;
+  color: #fff;
 }
 
 /* Clear floats (clearfix hack) */
@@ -277,6 +307,7 @@ img {
 .btn-group button:hover {
   background-color: #ED83A7;
   color: rgb(255, 255, 255);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
 }
 
 ul{
