@@ -42,8 +42,10 @@
         {{ childrenCount }}
         <button v-on:click="incrementChild()" class="plus">+</button>
       </section>
-      <br>
-      <button id="bookNow" v-on:click="book()" v-show="acceptReservation">Book Now</button>
+      <br />
+      <button id="bookNow" v-on:click="book()" v-show="acceptReservation">
+        Book Now
+      </button>
     </div>
   </div>
 </template>
@@ -61,6 +63,7 @@ export default {
       Reservation: false,
       acceptReservation: true,
       displayResNotice: false,
+      totalReservations: 0,
       dropdownOptions: [
         { code: "1", time: "11:30" },
         { code: "2", time: "12:30" },
@@ -171,6 +174,51 @@ export default {
         }
       }
     },
+    increaseCounter: function () {
+      console.log('Inside increaseCounter()')
+      console.log(document.getElementById("bookingDate"))
+      var chosenDate = new Date(
+        document.getElementById("bookingDate").value +
+          "T" +
+          this.selected.time +
+          ":00"
+      );
+    
+      var month = chosenDate.getMonth(); //January is 0
+      var year = chosenDate.getFullYear();
+      var yearlyReservations = [];
+      database
+        .collection(["eat"])
+        .doc([this.shop.document_id])
+        .get()
+        .then((doc) => {
+          var done = false;
+          console.log(doc.data().totalReservations);
+          var currentArray = [];
+          currentArray = doc.data().totalReservations[year];
+          for (var i = 0; i < currentArray.length; i++) {
+            yearlyReservations.push(currentArray[i]);
+            if (i === month) {
+              //clicks for that month is already added into the array
+              yearlyReservations[i] += 1;
+              done = true;
+            }
+          }
+          if (!done) {
+            //month clicks is not added yet -- start of the month
+            yearlyReservations.push(1);
+            done = true;
+          }
+          this.totalReservations = doc.data().totalReservations;
+          this.totalReservations[year] = yearlyReservations;
+          console.log(this.totalReservations);
+        })
+        .then(() => {
+          database.collection("eat").doc(this.shop.document_id).update({
+            totalReservations: this.totalReservations,
+          });
+        });
+    },
 
     book: function () {
       //if user is not logged in,
@@ -189,6 +237,10 @@ export default {
           ) {
             alert("Your reservation is incomplete!");
           } else {
+
+            //Buggy function
+            //this.increaseCounter();
+
             //converts javascript date object to timestamp object to be saved to database
             //alert pop-up to inform user of successful reservation
             var chosenDate = new Date(
@@ -213,8 +265,9 @@ export default {
             var newRef = database.collection("reservation").doc();
             booking["booking_id"] = newRef.id;
             booking["user_id"] = this.shop.user_id;
-
+            
             newRef.set(booking).then(() => location.reload());
+            
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }
@@ -245,7 +298,7 @@ export default {
       this.acceptReservation = JSON.parse(this.shop["acceptReservations"]);
 
       // this.shop["acceptReservations"] returns String
-      console.log('accept Reservation: ' + this.acceptReservation)
+      console.log("accept Reservation: " + this.acceptReservation);
       if (this.acceptReservation === false) {
         this.displayResNotice = true;
         console.log("Inside loop");
