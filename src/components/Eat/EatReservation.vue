@@ -63,7 +63,7 @@ export default {
       Reservation: false,
       acceptReservation: true,
       displayResNotice: false,
-      totalReservations : 0,
+      totalReservations: 0,
       dropdownOptions: [
         { code: "1", time: "11:30" },
         { code: "2", time: "12:30" },
@@ -175,10 +175,17 @@ export default {
       }
     },
     increaseCounter: function () {
-      console.log(this.shop.document_id)
-      var today = new Date();
-      var month = today.getMonth(); //January is 0
-      var year = today.getFullYear();
+      console.log('Inside increaseCounter()')
+      console.log(document.getElementById("bookingDate"))
+      var chosenDate = new Date(
+        document.getElementById("bookingDate").value +
+          "T" +
+          this.selected.time +
+          ":00"
+      );
+    
+      var month = chosenDate.getMonth(); //January is 0
+      var year = chosenDate.getFullYear();
       var yearlyReservations = [];
       database
         .collection(["eat"])
@@ -208,7 +215,7 @@ export default {
         })
         .then(() => {
           database.collection("eat").doc(this.shop.document_id).update({
-            totalClicks: this.totalReservations,
+            totalReservations: this.totalReservations,
           });
         });
     },
@@ -230,6 +237,10 @@ export default {
           ) {
             alert("Your reservation is incomplete!");
           } else {
+
+            //Buggy function
+            //this.increaseCounter();
+
             //converts javascript date object to timestamp object to be saved to database
             //alert pop-up to inform user of successful reservation
             var chosenDate = new Date(
@@ -254,8 +265,9 @@ export default {
             var newRef = database.collection("reservation").doc();
             booking["booking_id"] = newRef.id;
             booking["user_id"] = this.shop.user_id;
-            //this.increaseCounter();
+            
             newRef.set(booking).then(() => location.reload());
+            
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }
