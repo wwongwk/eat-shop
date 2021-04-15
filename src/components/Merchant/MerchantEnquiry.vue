@@ -41,6 +41,7 @@ export default {
               this.shopId = doc.data().document_id;
               this.merchantType = doc.data().type;
               fetched = true;
+              this.fetchEnquiries();
             }
             localStorage.clear();
           });
@@ -54,6 +55,7 @@ export default {
               if (doc.data().user_id == this.uid) {
                 this.shopId = doc.data().document_id;
                 this.merchantType = doc.data().type;
+                this.fetchEnquiries();
               }
               localStorage.clear();
             });
@@ -64,7 +66,7 @@ export default {
     fetchEnquiries: function () {
       this.uid = firebase.auth().currentUser.uid;
       database
-        .collection("shop")
+        .collection(this.merchantType)
         .where("user_id", "==", this.uid)
         .get()
         .then((querySnapShot) => {
@@ -78,15 +80,16 @@ export default {
     deleteEnquiry: function (enquiry) {
       for (var i = 0; i < this.allEnquiries.length; i++) {
         var currentEnquiry = this.allEnquiries[i];
+        var temp;
         if (currentEnquiry === enquiry) {
-          this.allEnquiries.splice(i, 1);
+          temp = this.allEnquiries.splice(i, 1);
         }
       }
       database
         .collection(this.merchantType)
         .doc(this.shopId)
         .update({
-          enquiries: this.allEnquiries,
+          enquiries: temp,
         })
         .then(() => {
         });
@@ -95,7 +98,6 @@ export default {
 
   created() {
     this.fetchMerchant();
-    this.fetchEnquiries();
   },
 };
 </script>
