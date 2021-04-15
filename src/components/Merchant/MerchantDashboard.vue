@@ -51,7 +51,7 @@
       ></Plotly>
     </div>
     <div class="chart">
-      <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
+      <Plotly :data="ReservationsData" :layout="layout" :display-mode-bar="false"></Plotly>
     </div>
   </div>
 </template>
@@ -67,7 +67,7 @@ export default {
   components: { Plotly, AnimatedNumber, StarRating },
   data() {
     return {
-      data: [
+      ReservationsData: [
         {
           x: [],
           y: [],
@@ -168,11 +168,31 @@ export default {
         .get()
         .then((querySnapShot) => {
           querySnapShot.forEach((doc) => {
-            var yearArray = doc.data().totalClicks[value.year];
-            this.clicksData[0].y = yearArray;
-            console.log("hello" + this.clicksData[0].y);
+            var yearArrayClicks = doc.data().totalClicks[value.year];
+            var yearArrayReservations = doc.data().totalReservations[value.year];
+            this.reservationsData[0].y = yearArrayReservations;
+            this.clicksData[0].y = yearArrayClicks;
+            console.log("hello" + this.reservationsData[0].y);
+            console.log("hello " + this.reservationsData[0].x);
             this.generateMonthlyAxis(this.clicksData[0].y);
-            console.log("hello " + this.clicksData[0].x);
+            this.generateMonthlyAxis(this.reservationsData[0].y);
+            
+          });
+        });
+    },    //fetch monthly clicks data for a particular year chosen by user
+    sortReservations: function (value) {
+      this.uid = firebase.auth().currentUser.uid;
+      database
+        .collection(this.merchantType)
+        .where("user_id", "==", this.uid)
+        .get()
+        .then((querySnapShot) => {
+          querySnapShot.forEach((doc) => {
+            var yearArray = doc.data().totalReservations[value.year];
+            this.clicksData[0].y = yearArray;
+            console.log("hello" + this.ReservationsData[0].y);
+            this.generateMonthlyAxis(this.clicksData[0].y);
+            console.log("hello " + this.ReservationsData[0].x);
           });
         });
     },
@@ -199,6 +219,7 @@ export default {
     generateMonthlyAxis: function (array) {
       for (var i = 0; i < array.length; i++) {
         this.clicksData[0].x.push(this.monthsAxis[i]);
+        this.reservationsData[0].x.push(this.monthsAxis[i]);
       }
     },
 
@@ -240,7 +261,7 @@ export default {
               this.datesFormatted.push(date.toLocaleDateString());
             }
           });
-          this.generateAxes();
+          //this.generateAxes();
         });
     },
 
@@ -279,7 +300,7 @@ export default {
           });
         });
     },
-
+    /*
     // Generates the arrays needed for plotting
     generateAxes() {
       console.log("generateAxes() running");
@@ -302,26 +323,24 @@ export default {
 
       for (let i = 0; i < arr.length; i++) {
         this.data[0].x.push(
-
-
-
           "0" +
             (arr[i][0] + 1).toString() +
             "/" +
             arr[i][1].toString().slice(-2)
         );
       }
-    },
+    },*/
     formatClicks(value) {
       return `${value.toFixed(0)}`;
     },
     formatRating(value) {
       return `${value.toFixed(1)}`;
-    },
+    }, 
   },
   created() {
     this.fetchDetails();
   },
+  
 };
 </script>
 
