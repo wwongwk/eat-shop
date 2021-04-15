@@ -14,6 +14,7 @@ import ShopDetail from './components/Shop/ShopDetailPage'
 import MyFavorites from './components/MyFavorites.vue'
 import UpcomingReservations from './components/UpcomingReservations.vue'
 import PastEvents from './components/PastEvents.vue'
+import PublicDashboard from './components/PublicDashboard.vue'
 
 export default[
   {path: '/', component: Home},
@@ -31,5 +32,6 @@ export default[
   {path:'/bizsignup', component:BizSignUp},
   {path:'/myFav', component:MyFavorites},
   {path:'/upcoming', component:UpcomingReservations},
-  {path:'/past', component:PastEvents}
+  {path:'/past', component:PastEvents},
+  {path:'/publicDashboard', component:PublicDashboard}
 ]

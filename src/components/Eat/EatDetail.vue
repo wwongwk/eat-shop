@@ -99,6 +99,8 @@ export default {
           .then((doc) => {
             this.loggedIn = true;
             this.fav=doc.data().favorites
+
+            //Buggy If condition
             if (this.fav[this.shop["document_id"]]!=null) {
               this.added=true;
               document.getElementById("favorite").innerHTML="Favorite &#9829;";

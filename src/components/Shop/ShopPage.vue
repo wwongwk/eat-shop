@@ -22,8 +22,8 @@
           :options="sortByOptions"
           :value="selectedCriteria"
           :clearable="false"
-          v-model="chosenCriteria"
           @input="sortShops"
+          :searchable = "false"
           id="drop"
         >
           <template slot="option" slot-scope="option">
@@ -38,7 +38,7 @@
           :options="dropdownOptions"
           :value="selectedType"
           :clearable="false"
-          v-model="chosenItemType"
+          :searchable = "false"
           @input="filterShops"
           id="drop"
         >

@@ -21,7 +21,7 @@
           :options="sortByOptions"
           :value="selectedCriteria"
           :clearable="false"
-          v-model="chosenCriteria"
+          :searchable = "false"
           @input="sortFood"
           id="drop"
         >
@@ -37,7 +37,7 @@
           :options="dropdownOptions"
           :value="selectedCuisine"
           :clearable="false"
-          v-model="chosenCuisine"
+          :searchable = "false"
           @input="filterFood"
           id="drop"
         >
@@ -53,10 +53,10 @@
       <div id="food" v-show="allShown">
         <ul>
           <li v-for="restaurant in restaurants" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
-              <div class="container">
-                <button v-on:click="sendData(restaurant.id)" id="names">
+              <div class="container" >
+                <button id="names">
                   {{ restaurant.name }}
                   <br />
                   {{ restaurant.overallRating }}
@@ -70,10 +70,10 @@
       <div id="selectedFood" v-show="selectedShown">
         <ul>
           <li v-for="restaurant in selectedFood" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(restaurant.id)" id="selectedNames">
+                <button id="selectedNames">
                   {{ restaurant.name }}
                   <br />
                   {{ restaurant.overallRating }}
@@ -88,11 +88,11 @@
         <div id="msg">We think you may like the following as well:</div>
         <ul>
           <li v-for="restaurant in recommended" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
                 <button
-                  v-on:click="sendData(restaurant.id)"
+                  
                   id="recommendedNames"
                 >
                   {{ restaurant.name }}
@@ -108,10 +108,10 @@
       <div id="filteredFood" v-show="filteredShown">
         <ul>
           <li v-for="restaurant in filtered" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(restaurant.id)" id="filteredNames">
+                <button id="filteredNames">
                   {{ restaurant.name }}
                   <br />
                   {{ restaurant.overallRating }}
@@ -276,6 +276,7 @@ export default {
       if (value.criteria === "Best reviewed") {
         //sort the restaurants by their overall rating values in descending order
         this.restaurants.sort(function (restaurant1, restaurant2) {
+          
           return (
             parseFloat(restaurant2.overallRating) -
             parseFloat(restaurant1.overallRating)
@@ -284,8 +285,10 @@ export default {
       } else {
         //sorting by most popular -- number of clicks
         this.restaurants.sort(function (restaurant1, restaurant2) {
+          console.log(restaurant1)
           return (
             parseFloat(restaurant2.clicks) - parseFloat(restaurant1.clicks)
+            //parseFloat(restaurant2)) - parseFloat(this.getTotalClicks(restaurant1))          
           );
         });
       }
@@ -295,7 +298,6 @@ export default {
       this.filteredShown = false;
       this.allShown = true;
     },
-
     //update the monthly clicks in the database
     increaseCounter: function (x) {
       var today = new Date();
@@ -428,6 +430,7 @@ div.polaroid {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 10px;
   border-radius: 10px;
+  cursor : pointer;
 }
 
 div.container {

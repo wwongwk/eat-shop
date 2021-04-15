@@ -11,6 +11,7 @@
         <a> <router-link to="/eat" exact>EAT</router-link></a>
         <a> <router-link to="/shop" exact>SHOP</router-link></a>
         <a> <router-link to="/play" exact>PLAY</router-link></a>
+        <a> <router-link to="/publicDashboard" exact>DASHBOARD</router-link></a>
         
       </div>
       <div id="side" class="flexCol">
