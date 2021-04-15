@@ -43,28 +43,28 @@
       </div>
     </div>
 
-  <div id="clicksChart" class="chart">
-    <Plotly
-      :data="clicksData"
-      :layout="barLayout"
-      :display-mode-bar="false"
-    ></Plotly>
-  </div>
+    <div id="clicksChart" class="chart">
+      <Plotly
+        :data="clicksData"
+        :layout="barLayout"
+        :display-mode-bar="false"
+      ></Plotly>
+    </div>
 
-  <div id="yearDropdownReservations">
-    <p>Choose</p>
-    <v-select
-      label="yearReservations"
-      :options="sortByOptionsReservations"
-      :value="selectedYearReservations"
-      :clearable="false"
-      @input="sortReservations"
-      id="dropReservations"
-    >
-      <template slot="option" slot-scope="option">
-        {{ option.year }}
-      </template>
-    </v-select>
+    <div id="yearDropdownReservations">
+      <p>Choose</p>
+      <v-select
+        label="yearReservations"
+        :options="sortByOptionsReservations"
+        :value="selectedYearReservations"
+        :clearable="false"
+        @input="sortReservations"
+        id="dropReservations"
+      >
+        <template slot="option" slot-scope="option">
+          {{ option.year }}
+        </template>
+      </v-select>
     </div>
 
     <div id="reservationsChart" class="chart">
@@ -212,14 +212,13 @@ export default {
         .then((querySnapShot) => {
           querySnapShot.forEach((doc) => {
             var yearArray = doc.data().totalReservations[value.year];
-            this.clicksData[0].y = yearArray;
+            this.reservationsData[0].y = yearArray;
             console.log("hello" + this.reservationsData[0].y);
             this.generateMonthlyReservationsAxis(this.reservationsData[0].y);
             console.log("hello " + this.reservationsData[0].x);
           });
         });
     },
-
     getTotalClicks() {
       this.uid = firebase.auth().currentUser.uid;
       console.log(this.merchantType);
