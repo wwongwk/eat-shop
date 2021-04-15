@@ -26,15 +26,15 @@
         ></star-rating>
       </div>
 
-      <div id="yearDropdown">
+      <div id="yearDropdownClicks">
         <p>Choose</p>
         <v-select
-          label="year"
-          :options="sortByOptions"
-          :value="selectedYear"
+          label="yearClicks"
+          :options="sortByOptionsClicks"
+          :value="selectedYearClicks"
           :clearable="false"
           @input="sortClicks"
-          id="drop"
+          id="dropClicks"
         >
           <template slot="option" slot-scope="option">
             {{ option.year }}
@@ -43,15 +43,36 @@
       </div>
     </div>
 
-    <div id="barchart" class="chart">
+  <div id="clicksChart" class="chart">
+    <Plotly
+      :data="clicksData"
+      :layout="barLayout"
+      :display-mode-bar="false"
+    ></Plotly>
+  </div>
+
+  <div id="yearDropdownReservations">
+    <p>Choose</p>
+    <v-select
+      label="yearReservations"
+      :options="sortByOptionsReservations"
+      :value="selectedYearReservations"
+      :clearable="false"
+      @input="sortReservations"
+      id="dropReservations"
+    >
+      <template slot="option" slot-scope="option">
+        {{ option.year }}
+      </template>
+    </v-select>
+    </div>
+
+    <div id="reservationsChart" class="chart">
       <Plotly
-        :data="clicksData"
-        :layout="barLayout"
+        :data="reservationsData"
+        :layout="layout"
         :display-mode-bar="false"
       ></Plotly>
-    </div>
-    <div class="chart">
-      <Plotly :data="ReservationsData" :layout="layout" :display-mode-bar="false"></Plotly>
     </div>
   </div>
 </template>
@@ -67,7 +88,7 @@ export default {
   components: { Plotly, AnimatedNumber, StarRating },
   data() {
     return {
-      ReservationsData: [
+      reservationsData: [
         {
           x: [],
           y: [],
@@ -116,14 +137,22 @@ export default {
           title: "Number of visitors",
         },
       },
-      sortByOptions: [
+      sortByOptionsClicks: [
         { code: "2021", year: 2021 },
         { code: "2022", year: 2022 },
         { code: "2023", year: 2023 },
         { code: "2024", year: 2024 },
         { code: "2025", year: 2025 },
       ],
-      selectedYear: "",
+      selectedYearClicks: "",
+      sortByOptionsReservations: [
+        { code: "2021", year: 2021 },
+        { code: "2022", year: 2022 },
+        { code: "2023", year: 2023 },
+        { code: "2024", year: 2024 },
+        { code: "2025", year: 2025 },
+      ],
+      selectedYearReservations: "",
       name: "",
       email: "",
       mobile: "",
@@ -169,17 +198,11 @@ export default {
         .then((querySnapShot) => {
           querySnapShot.forEach((doc) => {
             var yearArrayClicks = doc.data().totalClicks[value.year];
-            var yearArrayReservations = doc.data().totalReservations[value.year];
-            this.reservationsData[0].y = yearArrayReservations;
             this.clicksData[0].y = yearArrayClicks;
-            console.log("hello" + this.reservationsData[0].y);
-            console.log("hello " + this.reservationsData[0].x);
-            this.generateMonthlyAxis(this.clicksData[0].y);
-            this.generateMonthlyAxis(this.reservationsData[0].y);
-            
+            this.generateMonthlyClicksAxis(this.clicksData[0].y);
           });
         });
-    },    //fetch monthly clicks data for a particular year chosen by user
+    }, //fetch monthly clicks data for a particular year chosen by user
     sortReservations: function (value) {
       this.uid = firebase.auth().currentUser.uid;
       database
@@ -190,9 +213,9 @@ export default {
           querySnapShot.forEach((doc) => {
             var yearArray = doc.data().totalReservations[value.year];
             this.clicksData[0].y = yearArray;
-            console.log("hello" + this.ReservationsData[0].y);
-            this.generateMonthlyAxis(this.clicksData[0].y);
-            console.log("hello " + this.ReservationsData[0].x);
+            console.log("hello" + this.reservationsData[0].y);
+            this.generateMonthlyReservationsAxis(this.reservationsData[0].y);
+            console.log("hello " + this.reservationsData[0].x);
           });
         });
     },
@@ -208,7 +231,9 @@ export default {
           querySnapShot.forEach((doc) => {
             let totalClicks = 0;
             for (let key in doc.data().totalClicks) {
-              totalClicks += doc.data().totalClicks[key].reduce((a, b) => a + b, 0);
+              totalClicks += doc
+                .data()
+                .totalClicks[key].reduce((a, b) => a + b, 0);
             }
             this.totalClicks = totalClicks;
           });
@@ -216,32 +241,18 @@ export default {
     },
 
     //updates x axis to be past and current months only
-    generateMonthlyAxis: function (array) {
+    generateMonthlyClicksAxis: function (array) {
       for (var i = 0; i < array.length; i++) {
         this.clicksData[0].x.push(this.monthsAxis[i]);
+      }
+    },
+    generateMonthlyReservationsAxis: function (array) {
+      for (var i = 0; i < array.length; i++) {
         this.reservationsData[0].x.push(this.monthsAxis[i]);
       }
     },
 
-    //fetch number of clicks per month from firestore
-    fetchClicks() {
-      this.uid = firebase.auth().currentUser.uid;
-      database
-        .collection("eat")
-        .where("user_id", "==", this.uid)
-        .get()
-        .then((querySnapShot) => {
-          querySnapShot.forEach((doc) => {
-            for (var j = 0; j < doc.data().numClicks.length; j++) {
-              if (doc.data().numClicks[j] != 0) {
-                this.clicksData[0].y.push(doc.data().numClicks[j]);
-              }
-            }
-            this.generateMonthlyAxis(this.clicksData[0].y);
-          });
-        });
-      console.log(this.clicksData[0].x);
-    },
+    /*
 
     // Fetches reservation data from firestore
     fetchReservations() {
@@ -263,7 +274,7 @@ export default {
           });
           //this.generateAxes();
         });
-    },
+    }, */
 
     // Fetches Authentication details and Business details
     fetchDetails() {
@@ -281,7 +292,7 @@ export default {
         })
         .then(() => {
           this.fetchClicksAndReviews();
-          this.fetchReservations();
+          //this.fetchReservations();
           this.getTotalClicks();
         });
     },
@@ -335,12 +346,11 @@ export default {
     },
     formatRating(value) {
       return `${value.toFixed(1)}`;
-    }, 
+    },
   },
   created() {
     this.fetchDetails();
   },
-  
 };
 </script>
 
@@ -377,14 +387,24 @@ export default {
   color: #ed83a7;
   font-size: 18px;
 }
-#barchart {
+#clicksChart {
   color: #ed83a7;
   font-size: 18px;
 }
-#yearDropdown {
+#yearDropdownClicks {
   width: 400px;
 }
-#yearDropdown p {
+#yearDropdownClicks p {
+  font-size: 20px;
+  color: #ed83a7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#yearDropdownReservations {
+  width: 400px;
+}
+#yearDropdownReservations p {
   font-size: 20px;
   color: #ed83a7;
   display: flex;
@@ -392,7 +412,7 @@ export default {
   justify-content: center;
 }
 
-#drop {
+#dropClicks {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   border: none;
   outline: none;

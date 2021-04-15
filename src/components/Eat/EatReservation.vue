@@ -183,13 +183,12 @@ export default {
           this.selected.time +
           ":00"
       );
-    
-      var month = chosenDate.getMonth(); //January is 0
+      var month = chosenDate.getMonth();
       var year = chosenDate.getFullYear();
       var yearlyReservations = [];
       database
-        .collection(["eat"])
-        .doc([this.shop.document_id])
+        .collection("eat")
+        .doc(this.shop.document_id)
         .get()
         .then((doc) => {
           var done = false;
@@ -239,7 +238,7 @@ export default {
           } else {
 
             //Buggy function
-            //this.increaseCounter();
+            this.increaseCounter();
 
             //converts javascript date object to timestamp object to be saved to database
             //alert pop-up to inform user of successful reservation
