@@ -2,9 +2,9 @@
   <div>
     <div class="container">
       <div class="clicks">
-        VISITORS:
+        TOTAL VISITORS:
         <animated-number
-          :value="clicks"
+          :value="totalClicks"
           :formatValue="formatClicks"
           :duration="3000"
         />
@@ -33,7 +33,6 @@
           :options="sortByOptions"
           :value="selectedYear"
           :clearable="false"
-          v-model="chosenYear"
           @input="sortClicks"
           id="drop"
         >
@@ -44,7 +43,7 @@
       </div>
     </div>
 
-    <div id="barchart" class ="chart">
+    <div id="barchart" class="chart">
       <Plotly
         :data="clicksData"
         :layout="barLayout"
@@ -52,10 +51,7 @@
       ></Plotly>
     </div>
     <div class="chart">
-      <Plotly 
-      :data="data" 
-      :layout="layout" 
-      :display-mode-bar="false"></Plotly>
+      <Plotly :data="data" :layout="layout" :display-mode-bar="false"></Plotly>
     </div>
   </div>
 </template>
@@ -104,11 +100,11 @@ export default {
         },
         yaxis: {
           title: "Number of reservations",
-        }
+        },
       },
       barLayout: {
         title: {
-          text: "MONTHLY CLICKS",
+          text: "MONTHLY VISITORS",
           font: {
             size: 20,
           },
@@ -117,8 +113,8 @@ export default {
           title: "Month",
         },
         yaxis: {
-          title: "Number of clicks",
-        }
+          title: "Number of visitors",
+        },
       },
       sortByOptions: [
         { code: "2021", year: 2021 },
@@ -135,7 +131,8 @@ export default {
       uid: "",
       phone: "",
       clicks: "",
-      rating: "",
+      totalClicks: 0,
+      rating: 0,
       merchantType: "",
       reviews: [],
       datesMonthYear: [],
@@ -175,6 +172,25 @@ export default {
             this.clicksData[0].y = yearArray;
             console.log("hello" + this.clicksData[0].y);
             this.generateMonthlyAxis(this.clicksData[0].y);
+            console.log("hello " + this.clicksData[0].x);
+          });
+        });
+    },
+
+    getTotalClicks() {
+      this.uid = firebase.auth().currentUser.uid;
+      console.log(this.merchantType);
+      database
+        .collection(this.merchantType)
+        .where("user_id", "==", this.uid)
+        .get()
+        .then((querySnapShot) => {
+          querySnapShot.forEach((doc) => {
+            let totalClicks = 0;
+            for (let key in doc.data().totalClicks) {
+              totalClicks += doc.data().totalClicks[key].reduce((a, b) => a + b, 0);
+            }
+            this.totalClicks = totalClicks;
           });
         });
     },
@@ -239,23 +255,18 @@ export default {
         .doc(this.uid)
         .get()
         .then((doc) => {
-          console.log("fetchDetails(): " + doc.data().business_type);
           this.merchantType = doc.data().business_type;
           this.reviews = doc.data().reviews;
-          console.log("hello" + this.merchantType);
         })
         .then(() => {
           this.fetchClicksAndReviews();
           this.fetchReservations();
+          this.getTotalClicks();
         });
-      console.log("type Fetched");
-      console.log("type : " + this.merchantType);
-      console.log(this.reviews);
     },
 
     fetchClicksAndReviews() {
       console.log("fetching Clicks and Reservations");
-      console.log(this.merchantType);
       database
         .collection(this.merchantType)
         .get()
@@ -267,7 +278,6 @@ export default {
             }
           });
         });
-      console.log("fetched Clicks and Reservations");
     },
 
     // Generates the arrays needed for plotting
@@ -285,8 +295,16 @@ export default {
         new Set(this.datesMonthYear.map(JSON.stringify)),
         JSON.parse
       ).sort();
+
+      console.log(arr)
+     // var months = [ "January", "February", "March", "April", "May", "June", 
+       //    "July", "August", "September", "October", "November", "December" ];
+
       for (let i = 0; i < arr.length; i++) {
         this.data[0].x.push(
+
+
+
           "0" +
             (arr[i][0] + 1).toString() +
             "/" +
@@ -322,8 +340,8 @@ export default {
   width: 300px;
   height: 150px;
   padding: 30px;
-  box-shadow:4px 4px 10px rgba(0.1,0.1,0.1,0.1);
-  border-radius:15px;
+  box-shadow: 4px 4px 10px rgba(0.1, 0.1, 0.1, 0.1);
+  border-radius: 15px;
 }
 .rating {
   float: right;
@@ -332,16 +350,16 @@ export default {
   width: 300px;
   height: 150px;
   padding: 30px;
-  box-shadow:4px 4px 4px rgba(0.1,0.1,0.1,0.1);
-  border-radius:15px;
+  box-shadow: 4px 4px 4px rgba(0.1, 0.1, 0.1, 0.1);
+  border-radius: 15px;
 }
-.chart  {
+.chart {
   margin-top: 100px;
-  color: #ED83A7;
+  color: #ed83a7;
   font-size: 18px;
 }
 #barchart {
-  color: #ED83A7;
+  color: #ed83a7;
   font-size: 18px;
 }
 #yearDropdown {
