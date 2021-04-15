@@ -1,12 +1,12 @@
 <template>
   <div>
     <ul>
+      <li id="header"><h2>ENQUIRIES</h2></li>
       <li v-for="enquiry in allEnquiries" :key="enquiry.id">
-        {{ enquiry.name }}
-        <br />
+        {{ enquiry.name }} &emsp;&emsp;&emsp;&emsp;
         {{ enquiry.email }}
-        <br />
-        {{ enquiry.message }}
+        ><br />
+          {{ enquiry.message }}
         <button v-on:click="deleteEnquiry(enquiry)" id="deleteBtn">
           DELETE
         </button>
@@ -103,4 +103,40 @@ export default {
 </script>
 
 <style scoped>
+li {
+  color: #403939;
+  font-size: 18px;
+  //margin: 10px;
+  padding: 35px 20px;
+  width: 1000px;
+  text-align: left;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  border-radius: 10px;
+  background: #FFF;
+  line-height: 2;
+}
+
+ul {
+  list-style-type: none;
+  width: 100%;
+  margin-bottom: 100px;
+  vertically-align: center;
+  margin-left: 200px;
+  margin-top: 50px;
+}
+#header {
+  text-align: center;
+  line-height: 1;
+}
+button {
+  float: right;
+  background-color: #ed83a7;
+  border: none;
+  border-radius: 5px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.1);
+  color: white;
+  font-size: 18px;
+  margin-bottom: 50px;
+}
 </style>
