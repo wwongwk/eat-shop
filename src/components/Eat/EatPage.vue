@@ -53,10 +53,10 @@
       <div id="food" v-show="allShown">
         <ul>
           <li v-for="restaurant in restaurants" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
-              <div class="container">
-                <button v-on:click="sendData(restaurant.id)" id="names">
+              <div class="container" >
+                <button id="names">
                   {{ restaurant.name }}
                   <br />
                   {{ restaurant.overallRating }}
@@ -70,10 +70,10 @@
       <div id="selectedFood" v-show="selectedShown">
         <ul>
           <li v-for="restaurant in selectedFood" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(restaurant.id)" id="selectedNames">
+                <button id="selectedNames">
                   {{ restaurant.name }}
                   <br />
                   {{ restaurant.overallRating }}
@@ -88,11 +88,11 @@
         <div id="msg">We think you may like the following as well:</div>
         <ul>
           <li v-for="restaurant in recommended" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
                 <button
-                  v-on:click="sendData(restaurant.id)"
+                  
                   id="recommendedNames"
                 >
                   {{ restaurant.name }}
@@ -108,10 +108,10 @@
       <div id="filteredFood" v-show="filteredShown">
         <ul>
           <li v-for="restaurant in filtered" :key="restaurant.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(restaurant.id)" id="filteredNames">
+                <button id="filteredNames">
                   {{ restaurant.name }}
                   <br />
                   {{ restaurant.overallRating }}
@@ -430,6 +430,7 @@ div.polaroid {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 10px;
   border-radius: 10px;
+  cursor : pointer;
 }
 
 div.container {
