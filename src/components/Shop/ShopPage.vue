@@ -54,10 +54,10 @@
       <div id="shop" v-show="allShown">
         <ul>
           <li v-for="shop in shops" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(shop.id)" id="names">
+                <button  id="names">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -71,10 +71,10 @@
       <div id="selectedShops" v-show="selectedShown">
         <ul>
           <li v-for="shop in selectedShops" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(shop.id)" id="selectedNames">
+                <button id="selectedNames">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -89,10 +89,10 @@
         <div id="msg">We think you may like the following as well:</div>
         <ul>
           <li v-for="shop in recommended" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(shop.id)" id="recommendedNames">
+                <button id="recommendedNames">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -106,10 +106,10 @@
       <div id="filteredShops" v-show="filteredShown">
         <ul>
           <li v-for="shop in filtered" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(shop.id)" id="filteredNames">
+                <button id="filteredNames">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -376,6 +376,7 @@ div.polaroid {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 10px;
   border-radius: 10px;
+  cursor : pointer;
 }
 
 div.container {

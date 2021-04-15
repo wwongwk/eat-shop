@@ -6,7 +6,7 @@
         <animated-number
           :value="totalClicks"
           :formatValue="formatClicks"
-          :duration="3000"
+          :duration="1500"
         />
       </div>
       <div class="rating">
@@ -14,7 +14,7 @@
         <animated-number
           :value="rating"
           :formatValue="formatRating"
-          :duration="3000"
+          :duration="1500"
         />
 
         <star-rating
@@ -51,28 +51,30 @@
       ></Plotly>
     </div>
 
-    <div id="yearDropdownReservations">
-      <p>Choose</p>
-      <v-select
-        label="yearReservations"
-        :options="sortByOptionsReservations"
-        :value="selectedYearReservations"
-        :clearable="false"
-        @input="sortReservations"
-        id="dropReservations"
-      >
-        <template slot="option" slot-scope="option">
-          {{ option.year }}
-        </template>
-      </v-select>
-    </div>
+    <div v-show = "merchantType != 'shop'">
+      <div id="yearDropdownReservations">
+        <p>Choose</p>
+        <v-select
+          label="yearReservations"
+          :options="sortByOptionsReservations"
+          :value="selectedYearReservations"
+          :clearable="false"
+          @input="sortReservations"
+          id="dropReservations"
+        >
+          <template slot="option" slot-scope="option">
+            {{ option.year }}
+          </template>
+        </v-select>
+      </div>
 
-    <div id="reservationsChart" class="chart">
-      <Plotly
-        :data="reservationsData"
-        :layout="layout"
-        :display-mode-bar="false"
-      ></Plotly>
+      <div id="reservationsChart" class="chart">
+        <Plotly
+          :data="reservationsData"
+          :layout="layout"
+          :display-mode-bar="false"
+        ></Plotly>
+      </div>
     </div>
   </div>
 </template>
