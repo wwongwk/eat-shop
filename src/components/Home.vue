@@ -71,6 +71,7 @@ export default {
       restaurants: [],
       clicks: 0,
       shopsList: [],
+      totalClicks : 0,
       activities: [
         {
           id: "#004",
