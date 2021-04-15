@@ -252,7 +252,7 @@ ul {
 
 li {
   flex-grow: 1;
-  flex-basis: 300px;
+  flex-basis: 100px;
   text-align: center;
   padding: 10px;
   margin: 10px;

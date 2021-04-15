@@ -149,6 +149,7 @@ export default {
 </script>
 
 <style scoped>
+
 .flexWrap {
   display: flex;
   overflow: hidden;
@@ -193,14 +194,14 @@ export default {
 #info, #dashboard, #enquiries, #logout {
   text-align: center;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 16px;
   margin: 3px;
   background-color: white;
   border-radius: 11px;
   border-style: solid;
   border-color: #ed83a7;
   border-width: 2px;
-  padding: 3px 12px;
+  padding: 3px 10px;
   cursor: pointer;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }

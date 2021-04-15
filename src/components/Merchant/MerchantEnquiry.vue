@@ -121,7 +121,7 @@ ul {
   width: 100%;
   margin-bottom: 100px;
   vertically-align: center;
-  margin-left: 200px;
+  margin-left: 100px;
   margin-top: 50px;
 }
 #header {

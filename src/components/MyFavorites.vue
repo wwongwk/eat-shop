@@ -230,7 +230,7 @@ h3 {
 #filterDropdown {
   width: 30%;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 20px;
   border: none;
   outline: none;
 }

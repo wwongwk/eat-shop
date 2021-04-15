@@ -262,7 +262,7 @@ h1 {
   margin-bottom: 70px;
 }
 form {
-  padding-left: 170px;
+  padding-left: 100px;
   width: 100%;
   vertical-align: center;
 
