@@ -40,7 +40,8 @@
   }
 
   label {
-    margin-bottom:50px;
+    //margin-bottom:50px;
+    line-height: 3;
   }
 
   span {
@@ -51,7 +52,7 @@
 
   input {
     border-radius: 5px;
-    padding: 10px 3px;
+    padding: 6px 3px;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -62,7 +63,7 @@
   }
 
   #subscribe {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
   }
 
   #submitBtn {

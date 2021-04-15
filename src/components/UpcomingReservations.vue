@@ -78,7 +78,7 @@ export default {
     text-align: center;
   }
   table {
-    width: 950px;
+    width: 850px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     font-size: 18px;
     color: #403939;

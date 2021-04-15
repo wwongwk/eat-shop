@@ -461,7 +461,7 @@ h2 {
 
 #content {
   align-items: center;
-  width:500px;
+  width:400px;
 	padding:30px;
 	margin:40px auto;
 	background: #FFF;
@@ -475,7 +475,7 @@ h2 {
 }
 
 #menuInfo {
-  width:800px;
+  width:650px;
 	padding:30px;
 	margin:40px auto;
 	background: #FFF;
@@ -567,7 +567,7 @@ ul{
   margin: 0;
 }
 #displayFood {
-  width: 1430px;
+  width: 1200px;
   padding:30px;
 	margin:40px auto;
 	background: #FFF;
