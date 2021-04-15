@@ -165,6 +165,8 @@ export default {
       totalClicks: 0,
       rating: 0,
       merchantType: "",
+      numAdult: [],
+    
       reviews: [],
       datesMonthYear: [],
       datesFormatted: [],
@@ -215,7 +217,7 @@ export default {
           querySnapShot.forEach((doc) => {
             var yearArray = doc.data().totalReservations[value.year];
             this.reservationsData[0].y = yearArray;
-            console.log("hello" + this.reservationsData[0].y);
+            console.log(this.reservationsData[0].y);
             this.generateMonthlyReservationsAxis(this.reservationsData[0].y);
             console.log("hello " + this.reservationsData[0].x);
           });
@@ -253,8 +255,6 @@ export default {
       }
     },
 
-    /*
-
     // Fetches reservation data from firestore
     fetchReservations() {
       console.log("fetchReservations() running");
@@ -271,11 +271,14 @@ export default {
               this.reservations.push(doc.data());
               this.datesMonthYear.push([date.getMonth(), date.getFullYear()]);
               this.datesFormatted.push(date.toLocaleDateString());
+              console.log(this.reservations)
+              this.numAdult.push(doc.data()["adults"])
+              console.log(this.numAdult)
             }
           });
           //this.generateAxes();
         });
-    }, */
+    },
 
     // Fetches Authentication details and Business details
     fetchDetails() {
@@ -293,13 +296,13 @@ export default {
         })
         .then(() => {
           this.fetchClicksAndReviews();
-          //this.fetchReservations();
+          this.fetchReservations();
           this.getTotalClicks();
         });
     },
 
     fetchClicksAndReviews() {
-      console.log("fetching Clicks and Reservations");
+      console.log("fetching Clicks and Reviews");
       database
         .collection(this.merchantType)
         .get()
