@@ -33,6 +33,7 @@
           :options="sortByOptionsClicks"
           :value="selectedYearClicks"
           :clearable="false"
+          :searchable="false"
           @input="sortClicks"
           id="dropClicks"
         >
@@ -59,6 +60,7 @@
           :options="sortByOptionsReservations"
           :value="selectedYearReservations"
           :clearable="false"
+          :searchable="false"
           @input="sortReservations"
           id="dropReservations"
         >
@@ -387,11 +389,18 @@ export default {
   margin-top: 100px;
   color: #ed83a7;
   font-size: 18px;
+  width: 90%;
+  margin-left: 50px;
+  clear: both;
 }
 #clicksChart {
   color: #ed83a7;
   font-size: 18px;
 }
+#reservationsChart {
+  margin-top: 150px;
+}
+
 #yearDropdownClicks {
   width: 400px;
 }
@@ -404,6 +413,9 @@ export default {
 }
 #yearDropdownReservations {
   width: 400px;
+  float: right;
+  margin-right: 60px;
+  margin-bottom: 50px;
 }
 #yearDropdownReservations p {
   font-size: 20px;
@@ -413,7 +425,7 @@ export default {
   justify-content: center;
 }
 
-#dropClicks {
+#dropClicks, #dropReservations {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   border: none;
   outline: none;
