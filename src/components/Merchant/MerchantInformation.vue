@@ -1,21 +1,28 @@
 <template>
   <div>
-
     <!-- INFO FORM FOR ALL BUSINESS -->
-    <h2>{{name}}</h2>
+    <h2>{{ name }}</h2>
     <div id="container">
       <div id="content" class="flexbox">
-
-      <!-- TOGGLE RESERVATIONS FOR EAT BUSINESS -->
+        <!-- TOGGLE RESERVATIONS FOR EAT BUSINESS -->
         <div v-show="eat">
           <h2>Reservation Status:</h2>
-            <p v-show="acceptReservation==true">Currently Accepting Reservations</p>
-            <p v-show="acceptReservation==false">Currently Not Accepting Reservations</p>
+          <p v-show="acceptReservation == true">
+            Currently Accepting Reservations
+          </p>
+          <p v-show="acceptReservation == false">
+            Currently Not Accepting Reservations
+          </p>
 
-          <button id="resToggle" v-on:click="acceptRes()">Accept Reservations</button> <button id="resToggle" v-on:click="stopRes()">Do Not Accept Reservations</button>
+          <button id="resToggle" v-on:click="acceptRes()">
+            Accept Reservations
+          </button>
+          <button id="resToggle" v-on:click="stopRes()">
+            Do Not Accept Reservations
+          </button>
         </div>
 
-        <br>
+        <br />
         <h2>Business Information</h2>
         <form>
           <label for="name">NAME:</label><br />
@@ -35,10 +42,7 @@
             v-model="mobile"
           /><br /><br />
           <label for="address">ADDRESS:</label><br />
-          <textarea 
-          id="address" 
-          name="address" 
-          v-model="address" /><br /><br />
+          <textarea id="address" name="address" v-model="address" /><br /><br />
           <label for="openingHours">Opening Hours:</label><br />
           <input
             type="text"
@@ -57,126 +61,157 @@
         </form>
         <br />
       </div>
-      
+
       <!-- MENU PORTION FOR EAT BUSINESS -->
       <div id="menuInfo" class="flexbox" v-show="eat">
-        <h2> Menu Items </h2>
+        <h2>Menu Items</h2>
         <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
         <div id="addFood" name="addFood" v-show="add">
-          <br>
+          <br />
           <form id="addForm">
-            
-              <label for="foodName">Name of food item:</label> &nbsp;
-                <input
-                  id="addForm"
-                  name="itemName"
-                  v-model="foodName"
-                  required
-                ><br><br>
-            
-              <label for="foodPrice">Price of food item:</label> &nbsp;
-                <input
-                  id="addForm"
-                  name="itemPrice"
-                  v-model="foodPrice"
-                  required
-                ><br><br>
-          
+            <label for="foodName">Name of food item:</label> &nbsp;
+            <input
+              id="addForm"
+              name="itemName"
+              v-model="foodName"
+              required
+            /><br /><br />
+
+            <label for="foodPrice">Price of food item:</label> &nbsp;
+            <input
+              id="addForm"
+              name="itemPrice"
+              v-model="foodPrice"
+              required
+            /><br /><br />
+
             <label for="foodImage">Image URL of food item:</label> &nbsp;
-              <input
-                id="addForm"
-                name="itemImage"
-                v-model="foodImage"
-                required
-              ><br><br>
+            <input
+              id="addForm"
+              name="itemImage"
+              v-model="foodImage"
+              required
+            /><br /><br />
 
-            <label for="foodDescription">Description of food item:</label> &nbsp;
-              <textarea
-                id="addForm"
-                name="itemDescription"
-                v-model="foodDescription"
-                required
-              ></textarea><br><br>
+            <label for="foodDescription">Description of food item:</label>
+            &nbsp;
+            <textarea
+              id="addForm"
+              name="itemDescription"
+              v-model="foodDescription"
+              required
+            ></textarea
+            ><br /><br />
 
-            <input type="button" id="submit" value="Add to menu" v-on:click="requiredFood()"/>
+            <input
+              type="button"
+              id="submit"
+              value="Add to menu"
+              v-on:click="requiredFood()"
+            />
           </form>
-          <br>
+          <br />
         </div>
       </div>
-   
 
       <!-- PRODUCTS PORTION FOR SHOP BUSINESS -->
       <div id="menuInfo" class="flexbox" v-show="shop">
-        <h2> Products </h2>
+        <h2>Products</h2>
         <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
         <div id="addProduct" name="addProduct" v-show="add">
-          <br>
+          <br />
           <form id="addForm">
-            
-              <label for="productName">Name of product:</label> &nbsp;
-                <input
-                  id="addForm"
-                  name="itemName"
-                  v-model="productName"
-                  required
-                ><br><br>
-            
-              <label for="productPrice">Price of product:</label> &nbsp;
-                <input
-                  id="addForm"
-                  name="itemPrice"
-                  v-model="productPrice"
-                  required
-                ><br><br>
-          
+            <label for="productName">Name of product:</label> &nbsp;
+            <input
+              id="addForm"
+              name="itemName"
+              v-model="productName"
+              required
+            /><br /><br />
+
+            <label for="productPrice">Price of product:</label> &nbsp;
+            <input
+              id="addForm"
+              name="itemPrice"
+              v-model="productPrice"
+              required
+            /><br /><br />
+
             <label for="productImage">Image URL of product:</label> &nbsp;
-              <input
-                id="addForm"
-                name="itemImage"
-                v-model="productImage"
-                required
-              ><br><br>
+            <input
+              id="addForm"
+              name="itemImage"
+              v-model="productImage"
+              required
+            /><br /><br />
 
-            <label for="productDescription">Description of product:</label> &nbsp;
-              <textarea
-                id="addForm"
-                name="itemDescription"
-                v-model="productDescription"
-                required
-              ></textarea><br><br>
+            <label for="productDescription">Description of product:</label>
+            &nbsp;
+            <textarea
+              id="addForm"
+              name="itemDescription"
+              v-model="productDescription"
+              required
+            ></textarea
+            ><br /><br />
 
-            <input type="button" id="submit" value="Add to product listing" v-on:click="requiredProduct()"/>
+            <input
+              type="button"
+              id="submit"
+              value="Add to product listing"
+              v-on:click="requiredProduct()"
+            />
           </form>
-          <br>
+          <br />
         </div>
       </div>
     </div>
 
     <!-- Display list of food / product items for eat / shop respectively -->
     <ul id="displayFood">
-        <li v-for="product in menu" :key="product.index">
-            <div id="float-container">
-                <div id="Image">
-                    <img :src='product["foodImage"]' width="200" height="200" v-show="eat">
-                    <img :src='product["productImage"]' width="200" height="200" v-show="shop">
-                </div>
-                <div id="Description">
-                    <h1>{{ product["foodName"] }}</h1> 
-                    <h1>{{ product["productName"] }}</h1> 
+      <li v-for="product in menu" :key="product.index">
+        <div id="float-container">
+          <div id="Image">
+            <img
+              :src="product['foodImage']"
+              width="200"
+              height="200"
+              v-show="eat"
+            />
+            <img
+              :src="product['productImage']"
+              width="200"
+              height="200"
+              v-show="shop"
+            />
+          </div>
+          <div id="Description">
+            <h1>{{ product["foodName"] }}</h1>
+            <h1>{{ product["productName"] }}</h1>
 
-                    <h2>{{ product["foodPrice"] }}</h2>
-                    <h2>{{ product["productPrice"] }}</h2>
+            <h2>{{ product["foodPrice"] }}</h2>
+            <h2>{{ product["productPrice"] }}</h2>
 
-                    <p>{{ product["foodDescription"] }}</p>
-                    <p>{{ product["productDescription"] }}</p>
-                    
-                    <button id="menuBtn" v-on:click="deleteFood(product)" v-show="eat">Delete</button> &nbsp;
-                    <button id="menuBtn" v-on:click="deleteProduct(product)" v-show="shop">Delete</button> &nbsp;
-                </div>    
-            </div>
-            <hr>
-        </li>
-    </ul>     
+            <p>{{ product["foodDescription"] }}</p>
+            <p>{{ product["productDescription"] }}</p>
+
+            <button id="menuBtn" v-on:click="deleteFood(product)" v-show="eat">
+              Delete
+            </button>
+            &nbsp;
+            <button
+              id="menuBtn"
+              v-on:click="deleteProduct(product)"
+              v-show="shop"
+            >
+              Delete
+            </button>
+            &nbsp;
+          </div>
+        </div>
+        <hr />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -190,7 +225,7 @@ export default {
       uid: "",
       type: "",
       merchantDetails: [],
-      documentId:"",
+      documentId: "",
       merchantId: "",
       name: "",
       email: "",
@@ -203,13 +238,13 @@ export default {
       information: true,
       dashboard: false,
       merchant: false,
-      
+
       // check eat or shop to toggle merchant eat / shop information
       eat: false,
       shop: false,
-      
+
       // Attributes for Add functionality
-      add:true, // change back to false ############################################## NOTE ##################################################
+      add: true, // change back to false ############################################## NOTE ##################################################
 
       // inputs for eat merchant account
       foodName: "",
@@ -222,7 +257,6 @@ export default {
       productPrice: "",
       productDescription: "",
       productImage: "",
-
     };
   },
   methods: {
@@ -242,9 +276,9 @@ export default {
               this.description = doc.data().description;
               this.type = doc.data().type;
               this.documentId = doc.data().document_id;
-              this.menu = doc.data().menu;     
-              this.eat = true;    
-              this.acceptReservation = doc.data().acceptReservations;      
+              this.menu = doc.data().menu;
+              this.eat = true;
+              this.acceptReservation = doc.data().acceptReservations;
             }
             localStorage.clear();
           });
@@ -264,8 +298,8 @@ export default {
               this.description = doc.data().description;
               this.type = doc.data().type;
               this.documentId = doc.data().document_id;
-              this.menu = doc.data().menu;   
-              this.shop = true;                
+              this.menu = doc.data().menu;
+              this.shop = true;
             }
             localStorage.clear();
           });
@@ -297,7 +331,7 @@ export default {
 
     //Check all inputs for new food filled up
     requiredFood() {
-      if (this.foodName === ""){
+      if (this.foodName === "") {
         alert("Please input a food name");
       } else if (this.foodPrice === "") {
         alert("Please input a food price");
@@ -312,8 +346,8 @@ export default {
 
     //Check all inputs for new product filled up
     requiredProduct() {
-      console.log(this.productName)
-      if (this.productName === ""){
+      console.log(this.productName);
+      if (this.productName === "") {
         alert("Please input a product name");
       } else if (this.productPrice === "") {
         alert("Please input a product price");
@@ -328,13 +362,15 @@ export default {
 
     // add food to eat business menu
     addFood() {
-      var newFood = {foodName: this.foodName,
-                     foodPrice: this.foodPrice,
-                     foodDescription: this.foodDescription,
-                     foodImage: this.foodImage}
-                    
+      var newFood = {
+        foodName: this.foodName,
+        foodPrice: this.foodPrice,
+        foodDescription: this.foodDescription,
+        foodImage: this.foodImage,
+      };
+
       this.menu[this.foodName] = newFood;
-      console.log(this.documentId)              
+      console.log(this.documentId);
       database
         .collection("eat")
         .doc(this.documentId)
@@ -348,13 +384,15 @@ export default {
 
     // add product to shop business menu
     addProduct() {
-      var newProduct = {productName: this.productName,
-                        productPrice: this.productPrice,
-                        productDescription: this.productDescription,
-                        productImage: this.productImage}
-                    
+      var newProduct = {
+        productName: this.productName,
+        productPrice: this.productPrice,
+        productDescription: this.productDescription,
+        productImage: this.productImage,
+      };
+
       this.menu[this.productName] = newProduct;
-                    
+
       database
         .collection("shop")
         .doc(this.documentId)
@@ -367,9 +405,9 @@ export default {
     },
 
     // delete food from eat business menu
-    deleteFood(food) {     
+    deleteFood(food) {
       for (var x in this.menu) {
-        if (this.menu[x] == food){
+        if (this.menu[x] == food) {
           delete this.menu[x];
           break;
         }
@@ -386,9 +424,9 @@ export default {
     },
 
     // delete product from shop business menu
-    deleteProduct(product) {     
+    deleteProduct(product) {
       for (var x in this.menu) {
-        if (this.menu[x] == product){
+        if (this.menu[x] == product) {
           delete this.menu[x];
           break;
         }
@@ -409,10 +447,10 @@ export default {
       this.add = !this.add;
     },
 
-    // accepting reservations 
+    // accepting reservations
     acceptRes() {
-      if (this.acceptReservation== true) {
-        return
+      if (this.acceptReservation == true) {
+        return;
       }
       this.acceptReservation = true;
       database
@@ -426,10 +464,10 @@ export default {
         });
     },
 
-    // stop accepting reservations 
+    // stop accepting reservations
     stopRes() {
-      if (this.acceptReservation== false) {
-        return
+      if (this.acceptReservation == false) {
+        return;
       }
       this.acceptReservation = false;
       database
@@ -441,8 +479,7 @@ export default {
         .then(() => {
           location.reload();
         });
-    }
-
+    },
   },
   created() {
     this.fetchDetails();
@@ -461,31 +498,29 @@ h2 {
 
 #content {
   align-items: center;
-  width:500px;
-	padding:30px;
-	margin:40px auto;
-	background: #FFF;
-	border-radius: 10px;
-	-webkit-border-radius:10px;
-	-moz-border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  
+  width: 500px;
+  padding: 30px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 
 #menuInfo {
-  width:800px;
-	padding:30px;
-	margin:40px auto;
-	background: #FFF;
-	border-radius: 10px;
-	-webkit-border-radius:10px;
+  width: 800px;
+  padding: 30px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 #addForm > input {
   height: 70px;
@@ -495,33 +530,33 @@ h2 {
 }
 input {
   box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	outline: none;
-	display: block;
-	width: 100%;
-	padding: 7px;
-	font: 16px Arial, Helvetica, sans-serif;
-	height: 45px;
-  border-radius:15px;
-  border:0;
-  box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  font: 16px Arial, Helvetica, sans-serif;
+  height: 45px;
+  border-radius: 15px;
+  border: 0;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 10px;
   resize: none;
 }
 textarea {
   box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	outline: none;
-	display: block;
-	width: 100%;
-	padding: 7px;
-	font: 16px Arial, Helvetica, sans-serif;
-	height: 100px;
-  border-radius:15px;
-  border:0;
-  box-shadow:4px 4px 10px rgba(0,0,0,0.1);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  font: 16px Arial, Helvetica, sans-serif;
+  height: 100px;
+  border-radius: 15px;
+  border: 0;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 10px;
   resize: none;
 }
@@ -530,91 +565,89 @@ textarea {
 }
 #submit {
   cursor: pointer;
-  background-color:#ED83A7;
+  background-color: #ed83a7;
   border: none;
   border-radius: 5px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.1);
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.1);
   color: white;
 }
 
 #submit:hover {
-  box-shadow:0 0 4px rgba(0,0,0,0.5);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
 #menuBtn {
   cursor: pointer;
-  background-color:#ED83A7;
+  background-color: #ed83a7;
   color: #fff;
   border: none;
   border-radius: 5px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.1);
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.1);
   padding: 12px 7px;
   margin-top: 5px;
 }
 #menuBtn:hover {
-  box-shadow:0 0 4px rgba(0,0,0,0.5);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
 #addForm {
   align-items: flex-start;
 }
 
-ul{
+ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 #displayFood {
   width: 1430px;
-  padding:30px;
-	margin:40px auto;
-	background: #FFF;
-	border-radius: 10px;
-	-webkit-border-radius:10px;
-	-moz-border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  
+  padding: 30px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 #float-container {
-    border: 3px solid #fff;
-    padding: 10px;
-    height: 200px;
+  border: 3px solid #fff;
+  padding: 10px;
+  height: 200px;
 }
 
 h1 {
-    margin-top: 0;
-    margin-bottom: 0px;
+  margin-top: 0;
+  margin-bottom: 0px;
 }
 
 h2 {
-    margin: 0;
+  margin: 0;
 }
 
 #Image {
-    float: left;
-    padding-right: 10px;
+  float: left;
+  padding-right: 10px;
 }
 
 #Description {
-    margin-top: 0;
-    /*padding: 10px;*/
-    padding-top: 0;
-    text-align: left;
+  margin-top: 0;
+  /*padding: 10px;*/
+  padding-top: 0;
+  text-align: left;
 }
 
 #resToggle {
   cursor: pointer;
-  background-color:#ED83A7;
+  background-color: #ed83a7;
   border: none;
   height: 30px;
   border-radius: 5px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.1);
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.1);
   color: white;
 }
-
 </style>

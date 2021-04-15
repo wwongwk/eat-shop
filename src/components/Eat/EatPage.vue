@@ -21,7 +21,7 @@
           :options="sortByOptions"
           :value="selectedCriteria"
           :clearable="false"
-          v-model="chosenCriteria"
+          :searchable = "false"
           @input="sortFood"
           id="drop"
         >
@@ -37,7 +37,7 @@
           :options="dropdownOptions"
           :value="selectedCuisine"
           :clearable="false"
-          v-model="chosenCuisine"
+          :searchable = "false"
           @input="filterFood"
           id="drop"
         >
@@ -276,6 +276,7 @@ export default {
       if (value.criteria === "Best reviewed") {
         //sort the restaurants by their overall rating values in descending order
         this.restaurants.sort(function (restaurant1, restaurant2) {
+          
           return (
             parseFloat(restaurant2.overallRating) -
             parseFloat(restaurant1.overallRating)
@@ -284,8 +285,10 @@ export default {
       } else {
         //sorting by most popular -- number of clicks
         this.restaurants.sort(function (restaurant1, restaurant2) {
+          console.log(restaurant1)
           return (
             parseFloat(restaurant2.clicks) - parseFloat(restaurant1.clicks)
+            //parseFloat(restaurant2)) - parseFloat(this.getTotalClicks(restaurant1))          
           );
         });
       }
@@ -295,7 +298,6 @@ export default {
       this.filteredShown = false;
       this.allShown = true;
     },
-
     //update the monthly clicks in the database
     increaseCounter: function (x) {
       var today = new Date();
