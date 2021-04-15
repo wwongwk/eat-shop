@@ -498,25 +498,26 @@ h2 {
 
 #content {
   align-items: center;
-  width: 500px;
-  padding: 30px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  width:400px;
+	padding:30px;
+	margin:40px auto;
+	background: #FFF;
+	border-radius: 10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  
 }
 
 #menuInfo {
-  width: 800px;
-  padding: 30px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
+  width:650px;
+	padding:30px;
+	margin:40px auto;
+	background: #FFF;
+	border-radius: 10px;
+	-webkit-border-radius:10px;
   -moz-border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
   -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
@@ -602,16 +603,17 @@ ul {
   margin: 0;
 }
 #displayFood {
-  width: 1430px;
-  padding: 30px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  width: 1200px;
+  padding:30px;
+	margin:40px auto;
+	background: #FFF;
+	border-radius: 10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  
 }
 #float-container {
   border: 3px solid #fff;

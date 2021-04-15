@@ -322,7 +322,7 @@ li {
   margin: 10px;
   border-radius: 4px;
   padding: 25px 20px;
-  width: 1400px;
+  width: 1200px;
 }
 
 ul {

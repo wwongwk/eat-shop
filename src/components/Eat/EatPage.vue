@@ -504,7 +504,7 @@ h3 {
 #filterDropdown p,
 #ratingFilter p,
 #searchBar p {
-  font-size: 20px;
+  font-size: 18px;
   color: #ed83a7;
   display: flex;
   flex-direction: column;
