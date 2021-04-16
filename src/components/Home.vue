@@ -261,7 +261,7 @@ li {
   font-size: 25px;
   text-align: center;
   font-weight: 10;
-  //font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 img {
   height: 200px;
@@ -366,5 +366,6 @@ p > span:after{
   cursor: pointer;
   text-decoration: none;
   margin-left: 5px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 </style>

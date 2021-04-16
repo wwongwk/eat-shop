@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="display">
-      <h3>RESTAURANTS</h3>
+      <p><span>RESTAURANTS</span></p>
       <div id="searchBar">
         <p><label>What restaurant are you looking for today?</label></p>
         <input
@@ -353,7 +353,7 @@ export default {
 }
 
 #food {
-  width: 100%;
+  width: 90%;
   max-width: 90%;
   margin: 0px;
   box-sizing: border-box;
@@ -372,15 +372,22 @@ input {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 #resetBtn {
+  background-color:#ED83A7;
   font-size: 14px;
-  background-color: #ed83a7;
-  color: #ddd;
+  font-family: Futura, light;
   border: none;
   cursor: pointer;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+  width: 60px;
+  height: 30px;
   border-radius: 5px;
-  padding: 5px 5px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  border:0;
+  box-shadow:4px 4px 10px rgba(0,0,0,0.1); 
 }
+
 #resetBtn:hover {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
@@ -408,12 +415,13 @@ ul {
   padding: 0;
   height: 100%;
   width: 100%;
-  margin-left: 150px;
+  margin-left: 120px;
+  margin-top: 20px;
 }
 
 li {
   flex-grow: 1;
-  flex-basis: 300px;
+  flex-basis: 200px;
   text-align: center;
   margin: 5px;
   margin-bottom: 40px;
@@ -421,33 +429,37 @@ li {
   font-size: 25px;
   text-align: center;
   font-weight: 10;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 div.polaroid {
-  width: 200px;
+  width: 250px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 10px;
-  border-radius: 10px;
-  cursor : pointer;
+  margin-bottom: 20px;
+  //border-radius: 10px;
+  cursor: pointer;
+  height: 300px;
 }
 
 div.container {
   text-align: center;
   align-content: center;
-  border-radius: 10px;
+  //border-radius: 10px;
   margin: 0px;
   align-self: center;
   padding-bottom: 10px;
-  width: 200px;
+  width: 250px;
+  height: 300px;
 }
 
+
 img {
-  height: 150px;
+  height: 200px;
   width: 100%;
   background-size: 80% 50%;
-  border-radius: 10px;
+  //border-radius: 10px;
+  margin: 0px;
 }
 
 #names,
@@ -455,20 +467,21 @@ img {
 #filteredNames,
 #recommendedNames {
   background-color: white;
-  font-size: 13px;
+  font-size: 16px;
   border-radius: 8px;
   color: #403939;
   border: none;
   cursor: pointer;
   text-decoration: none;
   margin-left: 5px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 #searchBar {
   float: right;
   margin-top: 0px;
   margin-right: 50px;
-  max-width: 30%;
+  max-width: 40%;
   margin-bottom: 30px;
   top: 0;
 }
@@ -478,14 +491,32 @@ img {
   text-align: center;
   margin-top: 10px;
 }
-h3 {
-  text-align: left;
-  padding-left: 20px;
+p {
+  text-align: center;
+  //padding-left: 20px;
   color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;
+  overflow: hidden;
 }
-
+p > span{
+    position: relative;
+    display: inline-block;
+}
+p > span:before, p > span:after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 2px solid;
+    width: 100vw;
+    margin: 0 20px;
+}
+p > span:before{
+    right: 100%;
+}
+p > span:after{
+    left: 100%;
+}
 #msg {
   text-align: left;
   padding-left: 5%;
@@ -494,7 +525,7 @@ h3 {
 }
 
 #filterDropdown {
-  width: 30%;
+  width: 20%;
   margin: 0 auto;
   margin-top: 50px;
   border: none;
