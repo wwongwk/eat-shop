@@ -11,6 +11,15 @@
     </div>
 
     <div class="container">
+
+      <div v-show="this.merchantType=='eat'">
+        <h2>Top Customers</h2>
+        <ul>
+          <li>
+          </li>
+        </ul>
+      </div>
+
       <div class="clicks">
         TOTAL VISITORS:
         <animated-number
@@ -268,29 +277,29 @@ export default {
     },
 
     // Fetches reservation data from firestore
-    fetchReservations() {
-      console.log("fetchReservations() running");
-      database
-        .collection("reservation")
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            if (doc.data().user_id == this.uid) {
-              console.log("inside fetchReservations if clause");
-              var seconds = doc.data().date.seconds;
-              var nanoseconds = doc.data().date.nanoseconds;
-              var date = new Date(seconds * 1000 + nanoseconds / 1000000);
-              this.reservations.push(doc.data());
-              this.datesMonthYear.push([date.getMonth(), date.getFullYear()]);
-              this.datesFormatted.push(date.toLocaleDateString());
-              console.log(this.reservations)
-              this.numAdult.push(doc.data()["adults"])
-              console.log(this.numAdult)
-            }
-          });
-          //this.generateAxes();
-        });
-    },
+    // fetchReservations() {
+    //   console.log("fetchReservations() running");
+    //   database
+    //     .collection("reservation")
+    //     .get()
+    //     .then((snapshot) => {
+    //       snapshot.docs.forEach((doc) => {
+    //         if (doc.data().user_id == this.uid) {
+    //           console.log("inside fetchReservations if clause");
+    //           var seconds = doc.data().date.seconds;
+    //           var nanoseconds = doc.data().date.nanoseconds;
+    //           var date = new Date(seconds * 1000 + nanoseconds / 1000000);
+    //           this.reservations.push(doc.data());
+    //           this.datesMonthYear.push([date.getMonth(), date.getFullYear()]);
+    //           this.datesFormatted.push(date.toLocaleDateString());
+    //           console.log(this.reservations)
+    //           this.numAdult.push(doc.data()["adults"])
+    //           console.log(this.numAdult)
+    //         }
+    //       });
+    //       //this.generateAxes();
+    //     });
+    // },
 
     // Fetches Authentication details and Business details
     fetchDetails() {
@@ -308,7 +317,7 @@ export default {
         })
         .then(() => {
           this.fetchClicksAndReviews();
-          this.fetchReservations();
+          //this.fetchReservations();
           this.getTotalClicks();
         });
     },
@@ -328,8 +337,9 @@ export default {
         });
     },
 
-     getTopCustomers() {
-      var customerLeaderboard = [];
+    getTopCustomers() {
+      console.log("fetching top customers")
+      var customerLeaderboard = {};
       database
         .collection("reservation")
         .get()
@@ -410,6 +420,7 @@ export default {
   },
   created() {
     this.fetchDetails();
+    this.getTopCustomers();
   },
 };
 </script>
