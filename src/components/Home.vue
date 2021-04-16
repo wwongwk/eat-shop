@@ -2,10 +2,11 @@
   <div>
     <div class="home">
       <app-header></app-header>
-      <img id="homeImg" src="../assets/TopPic.png" />
+      <img id="homeImg" src="../assets/HomeImg.png" />
     </div>
     <div id="display">
-      <h3>EAT</h3>
+      
+      <p><span>EAT</span></p>
       <div id="eat">
         <ul>
           <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
@@ -18,10 +19,10 @@
               </div>
             </div>
           </li>
-          <button id="seeMore" v-on:click="GoToEat">See More</button>
+          <button id="seeMore" v-on:click="GoToEat">SEE MORE</button>
         </ul>
       </div>
-      <h3>SHOP</h3>
+      <p><span>SHOP</span></p>
       <div id="shops">
         <ul>
           <li v-for="shop in filteredShops" :key="shop.id">
@@ -35,11 +36,11 @@
             </div>
           </li>
           <router-link to="/shop" tag="button" id="seeMore"
-            >See More</router-link
+            >SEE MORE</router-link
           >
         </ul>
       </div>
-      <h3>PLAY</h3>
+      <p><span>PLAY</span></p>
       <div id="play">
         <ul>
           <li v-for="play in activities" :key="play.id">
@@ -52,7 +53,7 @@
               </div>
             </div>
           </li>
-          <button id="seeMore">See More</button>
+          <button id="seeMore">SEE MORE</button>
         </ul>
       </div>
     </div>
@@ -209,11 +210,12 @@ export default {
 
 <style scoped>
 #homeImg {
-  width: 80%;
+  width: 90%;
   height: auto;
+  border-radius: 0px;
 }
 #display {
-  margin: 90px;
+  margin: 50px;
 }
 
 #eat {
@@ -252,65 +254,112 @@ ul {
 
 li {
   flex-grow: 1;
-  flex-basis: 100px;
+  flex-basis: 50px;
   text-align: center;
   padding: 10px;
   margin: 10px;
   font-size: 25px;
   text-align: center;
   font-weight: 10;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  //font-family: Avenir, Helvetica, Arial, sans-serif;
 }
-
 img {
-  height: 150px;
+  height: 200px;
   width: 100%;
   background-size: 80% 50%;
-  border-radius: 10px;
+  //border-radius: 10px;
   margin: 0px;
 }
 
 div.polaroid {
-  width: 200px;
+  width: 250px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 10px;
-  border-radius: 10px;
+  margin-bottom: 20px;
+  //border-radius: 10px;
   cursor: pointer;
+  height: 300px;
 }
 div.container {
   text-align: center;
   align-content: center;
-  border-radius: 10px;
+  //border-radius: 10px;
   margin: 0px;
   align-self: center;
   padding-bottom: 10px;
-  width: 200px;
+  width: 250px;
+  height: 300px;
 }
-h3 {
-  text-align: left;
+p {
+  text-align: center;
   padding-left: 5%;
-  color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;
+  overflow: hidden;
+}
+p > span{
+    position: relative;
+    display: inline-block;
+}
+p > span:before, p > span:after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 2px solid;
+    width: 100vw;
+    margin: 0 20px;
+}
+p > span:before{
+    right: 100%;
+}
+p > span:after{
+    left: 100%;
 }
 #seeMore {
-  background-color: #ed83a7;
-  border: none;
-  color: #403939;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 15px;
-  padding-right: 10px;
+  font-family: Futura;
   margin-top: 90px;
-  height: 50px;
+  height: 40px;
+  text-align: center;
+  //font-family: "Avenir", Helvetica, Arial, sans-serif;
+  background: #ED83A7;
+  //color: #ffffff;
   cursor: pointer;
+  font-size: 16px;
+  border: 0;
+  transition: all 0.5s;
+  border-radius: 10px;
+  width: auto;
+  position: relative;
 }
+  #seeMore::after {
+    content: '\00bb';
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 400;
+    position: absolute;
+    left: 85%;
+    top: 31%;
+    right: 5%;
+    bottom: 0;
+    opacity: 0;
+  }
+  
+  #seeMore:hover {
+    background: #D25A7e;
+    transition: all 0.5s;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px #ED83A7;
+    padding-right: 20px;
+  }
+  #seeMore:hover::after {
+    opacity: 1;
+    transition: all 0.5s;
+  }
+  
+
 
 #names {
   background-color: white;
-  font-size: 13px;
+  font-size: 16px;
   border-radius: 8px;
   color: #403939;
   border: none;

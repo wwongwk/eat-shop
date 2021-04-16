@@ -21,6 +21,6 @@ export default {
 <style>
 #app {
   text-align: center;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 </style>

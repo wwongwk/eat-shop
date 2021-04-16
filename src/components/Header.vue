@@ -15,10 +15,20 @@
         
       </div>
       <div id="side" class="flexCol">
+        
         <router-link tag="button" to="/signup" v-show="!login">Sign Up</router-link>
-        <router-link tag="button" to="/login" v-show="!login"  exact>Login</router-link>
-        <router-link tag="button" to="/profile" exact v-show="login">Profile</router-link>
-        <button id="logOutBtn" v-on:click="logOut()" v-show="login" >Log Out</button>
+        <router-link tag="button" to="/login" v-show="!login"  exact>
+          <img id="loginImg" src="../assets/logIn.png" />
+          Login
+        </router-link>
+        <router-link tag="button" to="/profile" exact v-show="login">
+          <img id="loginImg" src="../assets/logIn.png" />
+          Profile
+        </router-link>
+        <button id="logOutBtn" v-on:click="logOut()" v-show="login" >
+          <img id="logoutImg" src="../assets/logOut.png" />
+          Log Out
+        </button>
       </div>
     </div>
   </div>
@@ -67,17 +77,17 @@ export default {
 
 <style scoped>
 * {
-  font-family: "Segoe UI";
+  //font-family: 'Avenir', Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
 .flexWrap {
   display: flex;
   overflow: hidden;
   margin: 0px;
-  margin-left: 10px;
+  margin-left: 120px;
   margin-right: 10px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #000;
+  width: 80%;
 }
 .flexCol {
   box-sizing: border-box;
@@ -99,7 +109,16 @@ export default {
   width: 150px;
   float: left;
 }
-
+#loginImg {
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+}
+#logoutImg {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
 #side {
   text-align: right;
 }
@@ -114,27 +133,20 @@ export default {
 }
 
 button {
-  margin: 3px;
   background-color: white;
-  border-radius: 11px;
-  border-style: solid;
-  border-color: #ed83a7;
   padding: 3px 10px;
+  border: none;
   cursor: pointer;
-}
+} 
+
 a.router-link-active {
   text-decoration: underline;
   text-decoration-color: rgb(248, 0, 112);
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 1px;
 }
 button.router-link-active {
-  background-color: #ed83a7;
-  color: white;
-}
-
-button.router-linl-active{
-  background-color: #ed83a7;
-  color: white;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
 }
 
 </style>

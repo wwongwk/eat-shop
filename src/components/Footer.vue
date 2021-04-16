@@ -2,15 +2,16 @@
   <div class="footer">
     <footer>
       <div id="subscribe">
-        <label>Receive monthly newsletters and exclusive promotions:</label>
-        <span>
+        <label id="text">Receive monthly newsletters and exclusive promotions:     </label>
+        
           <input type="textArea" id="address" />
-          <input type="submit" value="Subscribe" v-on:click="displayMsg" id="submitBtn">
-        </span><br>
+          <input type="submit" value="SUBSCRIBE" v-on:click="displayMsg" id="submitBtn">
+        <br>
       </div>
       <p id="AboutUs">About us    </p>
       <p id="Partnership">Partnership    </p>
-      <p id="Terms">Terms of use    </p>
+      <p id="Terms">Terms of use    </p><br>
+      <p id="copyright">&copy;2021 by team</p>
     </footer>
   </div>
 </template>
@@ -27,52 +28,51 @@
 
 <style scoped>
   footer {
-    background-color:#ED83A7;
+    background-color:#F6D9E9;
     /*background-opacity:0.6;*/
     padding:20px;
-    height: 200px;
+    height: 250px;
     color: #000000;
     font-size: 18px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     clear: both;
     /*position: absolute;*/
     bottom: 0;
+    width: 90%;
+    margin-left: 50px;
+    margin-bottom: 50px;
   }
 
-  label {
-    //margin-bottom:50px;
-    line-height: 3;
-  }
 
-  span {
-    display: block;
-    overflow: hidden;
-    padding: 0px 4px 0px 6px;
+  #subscribe {
+    display: flex;
+    margin-left: 200px;
+    margin-bottom: 80px;
+    margin-top: 30px;
   }
-
   input {
-    border-radius: 5px;
-    padding: 6px 3px;
+    border-radius: 10px;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     outline: none;
-    height: 45px;
     border:0;
     box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+    width: 300px;
+    height: 30px;
+    background-color: none;
   }
-
-  #subscribe {
-    margin-bottom: 30px;
+  #text {
+    margin-right: 20px;
   }
-
   #submitBtn {
-    background-color:#D25A7e;
-    font-size: 18px;
-    /*color: #403939;*/
+    background-color:#ED83A7;
+    font-size: 16px;
+    font-family: Futura, light;
     border: none;
     cursor: pointer;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    width: 100px;
   }
   #submitBtn:hover {
     box-shadow:0 0 4px rgba(0,0,0,0.5);
@@ -94,6 +94,11 @@
   #Terms {
     color: #000000;
     font-size: 18px;
+  }
+  #copyright {
+    text-align: center;
+    font-size: 14px;
+    line-height: 4;
   }
 </style>
 
