@@ -16,39 +16,43 @@
       </ul>
     </div>
     <br />
+    <div class="container">
+      <div class="btn-group">
+        <button id="about" v-on:click="toggleAbout()">About</button>
+        <button id="menu" v-on:click="toggleMenu()">Menu</button>
+        <button id="review" v-on:click="toggleReview()">Reviews</button>
+        <button id="reservation" v-on:click="toggleReservation()">Reservation</button>
+        <button id="enquiry" v-on:click="toggleEnquiry()">Get In Touch</button>
+        
+      </div>
+      <div class="favName">
+        <h2 id="body">{{ shopName }} &nbsp;</h2>
+        <button id="favorite" v-on:click="addFavorite()">Favorite &#9825;</button>
+      </div><br>
+      <div class="belowName">
+        <h4>&#x263A; Instant Confirmation      </h4>
+        <h4><img id="mapIcon" src="../../assets/map.png" />{{ address }}</h4>
+      </div> 
+      <div id="body" v-show="About">
+        <eat-about v-bind:shop = "shop" ></eat-about>
+      </div>
 
-    <div class="btn-group">
-      <button id="about" v-on:click="toggleAbout()">About</button>
-      <button id="menu" v-on:click="toggleMenu()">Menu</button>
-      <button id="review" v-on:click="toggleReview()">Reviews</button>
-      <button id="reservation" v-on:click="toggleReservation()">Reservation</button>
-      <button id="enquiry" v-on:click="toggleEnquiry()">Get In Touch</button>
-      
-    </div>
-    <div class="favName">
-      <h2 id="body">{{ shopName }} &nbsp;</h2>
-      <button id="favorite" v-on:click="addFavorite()">Favorite &#9825;</button>
-    </div>
-    <div id="body" v-show="About">
-      <eat-about v-bind:shop = "shop" ></eat-about>
-    </div>
+      <div id="body" v-show="Review">
+        <eat-reviews v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn" ></eat-reviews>
+      </div>
 
-    <div id="body" v-show="Review">
-      <eat-reviews v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn" ></eat-reviews>
-    </div>
+      <div id="body" v-show="Reservation">
+        <eat-reservation v-bind:shop="shop" :uid="uid" :loggedIn="loggedIn" ></eat-reservation>
+      </div>
 
-    <div id="body" v-show="Reservation">
-      <eat-reservation v-bind:shop="shop" :uid="uid" :loggedIn="loggedIn" ></eat-reservation>
-    </div>
+      <div id="body" v-show="Menu">
+        <eat-menu v-bind:shop = "shop"></eat-menu>
+      </div>
 
-    <div id="body" v-show="Menu">
-      <eat-menu v-bind:shop = "shop"></eat-menu>
+      <div id="body" v-show="Enquiry">
+        <eat-enquiry v-bind:shop = "shop"></eat-enquiry>
+      </div>
     </div>
-
-    <div id="body" v-show="Enquiry">
-      <eat-enquiry v-bind:shop = "shop"></eat-enquiry>
-    </div>
-
   </div>
 </template>
 
@@ -80,6 +84,7 @@ export default {
       Enquiry: false,
 
       shopName: "",
+      address: "",
       resImages: [],
       shop:{},
       loggedIn: false,
@@ -215,7 +220,8 @@ export default {
   created() {
       this.shop = this.$route.query;
       this.shopName = this.shop["name"];
-      this.resImages = this.shop["resImages"]
+      this.resImages = this.shop["resImages"];
+      this.address = this.shop["address"];
       this.fetchDetails();
 
   },
@@ -260,7 +266,6 @@ h2 {
 }
 .favName {
   float: left;
-  margin-bottom: 20px;
   white-space: nowrap;
 }
 .favName button, 
@@ -275,17 +280,30 @@ h2 {
   background: none;
   cursor: pointer;
 }
-
+.belowName {
+  display: flex;
+  text-align: left;
+  clear:both;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+#mapIcon {
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
+}
 img {
   margin-left: 2px;
+  width: 500px;
 }
 
 #carousel {
-  width: 100%;
+  width: 90%;
   height: 400px;
-  overflow: scroll;
+  overflow: hidden;
   white-space: nowrap;
   align-content: center;
+  margin-left: 70px;
 }
 
 #carousel .slide {
@@ -295,10 +313,13 @@ img {
 ::-webkit-scrollbar {
   display: none;
 }
-
+.container {
+  width: 90%;
+  margin-left:60px;
+}
 #body {
   text-align: justify;
-  text-size-adjust: 90%;
+  //text-size-adjust: 90%;
   clear: both;
 }
 

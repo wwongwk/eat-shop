@@ -67,18 +67,22 @@
           <hr />
         </li>
 
-        <div>
+        <div id="page">
           <jw-pagination
             :items="reviews"
             :pageSize="4"
             @changePage="onChangePage"
+            id="page"
           ></jw-pagination>
         </div>
       </ul>
 
       <div class="submitReview">
         <p>Submit your review below:</p>
-        <star-rating :show-rating="false" @rating-selected="setRating">
+        <star-rating 
+        id="submitStar"
+        :show-rating="false" 
+        @rating-selected="setRating">
         </star-rating>
         <textarea
           :style="[
@@ -289,6 +293,7 @@ export default {
 <style scoped>
 #scores {
   white-space: nowrap;
+  text-align: center;
 }
 #overall,
 #stars {
@@ -342,13 +347,14 @@ li {
   margin: 10px;
   border-radius: 4px;
   padding: 25px 20px;
-  width: 1200px;
+  width: 1100px;
 }
 
 ul {
   list-style-type: none;
-  width: 100%;
-  margin-bottom: 100px;
+  width: 900px;
+  margin-bottom: 50px;
+  margin-right: 60px;
 }
 #date {
   float: right;
@@ -356,11 +362,25 @@ ul {
 div.reviews {
   line-height: 2;
 }
-
-.submitReview {
-  margin-left: 60px;
+#page {
+  vertical-align: center;
+  margin-left: 400px;
 }
-
+.submitReview {
+  margin-left: 330px;
+  padding:30px;
+	//margin:40px auto;
+	background: #FFF;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  width: 500px;
+  text-align: center;
+  vertical-align: center;
+  margin-bottom: 100px;
+}
+#submitStar {
+  margin-left: 120px;
+}
 textarea {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -376,6 +396,7 @@ textarea {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 10px;
   resize: none;
+  background-color: #fff;
 }
 
 button {

@@ -348,10 +348,10 @@ label {
   background-color: #fff;
 }
 #box {
-  background-color: #ffdde6;
   width: 100%;
   max-width: 100%;
   margin: 0;
+  font-size: 16px;
 }
 .background {
   margin-left: 20px;
@@ -410,6 +410,6 @@ span {
 }
 
 #timeDropdown {
-  width: 15%;
+  width: 20%;
 }
 </style>

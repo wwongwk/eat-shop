@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='aboutContainer'>
     <b>Brand Story</b>
 
     <p id="para">
@@ -63,15 +63,18 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin-left: 20px;
+.aboutContainer {
+  width: 100%;
+  margin-left: 15px;
 }
 
 #body {
-  text-align: justify;
-  text-size-adjust: 90%;
-  margin-right: 20%;
+  text-align: left;
+  //text-size-adjust: 90%;
+  //margin-right: 20%;
   margin-left: 15px;
+  margin: 0;
+  padding: 0;
 }
 
 #openHours {
