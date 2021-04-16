@@ -111,21 +111,25 @@ export default {
     },
 
     checkPassword: function () {
+      console.log("checkpassword function called")
       var checked = false;
       //check if password is strong -- contains at least 8 characters, a lowercase letter and an uppercase letter
       if (this.form.password.length < 8) {
+        console.log("password too short")
         this.lengthErrorShown = true;
         this.strongPassword = false;
         checked = true;
         this.lengthErrorMessage= "Your password is too short!"
       }
       if (this.form.password.toUpperCase() === this.form.password) {
+        console.log("password missing lowercase letter")
         this.lowercaseErrorShown = true;
         this.strongPassword = false;
         checked = true;
         this.lowercaseErrorMessage= "Your password is missing a lowercase letter!"
       }
       if (this.form.password.toLowerCase() === this.form.password) {
+        console.log("password missing uppercase letter")
         this.uppercaseErrorShown = true;
         this.strongPassword = false;
         checked = true;
@@ -140,18 +144,24 @@ export default {
     //Conditions: Ensure that form is filled, ensure user is not registered and password is strong
     //Else: there will be an alert
     register: function () {
+      console.log("register function called")
       if (this.strongPassword === true) {
+        
       if (
         this.form.name == "" ||
         this.form.email == "" ||
         this.form.password == "" ||
         this.form.mobile == ""
       ) {
+        console.log("Incomplete submission!")
         alert("Incomplete submission!");
+        return
       }
       if (this.form.password !== this.form.confirmpassword) {
+        console.log("passwords mismatch")
         alert("Passwords are different! Check your password and try again.");
       } else {
+        console.log("create new user in firebase")
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.form.email, this.form.password)
