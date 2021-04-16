@@ -133,7 +133,7 @@ export default {
 }
 
 button {
-  background-color: white;
+  background-color: transparent;
   padding: 3px 10px;
   border: none;
   cursor: pointer;

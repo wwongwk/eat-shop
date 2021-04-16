@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div id="all">
     <div class="home">
       <app-header></app-header>
-      <img id="homeImg" src="../assets/HomeImg.png" />
+      
     </div>
     <div id="display">
       
@@ -209,6 +209,11 @@ export default {
 </script>
 
 <style scoped>
+#all {
+  background-color: #f89b9e;
+background-image: linear-gradient(315deg, #f89b9e 0%, #c9d9ff 74%);
+}
+
 #homeImg {
   width: 90%;
   height: auto;
