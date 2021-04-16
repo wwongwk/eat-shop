@@ -1,5 +1,15 @@
 <template>
   <div>
+     <div id="table">
+      <h2>Top Customers</h2>
+      <ul>
+        <li v-for="customer in customers" :key="customer.id">
+          {{ customer[0] }}
+          {{ customer[1] }}
+        </li>
+      </ul>
+    </div>
+
     <div class="container">
       <div class="clicks">
         TOTAL VISITORS:
@@ -317,6 +327,50 @@ export default {
           });
         });
     },
+
+     getTopCustomers() {
+      var customerLeaderboard = [];
+      database
+        .collection("reservation")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.data().document_id === this.documentId) {
+              if (customerLeaderboard.length === 0) {
+                //array currently empty
+                var currentCust = [doc.data().customer_id, 1];
+                customerLeaderboard.push(currentCust);
+              } else {
+                var checked = false;
+                //loop through the entire array to check if customer made a reservation before
+                for (var i = 0; i < customerLeaderboard.length; i++) {
+                  var customer = customerLeaderboard[i];
+                  if (doc.data().customer_id === customer[0]) {
+                    //update number of reservations
+                    customer[1] += 1;
+                    checked = true;
+                    break;
+                  }
+                }
+                //if the customer is a new customer, push to array
+                if (!checked) {
+                  var newCust = [doc.data().customer_id, 1];
+                  customerLeaderboard.push(newCust);
+                }
+              }
+              this.customers = customerLeaderboard;
+              console.log(this.customers);
+            }
+          });
+        });
+    },
+
+    sortCustomers() {
+      this.customers.sort(function (customer1, customer2) {
+        return parseFloat(customer1[1]) - parseFloat(customer2[1]);
+      });
+    },
+  
     /*
     // Generates the arrays needed for plotting
     generateAxes() {
