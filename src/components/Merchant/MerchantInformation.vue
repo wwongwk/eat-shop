@@ -2,15 +2,9 @@
   <div>
     <!-- INFO FORM FOR ALL BUSINESS -->
 
-<<<<<<< HEAD
     <h2>{{ name }}</h2>
     <br />
 
-   
-=======
-    <h2>{{ name }}</h2><br>
-
->>>>>>> fce5a8162e62cad54eed9a48119be239c3bd34db
     <div id="container">
       <div id="content" class="flexbox">
         <!-- TOGGLE RESERVATIONS FOR EAT BUSINESS -->

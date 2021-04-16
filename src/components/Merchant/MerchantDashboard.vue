@@ -12,13 +12,6 @@
 
     <div class="container">
 
-      <div v-show="this.merchantType=='eat'">
-        <h2>Top Customers</h2>
-        <ul>
-          <li>
-          </li>
-        </ul>
-      </div>
 
       <div class="clicks">
         TOTAL VISITORS:
@@ -187,7 +180,8 @@ export default {
       rating: 0,
       merchantType: "",
       numAdult: [],
-    
+      customers:[],
+      documentId:"",
       reviews: [],
       datesMonthYear: [],
       datesFormatted: [],
@@ -240,7 +234,7 @@ export default {
             this.reservationsData[0].y = yearArray;
             console.log(this.reservationsData[0].y);
             this.generateMonthlyReservationsAxis(this.reservationsData[0].y);
-            console.log("hello " + this.reservationsData[0].x);
+            console.log(this.reservationsData[0].x);
           });
         });
     },
@@ -253,6 +247,8 @@ export default {
         .get()
         .then((querySnapShot) => {
           querySnapShot.forEach((doc) => {
+            this.documentId = doc.data().document_id;
+            console.log(this.documentId);
             let totalClicks = 0;
             for (let key in doc.data().totalClicks) {
               totalClicks += doc
@@ -317,7 +313,6 @@ export default {
         })
         .then(() => {
           this.fetchClicksAndReviews();
-          //this.fetchReservations();
           this.getTotalClicks();
         });
     },
@@ -339,7 +334,7 @@ export default {
 
     getTopCustomers() {
       console.log("fetching top customers")
-      var customerLeaderboard = {};
+      var customerLeaderboard = [];
       database
         .collection("reservation")
         .get()
@@ -421,6 +416,7 @@ export default {
   created() {
     this.fetchDetails();
     this.getTopCustomers();
+    this.sortCustomers();
   },
 };
 </script>
