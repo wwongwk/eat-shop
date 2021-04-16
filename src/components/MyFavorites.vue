@@ -11,6 +11,7 @@
           :clearable="false"
           v-model="chosenType"
           @input="filter"
+          :searchable = "false"
           id="drop">
 
           <template slot="option" slot-scope="option">

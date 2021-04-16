@@ -4,8 +4,8 @@
       <li id="header"><h2>ENQUIRIES</h2></li>
       <li v-for="enquiry in allEnquiries" :key="enquiry.id">
         {{ enquiry.name }} &emsp;&emsp;&emsp;&emsp;
-        {{ enquiry.email }}
-        ><br />
+        <a :href="`mailto:${enquiry.email}`">{{enquiry.email}}</a>
+        <br />
           {{ enquiry.message }}
         <button v-on:click="deleteEnquiry(enquiry)" id="deleteBtn">
           DELETE

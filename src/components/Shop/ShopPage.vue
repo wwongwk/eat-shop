@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="display">
-      <h3>SHOPS</h3>
+      <p><span>SHOPS</span></p>
       <div id="searchBar">
         <p><label>What shop are you looking for today?</label></p>
         <input
@@ -54,10 +54,10 @@
       <div id="shop" v-show="allShown">
         <ul>
           <li v-for="shop in shops" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(shop.id)" id="names">
+                <button  id="names">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -71,10 +71,10 @@
       <div id="selectedShops" v-show="selectedShown">
         <ul>
           <li v-for="shop in selectedShops" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(shop.id)" id="selectedNames">
+                <button id="selectedNames">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -89,10 +89,10 @@
         <div id="msg">We think you may like the following as well:</div>
         <ul>
           <li v-for="shop in recommended" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(shop.id)" id="recommendedNames">
+                <button id="recommendedNames">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -106,10 +106,10 @@
       <div id="filteredShops" v-show="filteredShown">
         <ul>
           <li v-for="shop in filtered" :key="shop.id">
-            <div class="polaroid">
+            <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button v-on:click="sendData(shop.id)" id="filteredNames">
+                <button id="filteredNames">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -318,15 +318,22 @@ input {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 #resetBtn {
+  background-color:#ED83A7;
   font-size: 14px;
-  background-color: #ed83a7;
-  color: #ddd;
+  font-family: Futura, light;
   border: none;
   cursor: pointer;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+  width: 60px;
+  height: 30px;
   border-radius: 5px;
-  padding: 5px 5px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  border:0;
+  box-shadow:4px 4px 10px rgba(0,0,0,0.1); 
 }
+
 #resetBtn:hover {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
@@ -354,12 +361,12 @@ ul {
   padding: 0;
   height: 100%;
   width: 100%;
-  margin-left: 150px;
+  margin-left: 120px;
 }
 
 li {
   flex-grow: 1;
-  flex-basis: 300px;
+  flex-basis: 200px;
   text-align: center;
   margin: 5px;
   margin-bottom: 40px;
@@ -371,28 +378,33 @@ li {
 }
 
 div.polaroid {
-  width: 200px;
+  width: 250px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 10px;
-  border-radius: 10px;
+  margin-bottom: 20px;
+  //border-radius: 10px;
+  cursor: pointer;
+  height: 300px;
 }
 
 div.container {
   text-align: center;
   align-content: center;
-  border-radius: 10px;
+  //border-radius: 10px;
   margin: 0px;
   align-self: center;
   padding-bottom: 10px;
-  width: 200px;
+  width: 250px;
+  height: 300px;
 }
 
+
 img {
-  height: 150px;
+  height: 200px;
   width: 100%;
   background-size: 80% 50%;
-  border-radius: 10px;
+  //border-radius: 10px;
+  margin: 0px;
 }
 
 #names,
@@ -400,13 +412,14 @@ img {
 #filteredNames,
 #recommendedNames {
   background-color: white;
-  font-size: 13px;
+  font-size: 16px;
   border-radius: 8px;
   color: #403939;
   border: none;
   cursor: pointer;
   text-decoration: none;
   margin-left: 5px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 #searchBar {
@@ -423,12 +436,31 @@ img {
   text-align: center;
   margin-top: 10px;
 }
-h3 {
-  text-align: left;
-  padding-left: 20px;
+p {
+  text-align: center;
+  //padding-left: 20px;
   color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;
+  overflow: hidden;
+}
+p > span{
+    position: relative;
+    display: inline-block;
+}
+p > span:before, p > span:after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 2px solid;
+    width: 100vw;
+    margin: 0 20px;
+}
+p > span:before{
+    right: 100%;
+}
+p > span:after{
+    left: 100%;
 }
 
 #msg {
