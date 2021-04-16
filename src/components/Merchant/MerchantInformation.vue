@@ -1,7 +1,17 @@
 <template>
   <div>
     <!-- INFO FORM FOR ALL BUSINESS -->
-    <h2>{{ name }}</h2>
+
+    <h2>{{ name }}</h2><br>
+
+    <div v-show="eat">
+      <h2>Top Customers</h2>
+      <ul>
+        <li>
+        </li>
+      </ul>
+    </div>
+
     <div id="container">
       <div id="content" class="flexbox">
         <!-- TOGGLE RESERVATIONS FOR EAT BUSINESS -->
@@ -257,6 +267,9 @@ export default {
       productPrice: "",
       productDescription: "",
       productImage: "",
+
+      // for customer leaderboard for food only
+      customers: {},
     };
   },
   methods: {
@@ -480,10 +493,39 @@ export default {
           location.reload();
         });
     },
+
+    getTopCustomers() {
+      var customerLeaderboard = {};
+      database
+        .collection("reservation")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.data().document_id === this.documentId){
+              if (doc.data().customer_id in customerLeaderboard) {
+                customerLeaderboard[doc.data().customer_id] += 1;
+              } else {
+                customerLeaderboard[doc.data().customer_id] = 1;
+              }
+            }
+          })
+        });
+      this.customers = customerLeaderboard;
+      console.log(this.customers);
+      console.log(this.customers.keys())
+      var customerLeaderboardArray = [];
+      for (var customer of this.customers) {
+        console.log(customer)
+        customerLeaderboardArray.push([customer, customerLeaderboard[customer]])
+      }
+      console.log(customerLeaderboardArray);
+      
+    }
   },
   created() {
     this.fetchDetails();
     this.fetchMerchant();
+    this.getTopCustomers();
   },
 };
 </script>
