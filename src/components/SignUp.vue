@@ -11,7 +11,7 @@
           id="name"
           name="name"
           placeholder="USERNAME"
-          v-model="form.name"
+          v-model="name"
           v-on:keyup.enter="register"
         /><br /><br />
         <input
@@ -19,7 +19,7 @@
           id="email1"
           name="email"
           placeholder="YOUR EMAIL"
-          v-model="form.email"
+          v-model="email"
           v-on:keyup.enter="register"
         /><br /><br />
         <input
@@ -28,7 +28,7 @@
           name="mobile"
           placeholder="MOBILE"
           v-on:keyup="onlyNumberKey($event)"
-          v-model="form.mobile"
+          v-model="mobile"
           v-on:keyup.enter="register"
         /><br /><br />
         <input
@@ -36,7 +36,7 @@
           id="password"
           name="password"
           placeholder="PASSWORD"
-          v-model="form.password"
+          v-model="password"
           v-on:keyup.enter="register"
         /><br /><br />
         <input
@@ -44,8 +44,8 @@
           id="confirmpassword"
           name="confirmpassword"
           placeholder="CONFIRM PASSWORD"
-          v-model="form.confirmpassword"
-          v-on:keyup.enter="checkPassword, register"
+          v-model="confirmpassword"
+          v-on:keyup.enter="register"
         /><br /><br />
         
         <input
@@ -55,7 +55,8 @@
           v-on:click="register"
         />
       </form>
-      <div id="lengthError" v-show="lengthErrorShown">
+      <div id="errorDiv">
+        <div id="lengthError" v-show="lengthErrorShown">
           {{ lengthErrorMessage }}
         </div>
         <div id="lowercaseError" v-show="lowercaseErrorShown">
@@ -64,6 +65,10 @@
         <div id="uppercaseError" v-show="uppercaseErrorShown">
           {{ uppercaseErrorMessage }}
         </div>
+        <div id="passwordMismatchError" v-show="passwordMismatchErrorShown">
+          {{ passwordMismatchMessage }}
+        </div>
+      </div>
       <router-link to="/" id="no" exact> NO, THANK YOU</router-link><br />
       <router-link to="/bizsignup" id="biz" exact>FOR BUSINESS</router-link>
     </div>
@@ -79,25 +84,105 @@ import "firebase/auth";
 export default {
   data() {
     return {
-      form: {
-        name: "",
-        email: "",
-        password: "",
-        confirmpassword: "",
-        mobile: "",
-      },
-      lengthErrorShown: false,
-      lowercaseErrorShown: false,
-      uppercaseErrorShown: false,
-      lengthErrorMessage: "",
-      lowercaseErrorMessage: "",
-      uppercaseErrorMessage: "",
-      strongPassword: true,
+      
+      name: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+      mobile: "",
+      
+      lengthErrorShown: true,
+      lowercaseErrorShown: true,
+      uppercaseErrorShown: true,
+      passwordMismatchErrorShown: true,
+      lengthErrorMessage: " - Password at least 8 characters",
+      lowercaseErrorMessage: "- Password requires a lowercase letter",
+      uppercaseErrorMessage: "- Password requires an uppercase letter",
+      passwordMismatchMessage: "- Password and Confirmation password mismatch",
+
+      lengthCriteria: false,
+      lowercaseCriteria: false,
+      uppercaseCriteria: false,
+      matchCriteria: false,
+
+      strongPassword: false,
     };
   },
 
   components: {
     AppHeader: Header,
+  },
+
+  watch: {
+    password: function(pwd) {
+      this.password = pwd;
+      if (this.password.length >= 8) {
+        //this.lengthErrorShown = false; // length is more than 8
+        document.getElementById("lengthError").style.color = "green";
+        this.lengthCriteria = true;
+      }
+      if (this.password.length < 8) {
+        //this.lengthErrorShown = true; // length is more than 8
+        document.getElementById("lengthError").style.color = "red";
+        this.lengthCriteria = false;
+      }
+      if (this.password.toUpperCase() != this.password) { // password contains lowercase  QWERTY QWERTY
+        //this.uppercaseErrorShown = false;
+        document.getElementById("lowercaseError").style.color = "green";
+        this.lowercaseCriteria = true;
+      }
+      if (this.password.toUpperCase() === this.password) { // password contains uppercase only  QWERTY QWERTY
+        //this.uppercaseErrorShown = true;
+        document.getElementById("lowercaseError").style.color = "red";
+        this.lowercaseCriteria = false;
+      }
+      if (this.password.toLowerCase() != this.password) { // password contains uppercase  qwerty qwerty
+        //this.lowercaseErrorShown = false;
+        document.getElementById("uppercaseError").style.color = "green";
+        this.uppercaseCriteria = true;
+      }
+      if (this.password.toLowerCase() === this.password) { // password contains lowercase only  qwerty qwerty
+        //this.lowercaseErrorShown = true;
+        document.getElementById("uppercaseError").style.color = "red";
+        this.uppercaseCriteria = false;
+      }
+      if (this.password === this.confirmpassword){ // password same
+        //this.passwordMismatchErrorShown = false;
+        document.getElementById("passwordMismatchError").style.color = "green";
+        this.matchCriteria = true;
+      }
+      if (this.password != this.confirmpassword){  // password mismatch
+        //this.passwordMismatchErrorShown = true;
+        document.getElementById("passwordMismatchError").style.color = "red";
+        this.matchCriteria = false;
+
+      }
+      if (this.password == "" || this.confirmpassword == ""){  // password mismatch
+        //this.passwordMismatchErrorShown = true;
+        document.getElementById("passwordMismatchError").style.color = "red";
+        this.matchCriteria = false;
+      }
+      
+    },
+    confirmpassword: function(cfmPwd) {
+      this.confirmpassword = cfmPwd
+      if (this.password === this.confirmpassword){ // password same
+        //this.passwordMismatchErrorShown = false;
+        document.getElementById("passwordMismatchError").style.color = "green";
+        this.matchCriteria = true;
+
+      }
+      if (this.password != this.confirmpassword){  // password mismatch
+        //this.passwordMismatchErrorShown = true;
+        document.getElementById("passwordMismatchError").style.color = "red";
+        this.matchCriteria = false;
+      }
+      if (this.password == "" || this.confirmpassword == ""){  // password mismatch
+        //this.passwordMismatchErrorShown = true;
+        document.getElementById("passwordMismatchError").style.color = "red";
+        this.matchCriteria = false;
+      }
+    }
   },
 
   methods: {
@@ -106,73 +191,79 @@ export default {
       var ASCIICode = evt.which ? evt.which : evt.keyCode;
       if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
         alert("please key in only numbers");
-        this.form.mobile = "";
+        this.mobile = "";
       }
     },
 
-    checkPassword: function () {
-      console.log("checkpassword function called")
-      var checked = false;
-      //check if password is strong -- contains at least 8 characters, a lowercase letter and an uppercase letter
-      if (this.form.password.length < 8) {
-        console.log("password too short")
-        this.lengthErrorShown = true;
-        this.strongPassword = false;
-        checked = true;
-        this.lengthErrorMessage= "Your password is too short!"
-      }
-      if (this.form.password.toUpperCase() === this.form.password) {
-        console.log("password missing lowercase letter")
-        this.lowercaseErrorShown = true;
-        this.strongPassword = false;
-        checked = true;
-        this.lowercaseErrorMessage= "Your password is missing a lowercase letter!"
-      }
-      if (this.form.password.toLowerCase() === this.form.password) {
-        console.log("password missing uppercase letter")
-        this.uppercaseErrorShown = true;
-        this.strongPassword = false;
-        checked = true;
-        this.uppercaseErrorMessage= "Your password is missing an uppercase letter!"
-      }
-      if (!checked) {
-        this.strongPassword = true;
-      }
-    },
+    // checkPassword: function () {
+    //   console.log("checkpassword function called")
+    //   var checked = false;
+    //   //check if password is strong -- contains at least 8 characters, a lowercase letter and an uppercase letter
+    //   if (this.form.password.length < 8) {
+    //     console.log("password too short")
+    //     this.lengthErrorShown = true;
+    //     this.strongPassword = false;
+    //     checked = true;
+    //     this.lengthErrorMessage= "Your password is too short!"
+    //   }
+    //   if (this.form.password.toUpperCase() === this.form.password) {
+    //     console.log("password missing lowercase letter")
+    //     this.lowercaseErrorShown = true;
+    //     this.strongPassword = false;
+    //     checked = true;
+    //     this.lowercaseErrorMessage= "Your password is missing a lowercase letter!"
+    //   }
+    //   if (this.form.password.toLowerCase() === this.form.password) {
+    //     console.log("password missing uppercase letter")
+    //     this.uppercaseErrorShown = true;
+    //     this.strongPassword = false;
+    //     checked = true;
+    //     this.uppercaseErrorMessage= "Your password is missing an uppercase letter!"
+    //   }
+    //   if (!checked) {
+    //     this.strongPassword = true;
+    //   }
+    // },
 
     // user sign up with email and password,
     //Conditions: Ensure that form is filled, ensure user is not registered and password is strong
     //Else: there will be an alert
+    
+    checkStrongPassword() {
+      if (this.lengthCriteria === true && this.lowercaseCriteria === true && this.uppercaseCriteria === true && this.matchCriteria === true) {
+        this.strongPassword = true;
+      } 
+    },
+
     register: function () {
       console.log("register function called")
-      if (this.strongPassword === true) {
-        
-      if (
-        this.form.name == "" ||
-        this.form.email == "" ||
-        this.form.password == "" ||
-        this.form.mobile == ""
-      ) {
+      
+      if ( this.name == "" || this.email == "" || this.mobile == "") { // incomplete fields
         console.log("Incomplete submission!")
         alert("Incomplete submission!");
-        return
-      }
-      if (this.form.password !== this.form.confirmpassword) {
-        console.log("passwords mismatch")
-        alert("Passwords are different! Check your password and try again.");
+        return;
+      } 
+
+      this.checkStrongPassword();
+
+      if (this.strongPassword === false) {
+        console.log("Password error")
+        alert("Please check password!");
+        return;
+      
       } else {
         console.log("create new user in firebase")
         firebase
           .auth()
-          .createUserWithEmailAndPassword(this.form.email, this.form.password)
+          .createUserWithEmailAndPassword(this.email, this.password)
           .then((data) => {
             database
               .collection("users")
               .doc(data.user.uid)
               .set({
                 user_id: data.user.uid,
-                name: this.form.name,
-                mobile: this.form.mobile,
+                name: this.name,
+                mobile: this.mobile,
                 business: false,
                 favorites: {},
               })
@@ -185,7 +276,7 @@ export default {
             alert(error.message);
           });
       }
-      }
+      
     },
   },
 };
@@ -204,6 +295,11 @@ input::-webkit-inner-spin-button {
 input {
   width: 200px;
   height: 25px;
+}
+
+#errorDiv{
+  text-align: left;
+  color: red;
 }
 
 #submit {
