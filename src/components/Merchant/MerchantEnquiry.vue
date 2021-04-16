@@ -108,6 +108,7 @@ export default {
 li {
   color: #403939;
   font-size: 18px;
+  margin: 10px;
   padding: 35px 20px;
   width: 1000px;
   text-align: left;

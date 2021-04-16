@@ -58,6 +58,7 @@ export default {
     toggleInformation() {
       this.information = true;
       this.dashboard = false;
+      this.enquiries = false;
       document.getElementById("info").style.backgroundColor="#ED83A7";
       document.getElementById("info").style.color="white";
       document.getElementById("dashboard").style.backgroundColor="white";
@@ -68,6 +69,7 @@ export default {
     toggleDashboard() {
       this.information = false;
       this.dashboard = true;
+      this.enquiries = false;
       document.getElementById("dashboard").style.backgroundColor="#ED83A7";
       document.getElementById("dashboard").style.color="white";
       document.getElementById("info").style.backgroundColor="white";

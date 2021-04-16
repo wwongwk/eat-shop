@@ -261,6 +261,7 @@ export default {
             booking["merchant_type"] = "eat";
             booking["merchant_name"] = this.shop.name;
             booking["imageURL"] = this.shop.imageURL;
+            booking["showUp"] = false;
             var newRef = database.collection("reservation").doc();
             booking["booking_id"] = newRef.id;
             booking["user_id"] = this.shop.user_id;
