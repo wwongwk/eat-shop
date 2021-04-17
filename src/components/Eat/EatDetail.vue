@@ -319,7 +319,6 @@ img {
 }
 #body {
   text-align: justify;
-  //text-size-adjust: 90%;
   clear: both;
 }
 
@@ -334,17 +333,53 @@ img {
 
 .btn-group button {
   background-color: transparent;
-  color: rgb(0, 0, 0); /* White text */
-  padding: 10px 20px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
+  color: rgb(0, 0, 0); 
+  padding: 10px 20px; 
+  cursor: pointer; 
+  float: left; 
   font-size: 18px;
   margin-right: 5px;
   border: none;
   border-radius: 5px;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0);
+  font-family: Futura;
+  height: 40px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  border: 0;
+  transition: all 0.5s;
+  border-radius: 10px;
+  width: auto;
+  position: relative;
 }
+  .btn-group button::after {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 400;
+    position: absolute;
+    left: 85%;
+    top: 31%;
+    right: 5%;
+    bottom: 0;
+    opacity: 0;
+    
+  }
+  
+  .btn-group button:hover {
+    background: #D25A7e;
+    transition: all 0.5s;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px #ED83A7;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .btn-group button:hover::after {
+    opacity: 1;
+    transition: all 0.5s;
+    
+  }
+
 #about {
   background-color: #ED83A7;
   color: #fff;
@@ -355,14 +390,7 @@ img {
   content: "";
   clear: both;
   display: table;
-}
-
-/* Add a background color on hover */
-.btn-group button:hover {
-  background-color: #ED83A7;
-  color: rgb(255, 255, 255);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
-}
+} 
 
 ul{
   list-style-type: none;

@@ -77,7 +77,7 @@ export default {
 
 <style scoped>
 * {
-  //font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
 .flexWrap {
@@ -133,7 +133,7 @@ export default {
 }
 
 button {
-  background-color: white;
+  background-color: transparent;
   padding: 3px 10px;
   border: none;
   cursor: pointer;
