@@ -33,5 +33,5 @@ export default[
   {path:'/myFav', component:MyFavorites},
   {path:'/upcoming', component:UpcomingReservations},
   {path:'/past', component:PastEvents},
-  {path:'/publicDashboard', component:PublicDashboard}
+  {path:'/publicDashboard', component:PublicDashboard},
 ]

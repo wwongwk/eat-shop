@@ -31,6 +31,7 @@ export default {
   methods: {
     // Fetches Merchant/Business information
     fetchMerchant() {
+      this.uid = firebase.auth().currentUser.uid;
       var fetched = false;
       database
         .collection("eat")
@@ -80,18 +81,19 @@ export default {
     deleteEnquiry: function (enquiry) {
       for (var i = 0; i < this.allEnquiries.length; i++) {
         var currentEnquiry = this.allEnquiries[i];
-        var temp;
         if (currentEnquiry === enquiry) {
-          temp = this.allEnquiries.splice(i, 1);
+          this.allEnquiries.splice(i, 1);
+          break;
         }
       }
       database
         .collection(this.merchantType)
         .doc(this.shopId)
         .update({
-          enquiries: temp,
+          enquiries: this.allEnquiries,
         })
         .then(() => {
+          location.reload();
         });
     },
   },
@@ -106,7 +108,7 @@ export default {
 li {
   color: #403939;
   font-size: 18px;
-  //margin: 10px;
+  margin: 10px;
   padding: 35px 20px;
   width: 1000px;
   text-align: left;
