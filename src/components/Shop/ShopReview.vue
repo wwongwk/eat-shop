@@ -174,7 +174,6 @@ export default {
           .then((doc) => {
             this.name = doc.data().name;
             this.loggedIn = true;
-            //console.log("fetch details login:" + this.loggedIn)
           });
       } catch (err) {
         this.loggedIn = false;
@@ -267,7 +266,6 @@ export default {
   },
   created() {
     this.get();
-    //console.log("shop login: " + this.loggedIn)
   },
 };
 </script>
@@ -374,6 +372,7 @@ button {
   color: white;
   font-size: 18px;
   margin-bottom: 50px;
+  cursor: pointer;
 }
 .submitReview p {
   font-size: 18px;

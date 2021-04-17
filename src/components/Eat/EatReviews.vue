@@ -400,6 +400,7 @@ button {
   color: white;
   font-size: 18px;
   margin-bottom: 50px;
+  cursor: pointer;
 }
 .submitReview p {
   font-size: 18px;
