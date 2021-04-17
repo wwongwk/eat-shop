@@ -277,7 +277,7 @@ export default {
       if (this.filtered.length > 0) {
         this.filtered.length = 0;
       }
-      if (value.criteria === "Best reviewed") {
+      if (value.criteria === "Best Reviewed") {
         //sort the restaurants by their overall rating values in descending order
         this.restaurants.sort(function (restaurant1, restaurant2) {
           
