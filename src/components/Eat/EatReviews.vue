@@ -1,16 +1,5 @@
 <template>
   <div>
-    uid : {{ uid }} <br />
-    email: {{ email }} <br />
-    username: {{ name }} <br />
-    Reviews: {{ reviews }} <br />
-    Rating : {{ rating }} <br />
-    Shop Name: {{ shopName }} <br />
-    DateNow : {{ Date.now() }}<br />
-    Document Id: {{ documentId }} <br />
-    stars : {{ overallRating }} <br />
-    clicks : {{ clicks }} <br />
-    reviewId : {{ reviewId }} <br />
     <!-- RESTAURANT RATING -->
     <div id="scores">
       <p id="overall">{{ overallRating }}/5.0</p>
@@ -297,7 +286,7 @@ export default {
 <style scoped>
 #scores {
   white-space: nowrap;
-  text-align: center;
+  text-align: left;
 }
 #overall,
 #stars {
