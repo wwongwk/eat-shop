@@ -2,19 +2,11 @@
   <div>
     <table class="table">
       <tr>
-        <th></th>
-        <th>Item</th>
         <th>Date (DD/MM/YYYY)</th>
         <th>Quantity</th>
         <th></th>
       </tr>
       <tr v-for="event in upcoming" v-bind:key="event.index">
-        <td>
-          <img :src="event.imageURL" />
-        </td>
-        <td>
-          {{ event.merchant_name }}
-        </td>
         <td>
           {{ event.date.toDate().toLocaleDateString("en-GB") }},
           {{ event.date.toDate().getHours() }}:{{
@@ -23,7 +15,10 @@
         </td>
         <td>{{ event.adults }} x Adults, {{ event.children }} x Children</td>
         <td>
-          <button id="deleteBtn" @click="deleteRow(event)">Delete</button>
+          <button v-if="event.showUp" id="confirmedBtn">Confirmed</button>
+          <button v-else id="confirmBtn" @click="confirm(event)">
+            Confirm
+          </button>
         </td>
       </tr>
     </table>
@@ -32,7 +27,7 @@
 </template>
 
 <script>
-import database from "../firebase.js";
+import database from "../../firebase.js";
 export default {
   data() {
     return {
@@ -42,18 +37,14 @@ export default {
   props: ["upcoming"],
 
   methods: {
-    deleteRow(event) {
+    confirm(event) {
       database
         .collection("reservation")
         .doc(event.booking_id)
-        .delete()
-        .then(() => {
-          console.log("Document successfully deleted!");
-          location.reload();
+        .update({
+          showUp: true,
         })
-        .catch((error) => {
-          console.error("Error removing document: ", error);
-        });
+        .then(() => {});
     },
     checkUpcoming: function () {
       if (this.upcoming == null) {
@@ -74,6 +65,7 @@ th {
   color: #ed83a7;
 }
 td {
+  padding: 40px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -105,8 +97,20 @@ img {
   margin-bottom: 30px;
   margin-top: 30px;
 }
-#deleteBtn {
+#confirmBtn {
   background-color: #ed83a7;
+  font-size: 18px;
+  padding: 3px 8px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
+}
+
+#confirmedBtn {
+  background-color: green;
   font-size: 18px;
   padding: 3px 8px;
   font-family: "Avenir", Helvetica, Arial, sans-serif;

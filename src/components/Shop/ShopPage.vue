@@ -273,7 +273,7 @@ export default {
       if (this.filtered.length > 0) {
         this.filtered.length = 0;
       }
-      if (value.criteria === "Best reviewed") {
+      if (value.criteria === "Best Reviewed") {
         //sort the shops by their overall rating values in descending order
         this.shops.sort(function (shop1, shop2) {
           return (
