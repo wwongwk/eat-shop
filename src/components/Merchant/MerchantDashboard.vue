@@ -2,10 +2,10 @@
   <div>
      <div id="table">
       <h2>Top Customers</h2>
+      Customer username : no. of reservations made <br>
       <ul>
-        <li v-for="customer in customers" :key="customer.id">
-          {{ customer[0] }}
-          {{ customer[1] }}
+        <li v-for="customer in customers.slice(0,10)" :key="customer.id">          
+          {{ customer[0] }} : {{ customer[1] }}
         </li>
       </ul>
     </div>
@@ -333,14 +333,14 @@ export default {
             if (doc.data().document_id === this.documentId) {
               if (customerLeaderboard.length === 0) {
                 //array currently empty
-                var currentCust = [doc.data().customer_id, 1];
+                var currentCust = [doc.data().customer_name, 1];
                 customerLeaderboard.push(currentCust);
               } else {
                 var checked = false;
                 //loop through the entire array to check if customer made a reservation before
                 for (var i = 0; i < customerLeaderboard.length; i++) {
                   var customer = customerLeaderboard[i];
-                  if (doc.data().customer_id === customer[0]) {
+                  if (doc.data().customer_name === customer[0]) {
                     //update number of reservations
                     customer[1] += 1;
                     checked = true;
@@ -349,7 +349,7 @@ export default {
                 }
                 //if the customer is a new customer, push to array
                 if (!checked) {
-                  var newCust = [doc.data().customer_id, 1];
+                  var newCust = [doc.data().customer_name, 1];
                   customerLeaderboard.push(newCust);
                 }
               }
@@ -357,8 +357,10 @@ export default {
             }
           });
         });
+      this.sortCustomers();    
     },
     sortCustomers() {
+      console.log("sort customer code running")
       this.customers.sort(function (customer1, customer2) {
         return parseFloat(customer1[1]) - parseFloat(customer2[1]);
       });
@@ -374,7 +376,7 @@ export default {
     this.fetchDetails();
     this.getMerchantId();
     this.getTopCustomers();
-    this.sortCustomers();
+    //this.sortCustomers();
   },
 };
 </script>
