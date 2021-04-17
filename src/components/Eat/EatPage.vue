@@ -20,8 +20,8 @@
           label="criteria"
           :options="sortByOptions"
           :value="selectedCriteria"
+          v-model="chosenCriteria"
           :clearable="false"
-          :searchable = "false"
           @input="sortFood"
           id="drop"
         >
@@ -37,7 +37,7 @@
           :options="dropdownOptions"
           :value="selectedCuisine"
           :clearable="false"
-          :searchable = "false"
+          v-model="cuisineCriteria"
           @input="filterFood"
           id="drop"
         >
@@ -143,6 +143,8 @@ export default {
       search: "",
       selectedCuisine: "",
       selectedCriteria: "",
+      chosenCriteria: "",
+      cuisineCriteria:"",
       allShown: true,
       selectedShown: false,
       errorShown: false,
@@ -156,7 +158,7 @@ export default {
         { code: "ALL", cuisineType: "All" },
       ],
       sortByOptions: [
-        { code: "1", criteria: "Best reviewed" },
+        { code: "1", criteria: "Best Reviewed" },
         { code: "2", criteria: "Most Popular" },
       ],
     };
