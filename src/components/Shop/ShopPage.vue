@@ -59,7 +59,7 @@
             <div class="polaroid" v-on:click="sendData(shop.id)">
               <img v-bind:src="shop.imageURL" /><br />
               <div class="container">
-                <button  id="names">
+                <button id="names">
                   {{ shop.name }}
                   <br />
                   {{ shop.overallRating }}
@@ -151,8 +151,10 @@ export default {
       error: "",
       recommendedShown: false,
       filteredShown: false,
-      sortByOptions: [{ code: "1", criteria: "Best Reviewed" },
-      {code: "2", criteria: "Most Popular"}],
+      sortByOptions: [
+        { code: "1", criteria: "Best Reviewed" },
+        { code: "2", criteria: "Most Popular" },
+      ],
       dropdownOptions: [
         { code: "2", productType: "Clothing" },
         { code: "3", productType: "Toys" },
@@ -237,6 +239,7 @@ export default {
         if (x["id"] === id) {
           console.log(x);
           x["menu_str"] = JSON.stringify(x["menu"]);
+          this.increaseCounter(x);
           this.$router.push({ path: "/shopDetail", query: x });
         }
       }
@@ -289,6 +292,45 @@ export default {
       this.filteredShown = false;
       this.allShown = true;
     },
+    //update the monthly clicks in the database
+    increaseCounter: function (x) {
+      var today = new Date();
+      var month = today.getMonth(); //January is 0
+      var year = today.getFullYear();
+
+      var yearlyClicks = [];
+      database
+        .collection(x["type"])
+        .doc(x["document_id"])
+        .get()
+        .then((doc) => {
+          var done = false;
+          console.log(doc.data().totalClicks);
+          var currentArray = [];
+          currentArray = doc.data().totalClicks[year];
+          for (var i = 0; i < currentArray.length; i++) {
+            yearlyClicks.push(currentArray[i]);
+            if (i === month) {
+              //clicks for that month is already added into the array
+              yearlyClicks[i] += 1;
+              done = true;
+            }
+          }
+          if (!done) {
+            //month clicks is not added yet -- start of the month
+            yearlyClicks.push(1);
+            done = true;
+          }
+          this.totalClicks = doc.data().totalClicks;
+          this.totalClicks[year] = yearlyClicks;
+          console.log(this.totalClicks);
+        })
+        .then(() => {
+          database.collection(x["type"]).doc(x["document_id"]).update({
+            totalClicks: this.totalClicks,
+          });
+        });
+    },
   },
   created() {
     this.fetchShops();
@@ -322,7 +364,7 @@ input {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 #resetBtn {
-  background-color:#ED83A7;
+  background-color: #ed83a7;
   font-size: 14px;
   font-family: Futura, light;
   border: none;
@@ -334,8 +376,8 @@ input {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   outline: none;
-  border:0;
-  box-shadow:4px 4px 10px rgba(0,0,0,0.1); 
+  border: 0;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 #resetBtn:hover {
@@ -402,7 +444,6 @@ div.container {
   height: 300px;
 }
 
-
 img {
   height: 200px;
   width: 100%;
@@ -423,7 +464,7 @@ img {
   cursor: pointer;
   text-decoration: none;
   margin-left: 5px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 }
 
 #searchBar {
@@ -448,23 +489,24 @@ p {
   letter-spacing: 0.1em;
   overflow: hidden;
 }
-p > span{
-    position: relative;
-    display: inline-block;
+p > span {
+  position: relative;
+  display: inline-block;
 }
-p > span:before, p > span:after{
-    content: '';
-    position: absolute;
-    top: 50%;
-    border-bottom: 2px solid;
-    width: 100vw;
-    margin: 0 20px;
+p > span:before,
+p > span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border-bottom: 2px solid;
+  width: 100vw;
+  margin: 0 20px;
 }
-p > span:before{
-    right: 100%;
+p > span:before {
+  right: 100%;
 }
-p > span:after{
-    left: 100%;
+p > span:after {
+  left: 100%;
 }
 
 #msg {

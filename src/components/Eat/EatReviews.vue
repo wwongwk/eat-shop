@@ -79,10 +79,11 @@
 
       <div class="submitReview">
         <p>Submit your review below:</p>
-        <star-rating 
-        id="submitStar"
-        :show-rating="false" 
-        @rating-selected="setRating">
+        <star-rating
+          id="submitStar"
+          :show-rating="false"
+          @rating-selected="setRating"
+        >
         </star-rating>
         <textarea
           :style="[
@@ -202,7 +203,6 @@ export default {
     },
     // Fetches shop information from firestore
     get() {
-      /* var shop = JSON.parse(localStorage.getItem("KEY")); */
       this.shopName = this.shop["name"];
       this.documentId = this.shop["document_id"];
       this.shopType = this.shop["type"];
@@ -214,7 +214,11 @@ export default {
         .get()
         .then((doc) => {
           this.reviews = doc.data().reviews;
-          this.reviewId = doc.data().reviews[0].id + 1;
+          try {
+            this.reviewId = doc.data().reviews[0].id + 1;
+          } catch (err) {
+            this.reviewId = 1;
+          }
           this.fetchDetails();
           this.updateStars();
           this.updateDate();
@@ -368,11 +372,11 @@ div.reviews {
 }
 .submitReview {
   margin-left: 330px;
-  padding:30px;
-	//margin:40px auto;
-	background: #FFF;
-	border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  padding: 30px;
+  //margin:40px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
   width: 500px;
   text-align: center;
   vertical-align: center;
