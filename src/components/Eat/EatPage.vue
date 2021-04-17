@@ -21,7 +21,7 @@
           :options="sortByOptions"
           :value="selectedCriteria"
           :clearable="false"
-          
+          :searchable = "false"
           @input="sortFood"
           id="drop"
         >
@@ -437,7 +437,6 @@ div.polaroid {
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 20px;
-  //border-radius: 10px;
   cursor: pointer;
   height: 300px;
 }
@@ -445,7 +444,6 @@ div.polaroid {
 div.container {
   text-align: center;
   align-content: center;
-  //border-radius: 10px;
   margin: 0px;
   align-self: center;
   padding-bottom: 10px;
@@ -458,7 +456,6 @@ img {
   height: 200px;
   width: 100%;
   background-size: 80% 50%;
-  //border-radius: 10px;
   margin: 0px;
 }
 

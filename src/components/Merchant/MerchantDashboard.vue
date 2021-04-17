@@ -98,7 +98,7 @@ export default {
           y: [],
           type: "scatter",
           marker: {
-            color: "#ED83A7",
+            color: "#f9d1b7",
           },
         },
       ],
@@ -109,7 +109,7 @@ export default {
           type: "bar",
           width: 0.5,
           marker: {
-            color: "#ED83A7",
+            color: "#f9d1b7",
           },
         },
       ],
