@@ -22,6 +22,7 @@
           :value="selectedCriteria"
           v-model="chosenCriteria"
           :clearable="false"
+          :searchable="false"
           @input="sortFood"
           id="drop"
         >
@@ -37,6 +38,7 @@
           :options="dropdownOptions"
           :value="selectedCuisine"
           :clearable="false"
+          :searchable="false"
           v-model="cuisineCriteria"
           @input="filterFood"
           id="drop"
