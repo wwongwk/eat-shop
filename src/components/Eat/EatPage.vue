@@ -21,7 +21,7 @@
           :options="sortByOptions"
           :value="selectedCriteria"
           :clearable="false"
-          :searchable = "false"
+          
           @input="sortFood"
           id="drop"
         >

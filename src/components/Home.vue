@@ -1,61 +1,10 @@
 <template>
   <div id="all">
-    <div class="home">
-      <app-header></app-header>
-      
-    </div>
-    <div id="display">
-      
-      <p><span>EAT</span></p>
-      <div id="eat">
-        <ul>
-          <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
-            <div class="polaroid" v-on:click="sendData(restaurant.id, 1)">
-              <img v-bind:src="restaurant.imageURL" /><br />
-              <div class="container">
-                <button id="names">
-                  {{ restaurant.name }}
-                </button>
-              </div>
-            </div>
-          </li>
-          <button id="seeMore" v-on:click="GoToEat">SEE MORE</button>
-        </ul>
+    <div class="home"> 
+      <div id="header">
+        <app-header></app-header>
       </div>
-      <p><span>SHOP</span></p>
-      <div id="shops">
-        <ul>
-          <li v-for="shop in filteredShops" :key="shop.id">
-            <div class="polaroid" v-on:click="sendData(shop.id, 2)">
-              <img v-bind:src="shop.imageURL" /><br />
-              <div class="container">
-                <button id="names">
-                  {{ shop.name }}
-                </button>
-              </div>
-            </div>
-          </li>
-          <router-link to="/shop" tag="button" id="seeMore"
-            >SEE MORE</router-link
-          >
-        </ul>
-      </div>
-      <p><span>PLAY</span></p>
-      <div id="play">
-        <ul>
-          <li v-for="play in activities" :key="play.id">
-            <div class="polaroid">
-              <img v-bind:src="play.imageURL" /><br />
-              <div class="container">
-                <router-link to="/cart" exact id="names">{{
-                  play.name
-                }}</router-link>
-              </div>
-            </div>
-          </li>
-          <button id="seeMore">SEE MORE</button>
-        </ul>
-      </div>
+      <img id="homeImg" src="../assets/HomeImg.png" />
     </div>
   </div>
 </template>
@@ -209,15 +158,12 @@ export default {
 </script>
 
 <style scoped>
-#all {
-  background-color: #f89b9e;
-background-image: linear-gradient(315deg, #f89b9e 0%, #c9d9ff 74%);
-}
 
 #homeImg {
-  width: 90%;
+  width: 92%;
   height: auto;
   border-radius: 0px;
+  margin-bottom: 50px;
 }
 #display {
   margin: 50px;
@@ -272,7 +218,6 @@ img {
   height: 200px;
   width: 100%;
   background-size: 80% 50%;
-  //border-radius: 10px;
   margin: 0px;
 }
 
@@ -281,14 +226,12 @@ div.polaroid {
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 20px;
-  //border-radius: 10px;
   cursor: pointer;
   height: 300px;
 }
 div.container {
   text-align: center;
   align-content: center;
-  //border-radius: 10px;
   margin: 0px;
   align-self: center;
   padding-bottom: 10px;
@@ -325,9 +268,7 @@ p > span:after{
   margin-top: 90px;
   height: 40px;
   text-align: center;
-  //font-family: "Avenir", Helvetica, Arial, sans-serif;
   background: #ED83A7;
-  //color: #ffffff;
   cursor: pointer;
   font-size: 16px;
   border: 0;

@@ -77,7 +77,7 @@ export default {
 
 <style scoped>
 * {
-  //font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
 .flexWrap {

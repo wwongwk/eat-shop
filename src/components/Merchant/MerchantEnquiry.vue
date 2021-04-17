@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="all">
     <ul>
-      <li id="header"><h2>ENQUIRIES</h2></li>
+      <li id="header"><p><span>ENQUIRIES</span></p></li>
       <li v-for="enquiry in allEnquiries" :key="enquiry.id">
         {{ enquiry.name }} &emsp;&emsp;&emsp;&emsp;
         <a :href="`mailto:${enquiry.email}`">{{enquiry.email}}</a>
@@ -103,40 +103,105 @@ export default {
 </script>
 
 <style scoped>
+#all {
+  margin-left: 50px;
+  width: 92%;
+  background-color: #f9d1b7;
+  background-image: linear-gradient(315deg, #f9d1b7 0%, #f894a4 74%);
+}
+
+p {
+  text-align: center;
+  //padding-left: 20px;
+  //color: #ed83a7;
+  font-size: 30px;
+  letter-spacing: 0.1em;
+  overflow: hidden;
+}
+p > span{
+    position: relative;
+    display: inline-block;
+}
+p > span:before, p > span:after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 2px solid;
+    width: 100vw;
+    margin: 0 20px;
+}
+p > span:before{
+    right: 100%;
+}
+p > span:after{
+    left: 100%;
+}
 li {
   color: #403939;
   font-size: 18px;
-  //margin: 10px;
   padding: 35px 20px;
-  width: 1000px;
+  width: 100%;
   text-align: left;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  border-radius: 10px;
-  background: #FFF;
   line-height: 2;
+  margin:0;
 }
 
 ul {
   list-style-type: none;
-  width: 100%;
+  width: 1000px;
   margin-bottom: 100px;
-  vertically-align: center;
-  margin-left: 100px;
-  margin-top: 50px;
+  vertical-align: center;
+  margin-left: 50px;
+  //margin-top: 50px;
+  //border-radius: 10px;
+  //background-color: #FFF;
+  align-self: center;
+  vertical-align: center;
 }
 #header {
   text-align: center;
   line-height: 1;
 }
+
 button {
   float: right;
-  background-color: #ed83a7;
-  border: none;
-  border-radius: 5px;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.1);
-  color: white;
-  font-size: 18px;
   margin-bottom: 50px;
+  font-family: Futura;
+  height: 40px;
+  text-align: center;
+  background: #ED83A7;
+  cursor: pointer;
+  font-size: 16px;
+  border: 0;
+  transition: all 0.5s;
+  border-radius: 10px;
+  width: auto;
+  position: relative;
 }
+  button::after {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 400;
+    position: absolute;
+    left: 85%;
+    top: 31%;
+    right: 5%;
+    bottom: 0;
+    opacity: 0;
+  }
+  
+  button:hover {
+    background: #D25A7e;
+    transition: all 0.5s;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px #ED83A7;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  button:hover::after {
+    opacity: 1;
+    transition: all 0.5s;
+  }
+
 </style>
