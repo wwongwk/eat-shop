@@ -95,7 +95,7 @@ export default {
       lowercaseErrorShown: true,
       uppercaseErrorShown: true,
       passwordMismatchErrorShown: true,
-      lengthErrorMessage: " - Password at least 8 characters",
+      lengthErrorMessage: " - Password requires at least 8 characters",
       lowercaseErrorMessage: "- Password requires a lowercase letter",
       uppercaseErrorMessage: "- Password requires an uppercase letter",
       passwordMismatchMessage: "- Password and Confirmation password need to match",
@@ -117,48 +117,39 @@ export default {
     password: function(pwd) {
       this.password = pwd;
       if (this.password.length >= 8) {
-        //this.lengthErrorShown = false; // length is more than 8
         document.getElementById("lengthError").style.color = "green";
         this.lengthCriteria = true;
       }
       if (this.password.length < 8) {
-        //this.lengthErrorShown = true; // length is more than 8
         document.getElementById("lengthError").style.color = "red";
         this.lengthCriteria = false;
       }
       if (this.password.toUpperCase() != this.password) { // password contains lowercase  QWERTY QWERTY
-        //this.uppercaseErrorShown = false;
         document.getElementById("lowercaseError").style.color = "green";
         this.lowercaseCriteria = true;
       }
       if (this.password.toUpperCase() === this.password) { // password contains uppercase only  QWERTY QWERTY
-        //this.uppercaseErrorShown = true;
         document.getElementById("lowercaseError").style.color = "red";
         this.lowercaseCriteria = false;
       }
       if (this.password.toLowerCase() != this.password) { // password contains uppercase  qwerty qwerty
-        //this.lowercaseErrorShown = false;
         document.getElementById("uppercaseError").style.color = "green";
         this.uppercaseCriteria = true;
       }
       if (this.password.toLowerCase() === this.password) { // password contains lowercase only  qwerty qwerty
-        //this.lowercaseErrorShown = true;
         document.getElementById("uppercaseError").style.color = "red";
         this.uppercaseCriteria = false;
       }
       if (this.password === this.confirmpassword){ // password same
-        //this.passwordMismatchErrorShown = false;
         document.getElementById("passwordMismatchError").style.color = "green";
         this.matchCriteria = true;
       }
       if (this.password != this.confirmpassword){  // password mismatch
-        //this.passwordMismatchErrorShown = true;
         document.getElementById("passwordMismatchError").style.color = "red";
         this.matchCriteria = false;
 
       }
       if (this.password == "" || this.confirmpassword == ""){  // password mismatch
-        //this.passwordMismatchErrorShown = true;
         document.getElementById("passwordMismatchError").style.color = "red";
         this.matchCriteria = false;
       }
@@ -167,18 +158,15 @@ export default {
     confirmpassword: function(cfmPwd) {
       this.confirmpassword = cfmPwd
       if (this.password === this.confirmpassword){ // password same
-        //this.passwordMismatchErrorShown = false;
         document.getElementById("passwordMismatchError").style.color = "green";
         this.matchCriteria = true;
 
       }
       if (this.password != this.confirmpassword){  // password mismatch
-        //this.passwordMismatchErrorShown = true;
         document.getElementById("passwordMismatchError").style.color = "red";
         this.matchCriteria = false;
       }
       if (this.password == "" || this.confirmpassword == ""){  // password mismatch
-        //this.passwordMismatchErrorShown = true;
         document.getElementById("passwordMismatchError").style.color = "red";
         this.matchCriteria = false;
       }

@@ -137,7 +137,6 @@ export default {
 
     // Submits a review and updates Firestore
     submitReview() {
-      //this.newReviews = this.reviews.slice();
       if (this.loggedIn === false) {
         alert("Please log in to submit a review");
       } else if (this.rating === 0) {
