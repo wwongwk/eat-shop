@@ -190,7 +190,11 @@ export default {
         .get()
         .then((doc) => {
           this.reviews = doc.data().reviews;
-          this.reviewId = doc.data().reviews[0].id + 1;
+          try {
+            this.reviewId = doc.data().reviews[0].id + 1;
+          } catch (err) {
+            this.reviewId = 1;
+          }
           this.fetchDetails();
           this.updateStars();
           this.updateDate();

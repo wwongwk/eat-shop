@@ -67,14 +67,15 @@
           .createUserWithEmailAndPassword(this.form.email, this.form.password)
           .then((data) => {
             database
-            .collection("users")
-            .doc(data.user.uid)
-            .set({
-              user_id: data.user.uid,
-              name: this.form.name,
-              mobile:this.form.mobile,
-              business:false,
-              favorites:{}
+              .collection("users")
+              .doc(data.user.uid)
+              .set({
+                user_id: data.user.uid,
+                email : data.user.email,
+                name: this.name,
+                mobile: this.mobile,
+                business: false,
+                favorites: {},
               })
               .then(() => {
                 alert('Successfully signed up'); 
