@@ -98,7 +98,7 @@ export default {
       lengthErrorMessage: " - Password at least 8 characters",
       lowercaseErrorMessage: "- Password requires a lowercase letter",
       uppercaseErrorMessage: "- Password requires an uppercase letter",
-      passwordMismatchMessage: "- Password and Confirmation password mismatch",
+      passwordMismatchMessage: "- Password and Confirmation password need to match",
 
       lengthCriteria: false,
       lowercaseCriteria: false,
@@ -194,40 +194,6 @@ export default {
         this.mobile = "";
       }
     },
-
-    // checkPassword: function () {
-    //   console.log("checkpassword function called")
-    //   var checked = false;
-    //   //check if password is strong -- contains at least 8 characters, a lowercase letter and an uppercase letter
-    //   if (this.form.password.length < 8) {
-    //     console.log("password too short")
-    //     this.lengthErrorShown = true;
-    //     this.strongPassword = false;
-    //     checked = true;
-    //     this.lengthErrorMessage= "Your password is too short!"
-    //   }
-    //   if (this.form.password.toUpperCase() === this.form.password) {
-    //     console.log("password missing lowercase letter")
-    //     this.lowercaseErrorShown = true;
-    //     this.strongPassword = false;
-    //     checked = true;
-    //     this.lowercaseErrorMessage= "Your password is missing a lowercase letter!"
-    //   }
-    //   if (this.form.password.toLowerCase() === this.form.password) {
-    //     console.log("password missing uppercase letter")
-    //     this.uppercaseErrorShown = true;
-    //     this.strongPassword = false;
-    //     checked = true;
-    //     this.uppercaseErrorMessage= "Your password is missing an uppercase letter!"
-    //   }
-    //   if (!checked) {
-    //     this.strongPassword = true;
-    //   }
-    // },
-
-    // user sign up with email and password,
-    //Conditions: Ensure that form is filled, ensure user is not registered and password is strong
-    //Else: there will be an alert
     
     checkStrongPassword() {
       if (this.lengthCriteria === true && this.lowercaseCriteria === true && this.uppercaseCriteria === true && this.matchCriteria === true) {
@@ -262,6 +228,7 @@ export default {
               .doc(data.user.uid)
               .set({
                 user_id: data.user.uid,
+                email : data.user.email,
                 name: this.name,
                 mobile: this.mobile,
                 business: false,

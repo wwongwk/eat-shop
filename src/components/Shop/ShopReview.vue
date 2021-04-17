@@ -1,38 +1,50 @@
 <template>
   <div>
+    uid : {{ uid }} <br />
+    email: {{ email }} <br />
+    username: {{ name }} <br />
+    Reviews: {{ reviews }} <br />
+    Rating : {{ rating }} <br />
+    Shop Name: {{ shopName }} <br />
+    DateNow : {{ Date.now() }}<br />
+    Document Id: {{ documentId }} <br />
+    overallRating : {{ overallRating }} <br />
+    clicks : {{ clicks }} <br />
+    reviewId : {{ reviewId }} <br />
+    ratingBreakdown: {{ratingBreakdown}} <br/>
     <div id="scores">
       <p id="overall">{{ overallRating }}/5.0</p>
       <div id="stars">
         <div id="one">
           <span style="color: #ed83a7">&starf;&star;&star;&star;&star;</span>
-          <p>{{ stars[1] }}</p>
+          <p>{{ ratingBreakdown[1] }}</p>
         </div>
         <div id="two">
           <span style="color: #ed83a7">&starf;&starf;&star;&star;&star;</span>
-          <p>{{ stars[2] }}</p>
+          <p>{{ ratingBreakdown[2] }}</p>
         </div>
         <div id="three">
           <span style="color: #ed83a7">&starf;&starf;&starf;&star;&star;</span>
-          <p>{{ stars[3] }}</p>
+          <p>{{ ratingBreakdown[3] }}</p>
         </div>
         <div id="four">
           <span style="color: #ed83a7">&starf;&starf;&starf;&starf;&star;</span>
-          <p>{{ stars[4] }}</p>
+          <p>{{ ratingBreakdown[4] }}</p>
         </div>
         <div id="five">
           <span style="color: #ed83a7"
             >&starf;&starf;&starf;&starf;&starf;</span
           >
-          <p>{{ stars[5] }}</p>
+          <p>{{ ratingBreakdown[5] }}</p>
         </div>
       </div>
     </div>
 
     <div class="reviews">
       <ul>
-        <li v-for="item in reviews" v-bind:key="item.review">
+        <li v-for="item in pageOfItems" v-bind:key="item.id">
           {{ item.username }}&nbsp;
-          <p id="date">{{ item.date.toLocaleDateString() }}</p>
+          <p id="date">{{ formatDate(item.date) }}</p>
           <br />
 
           <span style="color: #ed83a7" v-if="item.stars == 1"
@@ -52,14 +64,14 @@
           ><br />
           {{ item.review }}
           <hr />
-          <div>
-            <jw-pagination
-              :items="reviews"
-              :pageSize="4"
-              @changePage="onChangePage"
-            ></jw-pagination>
-          </div>
         </li>
+        <div>
+          <jw-pagination
+            :items="reviews"
+            :pageSize="4"
+            @changePage="onChangePage"
+          ></jw-pagination>
+        </div>
         <div class="submitReview">
           <p>Submit your review below:</p>
           <star-rating :show-rating="false" @rating-selected="setRating">
@@ -104,9 +116,11 @@ export default {
       shopName: "",
       shopType: "",
       overallRating: 0,
+      clicks: 0,
       documentId: "",
+      reviewId: "",
       reviews: [],
-      stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      ratingBreakdown: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       reviewTextArea: "",
       uid: "",
       email: "",
@@ -141,6 +155,11 @@ export default {
           id: this.reviewId,
           stars: this.rating,
         });
+        console.log('Updating Rating Breakdown in SubmitReview()')
+        //Updates Rating Breakdown after updating Reviews Array
+        // Updates Overall Rating after updating Reviews Array
+        this.updateRatingBreakdown();
+        this.updateOverallRating();
         alert("Review submitted!");
         database
           .collection("shop")
@@ -150,18 +169,15 @@ export default {
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
-            //location.reload();
-            this.get();
-            this.fetchDetails();
-            this.updateStars();
-            this.updateDate();
+            this.updateRatingBreakdown();
             this.updateOverallRating();
             this.reviewTextArea = "";
+            this.rating = 0;
             window.scrollTo(0, 0);
           });
       }
     },
-    fetchDetails() {
+    fetchUserDetails() {
       try {
         this.uid = firebase.auth().currentUser.uid;
         this.email = firebase.auth().currentUser.email;
@@ -178,64 +194,72 @@ export default {
         this.loggedIn = false;
       }
     },
-    get() {
+    fetchShopDetails() {
+      console.log('fetchShopDetails')
       this.shopName = this.shop["name"];
       this.documentId = this.shop["document_id"];
       this.shopType = "shop"; // set as shop since shop type used for clothing / handcraft / toys
-      //this.clicks = this.shop["clicks"];
-      this.overallRating = this.shop["overallRating"];
+      this.clicks = this.shop["clicks"];
+      //this.overallRating = this.shop["overallRating"];
+      
+      console.log(this)
+      console.log(this.shopName)
+      console.log(this.documentId)
+      console.log(this.overallRating)
+
       database
         .collection(this.shopType)
         .doc(this.documentId)
         .get()
         .then((doc) => {
           this.reviews = doc.data().reviews;
-          this.reviewId = doc.data().reviews[0].id + 1;
-          this.fetchDetails();
-          this.updateStars();
-          this.updateDate();
+          try {
+            this.reviewId = doc.data().reviews[0].id + 1;
+          } catch (err) {
+            this.reviewId = 1;
+          }
+          this.fetchUserDetails();
+          this.updateRatingBreakdown();
           this.updateOverallRating();
         });
     },
-    updateDate() {
-      for (let i = 0; i < this.reviews.length; i++) {
-        let seconds = this.reviews[i].date.seconds;
-        let nanoseconds = this.reviews[i].date.nanoseconds;
-        let date = new Date(seconds * 1000 + nanoseconds / 1000000);
-        //let year = date.getYear();
-        //let month = date.getMonth();
-        //let day = date.getDay();
-        this.reviews[i].date = date;
-      }
-    },
-
-    updateStars() {
+    updateRatingBreakdown() {
+      this.ratingBreakdown = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       for (let i = 0; i < this.reviews.length; i++) {
         if (this.reviews[i].stars == 1) {
-          this.stars[1] += 1;
+          this.ratingBreakdown[1] += 1;
         }
         if (this.reviews[i].stars == 2) {
-          this.stars[2] += 1;
+          this.ratingBreakdown[2] += 1;
         }
         if (this.reviews[i].stars == 3) {
-          this.stars[3] += 1;
+          this.ratingBreakdown[3] += 1;
         }
         if (this.reviews[i].stars == 4) {
-          this.stars[4] += 1;
+          this.ratingBreakdown[4] += 1;
         }
         if (this.reviews[i].stars == 5) {
-          this.stars[5] += 1;
+          this.ratingBreakdown[5] += 1;
         }
       }
+    },
+    formatDate(date) {
+      //let seconds = this.reviews[i].date.seconds;
+      //let nanoseconds = this.reviews[i].date.nanoseconds;
+      let seconds = date.seconds;
+      let nanoseconds = date.nanoseconds;
+      let formatDate = new Date(
+        seconds * 1000 + nanoseconds / 1000000
+      ).toLocaleString("en-GB");
+      return formatDate;
     },
     updateOverallRating() {
       let sum = 0;
       let length = 0;
-      for (let [key, value] of Object.entries(this.stars)) {
+      for (let [key, value] of Object.entries(this.ratingBreakdown)) {
         sum += key * value;
         length += value;
       }
-
       if (length == 0) {
         this.overallRating = 0;
       } else {
@@ -247,7 +271,7 @@ export default {
     averageStars() {
       let sum = 0;
       let length = 0;
-      for (let [key, value] of Object.entries(this.stars)) {
+      for (let [key, value] of Object.entries(this.ratingBreakdown)) {
         sum += key * value;
         length += value;
       }
@@ -259,8 +283,8 @@ export default {
       }
     },
   },
-  created() {
-    this.get();
+  mounted() {
+    this.fetchShopDetails();
     //console.log("shop login: " + this.loggedIn)
   },
 };
@@ -368,6 +392,7 @@ button {
   color: white;
   font-size: 18px;
   margin-bottom: 50px;
+  cursor: pointer; 
 }
 .submitReview p {
   font-size: 18px;

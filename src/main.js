@@ -6,7 +6,6 @@ import vSelect from 'vue-select'
 import firebase from 'firebase'
 import JwPagination from 'jw-vue-pagination';
 
-
 Vue.component('jw-pagination', JwPagination);
 
 Vue.component('v-select', vSelect);

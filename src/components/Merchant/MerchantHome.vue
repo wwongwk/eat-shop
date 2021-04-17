@@ -1,24 +1,22 @@
 <template>
   <div>
     <div class="header">
-    <div class="flexWrap">
-      <div class="flexCol">        
+      <div class="flexWrap">
+        <div class="flexCol">
           <img id="logo" :src="require(`@/assets/logo.png`)" />
-      </div>
-      <div class="flexCol" id="title">
-        MY BUSINESS
-      </div>
-      <div class="flexCol" id='nav'>
-        <div class="btn-group">
-          <a id="info" @click="toggleInformation">Information</a>
-          <a id="dashboard" @click="toggleDashboard">Dashboard</a>
-          <a id="enquiries" @click="toggleEnquiries">Enquiries</a>
-          <button id="logout" v-on:click="logOut()" >Log Out</button>
+        </div>
+        <div class="flexCol" id="title">MY BUSINESS</div>
+        <div class="flexCol" id="nav">
+          <div class="btn-group">
+            <a id="info" @click="toggleInformation">Information</a>
+            <a id="dashboard" @click="toggleDashboard">Dashboard</a>
+            <a id="reservations" @click="toggleReservations">Reservations</a>
+            <a id="enquiries" @click="toggleEnquiries">Enquiries</a>
+            <button id="logout" v-on:click="logOut()">Log Out</button>
+          </div>
         </div>
       </div>
-      
     </div>
-  </div>
 
     <div id="body" v-if="information">
       <merchant-information> </merchant-information>
@@ -26,6 +24,10 @@
 
     <div id="body" v-else-if="dashboard">
       <merchant-dashboard> </merchant-dashboard>
+    </div>
+
+    <div id="body" v-else-if="reservations">
+      <merchant-reservations> </merchant-reservations>
     </div>
 
     <div id="body" v-else-if="enquiries">
@@ -38,6 +40,7 @@
 import MerchantInformation from "./MerchantInformation.vue";
 import MerchantDashboard from "./MerchantDashboard.vue";
 import MerchantEnquiry from "./MerchantEnquiry.vue";
+import MerchantReservations from "./MerchantReservations.vue";
 
 import firebase from "firebase/app";
 
@@ -46,11 +49,13 @@ export default {
     MerchantInformation: MerchantInformation,
     MerchantDashboard: MerchantDashboard,
     MerchantEnquiry: MerchantEnquiry,
+    MerchantReservations: MerchantReservations,
   },
   data() {
     return {
       information: true,
       dashboard: false,
+      reservations: false,
       enquiries: false,
     };
   },
@@ -59,76 +64,119 @@ export default {
       this.information = true;
       this.dashboard = false;
       this.enquiries = false;
-      document.getElementById("info").style.backgroundColor="#ED83A7";
-      document.getElementById("info").style.color="white";
-      document.getElementById("dashboard").style.backgroundColor="white";
-      document.getElementById("dashboard").style.color="black";
-      document.getElementById("enquiries").style.backgroundColor="white";
-      document.getElementById("enquiries").style.color="black";
+      this.reservations = false;
+      document.getElementById("info").style.backgroundColor = "#ED83A7";
+      document.getElementById("info").style.color = "white";
+      document.getElementById("dashboard").style.backgroundColor = "white";
+      document.getElementById("dashboard").style.color = "black";
+      document.getElementById("reservations").style.backgroundColor = "white";
+      document.getElementById("reservations").style.color = "black";
+      document.getElementById("enquiries").style.backgroundColor = "white";
+      document.getElementById("enquiries").style.color = "black";
     },
     toggleDashboard() {
       this.information = false;
       this.dashboard = true;
+      this.reservations = false;
       this.enquiries = false;
-      document.getElementById("dashboard").style.backgroundColor="#ED83A7";
-      document.getElementById("dashboard").style.color="white";
-      document.getElementById("info").style.backgroundColor="white";
-      document.getElementById("info").style.color="black";
-      document.getElementById("enquiries").style.backgroundColor="white";
-      document.getElementById("enquiries").style.color="black";
+      document.getElementById("info").style.backgroundColor = "white";
+      document.getElementById("info").style.color = "black";
+      document.getElementById("dashboard").style.backgroundColor = "#ED83A7";
+      document.getElementById("dashboard").style.color = "white";
+      document.getElementById("reservations").style.backgroundColor = "white";
+      document.getElementById("reservations").style.color = "black";
+      document.getElementById("enquiries").style.backgroundColor = "white";
+      document.getElementById("enquiries").style.color = "black";
+    },
+    toggleReservations() {
+      this.information = false;
+      this.dashboard = false;
+      this.reservations = true;
+      this.enquiries = false;
+      document.getElementById("info").style.backgroundColor = "white";
+      document.getElementById("info").style.color = "black";
+      document.getElementById("dashboard").style.backgroundColor = "white";
+      document.getElementById("dashboard").style.color = "black";
+      document.getElementById("reservations").style.backgroundColor = "#ED83A7";
+      document.getElementById("reservations").style.color = "white";
+      document.getElementById("enquiries").style.backgroundColor = "white";
+      document.getElementById("enquiries").style.color = "black";
     },
     toggleEnquiries() {
       this.information = false;
       this.dashboard = false;
+      this.reservations = false;
       this.enquiries = true;
-      document.getElementById("enquiries").style.backgroundColor="#ED83A7";
-      document.getElementById("enquiries").style.color="white";
-      document.getElementById("info").style.backgroundColor="white";
-      document.getElementById("info").style.color="black";
-      document.getElementById("dashboard").style.backgroundColor="white";
-      document.getElementById("dashboard").style.color="black";
+      document.getElementById("info").style.backgroundColor = "white";
+      document.getElementById("info").style.color = "black";
+      document.getElementById("dashboard").style.backgroundColor = "white";
+      document.getElementById("dashboard").style.color = "black";
+      document.getElementById("reservations").style.backgroundColor = "white";
+      document.getElementById("reservations").style.color = "black";
+      document.getElementById("enquiries").style.backgroundColor = "#ED83A7";
+      document.getElementById("enquiries").style.color = "white";
     },
-    
-    
-    logOut: function() {
-      firebase.auth().signOut().then(() => {
-        alert("Successfully signed out!");        
-        this.login=false;
-        this.$router.replace({ path: "/" });
-      }).catch((error) => {
-        console.log(error.message);
-      });
+
+    logOut: function () {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          alert("Successfully signed out!");
+          this.login = false;
+          this.$router.replace({ path: "/" });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
     },
   },
 
   beforeDestroy() {
-    firebase.auth().signOut().then(() => {
-      alert("Successfully signed out!");        
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        alert("Successfully signed out!");
         //this.$router.replace({ path: "/" });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error.message);
       });
   },
 
   created() {
+    /*
     var user = firebase.auth().currentUser;
+
+
     if (user == null) {
       this.$router.replace({ path: "/" });
     } else {
-      window.addEventListener('beforeunload', function (event) {
+      window.addEventListener(
+        "beforeunload",
+        function (event) {
+          event.preventDefault();
+          console.log(
+            performance.navigation.type,
+            "performance.navigation.type"
+          ); 
 
-      event.preventDefault();
-      console.log(performance.navigation.type,"performance.navigation.type");
-         
-      firebase.auth().signOut().then(() => {
-        alert("Successfully signed out!");        
-        this.$router.replace({ path: "/" });
-      }).catch((error) => {
-        console.log(error.message);
-      });
-       event.returnValue = '';
-      }, false);
-    }
+          firebase
+            .auth()
+            .signOut()
+            .then(() => {
+              alert("Successfully signed out!");
+              this.$router.replace({ path: "/" });
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+          event.returnValue = "";
+        },
+        false
+      ); 
+    }*/
   },
 
   /* mounted() {
@@ -151,7 +199,6 @@ export default {
 </script>
 
 <style scoped>
-
 .flexWrap {
   display: flex;
   overflow: hidden;
@@ -162,7 +209,7 @@ export default {
   box-sizing: border-box;
   padding: 10px;
   width: 33.3%;
-  align-self:center;
+  align-self: center;
 }
 
 /* (B) BREAK DOWN 1 COLUMN ON SMALL SCREENS */
@@ -181,9 +228,9 @@ export default {
 #title {
   top: 50%;
   font-size: 30px;
-/*   //font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;*/  
+  /*   //font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;*/
   font-weight: bold;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 }
 
 #nav {
@@ -192,7 +239,11 @@ export default {
   text-align: end;
 }
 
-#info, #dashboard, #enquiries, #logout {
+#info,
+#dashboard,
+#enquiries,
+#reservations,
+#logout {
   text-align: center;
   text-decoration: none;
   font-size: 16px;
@@ -204,11 +255,11 @@ export default {
   border-width: 2px;
   padding: 3px 10px;
   cursor: pointer;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 }
 
-a:hover, button:hover {
+a:hover,
+button:hover {
   color: #ed83a7;
 }
-
 </style>

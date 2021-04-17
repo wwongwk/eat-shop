@@ -1,5 +1,7 @@
 <template>
   <div id="box">
+
+
     <div id="reservationNotice" v-show="displayResNotice">
       <p>
         We are currently not accepting any reservations. We apologise for the
@@ -79,6 +81,8 @@ export default {
       adultsCount: 0,
       childrenCount: 0,
       selected: "",
+      customerId : "",
+      customerName : "",
     };
   },
   methods: {
@@ -251,6 +255,8 @@ export default {
             /* const created = firebase.firestore.Timestamp.fromDate(
           new Date(chosenDate)
         ).toDate(); */
+            console.log('Customer ID:' + this.uid)
+            console.log('Customer Name' + this.name)
             let booking = new Object();
             booking["date"] = chosenDate;
             booking["document_id"] = this.shop.document_id;
@@ -290,6 +296,7 @@ export default {
         }
       }
     },
+
     setCalendarLimits: function () {
       //set minimum day of calendar to current date because user cannot choose a previous date
       //and maximum day of calendar to end of the year

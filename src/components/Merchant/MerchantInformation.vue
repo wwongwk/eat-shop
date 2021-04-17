@@ -60,7 +60,7 @@
             v-model="description"
           ></textarea>
           <br /><br />
-          <input type="button" id="submit" value="SAVE" @click="save" />
+          <input type="button" id="submit1" value="SAVE" @click="save" />
         </form>
         <br />
       </div>
@@ -74,7 +74,7 @@
           <form id="addForm">
             <label for="foodName">Name of food item:</label> &nbsp;
             <input
-              id="addForm"
+              id="addForm1"
               name="itemName"
               v-model="foodName"
               required
@@ -82,7 +82,7 @@
 
             <label for="foodPrice">Price of food item:</label> &nbsp;
             <input
-              id="addForm"
+              id="addForm2"
               name="itemPrice"
               v-model="foodPrice"
               required
@@ -90,7 +90,7 @@
 
             <label for="foodImage">Image URL of food item:</label> &nbsp;
             <input
-              id="addForm"
+              id="addForm3"
               name="itemImage"
               v-model="foodImage"
               required
@@ -99,7 +99,7 @@
             <label for="foodDescription">Description of food item:</label>
             &nbsp;
             <textarea
-              id="addForm"
+              id="addForm4"
               name="itemDescription"
               v-model="foodDescription"
               required
@@ -108,7 +108,7 @@
 
             <input
               type="button"
-              id="submit"
+              id="submit2"
               value="Add to menu"
               v-on:click="requiredFood()"
             />
@@ -123,10 +123,10 @@
         <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
         <div id="addProduct" name="addProduct" v-show="add">
           <br />
-          <form id="addForm">
+          <form id="addForm5">
             <label for="productName">Name of product:</label> &nbsp;
             <input
-              id="addForm"
+              id="addForm6"
               name="itemName"
               v-model="productName"
               required
@@ -134,7 +134,7 @@
 
             <label for="productPrice">Price of product:</label> &nbsp;
             <input
-              id="addForm"
+              id="addForm7"
               name="itemPrice"
               v-model="productPrice"
               required
@@ -142,7 +142,7 @@
 
             <label for="productImage">Image URL of product:</label> &nbsp;
             <input
-              id="addForm"
+              id="addForm8"
               name="itemImage"
               v-model="productImage"
               required
@@ -151,7 +151,7 @@
             <label for="productDescription">Description of product:</label>
             &nbsp;
             <textarea
-              id="addForm"
+              id="addForm9"
               name="itemDescription"
               v-model="productDescription"
               required
@@ -160,7 +160,7 @@
 
             <input
               type="button"
-              id="submit"
+              id="submit3"
               value="Add to product listing"
               v-on:click="requiredProduct()"
             />
@@ -567,7 +567,7 @@ textarea {
 #address {
   height: 45px;
 }
-#submit {
+#submit1, #submit2, #submit3 {
   cursor: pointer;
   background-color: #ed83a7;
   border: none;
@@ -596,7 +596,8 @@ textarea {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
-#addForm {
+#addForm, #addform1, #addform2, #addform3, 
+#addform4, #addform5, #addform6, #addform7, #addform8, #addform9, #addform10 {
   align-items: flex-start;
 }
 
