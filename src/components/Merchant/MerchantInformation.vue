@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- INFO FORM FOR ALL BUSINESS -->
+
     <h2>{{ name }}</h2>
+    <br />
+
     <div id="container">
       <div id="content" class="flexbox">
         <!-- TOGGLE RESERVATIONS FOR EAT BUSINESS -->
@@ -257,6 +260,9 @@ export default {
       productPrice: "",
       productDescription: "",
       productImage: "",
+
+      // for customer leaderboard for food only
+      customers: [],
     };
   },
   methods: {
@@ -498,26 +504,25 @@ h2 {
 
 #content {
   align-items: center;
-  width:400px;
-	padding:30px;
-	margin:40px auto;
-	background: #FFF;
-	border-radius: 10px;
-	-webkit-border-radius:10px;
-	-moz-border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  
+  width: 400px;
+  padding: 30px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 
 #menuInfo {
-  width:650px;
-	padding:30px;
-	margin:40px auto;
-	background: #FFF;
-	border-radius: 10px;
-	-webkit-border-radius:10px;
+  width: 650px;
+  padding: 30px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
   -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
@@ -602,16 +607,15 @@ ul {
 }
 #displayFood {
   width: 1200px;
-  padding:30px;
-	margin:40px auto;
-	background: #FFF;
-	border-radius: 10px;
-	-webkit-border-radius:10px;
-	-moz-border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  
+  padding: 30px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 #float-container {
   border: 3px solid #fff;

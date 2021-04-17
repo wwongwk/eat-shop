@@ -1,6 +1,18 @@
 <template>
   <div>
+     <div id="table">
+      <h2>Top Customers</h2>
+      <ul>
+        <li v-for="customer in customers" :key="customer.id">
+          {{ customer[0] }}
+          {{ customer[1] }}
+        </li>
+      </ul>
+    </div>
+
     <div class="container">
+
+
       <div class="clicks">
         TOTAL VISITORS:
         <animated-number
@@ -34,6 +46,7 @@
           :value="selectedYearClicks"
           :clearable="false"
           :searchable="false"
+          v-model="year"
           @input="sortClicks"
           id="dropClicks"
         >
@@ -61,6 +74,7 @@
           :value="selectedYearReservations"
           :clearable="false"
           :searchable="false"
+          v-model="yearChosen"
           @input="sortReservations"
           id="dropReservations"
         >
@@ -157,6 +171,8 @@ export default {
         { code: "2025", year: 2025 },
       ],
       selectedYearReservations: "",
+      yearChosen:"",
+      year:"",
       name: "",
       email: "",
       mobile: "",
@@ -167,6 +183,9 @@ export default {
       totalClicks: 0,
       rating: 0,
       merchantType: "",
+      numAdult: [],
+      customers:[],
+      documentId:"",
       reviews: [],
       datesMonthYear: [],
       datesFormatted: [],
@@ -217,21 +236,37 @@ export default {
           querySnapShot.forEach((doc) => {
             var yearArray = doc.data().totalReservations[value.year];
             this.reservationsData[0].y = yearArray;
-            console.log("hello" + this.reservationsData[0].y);
             this.generateMonthlyReservationsAxis(this.reservationsData[0].y);
-            console.log("hello " + this.reservationsData[0].x);
           });
         });
     },
+
+    //fetch merchant id from db 
+    getMerchantId() {
+      this.uid = firebase.auth().currentUser.uid;
+      database
+        .collection("eat")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.data().user_id == this.uid) {
+              this.documentId = doc.data().document_id;
+            }
+          }
+          )
+        });
+    },
+
     getTotalClicks() {
       this.uid = firebase.auth().currentUser.uid;
-      console.log(this.merchantType);
       database
         .collection(this.merchantType)
         .where("user_id", "==", this.uid)
         .get()
         .then((querySnapShot) => {
           querySnapShot.forEach((doc) => {
+            this.documentId = doc.data().document_id;
+            console.log(this.documentId);
             let totalClicks = 0;
             for (let key in doc.data().totalClicks) {
               totalClicks += doc
@@ -254,31 +289,6 @@ export default {
         this.reservationsData[0].x.push(this.monthsAxis[i]);
       }
     },
-
-    /*
-
-    // Fetches reservation data from firestore
-    fetchReservations() {
-      console.log("fetchReservations() running");
-      database
-        .collection("reservation")
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            if (doc.data().user_id == this.uid) {
-              console.log("inside fetchReservations if clause");
-              var seconds = doc.data().date.seconds;
-              var nanoseconds = doc.data().date.nanoseconds;
-              var date = new Date(seconds * 1000 + nanoseconds / 1000000);
-              this.reservations.push(doc.data());
-              this.datesMonthYear.push([date.getMonth(), date.getFullYear()]);
-              this.datesFormatted.push(date.toLocaleDateString());
-            }
-          });
-          //this.generateAxes();
-        });
-    }, */
-
     // Fetches Authentication details and Business details
     fetchDetails() {
       //console.log(this.type)
@@ -295,13 +305,11 @@ export default {
         })
         .then(() => {
           this.fetchClicksAndReviews();
-          //this.fetchReservations();
           this.getTotalClicks();
         });
     },
 
     fetchClicksAndReviews() {
-      console.log("fetching Clicks and Reservations");
       database
         .collection(this.merchantType)
         .get()
@@ -314,36 +322,47 @@ export default {
           });
         });
     },
-    /*
-    // Generates the arrays needed for plotting
-    generateAxes() {
-      console.log("generateAxes() running");
-      //alert('generateAxes() is running and the length of datesMonth is: ' + this.datesMonth.length)
-      let obj = {};
-      for (let i = 0; i < this.datesFormatted.length; i++) {
-        obj[this.datesFormatted[i][0]] =
-          (obj[this.datesFormatted[i][0]] || 0) + 1;
-      }
-      this.data[0].y = Object.values(obj);
 
-      var arr = Array.from(
-        new Set(this.datesMonthYear.map(JSON.stringify)),
-        JSON.parse
-      ).sort();
-
-      console.log(arr)
-     // var months = [ "January", "February", "March", "April", "May", "June", 
-       //    "July", "August", "September", "October", "November", "December" ];
-
-      for (let i = 0; i < arr.length; i++) {
-        this.data[0].x.push(
-          "0" +
-            (arr[i][0] + 1).toString() +
-            "/" +
-            arr[i][1].toString().slice(-2)
-        );
-      }
-    },*/
+    getTopCustomers() {
+      var customerLeaderboard = [];
+      database
+        .collection("reservation")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.data().document_id === this.documentId) {
+              if (customerLeaderboard.length === 0) {
+                //array currently empty
+                var currentCust = [doc.data().customer_id, 1];
+                customerLeaderboard.push(currentCust);
+              } else {
+                var checked = false;
+                //loop through the entire array to check if customer made a reservation before
+                for (var i = 0; i < customerLeaderboard.length; i++) {
+                  var customer = customerLeaderboard[i];
+                  if (doc.data().customer_id === customer[0]) {
+                    //update number of reservations
+                    customer[1] += 1;
+                    checked = true;
+                    break;
+                  }
+                }
+                //if the customer is a new customer, push to array
+                if (!checked) {
+                  var newCust = [doc.data().customer_id, 1];
+                  customerLeaderboard.push(newCust);
+                }
+              }
+              this.customers = customerLeaderboard;
+            }
+          });
+        });
+    },
+    sortCustomers() {
+      this.customers.sort(function (customer1, customer2) {
+        return parseFloat(customer1[1]) - parseFloat(customer2[1]);
+      });
+    },
     formatClicks(value) {
       return `${value.toFixed(0)}`;
     },
@@ -353,6 +372,9 @@ export default {
   },
   created() {
     this.fetchDetails();
+    this.getMerchantId();
+    this.getTopCustomers();
+    this.sortCustomers();
   },
 };
 </script>
