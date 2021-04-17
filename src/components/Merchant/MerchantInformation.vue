@@ -487,16 +487,6 @@ export default {
         });
     },
   },
-
-   
-  /*
-      var customerLeaderboardArray = [];
-      for (var customer in customerLeaderboard) {
-        console.log("hello");
-        customerLeaderboardArray.push([customer, customerLeaderboard[customer]])
-      }
-      console.log(customerLeaderboardArray);
-      */
   created() {
     this.fetchDetails();
     this.fetchMerchant();
