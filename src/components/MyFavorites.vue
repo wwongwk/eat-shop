@@ -83,6 +83,7 @@
         filtered: [],
         allShown: true,
         filteredShown: false,
+        chosenType:""
       }
     },
     methods: {

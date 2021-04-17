@@ -289,10 +289,8 @@ export default {
       } else {
         //sorting by most popular -- number of clicks
         this.restaurants.sort(function (restaurant1, restaurant2) {
-          console.log(restaurant1)
           return (
-            parseFloat(restaurant2.clicks) - parseFloat(restaurant1.clicks)
-            //parseFloat(restaurant2)) - parseFloat(this.getTotalClicks(restaurant1))          
+            parseFloat(restaurant2.clicks) - parseFloat(restaurant1.clicks)         
           );
         });
       }
@@ -315,7 +313,6 @@ export default {
         .get()
         .then((doc) => {
           var done = false;
-          console.log(doc.data().totalClicks);
           var currentArray = [];
           currentArray = doc.data().totalClicks[year];
           for (var i = 0; i < currentArray.length; i++) {
@@ -333,7 +330,6 @@ export default {
           }
           this.totalClicks = doc.data().totalClicks;
           this.totalClicks[year] = yearlyClicks;
-          console.log(this.totalClicks);
         })
         .then(() => {
           database.collection(x["type"]).doc(x["document_id"]).update({

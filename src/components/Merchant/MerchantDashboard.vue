@@ -266,7 +266,6 @@ export default {
         .then((querySnapShot) => {
           querySnapShot.forEach((doc) => {
             this.documentId = doc.data().document_id;
-            console.log(this.documentId);
             let totalClicks = 0;
             for (let key in doc.data().totalClicks) {
               totalClicks += doc
@@ -291,7 +290,6 @@ export default {
     },
     // Fetches Authentication details and Business details
     fetchDetails() {
-      //console.log(this.type)
       this.uid = firebase.auth().currentUser.uid;
       this.email = firebase.auth().currentUser.email;
       this.phone = firebase.auth().currentUser.phoneNumber;
