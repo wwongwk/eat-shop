@@ -173,7 +173,6 @@ export default {
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
             this.restaurants.push(doc.data());
-            localStorage.clear();
           });
         });
     },
