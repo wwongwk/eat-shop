@@ -127,7 +127,6 @@ export default {
       this.pageOfItems = pageOfItems;
     },
     submitReview() {
-      //this.newReviews = this.reviews.slice();
       if (this.loggedIn === false) {
         alert("Please log in to submit a review");
       } else if (this.rating === 0) {
@@ -152,7 +151,6 @@ export default {
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
-            //location.reload();
             this.get();
             this.fetchDetails();
             this.updateStars();
@@ -207,9 +205,6 @@ export default {
         let seconds = this.reviews[i].date.seconds;
         let nanoseconds = this.reviews[i].date.nanoseconds;
         let date = new Date(seconds * 1000 + nanoseconds / 1000000);
-        //let year = date.getYear();
-        //let month = date.getMonth();
-        //let day = date.getDay();
         this.reviews[i].date = date;
       }
     },
