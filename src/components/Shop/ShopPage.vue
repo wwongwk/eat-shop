@@ -22,8 +22,9 @@
           :options="sortByOptions"
           :value="selectedCriteria"
           :clearable="false"
+          :searchable="false"
+          v-model="chosenCriteria"
           @input="sortShops"
-          :searchable = "false"
           id="drop"
         >
           <template slot="option" slot-scope="option">
@@ -38,7 +39,8 @@
           :options="dropdownOptions"
           :value="selectedType"
           :clearable="false"
-          :searchable = "false"
+          :searchable="false"
+          v-model="productCriteria"
           @input="filterShops"
           id="drop"
         >
@@ -141,13 +143,15 @@ export default {
       search: "",
       selectedType: "",
       selectedCriteria: "",
+      chosenCriteria: "",
+      productCriteria: "",
       allShown: true,
       selectedShown: false,
       errorShown: false,
       error: "",
       recommendedShown: false,
       filteredShown: false,
-      sortByOptions: [{ code: "1", criteria: "Best reviewed" },
+      sortByOptions: [{ code: "1", criteria: "Best Reviewed" },
       {code: "2", criteria: "Most Popular"}],
       dropdownOptions: [
         { code: "2", productType: "Clothing" },

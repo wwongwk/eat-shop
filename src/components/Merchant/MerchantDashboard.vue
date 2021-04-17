@@ -46,6 +46,7 @@
           :value="selectedYearClicks"
           :clearable="false"
           :searchable="false"
+          v-model="year"
           @input="sortClicks"
           id="dropClicks"
         >
@@ -73,6 +74,7 @@
           :value="selectedYearReservations"
           :clearable="false"
           :searchable="false"
+          v-model="yearChosen"
           @input="sortReservations"
           id="dropReservations"
         >
@@ -169,6 +171,8 @@ export default {
         { code: "2025", year: 2025 },
       ],
       selectedYearReservations: "",
+      yearChosen:"",
+      year:"",
       name: "",
       email: "",
       mobile: "",
