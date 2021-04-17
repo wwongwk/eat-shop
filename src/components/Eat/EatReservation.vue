@@ -174,9 +174,37 @@ export default {
         }
       }
     },
+
+    //check if current user has already made a reservation
+    checkReservation: function (reservationdate) {
+      this.canBook = true;
+      console.log("heyy");
+      database
+        .collection("reservation")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            console.log(this.uid);
+            console.log(this.shop.document_id);
+            if (doc.data().customer_id === this.uid) {
+              console.log("checked1");
+              if (doc.data().document_id === this.shop.document_id) {
+                console.log("checked2");
+                if (doc.data().booking_date === reservationdate
+                && doc.data().time === this.selected.time) {
+                  console.log("checked3");
+                  alert("You have already made a reservation on this day!");
+                  this.canBook = false;
+                }
+              }
+            }
+          });
+        });
+    },
+
     increaseCounter: function () {
-      console.log('Inside increaseCounter()')
-      console.log(document.getElementById("bookingDate"))
+      console.log("Inside increaseCounter()");
+      console.log(document.getElementById("bookingDate"));
       var chosenDate = new Date(
         document.getElementById("bookingDate").value +
           "T" +
@@ -210,7 +238,6 @@ export default {
           }
           this.totalReservations = doc.data().totalReservations;
           this.totalReservations[year] = yearlyReservations;
-          console.log(this.totalReservations);
         })
         .then(() => {
           database.collection("eat").doc(this.shop.document_id).update({
@@ -222,11 +249,18 @@ export default {
     book: function () {
       //if user is not logged in,
       //alert pop-up to remind user to log in before making a reservation
-      this.checkTime();
-      if (this.canBook) {
-        if (this.loggedIn === false) {
-          alert("Please log in to make a reservation!");
-        } else {
+      if (this.loggedIn === false) {
+        alert("Please log in to make a reservation!");
+      } else {
+        this.checkTime();
+        var chosenDate = new Date(
+          document.getElementById("bookingDate").value +
+            "T" +
+            this.selected.time +
+            ":00"
+        );
+        this.checkReservation(document.getElementById("bookingDate").value);
+        if (this.canBook) {
           //if the user didn't select a date or time or number of people
           //alert pop-up
           if (
@@ -236,22 +270,13 @@ export default {
           ) {
             alert("Your reservation is incomplete!");
           } else {
-
             //Buggy function
             this.increaseCounter();
 
             //converts javascript date object to timestamp object to be saved to database
             //alert pop-up to inform user of successful reservation
-            var chosenDate = new Date(
-              document.getElementById("bookingDate").value +
-                "T" +
-                this.selected.time +
-                ":00"
-            );
-            /* const created = firebase.firestore.Timestamp.fromDate(
-          new Date(chosenDate)
-        ).toDate(); */
             let booking = new Object();
+            booking["booking_date"] = document.getElementById("bookingDate").value;
             booking["date"] = chosenDate;
             booking["document_id"] = this.shop.document_id;
             booking["time"] = this.selected.time;
@@ -265,9 +290,9 @@ export default {
             var newRef = database.collection("reservation").doc();
             booking["booking_id"] = newRef.id;
             booking["user_id"] = this.shop.user_id;
-            
-            newRef.set(booking).then(() => location.reload());
-            
+
+            newRef.set(booking).then();//location.reload());
+
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
           }
