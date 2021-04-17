@@ -155,7 +155,9 @@ export default {
           id: this.reviewId,
           stars: this.rating,
         });
-
+        console.log('Updating Rating Breakdown in SubmitReview()')
+        //Updates Rating Breakdown after updating Reviews Array
+        // Updates Overall Rating after updating Reviews Array
         this.updateRatingBreakdown();
         this.updateOverallRating();
         alert("Review submitted!");
@@ -167,7 +169,7 @@ export default {
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
-            //location.reload();
+            this.updateRatingBreakdown();
             this.updateOverallRating();
             this.reviewTextArea = "";
             this.rating = 0;
@@ -193,11 +195,18 @@ export default {
       }
     },
     fetchShopDetails() {
+      console.log('fetchShopDetails')
       this.shopName = this.shop["name"];
       this.documentId = this.shop["document_id"];
       this.shopType = "shop"; // set as shop since shop type used for clothing / handcraft / toys
       this.clicks = this.shop["clicks"];
-      this.overallRating = this.shop["overallRating"];
+      //this.overallRating = this.shop["overallRating"];
+      
+      console.log(this)
+      console.log(this.shopName)
+      console.log(this.documentId)
+      console.log(this.overallRating)
+
       database
         .collection(this.shopType)
         .doc(this.documentId)
@@ -215,6 +224,7 @@ export default {
         });
     },
     updateRatingBreakdown() {
+      this.ratingBreakdown = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       for (let i = 0; i < this.reviews.length; i++) {
         if (this.reviews[i].stars == 1) {
           this.ratingBreakdown[1] += 1;
@@ -273,7 +283,7 @@ export default {
       }
     },
   },
-  created() {
+  mounted() {
     this.fetchShopDetails();
     //console.log("shop login: " + this.loggedIn)
   },
@@ -382,6 +392,7 @@ button {
   color: white;
   font-size: 18px;
   margin-bottom: 50px;
+  cursor: pointer; 
 }
 .submitReview p {
   font-size: 18px;

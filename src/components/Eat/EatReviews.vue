@@ -11,7 +11,7 @@
     stars : {{ overallRating }} <br />
     clicks : {{ clicks }} <br />
     reviewId : {{ reviewId }} <br />
-    ratingBreakdown : {{ratingBreakdown}} <br/>
+    ratingBreakdown : {{ ratingBreakdown }} <br />
     <!-- RESTAURANT RATING -->
     <div id="scores">
       <p id="overall">{{ overallRating }}/5.0</p>
@@ -175,10 +175,10 @@ export default {
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
-            //location.reload();
-            this.fetchUserDetails();
             this.updateRatingBreakdown();
+            this.updateOverallRating();
             this.reviewTextArea = "";
+            this.rating = 0;
             window.scrollTo(0, 0);
           });
       }
@@ -244,6 +244,7 @@ export default {
     },
     // Updates the stars Object to properly display the breakdown of the reviews
     updateRatingBreakdown() {
+      this.ratingBreakdown = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       for (let i = 0; i < this.reviews.length; i++) {
         if (this.reviews[i].stars == 1) {
           this.ratingBreakdown[1] += 1;
@@ -420,6 +421,7 @@ button {
   color: white;
   font-size: 18px;
   margin-bottom: 50px;
+  cursor: pointer;
 }
 .submitReview p {
   font-size: 18px;
