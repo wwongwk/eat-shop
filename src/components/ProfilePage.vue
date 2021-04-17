@@ -225,21 +225,48 @@ input {
   text-align: center;
 }
 
+
 #submit {
-  background-color: #ED83A7;
-  width: auto;
-  color:white;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  height: auto;
-  margin: 0px;
-  border-style: none;
+  
+  font-family: Futura;
+  height: 40px;
+  text-align: center;
+  background: #ED83A7;
   cursor: pointer;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-  border-radius: 5px;
+  font-size: 16px;
+  border: 0;
+  transition: all 0.5s;
+  border-radius: 10px;
+  width: auto;
+  position: relative;
 }
+  #submit::after {
+    content: '\00bb';
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 400;
+    position: absolute;
+    left: 85%;
+    top: 31%;
+    right: 5%;
+    bottom: 0;
+    opacity: 0;
+  }
+  
+  #submit:hover {
+    background: #D25A7e;
+    transition: all 0.5s;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px #ED83A7;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  #submit:hover::after {
+    opacity: 1;
+    transition: all 0.5s;
+  }
+
 label {
   color: #ED83A7
 }

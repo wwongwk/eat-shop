@@ -157,7 +157,6 @@ export default {
   overflow: hidden;
   margin: 30px;
   margin-bottom: 15px;
-  border-bottom: 1px solid #000;
 }
 .flexCol {
   box-sizing: border-box;
@@ -181,7 +180,7 @@ export default {
 }
 #title {
   top: 50%;
-  font-size: 50px;
+  font-size: 30px;
 /*   //font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;*/  
   font-weight: bold;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
