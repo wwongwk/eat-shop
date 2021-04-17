@@ -57,7 +57,7 @@
           <li v-for="restaurant in restaurants" :key="restaurant.id">
             <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
-              <div class="container" >
+              <div class="container">
                 <button id="names">
                   {{ restaurant.name }}
                   <br />
@@ -93,10 +93,7 @@
             <div class="polaroid" v-on:click="sendData(restaurant.id)">
               <img v-bind:src="restaurant.imageURL" /><br />
               <div class="container">
-                <button
-                  
-                  id="recommendedNames"
-                >
+                <button id="recommendedNames">
                   {{ restaurant.name }}
                   <br />
                   {{ restaurant.overallRating }}
@@ -146,7 +143,7 @@ export default {
       selectedCuisine: "",
       selectedCriteria: "",
       chosenCriteria: "",
-      cuisineCriteria:"",
+      cuisineCriteria: "",
       allShown: true,
       selectedShown: false,
       errorShown: false,
@@ -280,7 +277,6 @@ export default {
       if (value.criteria === "Best Reviewed") {
         //sort the restaurants by their overall rating values in descending order
         this.restaurants.sort(function (restaurant1, restaurant2) {
-          
           return (
             parseFloat(restaurant2.overallRating) -
             parseFloat(restaurant1.overallRating)
@@ -290,7 +286,7 @@ export default {
         //sorting by most popular -- number of clicks
         this.restaurants.sort(function (restaurant1, restaurant2) {
           return (
-            parseFloat(restaurant2.clicks) - parseFloat(restaurant1.clicks)         
+            parseFloat(restaurant2.clicks) - parseFloat(restaurant1.clicks)
           );
         });
       }
@@ -372,7 +368,7 @@ input {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 #resetBtn {
-  background-color:#ED83A7;
+  background-color: #ed83a7;
   font-size: 14px;
   font-family: Futura, light;
   border: none;
@@ -384,8 +380,8 @@ input {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   outline: none;
-  border:0;
-  box-shadow:4px 4px 10px rgba(0,0,0,0.1); 
+  border: 0;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 #resetBtn:hover {
@@ -429,7 +425,7 @@ li {
   font-size: 25px;
   text-align: center;
   font-weight: 10;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 }
 
 div.polaroid {
@@ -453,7 +449,6 @@ div.container {
   height: 300px;
 }
 
-
 img {
   height: 200px;
   width: 100%;
@@ -474,7 +469,7 @@ img {
   cursor: pointer;
   text-decoration: none;
   margin-left: 5px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 }
 
 #searchBar {
@@ -499,23 +494,24 @@ p {
   letter-spacing: 0.1em;
   overflow: hidden;
 }
-p > span{
-    position: relative;
-    display: inline-block;
+p > span {
+  position: relative;
+  display: inline-block;
 }
-p > span:before, p > span:after{
-    content: '';
-    position: absolute;
-    top: 50%;
-    border-bottom: 2px solid;
-    width: 100vw;
-    margin: 0 20px;
+p > span:before,
+p > span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border-bottom: 2px solid;
+  width: 100vw;
+  margin: 0 20px;
 }
-p > span:before{
-    right: 100%;
+p > span:before {
+  right: 100%;
 }
-p > span:after{
-    left: 100%;
+p > span:after {
+  left: 100%;
 }
 #msg {
   text-align: left;
