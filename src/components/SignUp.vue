@@ -262,6 +262,7 @@ export default {
               .doc(data.user.uid)
               .set({
                 user_id: data.user.uid,
+                email : data.user.email,
                 name: this.name,
                 mobile: this.mobile,
                 business: false,
