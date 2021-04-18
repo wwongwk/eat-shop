@@ -1,5 +1,7 @@
 <template>
   <div id="box">
+
+
     <div id="reservationNotice" v-show="displayResNotice">
       <p>
         We are currently not accepting any reservations. We apologise for the
@@ -79,6 +81,8 @@ export default {
       adultsCount: 0,
       childrenCount: 0,
       selected: "",
+      customerId : "",
+      customerName : "",
     };
   },
   methods: {
@@ -253,12 +257,6 @@ export default {
         alert("Please log in to make a reservation!");
       } else {
         this.checkTime();
-        var chosenDate = new Date(
-          document.getElementById("bookingDate").value +
-            "T" +
-            this.selected.time +
-            ":00"
-        );
         this.checkReservation(document.getElementById("bookingDate").value);
         if (this.canBook) {
           //if the user didn't select a date or time or number of people
@@ -275,6 +273,17 @@ export default {
 
             //converts javascript date object to timestamp object to be saved to database
             //alert pop-up to inform user of successful reservation
+            var chosenDate = new Date(
+              document.getElementById("bookingDate").value +
+                "T" +
+                this.selected.time +
+                ":00"
+            );
+            /* const created = firebase.firestore.Timestamp.fromDate(
+          new Date(chosenDate)
+        ).toDate(); */
+            console.log('Customer ID:' + this.uid)
+            console.log('Customer Name' + this.name)
             let booking = new Object();
             booking["booking_date"] = document.getElementById("bookingDate").value;
             booking["date"] = chosenDate;
@@ -320,6 +329,7 @@ export default {
         }
       }
     },
+
     setCalendarLimits: function () {
       //set minimum day of calendar to current date because user cannot choose a previous date
       //and maximum day of calendar to end of the year

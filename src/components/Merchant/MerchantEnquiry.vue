@@ -1,16 +1,25 @@
 <template>
   <div id="all">
     <ul>
-      <li id="header"><p><span>ENQUIRIES</span></p></li>
-      <li v-for="enquiry in allEnquiries" :key="enquiry.id">
+      <li id="header">
+        <p><span>ENQUIRIES</span></p>
+      </li>
+
+      <li v-for="enquiry in pageOfItems" :key="enquiry.id">
         {{ enquiry.name }} &emsp;&emsp;&emsp;&emsp;
-        <a :href="`mailto:${enquiry.email}`">{{enquiry.email}}</a>
+        <a :href="`mailto:${enquiry.email}`">{{ enquiry.email }}</a>
         <br />
-          {{ enquiry.message }}
+        {{ enquiry.message }}
         <button v-on:click="deleteEnquiry(enquiry)" id="deleteBtn">
           DELETE
         </button>
       </li>
+      <jw-pagination
+        :items="allEnquiries"
+        :pageSize="5"
+        @changePage="onChangePage"
+        id="page"
+      ></jw-pagination>
     </ul>
   </div>
 </template>
@@ -23,12 +32,17 @@ export default {
   data() {
     return {
       allEnquiries: [],
+      pageOfItems: [],
       uid: "",
       shopId: "",
       merchantType: "",
     };
   },
   methods: {
+    onChangePage(pageOfItems) {
+      // update page of items
+      this.pageOfItems = pageOfItems;
+    },
     // Fetches Merchant/Business information
     fetchMerchant() {
       this.uid = firebase.auth().currentUser.uid;
@@ -120,23 +134,24 @@ p {
   letter-spacing: 0.1em;
   overflow: hidden;
 }
-p > span{
-    position: relative;
-    display: inline-block;
+p > span {
+  position: relative;
+  display: inline-block;
 }
-p > span:before, p > span:after{
-    content: '';
-    position: absolute;
-    top: 50%;
-    border-bottom: 2px solid;
-    width: 100vw;
-    margin: 0 20px;
+p > span:before,
+p > span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border-bottom: 2px solid;
+  width: 100vw;
+  margin: 0 20px;
 }
-p > span:before{
-    right: 100%;
+p > span:before {
+  right: 100%;
 }
-p > span:after{
-    left: 100%;
+p > span:after {
+  left: 100%;
 }
 li {
   color: #403939;
@@ -145,7 +160,7 @@ li {
   width: 100%;
   text-align: left;
   line-height: 2;
-  margin:0;
+  margin: 0;
 }
 
 ul {
@@ -171,7 +186,7 @@ button {
   font-family: Futura;
   height: 40px;
   text-align: center;
-  background: #ED83A7;
+  background: #ed83a7;
   cursor: pointer;
   font-size: 16px;
   border: 0;
@@ -180,30 +195,29 @@ button {
   width: auto;
   position: relative;
 }
-  button::after {
-    font-family: "Font Awesome 5 Pro";
-    font-weight: 400;
-    position: absolute;
-    left: 85%;
-    top: 31%;
-    right: 5%;
-    bottom: 0;
-    opacity: 0;
-  }
-  
-  button:hover {
-    background: #D25A7e;
-    transition: all 0.5s;
-    border-radius: 10px;
-    box-shadow: 0px 6px 15px #ED83A7;
-    padding-right: 10px;
-    padding-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-  button:hover::after {
-    opacity: 1;
-    transition: all 0.5s;
-  }
+button::after {
+  font-family: "Font Awesome 5 Pro";
+  font-weight: 400;
+  position: absolute;
+  left: 85%;
+  top: 31%;
+  right: 5%;
+  bottom: 0;
+  opacity: 0;
+}
 
+button:hover {
+  background: #d25a7e;
+  transition: all 0.5s;
+  border-radius: 10px;
+  box-shadow: 0px 6px 15px #ed83a7;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+button:hover::after {
+  opacity: 1;
+  transition: all 0.5s;
+}
 </style>
