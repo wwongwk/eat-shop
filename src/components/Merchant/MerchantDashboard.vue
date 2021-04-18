@@ -1,42 +1,42 @@
 <template>
   <div>
-     <div id="table">
-     <h2>TOP CUSTOMERS</h2>
+    <div id="table">
+      <h2>TOP CUSTOMERS</h2>
       <table class="table">
-      <tr id="tablehead">
-        <th>Rank</th>
-        <th>Customer Username</th>
-        <th>No. Of Reservations Made</th>
-      </tr>
-      <tr v-for="customer in customers.slice(0,1)" :key="customer.id">
-        <td>
-          <img id="trophyImg" :src="require(`@/assets/trophy.png`)" />
-        </td>
-        <td>
-          {{ customer[0] }}
-        </td>
-        <td>
-          {{ customer[1] }}
-        </td>
-      </tr>
-      <tr v-for="customer in customers.slice(1,10)" :key="customer.id">
-        <td>
-        {{customers.indexOf(customer)+1}}
-        </td>
-        <td>
-          {{ customer[0] }}
-        </td>
-        <td>
-          {{ customer[1] }}
-        </td>
-      </tr>
-    </table>
+        <tr id="tablehead">
+          <th>Rank</th>
+          <th>Customer Username</th>
+          <th>No. Of Reservations Made</th>
+        </tr>
+        <tr v-for="customer in customers.slice(0, 1)" :key="customer.id">
+          <td>
+            <img id="trophyImg" :src="require(`@/assets/trophy.png`)" />
+          </td>
+          <td>
+            {{ customer[0] }}
+          </td>
+          <td>
+            {{ customer[1] }}
+          </td>
+        </tr>
+        <tr v-for="customer in customers.slice(1, 10)" :key="customer.id">
+          <td>
+            {{ customers.indexOf(customer) + 1 }}
+          </td>
+          <td>
+            {{ customer[0] }}
+          </td>
+          <td>
+            {{ customer[1] }}
+          </td>
+        </tr>
+      </table>
     </div>
 
     <div class="flex">
       <div class="clicks">
         TOTAL VISITORS:
-        <br>
+        <br />
         <animated-number
           :value="totalClicks"
           :formatValue="formatClicks"
@@ -46,7 +46,7 @@
       </div>
       <div class="rating">
         RATING:
-        <br>
+        <br />
         <animated-number
           :value="rating"
           :formatValue="formatRating"
@@ -83,46 +83,45 @@
             </template>
           </v-select>
         </div>
-      
 
-      <div id="clicksChart" class="chart">
-        <Plotly
-          :data="clicksData"
-          :layout="barLayout"
-          :display-mode-bar="false"
-        ></Plotly>
-      </div>
-    </div>
-
-    <div id="resChartContainer">
-      <div v-show = "merchantType != 'shop'">
-        <div id="yearDropdownReservations">
-          <p>Year</p>
-          <v-select
-            label="yearReservations"
-            :options="sortByOptions"
-            :value="selectedYearReservations"
-            :clearable="false"
-            :searchable="false"
-            v-model="yearChosen"
-            @input="sortReservations"
-            id="dropReservations"
-          >
-            <template slot="option" slot-scope="option">
-              {{ option.year }}
-            </template>
-          </v-select>
-        </div>
-
-        <div id="reservationsChart" class="chart">
+        <div id="clicksChart" class="chart">
           <Plotly
-            :data="reservationsData"
-            :layout="layout"
+            :data="clicksData"
+            :layout="barLayout"
             :display-mode-bar="false"
           ></Plotly>
         </div>
       </div>
-    </div>
+
+      <div id="resChartContainer">
+        <div v-show="merchantType != 'shop'">
+          <div id="yearDropdownReservations">
+            <p>Year</p>
+            <v-select
+              label="yearReservations"
+              :options="sortByOptions"
+              :value="selectedYearReservations"
+              :clearable="false"
+              :searchable="false"
+              v-model="yearChosen"
+              @input="sortReservations"
+              id="dropReservations"
+            >
+              <template slot="option" slot-scope="option">
+                {{ option.year }}
+              </template>
+            </v-select>
+          </div>
+
+          <div id="reservationsChart" class="chart">
+            <Plotly
+              :data="reservationsData"
+              :layout="layout"
+              :display-mode-bar="false"
+            ></Plotly>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -194,11 +193,11 @@ export default {
         { code: "2024", year: 2024 },
         { code: "2025", year: 2025 },
       ],
-      rank:"",
+      rank: "",
       selectedYearClicks: "",
       selectedYearReservations: "",
-      yearChosen:"",
-      yearSelected:"",
+      yearChosen: "",
+      yearSelected: "",
       name: "",
       email: "",
       mobile: "",
@@ -210,8 +209,8 @@ export default {
       rating: 0,
       merchantType: "",
       numAdult: [],
-      customers:[],
-      documentId:"",
+      customers: [],
+      documentId: "",
       reviews: [],
       datesMonthYear: [],
       datesFormatted: [],
@@ -237,7 +236,6 @@ export default {
     };
   },
   methods: {
-    
     //fetch monthly clicks data for a particular year chosen by user
     sortClicks: function (value) {
       this.uid = firebase.auth().currentUser.uid;
@@ -268,7 +266,7 @@ export default {
         });
     },
 
-    //fetch merchant id from db 
+    //fetch merchant id from db
     getMerchantId() {
       this.uid = firebase.auth().currentUser.uid;
       database
@@ -279,8 +277,7 @@ export default {
             if (doc.data().user_id == this.uid) {
               this.documentId = doc.data().document_id;
             }
-          }
-          )
+          });
         });
     },
 
@@ -300,6 +297,12 @@ export default {
                 .totalClicks[key].reduce((a, b) => a + b, 0);
             }
             this.totalClicks = totalClicks;
+            database
+              .collection(this.merchantType)
+              .doc(this.documentId)
+              .update({
+                clicks: this.totalClicks,
+              })
           });
         });
     },
@@ -367,7 +370,10 @@ export default {
                   var customer = customerLeaderboard[i];
                   if (doc.data().customer_name === customer[0]) {
                     //update number of reservations
-                    var newCustomer = [doc.data().customer_name, customer[1]+1];
+                    var newCustomer = [
+                      doc.data().customer_name,
+                      customer[1] + 1,
+                    ];
                     customerLeaderboard[i] = newCustomer;
                     checked = true;
                     break;
@@ -383,13 +389,12 @@ export default {
             }
           });
           this.sortCustomers();
-        });   
+        });
     },
     sortCustomers() {
       this.customers.sort(function (customer1, customer2) {
         return parseFloat(customer2[1]) - parseFloat(customer1[1]);
       });
-      
     },
     formatClicks(value) {
       return `${value.toFixed(0)}`;
@@ -432,7 +437,7 @@ tr {
   background: #fff;
   text-align: center;
   height: 50px;
-  background: rgba(255,192,203,0.5);
+  background: rgba(255, 192, 203, 0.5);
 }
 table {
   width: 850px;
@@ -444,7 +449,7 @@ table {
   margin-left: 250px;
 }
 #tablehead {
-  background: rgba(255,192,203, 1);
+  background: rgba(255, 192, 203, 1);
 }
 .flex {
   display: flex;
@@ -463,7 +468,8 @@ table {
   border-radius: 15px;
   margin-right: 20px;
 }
-#clickNumber, #ratingNumber {
+#clickNumber,
+#ratingNumber {
   font-size: 35px;
 }
 #clickNumber {
@@ -485,7 +491,8 @@ table {
   margin-left: 50px;
   clear: both;
 }
-#clicksChartContainer, #resChartContainer {
+#clicksChartContainer,
+#resChartContainer {
   display: flex;
   flex-direction: column;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
@@ -501,7 +508,6 @@ table {
   font-size: 18px;
 }
 #reservationsChart {
-  
 }
 
 #yearDropdownClicks {
@@ -527,7 +533,8 @@ table {
   justify-content: center;
 }
 
-#dropClicks, #dropReservations {
+#dropClicks,
+#dropReservations {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   border: none;
   outline: none;
