@@ -199,17 +199,21 @@ export default {
 </script>
 
 <style scoped>
+#header {
+  
+}
 .flexWrap {
   display: flex;
   overflow: hidden;
-  margin: 30px;
+  margin: 20px;
   margin-bottom: 15px;
 }
 .flexCol {
   box-sizing: border-box;
-  padding: 10px;
+  padding: 5px;
   width: 33.3%;
   align-self: center;
+  display: flex;
 }
 
 /* (B) BREAK DOWN 1 COLUMN ON SMALL SCREENS */
@@ -231,6 +235,7 @@ export default {
   /*   //font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;*/
   font-weight: bold;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
+  text-align: center;
 }
 
 #nav {

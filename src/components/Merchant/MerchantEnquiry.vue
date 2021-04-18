@@ -175,7 +175,6 @@ ul {
 }
 
 button {
-  //float: right;
   margin-bottom: 50px;
   font-family: Futura;
   height: 40px;
