@@ -161,9 +161,6 @@ export default {
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
-            this.get();
-            this.fetchDetails();
-            this.updateDate();
             this.updateRatingBreakdown();
             this.updateOverallRating();
             this.reviewTextArea = "";
@@ -285,9 +282,6 @@ export default {
         return (sum / length).toFixed(1);
       }
     },
-  },
-  created() {
-    this.get();
   },
   mounted() {
     this.fetchShopDetails();
