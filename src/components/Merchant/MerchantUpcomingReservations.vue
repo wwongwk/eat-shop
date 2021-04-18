@@ -13,7 +13,7 @@
         <th></th>
       </tr>
       <tr v-for="event in upcoming" v-bind:key="event.index">
-        <td>name here</td>
+        <td>{{event.customer_name}}</td>
         <td>
           {{ event.date.toDate().toLocaleDateString("en-GB") }},
           {{ event.date.toDate().getHours() }}:{{
