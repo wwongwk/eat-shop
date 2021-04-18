@@ -1,15 +1,22 @@
 <template>
   <div id="all">
+  
+    <div id="header">
+    <p>
+      <img id="enquiryImg" :src="require(`@/assets/enquiry.png`)" />
+      <span>ENQUIRIES</span>
+    </p>
+    </div>
+  
     <ul>
-      <li id="header">
-        <p><span>ENQUIRIES</span></p>
-      </li>
 
       <li v-for="enquiry in pageOfItems" :key="enquiry.id">
-        {{ enquiry.name }} &emsp;&emsp;&emsp;&emsp;
+        <p id="name">{{ enquiry.name }}</p>
+        <br>
         <a :href="`mailto:${enquiry.email}`">{{ enquiry.email }}</a>
         <br />
         {{ enquiry.message }}
+        <br>
         <button v-on:click="deleteEnquiry(enquiry)" id="deleteBtn">
           DELETE
         </button>
@@ -122,56 +129,43 @@ export default {
 #all {
   margin-left: 50px;
   width: 92%;
-  background-color: #f9d1b7;
-  background-image: linear-gradient(315deg, #f9d1b7 0%, #f894a4 74%);
 }
-
+#name {
+  font-size: 25px;
+}
+#enquiryImg {
+  height: 50px;
+  width: 50px;
+  margin-right: 20px;
+}
 p {
   text-align: center;
-  //padding-left: 20px;
-  //color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;
   overflow: hidden;
 }
-p > span {
-  position: relative;
-  display: inline-block;
-}
-p > span:before,
-p > span:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  border-bottom: 2px solid;
-  width: 100vw;
-  margin: 0 20px;
-}
-p > span:before {
-  right: 100%;
-}
-p > span:after {
-  left: 100%;
-}
 li {
+  flex-grow: 1;
+  flex-basis: 200px;
   color: #403939;
   font-size: 18px;
-  padding: 35px 20px;
-  width: 100%;
-  text-align: left;
+  padding: 10px;
+  width: 200px;
   line-height: 2;
-  margin: 0;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  margin: 20px;
+  margin-bottom: 40px;
 }
 
 ul {
+  display: flex;
+  flex-wrap: wrap;
   list-style-type: none;
   width: 1000px;
   margin-bottom: 100px;
-  vertical-align: center;
   margin-left: 50px;
-  //margin-top: 50px;
-  //border-radius: 10px;
-  //background-color: #FFF;
   align-self: center;
   vertical-align: center;
 }
@@ -181,7 +175,6 @@ ul {
 }
 
 button {
-  float: right;
   margin-bottom: 50px;
   font-family: Futura;
   height: 40px;

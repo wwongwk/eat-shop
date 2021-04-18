@@ -1,17 +1,5 @@
 <template>
   <div>
-    uid : {{ uid }} <br />
-    email: {{ email }} <br />
-    username: {{ name }} <br />
-    Reviews: {{ reviews }} <br />
-    Rating : {{ rating }} <br />
-    Shop Name: {{ shopName }} <br />
-    DateNow : {{ Date.now() }}<br />
-    Document Id: {{ documentId }} <br />
-    overallRating : {{ overallRating }} <br />
-    clicks : {{ clicks }} <br />
-    reviewId : {{ reviewId }} <br />
-    ratingBreakdown: {{ratingBreakdown}} <br/>
     <div id="scores">
       <p id="overall">{{ overallRating }}/5.0</p>
       <div id="stars">
@@ -139,7 +127,6 @@ export default {
       this.pageOfItems = pageOfItems;
     },
     submitReview() {
-      //this.newReviews = this.reviews.slice();
       if (this.loggedIn === false) {
         alert("Please log in to submit a review");
       } else if (this.rating === 0) {
@@ -169,6 +156,9 @@ export default {
             overallRating: parseFloat(this.overallRating),
           })
           .then(() => {
+            this.get();
+            this.fetchDetails();
+            this.updateDate();
             this.updateRatingBreakdown();
             this.updateOverallRating();
             this.reviewTextArea = "";
@@ -188,7 +178,6 @@ export default {
           .then((doc) => {
             this.name = doc.data().name;
             this.loggedIn = true;
-            //console.log("fetch details login:" + this.loggedIn)
           });
       } catch (err) {
         this.loggedIn = false;
@@ -223,6 +212,15 @@ export default {
           this.updateOverallRating();
         });
     },
+    updateDate() {
+      for (let i = 0; i < this.reviews.length; i++) {
+        let seconds = this.reviews[i].date.seconds;
+        let nanoseconds = this.reviews[i].date.nanoseconds;
+        let date = new Date(seconds * 1000 + nanoseconds / 1000000);
+        this.reviews[i].date = date;
+      }
+    },
+
     updateRatingBreakdown() {
       this.ratingBreakdown = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       for (let i = 0; i < this.reviews.length; i++) {
@@ -282,6 +280,9 @@ export default {
         return (sum / length).toFixed(1);
       }
     },
+  },
+  created() {
+    this.get();
   },
   mounted() {
     this.fetchShopDetails();
@@ -392,7 +393,7 @@ button {
   color: white;
   font-size: 18px;
   margin-bottom: 50px;
-  cursor: pointer; 
+  cursor: pointer;
 }
 .submitReview p {
   font-size: 18px;

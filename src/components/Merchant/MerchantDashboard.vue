@@ -1,13 +1,36 @@
 <template>
   <div>
      <div id="table">
-      <h2>Top Customers</h2>
-      Customer username : no. of reservations made <br>
-      <ul>
-        <li v-for="customer in customers.slice(0,10)" :key="customer.id">          
-          {{ customer[0] }} : {{ customer[1] }}
-        </li>
-      </ul>
+     <h2>TOP CUSTOMERS</h2>
+      <table class="table">
+      <tr id="tablehead">
+        <th>Rank</th>
+        <th>Customer Username</th>
+        <th>No. Of Reservations Made</th>
+      </tr>
+      <tr v-for="customer in customers.slice(0,1)" :key="customer.id">
+        <td>
+          <img id="trophyImg" :src="require(`@/assets/trophy.png`)" />
+        </td>
+        <td>
+          {{ customer[0] }}
+        </td>
+        <td>
+          {{ customer[1] }}
+        </td>
+      </tr>
+      <tr v-for="customer in customers.slice(1,10)" :key="customer.id">
+        <td>
+        {{customers.indexOf(customer)+1}}
+        </td>
+        <td>
+          {{ customer[0] }}
+        </td>
+        <td>
+          {{ customer[1] }}
+        </td>
+      </tr>
+    </table>
     </div>
 
     <div class="container">
@@ -39,10 +62,10 @@
       </div>
 
       <div id="yearDropdownClicks">
-        <p>Choose</p>
+        <p>Year</p>
         <v-select
           label="yearClicks"
-          :options="sortByOptionsClicks"
+          :options="sortByOptions"
           :value="selectedYearClicks"
           :clearable="false"
           :searchable="false"
@@ -67,10 +90,10 @@
 
     <div v-show = "merchantType != 'shop'">
       <div id="yearDropdownReservations">
-        <p>Choose</p>
+        <p>Year</p>
         <v-select
           label="yearReservations"
-          :options="sortByOptionsReservations"
+          :options="sortByOptions"
           :value="selectedYearReservations"
           :clearable="false"
           :searchable="false"
@@ -112,7 +135,7 @@ export default {
           y: [],
           type: "scatter",
           marker: {
-            color: "#ED83A7",
+            color: "#f9d1b7",
           },
         },
       ],
@@ -123,7 +146,7 @@ export default {
           type: "bar",
           width: 0.5,
           marker: {
-            color: "#ED83A7",
+            color: "#f9d1b7",
           },
         },
       ],
@@ -155,21 +178,15 @@ export default {
           title: "Number of visitors",
         },
       },
-      sortByOptionsClicks: [
+      sortByOptions: [
         { code: "2021", year: 2021 },
         { code: "2022", year: 2022 },
         { code: "2023", year: 2023 },
         { code: "2024", year: 2024 },
         { code: "2025", year: 2025 },
       ],
+      rank:"",
       selectedYearClicks: "",
-      sortByOptionsReservations: [
-        { code: "2021", year: 2021 },
-        { code: "2022", year: 2022 },
-        { code: "2023", year: 2023 },
-        { code: "2024", year: 2024 },
-        { code: "2025", year: 2025 },
-      ],
       selectedYearReservations: "",
       yearChosen:"",
       year:"",
@@ -211,6 +228,7 @@ export default {
     };
   },
   methods: {
+    
     //fetch monthly clicks data for a particular year chosen by user
     sortClicks: function (value) {
       this.uid = firebase.auth().currentUser.uid;
@@ -381,6 +399,45 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
+h2 {
+  text-align: center;
+  margin-left: 400px;
+}
+#trophyImg {
+  height: 50px;
+  width: 50px;
+  margin: 20px;
+}
+th {
+  padding-bottom: 20px;
+  padding-top: 20px;
+  color: #ed83a7;
+}
+td {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+tr {
+  //box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  border-radius: 10px;
+  background: #fff;
+  text-align: center;
+  height: 100px;
+  background: rgba(255,192,203,0.5);
+}
+table {
+  width: 850px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  color: #403939;
+  padding-left: 0px;
+  margin-bottom: 80px;
+  margin-left: 250px;
+}
+#tablehead {
+  background: rgba(255,192,203, 1);
+}
 .container {
   display: flex;
   justify-content: space-between;
@@ -451,5 +508,27 @@ export default {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   border: none;
   outline: none;
+}
+
+#table {
+  width: 70%;
+}
+ul {
+  list-style-type: none;
+  margin-bottom: 100px;
+  margin-left: 50px;
+  align-self: center;
+  vertical-align: center;
+}
+li {
+  font-size: 18px;
+  padding: 35px 20px;
+  width: 100%;
+  text-align: left;
+  line-height: 1;
+  margin:0;
+}
+#numOfReservations {
+  float: right;
 }
 </style>

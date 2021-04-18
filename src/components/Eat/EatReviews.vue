@@ -1,17 +1,5 @@
 <template>
   <div>
-    uid : {{ uid }} <br />
-    email: {{ email }} <br />
-    username: {{ name }} <br />
-    Reviews: {{ reviews }} <br />
-    Rating : {{ rating }} <br />
-    Shop Name: {{ shopName }} <br />
-    DateNow : {{ Date.now() }}<br />
-    Document Id: {{ documentId }} <br />
-    stars : {{ overallRating }} <br />
-    clicks : {{ clicks }} <br />
-    reviewId : {{ reviewId }} <br />
-    ratingBreakdown : {{ ratingBreakdown }} <br />
     <!-- RESTAURANT RATING -->
     <div id="scores">
       <p id="overall">{{ overallRating }}/5.0</p>
@@ -148,7 +136,6 @@ export default {
     },
     // Submits a review and updates Firestore
     submitReview() {
-      //this.newReviews = this.reviews.slice();
       if (this.loggedIn === false) {
         alert("Please log in to submit a review");
       } else if (this.rating === 0) {
