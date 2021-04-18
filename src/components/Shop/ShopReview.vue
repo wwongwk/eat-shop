@@ -58,11 +58,15 @@
             :items="reviews"
             :pageSize="4"
             @changePage="onChangePage"
+            id="page"
           ></jw-pagination>
         </div>
         <div class="submitReview">
           <p>Submit your review below:</p>
-          <star-rating :show-rating="false" @rating-selected="setRating">
+          <star-rating 
+          :show-rating="false"
+          @rating-selected="setRating"
+          id="submitStar">
           </star-rating>
           <textarea
             :style="[
@@ -358,14 +362,25 @@ ul {
 #date {
   float: right;
 }
-div.reviews {
-  line-height: 2;
+#page {
+  vertical-align: center;
+  margin-left: 400px;
 }
-
 .submitReview {
-  margin-left: 50px;
+  margin-left: 330px;
+  padding: 30px;
+  /*margin:40px auto;*/
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  width: 500px;
+  text-align: center;
+  vertical-align: center;
+  margin-bottom: 100px;
 }
-
+#submitStar {
+  margin-left: 120px;
+}
 textarea {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -380,8 +395,8 @@ textarea {
   border: 0;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 10px;
-  background-color: #fff;
   resize: none;
+  background-color: #fff;
 }
 
 button {

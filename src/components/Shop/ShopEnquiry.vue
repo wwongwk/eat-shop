@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="submitEnquiry">
     <h4>Send Us A Message</h4>
     <form>
       <input
@@ -110,27 +110,20 @@ div {
   margin-left: 20px;
 }
 
-h2 {
-  margin: 50px;
-}
-.container {
-  align-items: center;
-  width: 450px;
-  padding: 30px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+.submitEnquiry {
+  margin-left: 370px;
+  padding:30px;
+	background: #FFF;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  width: 400px;
+  text-align: center;
+  vertical-align: center;
+  margin-bottom: 100px;
 }
 
 input {
   box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   outline: none;
   display: block;
   width: 100%;
@@ -145,8 +138,6 @@ input {
 }
 textarea {
   box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   outline: none;
   display: block;
   width: 100%;

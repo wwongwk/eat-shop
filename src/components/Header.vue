@@ -106,8 +106,9 @@ export default {
     width: 100%;
   }
 }
+
 #logo {
-  width: 150px;
+  width: 120px;
   float: left;
 }
 #signupImg {

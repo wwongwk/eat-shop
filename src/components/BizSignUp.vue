@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-header></app-header>
-    <img src="../assets/TopPic.png" />
+    <img src="../assets/TopPic1.png" />
     <div class="signup">
       <img id="logo" src="../assets/logo.png" />
       <h1>LET'S COLLAB!!</h1>

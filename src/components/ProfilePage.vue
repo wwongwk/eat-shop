@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-header></app-header>
-    <img src="../assets/TopPic.png" />
+    <img src="../assets/TopPic1.png" />
     <div class="profile">
       <img id="logo" src="../assets/logo.png" />
       <h1>MY PROFILE PAGE</h1>
@@ -180,21 +180,16 @@ export default {
         var uid = user.uid;
         db.collection("users")
           .doc(uid)
-          .onSnapshot(
-            {
-              // Listen for document metadata changes
-              includeMetadataChanges: true,
-            },
-            (doc) => {
-              if (doc.exists) {
-                this.name = doc.data().name;
-                this.mobile = doc.data().mobile;
-                this.favorites = doc.data().favorites;
-              } else {
-                console.log("No such document!");
-              }
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              this.name = doc.data().name;
+              this.mobile = doc.data().mobile;
+              this.favorites = doc.data().favorites;
+            } else {
+              console.log("No such document!");
             }
-          )
+          })
           .catch((error) => {
             console.log("Error getting document:", error);
           });
@@ -244,7 +239,7 @@ button:hover span:after {
 #nav {
   float: left;
   width: 200px;
-  margin-left: 100px;
+  margin-left: 50px;
 }
 
 .content {
@@ -339,7 +334,7 @@ h1 {
   margin-bottom: 70px;
 }
 form {
-  padding-left: 100px;
+  padding-left: 130px;
   width: 100%;
   vertical-align: center;
 }

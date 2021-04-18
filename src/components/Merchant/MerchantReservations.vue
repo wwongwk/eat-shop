@@ -168,7 +168,6 @@ button:hover span:after {
   margin-left: 100px;
 }
 .reservations {
-  float: center;
   margin-left: 300px;
 }
 .content {
