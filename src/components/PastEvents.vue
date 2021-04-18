@@ -5,7 +5,7 @@
         <th></th>
         <th>Item</th>
         <th>Date (DD/MM/YYYY)</th>
-        <th>Quantity</th>
+        <th id="quantity">Quantity</th>
       </tr>
       <tr v-for="event in past" v-bind:key="event.index">
         <td>
@@ -70,6 +70,9 @@ table {
   color: #403939;
   padding-left: 0px;
   table-layout: fixed;
+}
+#quantity {
+  width: 200px;
 }
 hr {
   color: #403939;

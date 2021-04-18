@@ -239,7 +239,7 @@ button:hover span:after {
 #nav {
   float: left;
   width: 200px;
-  margin-left: 100px;
+  margin-left: 50px;
 }
 
 .content {
@@ -334,7 +334,7 @@ h1 {
   margin-bottom: 70px;
 }
 form {
-  padding-left: 100px;
+  padding-left: 130px;
   width: 100%;
   vertical-align: center;
 }
