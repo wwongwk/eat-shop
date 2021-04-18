@@ -198,7 +198,7 @@ export default {
       selectedYearClicks: "",
       selectedYearReservations: "",
       yearChosen:"",
-      year:"",
+      yearSelected:"",
       name: "",
       email: "",
       mobile: "",

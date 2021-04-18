@@ -180,21 +180,16 @@ export default {
         var uid = user.uid;
         db.collection("users")
           .doc(uid)
-          .onSnapshot(
-            {
-              // Listen for document metadata changes
-              includeMetadataChanges: true,
-            },
-            (doc) => {
-              if (doc.exists) {
-                this.name = doc.data().name;
-                this.mobile = doc.data().mobile;
-                this.favorites = doc.data().favorites;
-              } else {
-                console.log("No such document!");
-              }
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              this.name = doc.data().name;
+              this.mobile = doc.data().mobile;
+              this.favorites = doc.data().favorites;
+            } else {
+              console.log("No such document!");
             }
-          )
+          })
           .catch((error) => {
             console.log("Error getting document:", error);
           });
