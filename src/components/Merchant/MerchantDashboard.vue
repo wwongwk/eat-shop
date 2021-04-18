@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="table">
+    <div id="table" v-show="merchantType != 'shop'">
       <h2>TOP CUSTOMERS</h2>
       <table class="table">
         <tr id="tablehead">
@@ -93,8 +93,8 @@
         </div>
       </div>
 
-      <div id="resChartContainer">
-        <div v-show="merchantType != 'shop'">
+      <div id="resChartContainer" v-show="merchantType != 'shop'">
+        <div>
           <div id="yearDropdownReservations">
             <p>Year</p>
             <v-select
