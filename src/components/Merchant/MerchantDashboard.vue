@@ -33,23 +33,25 @@
     </table>
     </div>
 
-    <div class="container">
-
-
+    <div class="flex">
       <div class="clicks">
         TOTAL VISITORS:
+        <br>
         <animated-number
           :value="totalClicks"
           :formatValue="formatClicks"
           :duration="1500"
+          id="clickNumber"
         />
       </div>
       <div class="rating">
         RATING:
+        <br>
         <animated-number
           :value="rating"
           :formatValue="formatRating"
           :duration="1500"
+          id="ratingNumber"
         />
 
         <star-rating
@@ -60,60 +62,67 @@
           :read-only="true"
         ></star-rating>
       </div>
-
-      <div id="yearDropdownClicks">
-        <p>Year</p>
-        <v-select
-          label="yearClicks"
-          :options="sortByOptions"
-          :value="selectedYearClicks"
-          :clearable="false"
-          :searchable="false"
-          v-model="yearSelected"
-          @input="sortClicks"
-          id="dropClicks"
-        >
-          <template slot="option" slot-scope="option">
-            {{ option.year }}
-          </template>
-        </v-select>
-      </div>
     </div>
 
-    <div id="clicksChart" class="chart">
-      <Plotly
-        :data="clicksData"
-        :layout="barLayout"
-        :display-mode-bar="false"
-      ></Plotly>
-    </div>
+    <div class="flex">
+      <div id="clicksChartContainer">
+        <div id="yearDropdownClicks">
+          <p>Year</p>
+          <v-select
+            label="yearClicks"
+            :options="sortByOptions"
+            :value="selectedYearClicks"
+            :clearable="false"
+            :searchable="false"
+            v-model="yearSelected"
+            @input="sortClicks"
+            id="dropClicks"
+          >
+            <template slot="option" slot-scope="option">
+              {{ option.year }}
+            </template>
+          </v-select>
+        </div>
+      
 
-    <div v-show = "merchantType != 'shop'">
-      <div id="yearDropdownReservations">
-        <p>Year</p>
-        <v-select
-          label="yearReservations"
-          :options="sortByOptions"
-          :value="selectedYearReservations"
-          :clearable="false"
-          :searchable="false"
-          v-model="yearChosen"
-          @input="sortReservations"
-          id="dropReservations"
-        >
-          <template slot="option" slot-scope="option">
-            {{ option.year }}
-          </template>
-        </v-select>
-      </div>
-
-      <div id="reservationsChart" class="chart">
+      <div id="clicksChart" class="chart">
         <Plotly
-          :data="reservationsData"
-          :layout="layout"
+          :data="clicksData"
+          :layout="barLayout"
           :display-mode-bar="false"
         ></Plotly>
       </div>
+    </div>
+
+    <div id="resChartContainer">
+      <div v-show = "merchantType != 'shop'">
+        <div id="yearDropdownReservations">
+          <p>Year</p>
+          <v-select
+            label="yearReservations"
+            :options="sortByOptions"
+            :value="selectedYearReservations"
+            :clearable="false"
+            :searchable="false"
+            v-model="yearChosen"
+            @input="sortReservations"
+            id="dropReservations"
+          >
+            <template slot="option" slot-scope="option">
+              {{ option.year }}
+            </template>
+          </v-select>
+        </div>
+
+        <div id="reservationsChart" class="chart">
+          <Plotly
+            :data="reservationsData"
+            :layout="layout"
+            :display-mode-bar="false"
+          ></Plotly>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 </template>
@@ -419,11 +428,10 @@ td {
 }
 
 tr {
-  //box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
   border-radius: 10px;
   background: #fff;
   text-align: center;
-  height: 100px;
+  height: 50px;
   background: rgba(255,192,203,0.5);
 }
 table {
@@ -438,50 +446,67 @@ table {
 #tablehead {
   background: rgba(255,192,203, 1);
 }
-.container {
+.flex {
   display: flex;
-  justify-content: space-between;
-  width: 90%;
-  margin-left: 70px;
+  justify-content: center;
+  //width: 90%;
+  margin-bottom: 50px;
 }
 .clicks {
   float: left;
   width: 50%;
   box-sizing: border-box;
   width: 300px;
-  height: 150px;
+  height: 160px;
   padding: 30px;
-  box-shadow: 4px 4px 10px rgba(0.1, 0.1, 0.1, 0.1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
   border-radius: 15px;
+  margin-right: 20px;
+}
+#clickNumber, #ratingNumber {
+  font-size: 35px;
+}
+#clickNumber {
+  line-height: 2;
 }
 .rating {
-  float: right;
   width: 50%;
   box-sizing: border-box;
   width: 300px;
-  height: 150px;
+  height: 160px;
   padding: 30px;
-  box-shadow: 4px 4px 4px rgba(0.1, 0.1, 0.1, 0.1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
   border-radius: 15px;
 }
 .chart {
   margin-top: 100px;
   color: #ed83a7;
   font-size: 18px;
-  width: 90%;
   margin-left: 50px;
   clear: both;
+}
+#clicksChartContainer, #resChartContainer {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+  border-radius: 10px;
+  width: 650px;
+}
+#clicksChartContainer {
+  margin-right: 20px;
+  margin-left: 10px;
 }
 #clicksChart {
   color: #ed83a7;
   font-size: 18px;
 }
 #reservationsChart {
-  margin-top: 150px;
+  
 }
 
 #yearDropdownClicks {
-  width: 400px;
+  width: 300px;
+  margin-left: 150px;
 }
 #yearDropdownClicks p {
   font-size: 20px;
@@ -491,10 +516,8 @@ table {
   justify-content: center;
 }
 #yearDropdownReservations {
-  width: 400px;
-  float: right;
-  margin-right: 60px;
-  margin-bottom: 50px;
+  width: 300px;
+  margin-left: 150px;
 }
 #yearDropdownReservations p {
   font-size: 20px;
@@ -513,21 +536,7 @@ table {
 #table {
   width: 70%;
 }
-ul {
-  list-style-type: none;
-  margin-bottom: 100px;
-  margin-left: 50px;
-  align-self: center;
-  vertical-align: center;
-}
-li {
-  font-size: 18px;
-  padding: 35px 20px;
-  width: 100%;
-  text-align: left;
-  line-height: 1;
-  margin:0;
-}
+
 #numOfReservations {
   float: right;
 }
