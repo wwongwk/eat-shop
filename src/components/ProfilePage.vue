@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-header></app-header>
-    <img src="../assets/TopPic.png" />
+    <img src="../assets/TopPic1.png" />
     <div class="profile">
       <img id="logo" src="../assets/logo.png" />
       <h1>MY PROFILE PAGE</h1>
