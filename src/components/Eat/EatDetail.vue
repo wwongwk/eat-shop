@@ -300,7 +300,7 @@ img {
 #carousel {
   width: 90%;
   height: 400px;
-  overflow: hidden;
+  overflow: scroll;
   white-space: nowrap;
   align-content: center;
   margin-left: 70px;
