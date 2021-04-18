@@ -69,7 +69,7 @@
           :value="selectedYearClicks"
           :clearable="false"
           :searchable="false"
-          v-model="year"
+          v-model="yearSelected"
           @input="sortClicks"
           id="dropClicks"
         >
@@ -189,7 +189,7 @@ export default {
       selectedYearClicks: "",
       selectedYearReservations: "",
       yearChosen:"",
-      year:"",
+      yearSelected:"",
       name: "",
       email: "",
       mobile: "",
