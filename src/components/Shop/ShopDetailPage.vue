@@ -16,34 +16,38 @@
       </ul>
     </div>
     <br />
+    
+    <div class="container">
+      <div class="btn-group">
+        <button id="about" v-on:click="toggleAbout()">About</button>
+        <button id="product" v-on:click="toggleProduct()">Products</button>
+        <button id="review" v-on:click="toggleReview()">Reviews</button>
+        <button id="enquiry" v-on:click="toggleEnquiry()">Get In Touch</button>
+      </div>
+      <div class="favName">
+        <h2 id="name">{{ shopName }} &nbsp;</h2>
+        <button id="favorite" v-on:click="addFavorite()">Favorite &#9825;</button>
+      </div>
+      <div class="belowName">
+        <h4>&#x263A; Instant Confirmation      </h4>
+        <h4><img id="mapIcon" src="../../assets/map.png" />{{ address }}</h4>
+      </div>
+      <div id="body" v-show="About">
+        <shop-about v-bind:shop = "shop" ></shop-about>
+      </div>
 
-    <div class="btn-group">
-      <button id="about" v-on:click="toggleAbout()">About</button>
-      <button id="product" v-on:click="toggleProduct()">Products</button>
-      <button id="review" v-on:click="toggleReview()">Reviews</button>
-      <button id="enquiry" v-on:click="toggleEnquiry()">Get In Touch</button>
+      <div id="body" v-show="Product">
+        <shop-product v-bind:shop = "shop" ></shop-product>
+      </div>
+
+      <div id="body" v-show="Review">
+        <shop-reviews v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn"></shop-reviews>
+      </div>
+
+      <div id="body" v-show="Enquiry">
+        <shop-enquiry v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn"></shop-enquiry>
+      </div>
     </div>
-    <div class="favName">
-      <h2 id="name">{{ shopName }} &nbsp;</h2>
-      <button id="favorite" v-on:click="addFavorite()">Favorite &#9825;</button>
-     </div>
-
-    <div id="body" v-show="About">
-      <shop-about v-bind:shop = "shop" ></shop-about>
-    </div>
-
-    <div id="body" v-show="Product">
-      <shop-product v-bind:shop = "shop" ></shop-product>
-    </div>
-
-    <div id="body" v-show="Review">
-      <shop-reviews v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn"></shop-reviews>
-    </div>
-
-    <div id="body" v-show="Enquiry">
-      <shop-enquiry v-bind:shop = "shop" uid="uid" :loggedIn="loggedIn"></shop-enquiry>
-    </div>
-
   </div>
 </template>
 
@@ -72,6 +76,7 @@ export default {
       Enquiry: false,
       
       shopName: "",
+      address: "",
       resImages: [],
       shop:{},
 
@@ -181,7 +186,8 @@ export default {
   created() {
       this.shop = this.$route.query;
       this.shopName = this.shop["name"];
-      this.resImages = this.shop["resImages"]
+      this.resImages = this.shop["resImages"];
+      this.address = this.shop["address"];
       this.fetchDetails();
 
   },
@@ -240,17 +246,31 @@ h2 {
   background: none;
   cursor: pointer;
 }
-
+.belowName {
+  display: flex;
+  text-align: left;
+  clear:both;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+#mapIcon {
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
+  margin-left: 20px;
+}
 img {
   margin-left: 2px;
+  width: 500px;
 }
 
 #carousel {
-  width: 100%;
+  width: 90%;
   height: 400px;
-  overflow: scroll;
+  overflow: hidden;
   white-space: nowrap;
   align-content: center;
+  margin-left: 70px;
 }
 
 #carousel .slide {
@@ -260,10 +280,12 @@ img {
 ::-webkit-scrollbar {
   display: none;
 }
-
+.container {
+  width: 90%;
+  margin-left:60px;
+}
 #body {
   text-align: justify;
-  text-size-adjust: 90%;
   clear: both;
 }
 
@@ -279,17 +301,52 @@ img {
 
 .btn-group button {
   background-color: transparent;
-  color: rgb(0, 0, 0); /* White text */
-  padding: 10px 24px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
+  color: rgb(0, 0, 0); 
+  padding: 10px 20px; 
+  cursor: pointer; 
+  float: left; 
   font-size: 18px;
   margin-right: 5px;
   border: none;
   border-radius: 5px;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0);
+  font-family: Futura;
+  height: 40px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  border: 0;
+  transition: all 0.5s;
+  border-radius: 10px;
+  width: auto;
+  position: relative;
 }
+  .btn-group button::after {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 400;
+    position: absolute;
+    left: 85%;
+    top: 31%;
+    right: 5%;
+    bottom: 0;
+    opacity: 0;
+    
+  }
+  
+  .btn-group button:hover {
+    background: #D25A7e;
+    transition: all 0.5s;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px #ED83A7;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .btn-group button:hover::after {
+    opacity: 1;
+    transition: all 0.5s;
+    
+  }
 
 #about {
   background-color: #ED83A7;
@@ -303,12 +360,6 @@ img {
   display: table;
 }
 
-/* Add a background color on hover */
-.btn-group button:hover {
-  background-color: #ED83A7;
-  color: rgb(255, 255, 255);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
-}
 
 ul{
   list-style-type: none;

@@ -106,6 +106,7 @@ export default {
     width: 100%;
   }
 }
+
 #logo {
   width: 150px;
   float: left;

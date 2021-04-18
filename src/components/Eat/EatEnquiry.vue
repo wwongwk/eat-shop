@@ -113,7 +113,6 @@ h2 {
 .submitEnquiry {
   margin-left: 370px;
   padding:30px;
-	//margin:40px auto;
 	background: #FFF;
 	border-radius: 10px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
