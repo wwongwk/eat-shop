@@ -39,10 +39,10 @@
       </div>
 
       <div id="yearDropdownClicks">
-        <p>Choose</p>
+        <p>Year</p>
         <v-select
           label="yearClicks"
-          :options="sortByOptionsClicks"
+          :options="sortByOptions"
           :value="selectedYearClicks"
           :clearable="false"
           :searchable="false"
@@ -67,10 +67,10 @@
 
     <div v-show = "merchantType != 'shop'">
       <div id="yearDropdownReservations">
-        <p>Choose</p>
+        <p>Year</p>
         <v-select
           label="yearReservations"
-          :options="sortByOptionsReservations"
+          :options="sortByOptions"
           :value="selectedYearReservations"
           :clearable="false"
           :searchable="false"
@@ -155,7 +155,7 @@ export default {
           title: "Number of visitors",
         },
       },
-      sortByOptionsClicks: [
+      sortByOptions: [
         { code: "2021", year: 2021 },
         { code: "2022", year: 2022 },
         { code: "2023", year: 2023 },
@@ -163,13 +163,6 @@ export default {
         { code: "2025", year: 2025 },
       ],
       selectedYearClicks: "",
-      sortByOptionsReservations: [
-        { code: "2021", year: 2021 },
-        { code: "2022", year: 2022 },
-        { code: "2023", year: 2023 },
-        { code: "2024", year: 2024 },
-        { code: "2025", year: 2025 },
-      ],
       selectedYearReservations: "",
       yearChosen:"",
       year:"",
