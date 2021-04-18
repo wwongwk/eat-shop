@@ -65,8 +65,14 @@ button {
 input {
   width: 200px;
   height: 25px;
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  background-color: #fff;
 }
-
+input:focus {
+  outline: none;
+  border-bottom: 2px solid #ED83A7;
+}
 #submit {
   background-color: #D25A7E;
   width: auto;

@@ -21,7 +21,7 @@
       </tr>
       <tr v-for="customer in customers.slice(1,10)" :key="customer.id">
         <td>
-        {{customers.indexOf(customer)}}
+        {{customers.indexOf(customer)+1}}
         </td>
         <td>
           {{ customer[0] }}

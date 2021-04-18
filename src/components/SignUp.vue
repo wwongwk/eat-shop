@@ -250,27 +250,59 @@ input::-webkit-inner-spin-button {
 input {
   width: 200px;
   height: 25px;
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  background-color: #fff;
 }
-
+input:focus {
+  outline: none;
+  border-bottom: 2px solid #ED83A7;
+}
 #errorDiv{
   text-align: left;
   color: red;
 }
 
 #submit {
-  background-color: #d25a7e;
-  width: auto;
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 13px;
-  padding-bottom: 13px;
-  height: auto;
-  margin: 0px;
-  border-style: none;
-  margin-bottom: 3px;
+  font-family: Futura;
+  height: 40px;
+  text-align: center;
+  background: #ED83A7;
   cursor: pointer;
+  font-size: 16px;
+  border: 0;
+  transition: all 0.5s;
+  border-radius: 10px;
+  width: auto;
+  position: relative;
+  margin-bottom: 20px;
 }
+  #submit::after {
+    content: '\00bb';
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 400;
+    position: absolute;
+    left: 85%;
+    top: 31%;
+    right: 5%;
+    bottom: 0;
+    opacity: 0;
+  }
+  
+  #submit:hover {
+    background: #D25A7e;
+    transition: all 0.5s;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px #ED83A7;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  #submit:hover::after {
+    opacity: 1;
+    transition: all 0.5s;
+  }
 
 h1 {
   margin: 0pc;
@@ -283,7 +315,7 @@ h1 {
   padding: 5px;
 }
 .signup {
-  border: 1px solid rgb(95, 0, 32);
+  border: none;
   border-radius: 10px;
   width: fit-content;
   margin-left: auto;
@@ -291,6 +323,7 @@ h1 {
   padding: 20px;
   margin-top: 70px;
   margin-bottom: 70px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 form {
   padding-left: 50px;
