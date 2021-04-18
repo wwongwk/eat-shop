@@ -181,7 +181,6 @@ export default {
 
     //check if current user has already made a reservation
     checkReservation: function (reservationdate) {
-      this.canBook = true;
       console.log("heyy");
       database
         .collection("reservation")
@@ -194,11 +193,12 @@ export default {
               console.log("checked1");
               if (doc.data().document_id === this.shop.document_id) {
                 console.log("checked2");
-                if (doc.data().booking_date === reservationdate
+                if (doc.data().booking_date == reservationdate
                 && doc.data().time === this.selected.time) {
                   console.log("checked3");
-                  alert("You have already made a reservation on this day!");
                   this.canBook = false;
+                  alert("You have already made a reservation on this day!");
+                  
                 }
               }
             }
@@ -258,7 +258,7 @@ export default {
       } else {
         this.checkTime();
         this.checkReservation(document.getElementById("bookingDate").value);
-        if (this.canBook) {
+        if (this.canBook === true) {
           //if the user didn't select a date or time or number of people
           //alert pop-up
           if (
@@ -279,9 +279,6 @@ export default {
                 this.selected.time +
                 ":00"
             );
-            /* const created = firebase.firestore.Timestamp.fromDate(
-          new Date(chosenDate)
-        ).toDate(); */
             console.log('Customer ID:' + this.uid)
             console.log('Customer Name' + this.name)
             let booking = new Object();
@@ -299,12 +296,6 @@ export default {
             var newRef = database.collection("reservation").doc();
             booking["booking_id"] = newRef.id;
             booking["user_id"] = this.shop.user_id;
-
-            newRef.set(booking).then();//location.reload());
-
-            alert("Your reservation is confirmed!");
-            console.log(this.selected.time);
-            console.log("test");
             database
               .collection("users")
               .get()
@@ -316,15 +307,9 @@ export default {
                     console.log(booking);
                     newRef.set(booking).then(() => location.reload());
                     alert("Your reservation is confirmed!");
-                    console.log(this.selected.time);
                   }
                 })
               });
-
-            //newRef.set(booking)//.then(() => location.reload());
-            
-            //alert("Your reservation is confirmed!");
-            //console.log(this.selected.time);
           }
         }
       }
