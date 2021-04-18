@@ -112,7 +112,7 @@ export default {
 
   created() {
     var user = firebase.auth().currentUser;
-    if (user == null) {
+    /* if (user == null) {
       this.$router.replace({ path: "/" });
     } else {
       window.addEventListener('beforeunload', function (event) {
@@ -127,8 +127,8 @@ export default {
         console.log(error.message);
       });
        event.returnValue = '';
-      }, false);
-    }
+      }, false); 
+    } */ 
   },
 
   /* mounted() {

@@ -5,7 +5,7 @@
       <ul>
         <li v-for="customer in customers" :key="customer.id">
           {{ customer[0] }}
-          {{ customer[1] }}
+          <p id="numOfReservations">{{ customer[1] }}</p>
         </li>
       </ul>
     </div>
@@ -451,5 +451,27 @@ export default {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
   border: none;
   outline: none;
+}
+
+#table {
+  width: 70%;
+}
+ul {
+  list-style-type: none;
+  margin-bottom: 100px;
+  margin-left: 50px;
+  align-self: center;
+  vertical-align: center;
+}
+li {
+  font-size: 18px;
+  padding: 35px 20px;
+  width: 100%;
+  text-align: left;
+  line-height: 1;
+  margin:0;
+}
+#numOfReservations {
+  float: right;
 }
 </style>

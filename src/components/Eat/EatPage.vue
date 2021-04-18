@@ -419,8 +419,10 @@ ul {
   padding: 0;
   height: 100%;
   width: 100%;
-  margin-left: 120px;
+  margin-left: 100px;
   margin-top: 20px;
+  self-align: center;
+  vertical-align: center;
 }
 
 li {
