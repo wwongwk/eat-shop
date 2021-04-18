@@ -13,7 +13,7 @@
       </tr>
       <tr v-for="event in past" v-bind:key="event.index">
         <td>
-          name here
+          {{event.customer_name}}
         </td>
         <td>
           {{ event.date.toDate().toLocaleDateString() }},
