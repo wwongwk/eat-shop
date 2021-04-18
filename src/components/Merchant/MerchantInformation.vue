@@ -247,7 +247,7 @@ export default {
       shop: false,
 
       // Attributes for Add functionality
-      add: true, // change back to false ############################################## NOTE ##################################################
+      add: true, 
 
       // inputs for eat merchant account
       foodName: "",
