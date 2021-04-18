@@ -291,6 +291,7 @@ h2 {
   width: 15px;
   height: 15px;
   vertical-align: middle;
+  margin-left: 20px;
 }
 img {
   margin-left: 2px;

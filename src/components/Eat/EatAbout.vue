@@ -64,13 +64,11 @@ export default {
 <style scoped>
 .aboutContainer {
   width: 100%;
-  margin-left: 15px;
+  margin-left: 20px;
 }
 
 #body {
   text-align: left;
-  //text-size-adjust: 90%;
-  //margin-right: 20%;
   margin-left: 15px;
   margin: 0;
   padding: 0;
