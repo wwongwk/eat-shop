@@ -295,6 +295,27 @@ export default {
 
             alert("Your reservation is confirmed!");
             console.log(this.selected.time);
+            console.log("test");
+            database
+              .collection("users")
+              .get()
+              .then((snapshot) => {
+                snapshot.docs.forEach((doc) =>{                  
+                  if (doc.data().user_id === this.uid){
+                    booking["customer_name"] = doc.data().name;
+                    console.log(doc.data().name);
+                    console.log(booking);
+                    newRef.set(booking).then(() => location.reload());
+                    alert("Your reservation is confirmed!");
+                    console.log(this.selected.time);
+                  }
+                })
+              });
+
+            //newRef.set(booking)//.then(() => location.reload());
+            
+            //alert("Your reservation is confirmed!");
+            //console.log(this.selected.time);
           }
         }
       }
