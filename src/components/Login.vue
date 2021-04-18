@@ -50,7 +50,7 @@
         NO ACCOUNT?
         <router-link to="/signup" exact> SIGN UP!</router-link>
       </div>
-      <div id="forgetPW">FORGET PASSWORD</div>
+      <div id="forgetPW"><router-link to="/changePW" exact>FORGET PASSWORD</router-link></div>
     </div>
   </div>
 </template>
@@ -120,8 +120,14 @@ img {
 input {
   width: 200px;
   height: 25px;
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  background-color: #fff;
 }
-
+input:focus {
+  outline: none;
+  border-bottom: 2px solid #ED83A7;
+}
 #submit {
   font-family: Futura;
   height: 40px;
@@ -173,14 +179,14 @@ h1 {
   padding: 5px;
 }
 #login {
-  border: 1px solid rgb(95, 0, 32);
-  border-radius: 10px;
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
   margin-top: 70px;
   margin-bottom: 70px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 form {
   padding-left: 50px;

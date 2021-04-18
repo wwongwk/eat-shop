@@ -169,7 +169,7 @@ button:hover span:after {
 }
 .reservations {
   float: center;
-  margin-left: 400px;
+  margin-left: 300px;
 }
 .content {
   display: flex;
