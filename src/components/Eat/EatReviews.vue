@@ -352,9 +352,10 @@ li {
 
 ul {
   list-style-type: none;
-  width: 900px;
+  width: 100%;
   margin-bottom: 50px;
   margin-right: 60px;
+  overflow: hidden;
 }
 #date {
   float: right;
@@ -364,12 +365,12 @@ div.reviews {
 }
 #page {
   vertical-align: center;
-  margin-left: 400px;
+  margin-left: 430px;
+  margin-bottom: 50px;
 }
 .submitReview {
-  margin-left: 330px;
+  margin-left: 320px;
   padding: 30px;
-  /*margin:40px auto;*/
   background: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
