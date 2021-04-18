@@ -53,7 +53,7 @@
           {{ item.review }}
           <hr />
         </li>
-        <div>
+        <div id="page">
           <jw-pagination
             :items="reviews"
             :pageSize="4"
@@ -61,28 +61,29 @@
             id="page"
           ></jw-pagination>
         </div>
-        <div class="submitReview">
-          <p>Submit your review below:</p>
-          <star-rating 
-          :show-rating="false"
-          @rating-selected="setRating"
-          id="submitStar">
-          </star-rating>
-          <textarea
-            :style="[
-              loggedIn
-                ? { backgroundColor: 'white' }
-                : { backgroundColor: '#DCDCDC' },
-            ]"
-            v-model="reviewTextArea"
-            id="input"
-            name="input"
-          />
-
-          <br />
-          <button @click="submitReview">SUBMIT</button>
-        </div>
+        
       </ul>
+      <div class="submitReview">
+        <p>Submit your review below:</p>
+        <star-rating 
+        :show-rating="false"
+        @rating-selected="setRating"
+        id="submitStar">
+        </star-rating>
+        <textarea
+          :style="[
+            loggedIn
+              ? { backgroundColor: 'white' }
+              : { backgroundColor: '#DCDCDC' },
+          ]"
+          v-model="reviewTextArea"
+          id="input"
+          name="input"
+        />
+
+        <br />
+        <button @click="submitReview">SUBMIT</button>
+      </div>
     </div>
   </div>
 </template>
@@ -351,13 +352,18 @@ li {
   margin: 10px;
   border-radius: 4px;
   padding: 25px 20px;
-  width: 1200px;
+  width: 1100px;
 }
 
 ul {
   list-style-type: none;
   width: 100%;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
+  margin-right: 60px;
+  overflow: hidden;
+}
+div.reviews {
+  line-height: 2;
 }
 #date {
   float: right;
@@ -369,7 +375,6 @@ ul {
 .submitReview {
   margin-left: 330px;
   padding: 30px;
-  /*margin:40px auto;*/
   background: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
