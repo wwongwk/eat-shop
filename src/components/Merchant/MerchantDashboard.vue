@@ -6,7 +6,7 @@
         <tr id="tablehead">
           <th>Rank</th>
           <th>Customer Username</th>
-          <th>No. Of Reservations Made</th>
+          <th>Number Of Reservations Made</th>
         </tr>
         <tr v-for="customer in customers.slice(0, 1)" :key="customer.id">
           <td>
