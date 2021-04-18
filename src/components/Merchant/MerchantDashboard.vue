@@ -380,14 +380,12 @@ export default {
                 }
               }
               this.customers = customerLeaderboard;
-              //console.log(this.customers);
             }
           });
-        });
-      this.sortCustomers();    
+          this.sortCustomers();
+        });   
     },
     sortCustomers() {
-      console.log("sort customer code running")
       this.customers.sort(function (customer1, customer2) {
         return parseFloat(customer2[1]) - parseFloat(customer1[1]);
       });
