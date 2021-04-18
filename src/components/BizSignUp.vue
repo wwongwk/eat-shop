@@ -41,15 +41,6 @@
           v-model="form.type"
         />
 
-        <label for="play">PLAY</label>
-        <input
-          type="radio"
-          name="radioBtn"
-          id="play"
-          value="play"
-          v-model="form.type"
-        />
-
         <label for="shop">SHOP</label>
         <input
           type="radio"
@@ -167,7 +158,6 @@ label {
   color: #d25a7e;
 }
 #eat,
-#play,
 #shop {
   width: 20px;
   height: auto;
