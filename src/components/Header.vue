@@ -14,7 +14,10 @@
       </div>
       <div id="side" class="flexCol">
         
-        <router-link tag="button" to="/signup" v-show="!login">Sign Up</router-link>
+        <router-link tag="button" to="/signup" v-show="!login">
+          <img id="signupImg" src="../assets/signup.png" />
+          Sign Up
+          </router-link>
         <router-link tag="button" to="/login" v-show="!login"  exact>
           <img id="loginImg" src="../assets/logIn.png" />
           Login
@@ -106,6 +109,11 @@ export default {
 #logo {
   width: 150px;
   float: left;
+}
+#signupImg {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
 }
 #loginImg {
   width: 50px;
