@@ -367,7 +367,8 @@ export default {
                   var customer = customerLeaderboard[i];
                   if (doc.data().customer_name === customer[0]) {
                     //update number of reservations
-                    customer[1] += 1;
+                    var newCustomer = [doc.data().customer_name, customer[1]+1];
+                    customerLeaderboard[i] = newCustomer;
                     checked = true;
                     break;
                   }
@@ -379,6 +380,7 @@ export default {
                 }
               }
               this.customers = customerLeaderboard;
+              //console.log(this.customers);
             }
           });
         });
@@ -387,8 +389,9 @@ export default {
     sortCustomers() {
       console.log("sort customer code running")
       this.customers.sort(function (customer1, customer2) {
-        return parseFloat(customer1[1]) - parseFloat(customer2[1]);
+        return parseFloat(customer2[1]) - parseFloat(customer1[1]);
       });
+      
     },
     formatClicks(value) {
       return `${value.toFixed(0)}`;
@@ -401,7 +404,6 @@ export default {
     this.fetchDetails();
     this.getMerchantId();
     this.getTopCustomers();
-    //this.sortCustomers();
   },
 };
 </script>
