@@ -22,7 +22,7 @@
         </td>
         <td id="quantity">{{ event.adults }} x Adults, {{ event.children }} x Children</td>
         <td>
-          <button v-if="event.showUp" id="confirmedBtn">Confirmed</button>
+          <button v-if="event.showUp" id="confirmedBtn" @click="unconfirm(event)">Confirmed</button>
           <button v-else id="confirmBtn" @click="confirm(event)">
             Confirm
           </button>
@@ -51,7 +51,20 @@ export default {
         .update({
           showUp: true,
         })
-        .then(() => {});
+        .then(() => {
+           location.reload();
+        });
+    },
+    unconfirm(event) {
+      database
+        .collection("reservation")
+        .doc(event.booking_id)
+        .update({
+          showUp: false,
+        })
+        .then(() => {
+           location.reload();
+        });
     },
     checkUpcoming: function () {
       if (this.upcoming == null) {
