@@ -65,6 +65,7 @@ export default {
       Reservation: false,
       acceptReservation: true,
       displayResNotice: false,
+      canBook: true,
       totalReservations: 0,
       dropdownOptions: [
         { code: "1", time: "11:30" },
@@ -187,18 +188,19 @@ export default {
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
-            console.log(this.uid);
-            console.log(this.shop.document_id);
+            //console.log(this.uid);
+            //console.log(this.shop.document_id);
             if (doc.data().customer_id === this.uid) {
               console.log("checked1");
               if (doc.data().document_id === this.shop.document_id) {
                 console.log("checked2");
-                if (doc.data().booking_date == reservationdate
-                && doc.data().time === this.selected.time) {
+                if (doc.data().booking_date == reservationdate && doc.data().time === this.selected.time) {
                   console.log("checked3");
                   this.canBook = false;
-                  alert("You have already made a reservation on this day!");
-                  
+                  console.log("FUCK U");
+                  console.log("canBook inside checkReservation(): " + this.canBook);
+                  alert("You have already made a reservation on this day!").then(() => location.reload());
+
                 }
               }
             }
@@ -257,61 +259,64 @@ export default {
         alert("Please log in to make a reservation!");
       } else {
         this.checkTime();
-        this.checkReservation(document.getElementById("bookingDate").value);
-        if (this.canBook === true) {
-          //if the user didn't select a date or time or number of people
-          //alert pop-up
-          if (
-            !document.getElementById("bookingDate").value ||
-            this.selected === "" ||
-            this.adultsCount + this.childrenCount === 0
-          ) {
-            alert("Your reservation is incomplete!");
-          } else {
-            //Buggy function
-            this.increaseCounter();
+        this.checkReservation(document.getElementById("bookingDate").value).then(function() {
+          console.log("WTFFFFF");
+          console.log("canBook inside then(): " + this.canBook);
+          if (this.canBook === true) {
+            //if the user didn't select a date or time or number of people
+            //alert pop-up
+            if (
+              !document.getElementById("bookingDate").value ||
+              this.selected === "" ||
+              this.adultsCount + this.childrenCount === 0
+            ) {
+              alert("Your reservation is incomplete!");
+            } else {
+              //Buggy function
+              this.increaseCounter();
 
-            //converts javascript date object to timestamp object to be saved to database
-            //alert pop-up to inform user of successful reservation
-            var chosenDate = new Date(
-              document.getElementById("bookingDate").value +
-                "T" +
-                this.selected.time +
-                ":00"
-            );
-            console.log('Customer ID:' + this.uid)
-            console.log('Customer Name' + this.name)
-            let booking = new Object();
-            booking["booking_date"] = document.getElementById("bookingDate").value;
-            booking["date"] = chosenDate;
-            booking["document_id"] = this.shop.document_id;
-            booking["time"] = this.selected.time;
-            booking["adults"] = this.adultsCount;
-            booking["children"] = this.childrenCount;
-            booking["customer_id"] = this.uid;
-            booking["merchant_type"] = "eat";
-            booking["merchant_name"] = this.shop.name;
-            booking["imageURL"] = this.shop.imageURL;
-            booking["showUp"] = false;
-            var newRef = database.collection("reservation").doc();
-            booking["booking_id"] = newRef.id;
-            booking["user_id"] = this.shop.user_id;
-            database
-              .collection("users")
-              .get()
-              .then((snapshot) => {
-                snapshot.docs.forEach((doc) =>{                  
-                  if (doc.data().user_id === this.uid){
-                    booking["customer_name"] = doc.data().name;
-                    console.log(doc.data().name);
-                    console.log(booking);
-                    newRef.set(booking).then(() => location.reload());
-                    alert("Your reservation is confirmed!");
-                  }
-                })
-              });
+              //converts javascript date object to timestamp object to be saved to database
+              //alert pop-up to inform user of successful reservation
+              var chosenDate = new Date(
+                document.getElementById("bookingDate").value +
+                  "T" +
+                  this.selected.time +
+                  ":00"
+              );
+              console.log('Customer ID:' + this.uid)
+              console.log('Customer Name' + this.name)
+              let booking = new Object();
+              booking["booking_date"] = document.getElementById("bookingDate").value;
+              booking["date"] = chosenDate;
+              booking["document_id"] = this.shop.document_id;
+              booking["time"] = this.selected.time;
+              booking["adults"] = this.adultsCount;
+              booking["children"] = this.childrenCount;
+              booking["customer_id"] = this.uid;
+              booking["merchant_type"] = "eat";
+              booking["merchant_name"] = this.shop.name;
+              booking["imageURL"] = this.shop.imageURL;
+              booking["showUp"] = false;
+              var newRef = database.collection("reservation").doc();
+              booking["booking_id"] = newRef.id;
+              booking["user_id"] = this.shop.user_id;
+              database
+                .collection("users")
+                .get()
+                .then((snapshot) => {
+                  snapshot.docs.forEach((doc) =>{                  
+                    if (doc.data().user_id === this.uid){
+                      booking["customer_name"] = doc.data().name;
+                      console.log(doc.data().name);
+                      console.log(booking);
+                      newRef.set(booking).then(() => location.reload());
+                      alert("Your reservation is confirmed!");
+                    }
+                  })
+                });
+            }
           }
-        }
+        });
       }
     },
 
