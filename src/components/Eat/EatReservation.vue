@@ -45,7 +45,7 @@
         <button v-on:click="incrementChild()" class="plus">+</button>
       </section>
       <br />
-      <button id="bookNow" v-on:click="book()" v-show="acceptReservation">
+      <button id="bookNow" v-on:click="checkReservation()" v-show="acceptReservation">
         Book Now
       </button>
     </div>
@@ -180,30 +180,41 @@ export default {
     },
 
     //check if current user has already made a reservation
-    checkReservation: function (reservationdate) {
+    checkReservation: function () {
       console.log("heyy");
-      database
-        .collection("reservation")
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            console.log(this.uid);
-            console.log(this.shop.document_id);
-            if (doc.data().customer_id === this.uid) {
-              console.log("checked1");
-              if (doc.data().document_id === this.shop.document_id) {
-                console.log("checked2");
-                if (doc.data().booking_date == reservationdate
-                && doc.data().time === this.selected.time) {
-                  console.log("checked3");
-                  this.canBook = false;
-                  alert("You have already made a reservation on this day!");
-                  
+       //if user is not logged in,
+      //alert pop-up to remind user to log in before making a reservation
+      if (this.loggedIn === false) {
+        alert("Please log in to make a reservation!");
+      } else {
+        var reservationdate = document.getElementById("bookingDate").value;
+        database
+          .collection("reservation")
+          .get()
+          .then((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+              console.log(this.uid);
+              console.log(this.shop.document_id);
+              if (doc.data().customer_id === this.uid) {
+                console.log("checked1");
+                if (doc.data().document_id === this.shop.document_id) {
+                  console.log("checked2");
+                  if (doc.data().booking_date == reservationdate
+                  && doc.data().time === this.selected.time) {
+                    console.log("checked3");
+                    this.canBook = false;
+                    alert("You have already made a reservation on this day!");
+                    
+                  }
                 }
               }
+            });
+          }).then(()=> {
+            if(this.canBook) {
+              this.book();
             }
           });
-        });
+      }
     },
 
     increaseCounter: function () {
@@ -251,14 +262,15 @@ export default {
     },
 
     book: function () {
+      console.log("book:" + this.canBook)
       //if user is not logged in,
       //alert pop-up to remind user to log in before making a reservation
-      if (this.loggedIn === false) {
+     /*  if (this.loggedIn === false) {
         alert("Please log in to make a reservation!");
-      } else {
+      } else { */
         this.checkTime();
-        this.checkReservation(document.getElementById("bookingDate").value);
-        if (this.canBook === true) {
+       // this.checkReservation(document.getElementById("bookingDate").value);
+        if (this.canBook) {
           //if the user didn't select a date or time or number of people
           //alert pop-up
           if (
@@ -312,7 +324,7 @@ export default {
               });
           }
         }
-      }
+     // }
     },
 
     setCalendarLimits: function () {
