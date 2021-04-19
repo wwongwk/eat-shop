@@ -482,7 +482,8 @@ img {
 #errorMessage {
   font-size: 20px;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 p {
   text-align: center;
