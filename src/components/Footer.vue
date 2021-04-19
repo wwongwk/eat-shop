@@ -32,19 +32,19 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     clear: both;
     bottom: 0;
-    width: 90%;
     margin-left: 50px;
+    margin-right: 50px;
     margin-bottom: 50px;
     background-color: #f9d1b7;
     background-image: linear-gradient(315deg, #f9d1b7 0%, #f894a4 74%);
   }
 
-
   #subscribe {
-    display: flex;
     margin-left: 200px;
     margin-bottom: 30px;
     margin-top: 30px;
+    text-align: center;
+    align-content: center;
   }
   input {
     border-radius: 10px;

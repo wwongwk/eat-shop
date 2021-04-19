@@ -408,7 +408,6 @@ export default {
     this.fetchDetails();
     this.getMerchantId();
     this.getTopCustomers();
-    this.test();
   },
 };
 </script>
@@ -417,7 +416,6 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 h2 {
   text-align: center;
-  margin-left: 400px;
 }
 #trophyImg {
   height: 50px;
@@ -448,7 +446,9 @@ table {
   color: #403939;
   padding-left: 0px;
   margin-bottom: 80px;
-  margin-left: 250px;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 #tablehead {
   background: rgba(255, 192, 203, 1);
@@ -508,8 +508,6 @@ table {
   color: #ed83a7;
   font-size: 18px;
 }
-#reservationsChart {
-}
 
 #yearDropdownClicks {
   width: 300px;
@@ -542,7 +540,8 @@ table {
 }
 
 #table {
-  width: 70%;
+  align-content: center;
+  text-align: center;
 }
 
 #numOfReservations {

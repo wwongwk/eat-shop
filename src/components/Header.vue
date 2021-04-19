@@ -88,9 +88,8 @@ export default {
   overflow: hidden;
   margin: 0px;
   margin-left: 120px;
-  margin-right: 10px;
+  margin-right: 120px;
   margin-bottom: 10px;
-  width: 80%;
 }
 .flexCol {
   box-sizing: border-box;

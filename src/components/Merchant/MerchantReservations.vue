@@ -1,7 +1,7 @@
 <template>
    <div>
     
-    <div class="content">
+    <div id="content">
       <div id="nav">
         <button
           id="upcoming"
@@ -160,8 +160,8 @@ button:hover span:after {
 .reservations {
   margin-bottom: 100px;
 }
-.content {
+#content {
   display: flex;
-  width: 100%;
+  justify-content: center;
 }
 </style>

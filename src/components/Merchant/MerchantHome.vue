@@ -8,10 +8,10 @@
         <div class="flexCol" id="title">MY BUSINESS</div>
         <div class="flexCol" id="nav">
           <div class="btn-group">
-            <a id="info" @click="toggleInformation">Information</a>
-            <a id="dashboard" @click="toggleDashboard">Dashboard</a>
-            <a id="reservations" @click="toggleReservations" v-show="type != 'shop'">Reservations</a>
-            <a id="enquiries" @click="toggleEnquiries">Enquiries</a>
+            <button id="info" @click="toggleInformation">Information</button>
+            <button id="dashboard" @click="toggleDashboard">Dashboard</button>
+            <button id="reservations" @click="toggleReservations" v-show="type != 'shop'">Reservations</button>
+            <button id="enquiries" @click="toggleEnquiries">Enquiries</button>
             <button id="logout" v-on:click="logOut()">Log Out</button>
           </div>
         </div>
@@ -242,7 +242,7 @@ export default {
 }
 
 /* (B) BREAK DOWN 1 COLUMN ON SMALL SCREENS */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 600px) {
   .flexWrap {
     flex-wrap: wrap;
   }
@@ -261,6 +261,7 @@ export default {
   font-weight: bold;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   text-align: center;
+  justify-content: center;
 }
 
 #nav {
@@ -288,7 +289,6 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
 }
 
-a:hover,
 button:hover {
   color: #ed83a7;
 }
