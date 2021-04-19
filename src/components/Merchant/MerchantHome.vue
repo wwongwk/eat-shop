@@ -10,7 +10,7 @@
           <div class="btn-group">
             <a id="info" @click="toggleInformation">Information</a>
             <a id="dashboard" @click="toggleDashboard">Dashboard</a>
-            <a id="reservations" @click="toggleReservations">Reservations</a>
+            <a id="reservations" @click="toggleReservations" v-show="type != 'shop'">Reservations</a>
             <a id="enquiries" @click="toggleEnquiries">Enquiries</a>
             <button id="logout" v-on:click="logOut()">Log Out</button>
           </div>
@@ -26,7 +26,7 @@
       <merchant-dashboard> </merchant-dashboard>
     </div>
 
-    <div id="body" v-else-if="reservations">
+    <div id="body" v-else-if="reservations" v-show="type != 'shop'">
       <merchant-reservations> </merchant-reservations>
     </div>
 
@@ -43,6 +43,7 @@ import MerchantEnquiry from "./MerchantEnquiry.vue";
 import MerchantReservations from "./MerchantReservations.vue";
 
 import firebase from "firebase/app";
+import database from "../../firebase.js";
 
 export default {
   components: {
@@ -57,9 +58,34 @@ export default {
       dashboard: false,
       reservations: false,
       enquiries: false,
+      type: "",
     };
   },
   methods: {
+    fetchMerchant() {
+      this.uid = firebase.auth().currentUser.uid;
+      database
+        .collection("eat")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.data().user_id == this.uid) {
+              this.type = doc.data().type;
+            }
+          });
+        });
+
+      database
+        .collection("shop")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if (doc.data().user_id == this.uid) {
+              this.type = doc.data().type;
+            }
+          });
+        });
+    },
     toggleInformation() {
       this.information = true;
       this.dashboard = false;
@@ -146,37 +172,7 @@ export default {
   },
 
   created() {
-    /*
-    var user = firebase.auth().currentUser;
-
-
-    if (user == null) {
-      this.$router.replace({ path: "/" });
-    } else {
-      window.addEventListener(
-        "beforeunload",
-        function (event) {
-          event.preventDefault();
-          console.log(
-            performance.navigation.type,
-            "performance.navigation.type"
-          ); 
-
-          firebase
-            .auth()
-            .signOut()
-            .then(() => {
-              alert("Successfully signed out!");
-              this.$router.replace({ path: "/" });
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-          event.returnValue = "";
-        },
-        false
-      ); 
-    }*/
+    this.fetchMerchant();
   },
 
   /* mounted() {
