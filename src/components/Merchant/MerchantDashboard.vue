@@ -6,7 +6,7 @@
         <tr id="tablehead">
           <th>Rank</th>
           <th>Customer Username</th>
-          <th>No. Of Reservations Made</th>
+          <th>Number Of Reservations Made</th>
         </tr>
         <tr v-for="customer in customers.slice(0, 1)" :key="customer.id">
           <td>
@@ -223,8 +223,6 @@ export default {
         "Apr",
         "May",
         "Jun",
-        "May",
-        "Jun",
         "Jul",
         "Aug",
         "Sep",
@@ -262,6 +260,8 @@ export default {
             var yearArray = doc.data().totalReservations[value.year];
             this.reservationsData[0].y = yearArray;
             this.generateMonthlyReservationsAxis(this.reservationsData[0].y);
+            console.log(this.reservationsData[0].x)
+            console.log(this.reservationsData[0].y)
           });
         });
     },

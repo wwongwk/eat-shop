@@ -1,11 +1,6 @@
 <template>
-  <div>
-    {{ uid }} <br />
-    {{ shopId }} <br />
-    {{ merchantType }} <br />
-    pastRes: {{ pastRes }} <br />
-    upcomingRes: {{ upcomingRes }} <br />
-    TestRes: {{ testRes }} <br />
+   <div>
+    
     <div class="content">
       <div id="nav">
         <button
@@ -23,7 +18,7 @@
           <span>PAST RESERVATIONS</span></button
         ><br />
       </div>
-    </div>
+     
 
     <div class="reservations">
       <upcoming-reservations
@@ -33,12 +28,6 @@
       <past-events v-bind:past="pastRes" v-show="past"></past-events>
     </div>
 
-    <div>
-      Past Reservations:
-
-      <br />
-
-      Upcoming Reservations:
     </div>
   </div>
 </template>
@@ -166,9 +155,10 @@ button:hover span:after {
   float: left;
   width: 200px;
   margin-left: 100px;
+  margin-top: 100px;
 }
 .reservations {
-  margin-left: 300px;
+  margin-bottom: 100px;
 }
 .content {
   display: flex;

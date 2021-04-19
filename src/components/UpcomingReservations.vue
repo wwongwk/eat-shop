@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ reservationsArray }}
     <table class="table">
       <tr>
         <th></th>
@@ -37,12 +38,56 @@ export default {
   data() {
     return {
       noUpcoming: false,
+      reservationsArray: [],
     };
   },
   props: ["upcoming"],
 
   methods: {
+    getReservationsArray(event) {
+      console.log(event.merchant_type);
+      console.log(event.document_id);
+      database
+        .collection(event.merchant_type)
+        .doc(event.document_id)
+        .get()
+        .then((doc) => {
+          this.reservationsArray.push(doc.data().totalReservations);
+        });
+    },
     deleteRow(event) {
+      /*
+      console.log(this.reservationsArray);
+
+      database
+        .collection(event.merchant_type)
+        .doc(event.document_id)
+        .get()
+        .then((doc) => {
+          //Get Year and Month of Booking date
+
+          var year = parseInt(event.booking_date.slice(0, 4));
+          var month = parseInt(event.booking_date.slice(5, 7)) - 1;
+
+          // Get totalReservations from eat collection
+          this.reservationsArray = doc.data().totalReservations;
+          console.log(this.reservationsArray);
+
+          //Modify totalReservations
+          var res = this.reservationsArray[year][month];
+          this.reservationsArray[year][month] = res - 1;
+        })
+        .update({
+          //Update totalReservations
+          totalReservations: this.reservationsArray,
+        });
+      */
+
+      /*
+      database.collection(event.merchant_type).doc(event.document_id).update({
+        totalReservations: this.reservationsArray,
+      }); */
+
       database
         .collection("reservation")
         .doc(event.booking_id)
@@ -62,6 +107,7 @@ export default {
     },
   },
   created() {
+    //this.getReservationsArray();
     this.checkUpcoming();
   },
 };

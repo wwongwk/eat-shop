@@ -1,18 +1,19 @@
 <template>
   <div>
+    <h2>
+      <img id="reservationImg" :src="require(`@/assets/reservation.png`)" />
+      <span>PAST RESERVATIONS</span>
+    </h2>
     <table class="table">
       <tr>
-        <th></th>
-        <th>Item</th>
+        
+        <th>Customer Username</th>
         <th>Date (DD/MM/YYYY)</th>
-        <th>Quantity</th>
+        <th id="quantity">Quantity</th>
       </tr>
       <tr v-for="event in past" v-bind:key="event.index">
         <td>
-          <img :src="event.imageURL" />
-        </td>
-        <td>
-          {{ event.merchant_name }}
+          {{event.customer_name}}
         </td>
         <td>
           {{ event.date.toDate().toLocaleDateString() }},
@@ -20,7 +21,7 @@
             event.date.toDate().getMinutes()
           }}
         </td>
-        <td>{{ event.adults }} x Adults, {{ event.children }} x Children</td>
+        <td id="quantity">{{ event.adults }} x Adults, {{ event.children }} x Children</td>
       </tr>
     </table>
     <p v-show="noPast">You have no past reservation</p>
@@ -49,6 +50,11 @@ export default {
 </script>
 
 <style scoped>
+#reservationImg {
+  height: 50px;
+  width: 50px;
+  margin-right: 20px;
+}
 th {
   padding-bottom: 20px;
   padding-top: 20px;
@@ -57,32 +63,30 @@ th {
 td {
   white-space: nowrap;
   overflow: hidden;
+  height: 100px;
 }
 tr {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
   border-radius: 10px;
   background: #fff;
+  text-align: center;
+  height: 100px;
 }
 table {
-  width: 850px;
+  width: 900px;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   font-size: 18px;
   color: #403939;
   padding-left: 0px;
   table-layout: fixed;
 }
+#quantity {
+  width: 250px;
+}
 hr {
   color: #403939;
   height: 1px;
 }
-img {
-  width: 100px;
-  height: 80px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
-  margin-bottom: 30px;
-  margin-top: 30px;
-}
+
 </style>
 
