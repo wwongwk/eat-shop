@@ -1,6 +1,9 @@
 <template>
   <div id="box">
-
+    <div class="belowName">
+        <h4>&#x263A; Instant Confirmation      </h4>
+        <h4><img id="mapIcon" src="../../assets/map.png" />{{ address }}</h4>
+    </div> 
 
     <div id="reservationNotice" v-show="displayResNotice">
       <p>
@@ -8,7 +11,7 @@
         inconvience caused.
       </p>
     </div>
-
+    
     <div class="background">
       <section class="booking">
         <label for="start">Please select a booking date:</label>
@@ -66,6 +69,7 @@ export default {
       acceptReservation: true,
       displayResNotice: false,
       totalReservations: 0,
+      address: "",
       dropdownOptions: [
         { code: "1", time: "11:30" },
         { code: "2", time: "12:30" },
@@ -178,6 +182,7 @@ export default {
     },
     //check if current user has already made a reservation
     checkReservation: function () {
+      this.canBook=true;
       console.log("heyy");
        //if user is not logged in,
       //alert pop-up to remind user to log in before making a reservation
@@ -187,27 +192,27 @@ export default {
         var reservationdate = document.getElementById("bookingDate").value;
         database
           .collection("reservation")
+          .where("customer_id", "==", this.uid)
+          .where("document_id", "==", this.shop.document_id)
+          .where("booking_date", "==", reservationdate)
+          .where("time", "==", this.selected.time) 
           .get()
           .then((snapshot) => {
-            snapshot.docs.forEach((doc) => {
+            snapshot.docs.forEach(() => {
               //console.log(this.uid);
               //console.log(this.shop.document_id);
-              if (doc.data().customer_id === this.uid) {
-                console.log("checked1");
-                this.canBook = true;
-                if (doc.data().document_id === this.shop.document_id) {
+              /*  if (doc.data().customer_id === this.uid) {
+                console.log("checked1"); 
+                 if (doc.data().document_id === this.shop.document_id) {
                   console.log("checked2");
                   this.canBook = true;
                   if (doc.data().booking_date == reservationdate && doc.data().time === this.selected.time) {
-                    console.log("checked3");
+                    console.log("checked3");  */
                     this.canBook = false;
-                    alert("You have already made a reservation on this day!");
-                    return;                    
-                  } else {
-                      this.canBook = true;
-                  }
-                }
-              }
+                    alert("You have already made a reservation on this day!");                    
+                 // }
+               // }
+             // }
             });
           }).then(()=> {
             if(this.canBook) {
@@ -355,6 +360,7 @@ export default {
   },
   created() {
     this.alterDisplay();
+    this.address = this.shop["address"];
   },
   mounted() {
     this.setCalendarLimits();
@@ -363,6 +369,20 @@ export default {
 </script>
 
 <style scoped>
+
+.belowName {
+  display: flex;
+  text-align: left;
+  clear:both;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+#mapIcon {
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
+  margin-left: 20px;
+}
 [type="date"] {
   background: #fff
     url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
