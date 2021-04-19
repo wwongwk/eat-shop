@@ -101,7 +101,6 @@ export default {
             this.loggedIn = true;
             this.fav=doc.data().favorites
 
-            //Buggy If condition
             if (this.fav[this.shop["document_id"]]!=null) {
               this.added=true;
               document.getElementById("favorite").innerHTML="Favorite &#9829;";
@@ -220,7 +219,7 @@ export default {
       this.fetchDetails();
 
   },
-  destroyed() {
+  beforeDestroy() {
     if (this.loggedIn === true) {
       var document_id =this.shop["document_id"]
       if (this.added===true) {

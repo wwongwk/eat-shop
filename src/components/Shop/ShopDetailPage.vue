@@ -191,7 +191,7 @@ export default {
       this.fetchDetails();
 
   },
-  destroyed() {
+  beforeDestroy() {
     if (this.loggedIn === true) {
       var document_id =this.shop["document_id"]
       if (this.added===true) {
@@ -201,8 +201,8 @@ export default {
         delete this.fav[document_id];
       }
         database.collection("users").doc(this.uid).update({
-              //favorites: firebase.firestore.FieldValue.arrayUnion(this.fav)   
-              favorites : this.fav
+          //favorites: firebase.firestore.FieldValue.arrayUnion(this.fav)   
+          favorites : this.fav
         });
     }
     localStorage.clear();

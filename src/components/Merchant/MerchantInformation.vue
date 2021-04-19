@@ -265,49 +265,61 @@ export default {
   methods: {
     // Fetches Merchant/Business information
     fetchMerchant() {
+      this.uid = firebase.auth().currentUser.uid;
       database
-        .collection("eat")
+        .collection("users")
+        .doc(this.uid)
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            if (doc.data().user_id == this.uid) {
-              this.merchantDetails.push(doc.data());
-              this.mobile = doc.data().mobile;
-              this.name = doc.data().name;
-              this.address = doc.data().address;
-              this.openingHours = doc.data().openingHours;
-              this.description = doc.data().description;
-              this.type = doc.data().type;
-              this.documentId = doc.data().document_id;
-              this.menu = doc.data().menu;
-              this.eat = true;
-              this.acceptReservation = doc.data().acceptReservations;
-            }
-            localStorage.clear();
-          });
-        });
+        .then((doc) => {
+          this.type=doc.data().business_type
+          if (this.type=="eat") {
+            database
+            .collection("eat")
+            .where("user_id","==", this.uid)
+            .get()
+            .then((snapshot) => {
+              snapshot.docs.forEach((doc) => {
+                  this.merchantDetails.push(doc.data());
+                  this.mobile = doc.data().mobile;
+                  this.name = doc.data().name;
+                  this.address = doc.data().address;
+                  this.openingHours = doc.data().openingHours;
+                  this.description = doc.data().description;
+                  this.type = doc.data().type;
+                  this.documentId = doc.data().document_id;
+                  this.menu = doc.data().menu;
+                  this.eat = true;
+                  this.acceptReservation = doc.data().acceptReservations;
+              
+                localStorage.clear();
+              });
+            });
+          } else {
 
-      database
-        .collection("shop")
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            if (doc.data().user_id == this.uid) {
-              this.merchantDetails.push(doc.data());
-              this.mobile = doc.data().telephone;
-              this.name = doc.data().name;
-              this.address = doc.data().address;
-              this.openingHours = doc.data().openingHours;
-              this.description = doc.data().description;
-              this.type = doc.data().type;
-              this.documentId = doc.data().document_id;
-              this.menu = doc.data().menu;
-              this.shop = true;
-            }
-            localStorage.clear();
-          });
-        });
+            database
+            .collection("shop")
+            .where("user_id","==", this.uid)
+            .get()
+            .then((snapshot) => {
+              snapshot.docs.forEach((doc) => {
+                  this.merchantDetails.push(doc.data());
+                  this.mobile = doc.data().telephone;
+                  this.name = doc.data().name;
+                  this.address = doc.data().address;
+                  this.openingHours = doc.data().openingHours;
+                  this.description = doc.data().description;
+                  this.type = doc.data().type;
+                  this.documentId = doc.data().document_id;
+                  this.menu = doc.data().menu;
+                  this.shop = true;
+            
+                localStorage.clear();
+              });
+            });
+          }
+        });    
     },
+
     // Fetches current user's details
     fetchDetails() {
       this.uid = firebase.auth().currentUser.uid;

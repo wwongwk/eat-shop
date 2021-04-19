@@ -69,7 +69,7 @@
         <div id="yearDropdownClicks">
           <p>Year</p>
           <v-select
-            label="yearClicks"
+            label="year"
             :options="sortByOptions"
             :value="selectedYearClicks"
             :clearable="false"
@@ -98,7 +98,7 @@
           <div id="yearDropdownReservations">
             <p>Year</p>
             <v-select
-              label="yearReservations"
+              label="year"
               :options="sortByOptions"
               :value="selectedYearReservations"
               :clearable="false"
@@ -454,7 +454,6 @@ table {
 .flex {
   display: flex;
   justify-content: center;
-  //width: 90%;
   margin-bottom: 50px;
 }
 .clicks {
