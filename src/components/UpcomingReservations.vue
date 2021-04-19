@@ -27,7 +27,7 @@
         </td>
       </tr>
     </table>
-    <p v-show="noUpcoming">You have no upcoming reservation</p>
+    <p v-show="noUpcoming"></p>
   </div>
 </template>
 
