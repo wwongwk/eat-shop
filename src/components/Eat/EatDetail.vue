@@ -29,10 +29,7 @@
         <h2 id="body">{{ shopName }} &nbsp;</h2>
         <button id="favorite" v-on:click="addFavorite()">Favorite &#9825;</button>
       </div><br>
-      <div class="belowName">
-        <h4>&#x263A; Instant Confirmation      </h4>
-        <h4><img id="mapIcon" src="../../assets/map.png" />{{ address }}</h4>
-      </div> 
+
       <div id="body" v-show="About">
         <eat-about v-bind:shop = "shop" ></eat-about>
       </div>
@@ -84,7 +81,6 @@ export default {
       Enquiry: false,
 
       shopName: "",
-      address: "",
       resImages: [],
       shop:{},
       loggedIn: false,
@@ -221,7 +217,6 @@ export default {
       this.shop = this.$route.query;
       this.shopName = this.shop["name"];
       this.resImages = this.shop["resImages"];
-      this.address = this.shop["address"];
       this.fetchDetails();
 
   },

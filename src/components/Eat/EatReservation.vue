@@ -1,6 +1,9 @@
 <template>
   <div id="box">
-
+    <div class="belowName">
+        <h4>&#x263A; Instant Confirmation      </h4>
+        <h4><img id="mapIcon" src="../../assets/map.png" />{{ address }}</h4>
+    </div> 
 
     <div id="reservationNotice" v-show="displayResNotice">
       <p>
@@ -8,7 +11,7 @@
         inconvience caused.
       </p>
     </div>
-
+    
     <div class="background">
       <section class="booking">
         <label for="start">Please select a booking date:</label>
@@ -66,6 +69,7 @@ export default {
       acceptReservation: true,
       displayResNotice: false,
       totalReservations: 0,
+      address: "",
       dropdownOptions: [
         { code: "1", time: "11:30" },
         { code: "2", time: "12:30" },
@@ -352,6 +356,7 @@ export default {
   },
   created() {
     this.alterDisplay();
+    this.address = this.shop["address"];
   },
   mounted() {
     this.setCalendarLimits();
@@ -360,6 +365,20 @@ export default {
 </script>
 
 <style scoped>
+
+.belowName {
+  display: flex;
+  text-align: left;
+  clear:both;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+#mapIcon {
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
+  margin-left: 20px;
+}
 [type="date"] {
   background: #fff
     url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
