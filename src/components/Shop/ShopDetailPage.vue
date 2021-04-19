@@ -28,10 +28,7 @@
         <h2 id="name">{{ shopName }} &nbsp;</h2>
         <button id="favorite" v-on:click="addFavorite()">Favorite &#9825;</button>
       </div>
-      <div class="belowName">
-        <h4>&#x263A; Instant Confirmation      </h4>
-        <h4><img id="mapIcon" src="../../assets/map.png" />{{ address }}</h4>
-      </div>
+      
       <div id="body" v-show="About">
         <shop-about v-bind:shop = "shop" ></shop-about>
       </div>
