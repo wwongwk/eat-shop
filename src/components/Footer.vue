@@ -63,7 +63,7 @@
     margin-right: 20px;
   }
   #submitBtn {
-  font-family: Futura;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   height: 40px;
   text-align: center;
   background: #ED83A7;
@@ -77,11 +77,10 @@
 }
   #submitBtn::after {
     content: '\00bb';
-    font-family: "Font Awesome 5 Pro";
     font-weight: 400;
     position: absolute;
     left: 85%;
-    top: 31%;
+    top: 22%;
     right: 5%;
     bottom: 0;
     opacity: 0;
