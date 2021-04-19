@@ -220,9 +220,7 @@ export default {
 </script>
 
 <style scoped>
-#header {
-  
-}
+
 .flexWrap {
   display: flex;
   overflow: hidden;

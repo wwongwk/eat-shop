@@ -264,7 +264,7 @@ input:focus {
 }
 
 #submit {
-  font-family: Futura;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   height: 40px;
   text-align: center;
   background: #ED83A7;
@@ -279,7 +279,6 @@ input:focus {
 }
   #submit::after {
     content: '\00bb';
-    font-family: "Font Awesome 5 Pro";
     font-weight: 400;
     position: absolute;
     left: 85%;

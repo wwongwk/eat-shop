@@ -366,7 +366,7 @@ input {
 #resetBtn {
   background-color: #ed83a7;
   font-size: 14px;
-  font-family: Futura, light;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   border: none;
   cursor: pointer;
   width: 60px;

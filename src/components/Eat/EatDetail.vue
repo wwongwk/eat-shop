@@ -336,7 +336,7 @@ img {
   margin-right: 5px;
   border: none;
   border-radius: 5px;
-  font-family: Futura;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   height: 40px;
   text-align: center;
   cursor: pointer;
@@ -348,7 +348,6 @@ img {
   position: relative;
 }
   .btn-group button::after {
-    font-family: "Font Awesome 5 Pro";
     font-weight: 400;
     position: absolute;
     left: 85%;
