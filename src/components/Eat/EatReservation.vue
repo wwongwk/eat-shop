@@ -178,6 +178,7 @@ export default {
     },
     //check if current user has already made a reservation
     checkReservation: function () {
+      this.canBook=true;
       console.log("heyy");
        //if user is not logged in,
       //alert pop-up to remind user to log in before making a reservation
@@ -187,24 +188,26 @@ export default {
         var reservationdate = document.getElementById("bookingDate").value;
         database
           .collection("reservation")
+          .where("customer_id", "==", this.uid)
+          .where("document_id", "==", this.shop.document_id)
+          .where("booking_date", "==", reservationdate)
+          .where("time", "==", this.selected.time) 
           .get()
           .then((snapshot) => {
-            snapshot.docs.forEach((doc) => {
+            snapshot.docs.forEach(() => {
               //console.log(this.uid);
               //console.log(this.shop.document_id);
-              if (doc.data().customer_id === this.uid) {
-                console.log("checked1");
-                if (doc.data().document_id === this.shop.document_id) {
+              /*  if (doc.data().customer_id === this.uid) {
+                console.log("checked1"); 
+                 if (doc.data().document_id === this.shop.document_id) {
                   console.log("checked2");
                   if (doc.data().booking_date == reservationdate && doc.data().time === this.selected.time) {
-                    console.log("checked3");
+                    console.log("checked3");  */
                     this.canBook = false;
                     alert("You have already made a reservation on this day!");                    
-                  } else {
-                      this.canBook = true;
-                  }
-                }
-              }
+                 // }
+               // }
+             // }
             });
           }).then(()=> {
             if(this.canBook) {
