@@ -10,7 +10,7 @@
           <div class="btn-group">
             <a id="info" @click="toggleInformation">Information</a>
             <a id="dashboard" @click="toggleDashboard">Dashboard</a>
-            <a id="reservations" @click="toggleReservations">Reservations</a>
+            <a id="reservations" @click="toggleReservations" v-show="type != 'shop'">Reservations</a>
             <a id="enquiries" @click="toggleEnquiries">Enquiries</a>
             <button id="logout" v-on:click="logOut()">Log Out</button>
           </div>
@@ -26,7 +26,7 @@
       <merchant-dashboard> </merchant-dashboard>
     </div>
 
-    <div id="body" v-else-if="reservations">
+    <div id="body" v-else-if="reservations" v-show="type != 'shop'">
       <merchant-reservations> </merchant-reservations>
     </div>
 
@@ -43,6 +43,7 @@ import MerchantEnquiry from "./MerchantEnquiry.vue";
 import MerchantReservations from "./MerchantReservations.vue";
 
 import firebase from "firebase/app";
+import database from "../../firebase.js";
 
 export default {
   components: {
@@ -57,9 +58,20 @@ export default {
       dashboard: false,
       reservations: false,
       enquiries: false,
+      type: "",
     };
   },
   methods: {
+    fetchMerchant() {
+      this.uid = firebase.auth().currentUser.uid;
+      database
+        .collection("users")
+        .doc(this.uid)
+        .get()
+        .then((doc) => {
+          this.type=doc.data().business_type
+        });
+    },
     toggleInformation() {
       this.information = true;
       this.dashboard = false;
@@ -143,9 +155,9 @@ export default {
       });
   },
 
-  /* created() {
-    
-    var user = firebase.auth().currentUser;
+  created() {
+    this.fetchMerchant();
+    /* var user = firebase.auth().currentUser;
 
 
     if (user == null) {
@@ -172,8 +184,26 @@ export default {
         },
         
       ); 
-    }
-  }, */
+    } */
+  },
+
+  /* mounted() {
+    window.addEventListener('beforeunload', function (event) {
+       console.log(performance.navigation.type,"performance.navigation.type");
+         
+       firebase.auth().signOut().then(() => {
+        alert("Successfully signed out!");        
+        this.$router.replace({ path: "/" });
+      }).catch((error) => {
+        console.log(error.message);
+      });
+
+       event.preventDefault();
+
+       event.returnValue = '';
+    }, false);
+} */
+
 };
 </script>
 
