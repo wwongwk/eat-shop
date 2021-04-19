@@ -205,6 +205,7 @@ export default {
                 console.log("checked1"); 
                  if (doc.data().document_id === this.shop.document_id) {
                   console.log("checked2");
+                  this.canBook = true;
                   if (doc.data().booking_date == reservationdate && doc.data().time === this.selected.time) {
                     console.log("checked3");  */
                     this.canBook = false;
