@@ -10,7 +10,7 @@
           <div class="btn-group">
             <a id="info" @click="toggleInformation">Information</a>
             <a id="dashboard" @click="toggleDashboard">Dashboard</a>
-            <a id="reservations" @click="toggleReservations">Reservations</a>
+            <a id="reservations" @click="toggleReservations" v-show="type != 'shop'">Reservations</a>
             <a id="enquiries" @click="toggleEnquiries">Enquiries</a>
             <button id="logout" v-on:click="logOut()">Log Out</button>
           </div>
@@ -26,7 +26,7 @@
       <merchant-dashboard> </merchant-dashboard>
     </div>
 
-    <div id="body" v-else-if="reservations">
+    <div id="body" v-else-if="reservations" v-show="type != 'shop'">
       <merchant-reservations> </merchant-reservations>
     </div>
 
@@ -43,6 +43,7 @@ import MerchantEnquiry from "./MerchantEnquiry.vue";
 import MerchantReservations from "./MerchantReservations.vue";
 
 import firebase from "firebase/app";
+import database from "../../firebase.js";
 
 export default {
   components: {
@@ -57,9 +58,20 @@ export default {
       dashboard: false,
       reservations: false,
       enquiries: false,
+      type: "",
     };
   },
   methods: {
+    fetchMerchant() {
+      this.uid = firebase.auth().currentUser.uid;
+      database
+        .collection("users")
+        .doc(this.uid)
+        .get()
+        .then((doc) => {
+          this.type=doc.data().business_type
+        });
+    },
     toggleInformation() {
       this.information = true;
       this.dashboard = false;
@@ -123,7 +135,6 @@ export default {
         .signOut()
         .then(() => {
           alert("Successfully signed out!");
-          this.login = false;
           this.$router.replace({ path: "/" });
         })
         .catch((error) => {
@@ -137,7 +148,6 @@ export default {
       .auth()
       .signOut()
       .then(() => {
-        alert("Successfully signed out!");
         //this.$router.replace({ path: "/" });
       })
       .catch((error) => {
@@ -146,16 +156,14 @@ export default {
   },
 
   created() {
-    /*
-    var user = firebase.auth().currentUser;
+    this.fetchMerchant();
+    /* var user = firebase.auth().currentUser;
 
 
     if (user == null) {
       this.$router.replace({ path: "/" });
     } else {
-      window.addEventListener(
-        "beforeunload",
-        function (event) {
+      window.addEventListener("beforeunload",function (event) {
           event.preventDefault();
           console.log(
             performance.navigation.type,
@@ -174,9 +182,9 @@ export default {
             });
           event.returnValue = "";
         },
-        false
+        
       ); 
-    }*/
+    } */
   },
 
   /* mounted() {
@@ -195,6 +203,7 @@ export default {
        event.returnValue = '';
     }, false);
 } */
+
 };
 </script>
 

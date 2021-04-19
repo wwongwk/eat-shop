@@ -5,7 +5,7 @@
     <div id="login">
       <img id="logo" src="../assets/logo.png" />
       <h1>LOGIN</h1>
-      <form v-if="!biz">
+      <form v-if="!biz && !reset">
         <input
           type="email"
           v-model.trim="email"
@@ -45,12 +45,26 @@
         <button id="submit" v-on:click="login">LOGIN</button>
       </form>
 
+      <form v-if="reset">
+        <input
+          type="email"
+          v-model.trim="email"
+          id="email"
+          name="email"
+          placeholder="YOUR EMAIL"
+          v-on:keyup.enter="reset"
+        /><br /><br />
+        <button id="submit" v-on:click="resetPW">SEND PASSWORD RESET LINK</button>
+      </form>
+
       <br />
       <div id="signup" v-if="!biz" style="font-size: 13px; margin: 10px">
         NO ACCOUNT?
         <router-link to="/signup" exact> SIGN UP!</router-link>
       </div>
-      <div id="forgetPW"><router-link to="/changePW" exact>FORGET PASSWORD</router-link></div>
+      <div id="forgetPW" v-if='!reset' v-on:click="reset=true">FORGET PASSWORD</div>
+      <div id="forgetPW" v-else v-on:click="reset=false">BACK TO LOGIN</div>
+
     </div>
   </div>
 </template>
@@ -70,6 +84,7 @@ export default {
       email: "",
       password: "",
       biz: false,
+      reset:false,
     };
   },
   methods: {
@@ -77,10 +92,11 @@ export default {
       if (this.email=="" || this.password=="") {
         alert("Incomplete submission!");
       } else {    
-        firebase
+        /* firebase
           .auth()
           .fetchSignInMethodsForEmail(this.email)
           .then(() => {
+            console.log("test") */
             firebase
               .auth()
               .signInWithEmailAndPassword(this.email, this.password)
@@ -98,15 +114,28 @@ export default {
                         this.$router.replace({ path: "/merchant" });
                       }
                     }
+                  })
+              }).catch((error) => {
+                    console.log("Error fetching user data:", error);
+                    alert(error.message);
                   });
-              });
-          })
-          .catch((error) => {
+         /* })
+           .catch((error) => {
             console.log("Error fetching user data:", error);
-            alert(error.message);
-          });
+            alert(error);
+          }); */
       }
     },
+    resetPW: function() {
+      firebase
+      .auth()
+      .sendPasswordResetEmail(this.email)
+      .then(() => {
+        console.log("Successfully sent password reset link to given email address. Please check your email!")
+      }).catch(function(error) {
+        console.log(error.message)
+      });
+    }
   },
 };
 </script>
