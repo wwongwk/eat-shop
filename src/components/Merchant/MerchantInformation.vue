@@ -208,7 +208,7 @@
               v-show="shop"
             >
               Delete
-            </button>
+            </button><br>
             &nbsp;
           </div>
         </div>
@@ -272,7 +272,7 @@ export default {
           snapshot.docs.forEach((doc) => {
             if (doc.data().user_id == this.uid) {
               this.merchantDetails.push(doc.data());
-              this.mobile = doc.data().telephone;
+              this.mobile = doc.data().mobile;
               this.name = doc.data().name;
               this.address = doc.data().address;
               this.openingHours = doc.data().openingHours;
