@@ -58,7 +58,7 @@ export default {
       firebase.auth().signOut().then(() => {
         alert("Successfully signed out!");
         this.login=false;
-        if(this.$router.url!="/") {
+        if(this.$router.currentRoute.path!="/") {
           this.$router.replace({ path: "/" });
         }
       }).catch((error) => {

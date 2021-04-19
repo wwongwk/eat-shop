@@ -248,7 +248,8 @@ export default {
             this.generateMonthlyClicksAxis(this.clicksData[0].y);
           });
         });
-    }, //fetch monthly clicks data for a particular year chosen by user
+    }, 
+    //fetch monthly reservation data for a particular year chosen by user
     sortReservations: function (value) {
       this.uid = firebase.auth().currentUser.uid;
       database
@@ -407,6 +408,7 @@ export default {
     this.fetchDetails();
     this.getMerchantId();
     this.getTopCustomers();
+    this.test();
   },
 };
 </script>
