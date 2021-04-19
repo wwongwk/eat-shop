@@ -133,7 +133,6 @@ export default {
         this.childrenCount--;
       }
     },
-
     checkTime: function () {
       //check if booking time is after current time
       //get local date and time
@@ -146,7 +145,6 @@ export default {
       if (currentHour === "0") {
         currentHour = 24;
       }
-
       //get input date and time
       var chosen = new Date(document.getElementById("bookingDate").value);
       var chosenDate = chosen.getDate();
@@ -178,7 +176,6 @@ export default {
         }
       }
     },
-
     //check if current user has already made a reservation
     checkReservation: function () {
       console.log("heyy");
@@ -193,18 +190,18 @@ export default {
           .get()
           .then((snapshot) => {
             snapshot.docs.forEach((doc) => {
-              console.log(this.uid);
-              console.log(this.shop.document_id);
+              //console.log(this.uid);
+              //console.log(this.shop.document_id);
               if (doc.data().customer_id === this.uid) {
                 console.log("checked1");
                 if (doc.data().document_id === this.shop.document_id) {
                   console.log("checked2");
-                  if (doc.data().booking_date == reservationdate
-                  && doc.data().time === this.selected.time) {
+                  if (doc.data().booking_date == reservationdate && doc.data().time === this.selected.time) {
                     console.log("checked3");
                     this.canBook = false;
-                    alert("You have already made a reservation on this day!");
-                    
+                    alert("You have already made a reservation on this day!");                    
+                  } else {
+                      this.canBook = true;
                   }
                 }
               }
@@ -216,7 +213,6 @@ export default {
           });
       }
     },
-
     increaseCounter: function () {
       console.log("Inside increaseCounter()");
       console.log(document.getElementById("bookingDate"));
@@ -260,7 +256,6 @@ export default {
           });
         });
     },
-
     book: function () {
       console.log("book:" + this.canBook)
       //if user is not logged in,
@@ -282,7 +277,6 @@ export default {
           } else {
             //Buggy function
             this.increaseCounter();
-
             //converts javascript date object to timestamp object to be saved to database
             //alert pop-up to inform user of successful reservation
             var chosenDate = new Date(
@@ -326,7 +320,6 @@ export default {
         }
      // }
     },
-
     setCalendarLimits: function () {
       //set minimum day of calendar to current date because user cannot choose a previous date
       //and maximum day of calendar to end of the year
@@ -349,7 +342,6 @@ export default {
       console.log("Function running");
       this.shop = this.$route.query;
       this.acceptReservation = JSON.parse(this.shop["acceptReservations"]);
-
       // this.shop["acceptReservations"] returns String
       console.log("accept Reservation: " + this.acceptReservation);
       if (this.acceptReservation === false) {
@@ -379,13 +371,11 @@ export default {
 [type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
-
 label {
   display: block;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
 #book {
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -410,13 +400,11 @@ label {
 .background {
   margin-left: 20px;
 }
-
 #reservationNotice {
   margin-left: 20px;
   font-size: 30px;
   text-align: center;
 }
-
 span {
   cursor: pointer;
 }
@@ -436,7 +424,6 @@ span {
   text-align: center;
   cursor: pointer;
 }
-
 #pax-count {
   height: 34px;
   width: 100px;
@@ -447,7 +434,6 @@ span {
   display: inline-block;
   vertical-align: middle;
 }
-
 #bookNow {
   margin-top: 30px;
   margin-bottom: 20px;
@@ -462,7 +448,6 @@ span {
   height: 40px;
   cursor: pointer;
 }
-
 #timeDropdown {
   width: 20%;
 }

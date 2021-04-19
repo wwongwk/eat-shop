@@ -67,9 +67,9 @@
 
       <!-- MENU PORTION FOR EAT BUSINESS -->
       <div id="menuInfo" class="flexbox" v-show="eat">
-        <h2>Menu Items</h2>
-        <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
-        <div id="addFood" name="addFood" v-show="add">
+        <h2>Add Menu Item</h2>
+        <br>
+        <div id="addFood" name="addFood">
           <br />
           <form id="addForm">
             <label for="foodName">Name of food item:</label> &nbsp;
@@ -119,9 +119,9 @@
 
       <!-- PRODUCTS PORTION FOR SHOP BUSINESS -->
       <div id="menuInfo" class="flexbox" v-show="shop">
-        <h2>Products</h2>
-        <button id="menuBtn" v-on:click="toogleAddItem()">Add Item</button>
-        <div id="addProduct" name="addProduct" v-show="add">
+        <h2>Add Shop Product</h2>
+        <br>
+        <div id="addProduct" name="addProduct">
           <br />
           <form id="addForm5">
             <label for="productName">Name of product:</label> &nbsp;
@@ -245,9 +245,6 @@ export default {
       // check eat or shop to toggle merchant eat / shop information
       eat: false,
       shop: false,
-
-      // Attributes for Add functionality
-      add: true, 
 
       // inputs for eat merchant account
       foodName: "",
@@ -446,11 +443,6 @@ export default {
         .then(() => {
           location.reload();
         });
-    },
-
-    // toggle display showing adding new food / product form or not
-    toogleAddItem() {
-      this.add = !this.add;
     },
 
     // accepting reservations
