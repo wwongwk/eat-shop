@@ -39,8 +39,8 @@
         if (this.newpw==this.re_enter) {
           var user = firebase.auth().currentUser;
           user.updatePassword(this.newpw).then(()=> {             
-            console.log("Change successfully!");
-            this.$router.replace({ path: "/" });          
+            alert("Change successfully!");
+            this.$router.replace({ path: "/profile" });          
           }).catch(function(error) {
             console.log(error.message);
           });

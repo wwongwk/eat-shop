@@ -486,7 +486,7 @@ img {
 }
 p {
   text-align: center;
-  //padding-left: 20px;
+ /*  //padding-left: 20px; */
   color: #ed83a7;
   font-size: 30px;
   letter-spacing: 0.1em;
