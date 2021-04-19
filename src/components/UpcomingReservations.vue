@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ reservationsArray }}
     <table class="table">
       <tr>
         <th></th>
