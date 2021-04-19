@@ -45,7 +45,6 @@ export default {
   methods: {
    
     deleteRow(event) {
-  
       database
         .collection(event.merchant_type)
         .doc(event.document_id)
@@ -81,7 +80,7 @@ export default {
         });
     },
     checkUpcoming: function () {
-      if (this.upcoming == null) {
+      if (this.upcoming.length == 0) {
         this.noUpcoming = true;
       }
     },

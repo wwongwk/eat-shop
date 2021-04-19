@@ -6,6 +6,8 @@
         <th>Item</th>
         <th>Date (DD/MM/YYYY)</th>
         <th id="quantity">Quantity</th>
+        <th></th>
+
       </tr>
       <tr v-for="event in past" v-bind:key="event.index">
         <td>
@@ -64,7 +66,7 @@ tr {
   background: #fff;
 }
 table {
-  width: 850px;
+  width: 910px;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   font-size: 18px;
   color: #403939;

@@ -135,7 +135,9 @@ export default {
         .signOut()
         .then(() => {
           alert("Successfully signed out!");
-          this.$router.replace({ path: "/" });
+          if(this.$router.currentRoute.path!="/") {
+            this.$router.replace({ path: "/" });
+          }
         })
         .catch((error) => {
           console.log(error.message);
@@ -148,7 +150,9 @@ export default {
       .auth()
       .signOut()
       .then(() => {
-        this.$router.replace({ path: "/" });
+        if(this.$router.currentRoute.path!="/") {
+          this.$router.replace({ path: "/" });
+        }
       })
       .catch((error) => {
         console.log(error.message);
@@ -160,7 +164,9 @@ export default {
       .auth()
       .signOut()
       .then(() => {
-        this.$router.replace({ path: "/" });
+        if(this.$router.currentRoute.path!="/") {
+          this.$router.replace({ path: "/" });
+        }
       })
       .catch((error) => {
         console.log(error.message);

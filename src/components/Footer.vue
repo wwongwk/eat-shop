@@ -8,10 +8,7 @@
           <button v-on:click="displayMsg" id="submitBtn">SUBSCRIBE</button>
         <br>
       </div>
-      <p id="AboutUs">About us    </p>
-      <p id="Partnership">Partnership    </p>
-      <p id="Terms">Terms of use    </p><br>
-      <p id="copyright">&copy;2021 by team</p>
+      <p id="copyright"><i>&copy;2021 by EAT&SHOP</i></p>
     </footer>
   </div>
 </template>
@@ -29,7 +26,7 @@
 <style scoped>
   footer {
     padding:20px;
-    height: 250px;
+    height: 200px;
     color: #000000;
     font-size: 18px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -46,7 +43,7 @@
   #subscribe {
     display: flex;
     margin-left: 200px;
-    margin-bottom: 80px;
+    margin-bottom: 30px;
     margin-top: 30px;
   }
   input {
@@ -108,21 +105,10 @@
     display: inline;
     margin: 70px;
   }
-  #AboutUs {
-    color: #000000;
-    font-size: 18px;
-  }
-  #Partnership{
-    color: #000000;
-    font-size: 18px;
-  }
-  #Terms {
-    color: #000000;
-    font-size: 18px;
-  }
+  
   #copyright {
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 4;
   }
 </style>
