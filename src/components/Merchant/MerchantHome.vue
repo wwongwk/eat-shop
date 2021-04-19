@@ -142,13 +142,25 @@ export default {
         });
     },
   },
+  
+  destroyed() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.$router.replace({ path: "/" });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  },
 
   beforeDestroy() {
     firebase
       .auth()
       .signOut()
       .then(() => {
-        //this.$router.replace({ path: "/" });
+        this.$router.replace({ path: "/" });
       })
       .catch((error) => {
         console.log(error.message);

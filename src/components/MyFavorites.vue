@@ -126,7 +126,6 @@
         }
 
         for (var favorite in this.favorites) {
-
           if (this.favorites[favorite].type === value.type.toLowerCase()) {
             //filters the list of restaurants by cuisine type
            // this.filtered[favorite]=this.favorites[favorite]
@@ -230,8 +229,8 @@ h3 {
 }
 
 #filterDropdown {
-  width: 30%;
-  margin: 0 auto;
+  width: 130px;
+  margin-left: 100px ;
   margin-top: 20px;
   border: none;
   outline: none;

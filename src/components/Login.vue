@@ -98,6 +98,10 @@ export default {
           .then(() => {
             console.log("test") */
             firebase
+            .auth()
+            .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+            .then(() => {
+              firebase
               .auth()
               .signInWithEmailAndPassword(this.email, this.password)
               .then(() => {
@@ -115,10 +119,15 @@ export default {
                       }
                     }
                   })
-              }).catch((error) => {
+                }).catch((error) => {
                     console.log("Error fetching user data:", error);
                     alert(error.message);
-                  });
+                });
+            })
+            .catch((error) => {
+              // Handle Errors here.
+              console.log(error.message);
+            });
          /* })
            .catch((error) => {
             console.log("Error fetching user data:", error);
