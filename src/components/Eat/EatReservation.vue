@@ -194,12 +194,15 @@ export default {
               //console.log(this.shop.document_id);
               if (doc.data().customer_id === this.uid) {
                 console.log("checked1");
+                this.canBook = true;
                 if (doc.data().document_id === this.shop.document_id) {
                   console.log("checked2");
+                  this.canBook = true;
                   if (doc.data().booking_date == reservationdate && doc.data().time === this.selected.time) {
                     console.log("checked3");
                     this.canBook = false;
-                    alert("You have already made a reservation on this day!");                    
+                    alert("You have already made a reservation on this day!");
+                    return;                    
                   } else {
                       this.canBook = true;
                   }
