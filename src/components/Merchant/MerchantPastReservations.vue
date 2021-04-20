@@ -6,14 +6,13 @@
     </h2>
     <table class="table">
       <tr>
-        
         <th>Customer Username</th>
         <th>Date (DD/MM/YYYY)</th>
         <th id="quantity">Quantity</th>
       </tr>
-      <tr v-for="event in past" v-bind:key="event.index">
+      <tr v-for="event in pageOfItems" v-bind:key="event.index">
         <td>
-          {{event.customer_name}}
+          {{ event.customer_name }}
         </td>
         <td>
           {{ event.date.toDate().toLocaleDateString() }},
@@ -21,9 +20,20 @@
             event.date.toDate().getMinutes()
           }}
         </td>
-        <td id="quantity">{{ event.adults }} x Adults, {{ event.children }} x Children</td>
+        <td id="quantity">
+          {{ event.adults }} x Adults, {{ event.children }} x Children
+        </td>
       </tr>
     </table>
+
+    <div id="page">
+      <jw-pagination
+        :items="past"
+        :pageSize="5"
+        @changePage="onChangePage"
+        id="page"
+      ></jw-pagination>
+    </div>
   </div>
 </template>
 
@@ -33,7 +43,14 @@ export default {
   data() {
     return {
       noPast: false,
+      pageOfItems: [],
     };
+  },
+  methods: {
+    onChangePage(pageOfItems) {
+      // update page of items
+      this.pageOfItems = pageOfItems;
+    },
   },
 };
 </script>
@@ -76,6 +93,5 @@ hr {
   color: #403939;
   height: 1px;
 }
-
 </style>
 
