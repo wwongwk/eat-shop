@@ -66,12 +66,11 @@
 
 <script>
   import database from "../firebase.js";
-
+  import firebase from "firebase/app";
   export default {
-    props:["favorites"],
-
     data() {
       return {
+        favorites:{},
         errorShown: false,
         error: "",
         dropdownOptions: [
@@ -138,6 +137,26 @@
         this.errorShown = false;
         this.filteredShown = true;
       },
+    },
+
+    created() {
+      var user = firebase.auth().currentUser;
+      if (user != null) {
+        var uid = user.uid;
+        database.collection("users")
+        .doc(uid)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            this.favorites = doc.data().favorites;
+          } else {
+            console.log("No such document!");
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
+      }
     }
   };
 </script>

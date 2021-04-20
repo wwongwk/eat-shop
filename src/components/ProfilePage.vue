@@ -51,7 +51,7 @@
               id="email"
               name="email"
               v-model="email"
-            /><br /><br />
+            readonly/><br /><br />
             <label for="mobile">YOUR MOBILE:</label><br />
             <input
               type="number"
@@ -73,7 +73,7 @@
             v-show="upcoming"
           ></upcoming-reservations>
           <past-events v-bind:past="pastRes" v-show="past"></past-events>
-          <my-favorite v-bind:favorites="favorites" v-show="fav"></my-favorite>
+          <my-favorite v-show="fav"></my-favorite>
         </div>
       </div>
     </div>
@@ -104,7 +104,6 @@ export default {
       upcomingRes: [],
       pastRes: [],
       allReservations: [],
-      favorites: {},
       basic: true,
       upcoming: false,
       past: false,
@@ -125,6 +124,8 @@ export default {
       db.collection("users").doc(uid).update({
         name: this.name,
         mobile: this.mobile,
+      }).then (()=>{
+        alert("Successfully saved!")
       });
     },
     fetchReservations: function () {
@@ -185,7 +186,6 @@ export default {
             if (doc.exists) {
               this.name = doc.data().name;
               this.mobile = doc.data().mobile;
-              this.favorites = doc.data().favorites;
             } else {
               console.log("No such document!");
             }

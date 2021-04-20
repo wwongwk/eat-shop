@@ -211,8 +211,6 @@ export default {
       }
     },
     increaseCounter: function () {
-      console.log("Inside increaseCounter()");
-      console.log(document.getElementById("bookingDate"));
       var chosenDate = new Date(
         document.getElementById("bookingDate").value +
           "T" +
@@ -228,7 +226,6 @@ export default {
         .get()
         .then((doc) => {
           var done = false;
-          console.log(doc.data().totalReservations);
           var currentArray = [];
           currentArray = doc.data().totalReservations[year];
           for (var i = 0; i < currentArray.length; i++) {
@@ -275,8 +272,7 @@ export default {
                 this.selected.time +
                 ":00"
             );
-            console.log('Customer ID:' + this.uid)
-            console.log('Customer Name' + this.name)
+         
             let booking = new Object();
             booking["booking_date"] = document.getElementById("bookingDate").value;
             booking["date"] = chosenDate;
@@ -299,8 +295,6 @@ export default {
                 snapshot.docs.forEach((doc) =>{                  
                   if (doc.data().user_id === this.uid){
                     booking["customer_name"] = doc.data().name;
-                    console.log(doc.data().name);
-                    console.log(booking);
                     newRef.set(booking).then(() => location.reload());
                     alert("Your reservation is confirmed!");
                   }
@@ -329,14 +323,11 @@ export default {
       document.getElementById("bookingDate").setAttribute("max", lastDay);
     },
     alterDisplay() {
-      console.log("Function running");
       this.shop = this.$route.query;
       this.acceptReservation = JSON.parse(this.shop["acceptReservations"]);
       // this.shop["acceptReservations"] returns String
-      console.log("accept Reservation: " + this.acceptReservation);
       if (this.acceptReservation === false) {
         this.displayResNotice = true;
-        console.log("Inside loop");
       }
     },
   },

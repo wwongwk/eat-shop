@@ -135,46 +135,43 @@ export default {
             console.log("Error fetching user data:", error);
             alert(error);
           }); */
+        firebase
+        .auth()
+        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
           firebase
           .auth()
-          .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+          .signInWithEmailAndPassword(this.email, this.password)
           .then(() => {
-            firebase
-            .auth()
-            .signInWithEmailAndPassword(this.email, this.password)
-            .then(() => {
-              database
-                  .collection("users")
-                  .doc(firebase.auth().currentUser.uid)
-                  .get()
-                  .then((doc) => {
-                    if (doc.exists) {
-                      if (doc.data().business == false) {
-                         console.log("Successfully logged in");
-                          this.$router.replace({ path: "/" });
-                      } else {
-                         firebase.auth().signOut().then(() => {
-                           alert("You have no customer account")
-                         })
-                      }
-                    }
-                    }).catch((error) => {
-                console.log("No document"+ error);
-            });
-             
+            database
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .get()
+            .then((doc) => {
+              if (doc.exists) {
+                if (doc.data().business == false) {
+                    alert("Successfully logged in");
+                    this.$router.replace({ path: "/" });
+                } else {
+                    firebase.auth().signOut().then(() => {
+                      alert("You have no customer account")
+                    })
+                }
+              }
             }).catch((error) => {
-                console.log("Error fetching user data:", error);
-                alert(error.message);
-            });
-          });              
-                  
+              console.log("No document"+ error);
+            });   
+          }).catch((error) => {
+            console.log("Error fetching user data:", error);
+            alert(error.message);
+          });
+        });                         
       }
     },
-     bizLogin: function () {
+    bizLogin: function () {
       if (this.email=="" || this.password=="") {
         alert("Incomplete submission!");
       } else {    
-        console.log("biztest1")
         firebase
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.SESSION)
@@ -190,7 +187,7 @@ export default {
             .then((doc) => {
               if (doc.exists) {
                 if (doc.data().business == true) {
-                    console.log("Successfully logged in");
+                    alert("Successfully logged in");
                     this.$router.replace({ path: "/merchant" });
                 } else {
                   firebase.auth().signOut().then(() => {
@@ -209,14 +206,26 @@ export default {
       }
     },
     resetPW: function() {
-      firebase
-      .auth()
-      .sendPasswordResetEmail(this.email)
-      .then(() => {
-        console.log("Successfully sent password reset link to given email address. Please check your email!")
-      }).catch(function(error) {
-        console.log(error.message)
-      });
+      try {
+        firebase
+        .auth()
+        .fetchSignInMethodsForEmail(email)
+        .then(() => {
+          firebase
+            .auth()
+            .sendPasswordResetEmail(this.email)
+            .then(() => {
+              alert("Successfully sent password reset link to given email address. Please check your email!")
+            }).catch(function(error) {
+              console.log(error.message)
+            });
+          }).catch((error) => {
+            console.log(error.message)
+            alert("You do not have an account with us! Please sign up!")
+          });
+      } catch {
+        alert("You do not have an account with us! Please sign up!")
+      }
     }
   },
 };

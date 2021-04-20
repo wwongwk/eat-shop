@@ -27,7 +27,7 @@
         </td>
       </tr>
     </table>
-    <p v-show="noUpcoming"></p>
+    <p v-show="noUpcoming">You have no upcoming reservation</p>
   </div>
 </template>
 
@@ -56,7 +56,6 @@ export default {
 
           // Get totalReservations from eat collection
           this.reservationsArray = doc.data().totalReservations;
-          console.log(this.reservationsArray);
 
           //Modify totalReservations
           var res = this.reservationsArray[year][month];

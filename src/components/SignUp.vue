@@ -190,10 +190,8 @@ export default {
     },
 
     register: function () {
-      console.log("register function called")
       
       if ( this.name == "" || this.email == "" || this.mobile == "") { // incomplete fields
-        console.log("Incomplete submission!")
         alert("Incomplete submission!");
         return;
       } 
@@ -201,12 +199,10 @@ export default {
       this.checkStrongPassword();
 
       if (this.strongPassword === false) {
-        console.log("Password error")
         alert("Please check password!");
         return;
       
       } else {
-        console.log("create new user in firebase")
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)

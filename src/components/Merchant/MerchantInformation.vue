@@ -361,7 +361,6 @@ export default {
 
     //Check all inputs for new product filled up
     requiredProduct() {
-      console.log(this.productName);
       if (this.productName === "") {
         alert("Please input a product name");
       } else if (this.productPrice === "") {
@@ -385,7 +384,6 @@ export default {
       };
 
       this.menu[this.foodName] = newFood;
-      console.log(this.documentId);
       database
         .collection("eat")
         .doc(this.documentId)

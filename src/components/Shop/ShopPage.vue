@@ -237,7 +237,6 @@ export default {
     sendData: function (id) {
       for (var x of this.shops) {
         if (x["id"] === id) {
-          console.log(x);
           x["menu_str"] = JSON.stringify(x["menu"]);
           this.increaseCounter(x);
           this.$router.push({ path: "/shopDetail", query: x });
@@ -305,7 +304,6 @@ export default {
         .get()
         .then((doc) => {
           var done = false;
-          console.log(doc.data().totalClicks);
           var currentArray = [];
           currentArray = doc.data().totalClicks[year];
           for (var i = 0; i < currentArray.length; i++) {
@@ -323,7 +321,6 @@ export default {
           }
           this.totalClicks = doc.data().totalClicks;
           this.totalClicks[year] = yearlyClicks;
-          console.log(this.totalClicks);
         })
         .then(() => {
           database.collection(x["type"]).doc(x["document_id"]).update({

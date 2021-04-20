@@ -55,8 +55,6 @@ export default {
           email: this.custEmail,
           message: this.description,
         });
-
-        console.log(this.enquiries[0]);
         
         alert("Enquiry submitted!");
         database

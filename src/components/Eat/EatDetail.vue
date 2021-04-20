@@ -227,8 +227,7 @@ export default {
         delete this.fav[document_id];
       }
       database.collection("users").doc(this.uid).update({
-            //favorites: firebase.firestore.FieldValue.arrayUnion(this.fav)   
-            favorites : this.fav
+        favorites : this.fav
       });
     }
     localStorage.clear();

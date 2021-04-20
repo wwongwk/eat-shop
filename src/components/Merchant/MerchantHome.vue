@@ -251,7 +251,7 @@ export default {
   }
 }
 #logo {
-  width: 150px;
+  width: 120px;
   float: left;
 }
 #title {

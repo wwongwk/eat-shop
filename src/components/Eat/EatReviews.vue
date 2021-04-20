@@ -285,7 +285,6 @@ export default {
   },
   created() {
     this.fetchEatDetails();
-    console.log("eat login: " + this.loggedIn);
   },
 };
 </script>

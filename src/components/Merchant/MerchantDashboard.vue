@@ -261,8 +261,6 @@ export default {
             var yearArray = doc.data().totalReservations[value.year];
             this.reservationsData[0].y = yearArray;
             this.generateMonthlyReservationsAxis(this.reservationsData[0].y);
-            console.log(this.reservationsData[0].x)
-            console.log(this.reservationsData[0].y)
           });
         });
     },
