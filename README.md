@@ -1,4 +1,4 @@
-# eat-shop-play
+# eat-shop
 
 ## Description
 Eat. Shop is a services booking platform for small local businesses.
