@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     checkPast: function () {
-      if (this.past.length == 0) {
+      if (this.past == null) {
         this.noPast = true;
       }
     },
