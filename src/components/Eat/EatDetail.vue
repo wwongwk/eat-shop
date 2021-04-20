@@ -23,7 +23,6 @@
         <button id="review" v-on:click="toggleReview()">Reviews</button>
         <button id="reservation" v-on:click="toggleReservation()">Reservation</button>
         <button id="enquiry" v-on:click="toggleEnquiry()">Get In Touch</button>
-        
       </div>
       <div class="favName">
         <h2 id="body">{{ shopName }} &nbsp;</h2>
@@ -94,18 +93,18 @@ export default {
       try {
         this.uid = firebase.auth().currentUser.uid;
         database
-          .collection("users")
-          .doc(this.uid)
-          .get()
-          .then((doc) => {
-            this.loggedIn = true;
-            this.fav=doc.data().favorites
+        .collection("users")
+        .doc(this.uid)
+        .get()
+        .then((doc) => {
+          this.loggedIn = true;
+          this.fav=doc.data().favorites
 
-            if (this.fav[this.shop["document_id"]]!=null) {
-              this.added=true;
-              document.getElementById("favorite").innerHTML="Favorite &#9829;";
-            }
-          });
+          if (this.fav[this.shop["document_id"]]!=null) {
+            this.added=true;
+            document.getElementById("favorite").innerHTML="Favorite &#9829;";
+          }
+        });
       } catch (err) {
         this.loggedIn = false;
       }
@@ -224,14 +223,13 @@ export default {
       var document_id =this.shop["document_id"]
       if (this.added===true) {
         this.fav[document_id]={imageURL:this.shop["imageURL"], name:this.shopName, overallRating:this.shop.overallRating, type:this.shop.type} 
-
       } else {
         delete this.fav[document_id];
       }
-        database.collection("users").doc(this.uid).update({
-              //favorites: firebase.firestore.FieldValue.arrayUnion(this.fav)   
-              favorites : this.fav
-        });
+      database.collection("users").doc(this.uid).update({
+            //favorites: firebase.firestore.FieldValue.arrayUnion(this.fav)   
+            favorites : this.fav
+      });
     }
     localStorage.clear();
   }

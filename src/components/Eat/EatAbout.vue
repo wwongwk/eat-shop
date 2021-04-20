@@ -30,9 +30,6 @@
 <script>
 export default {
   props: ['shop'],
-
-  components: {
-  },
   data() {
     return {
       About: true,

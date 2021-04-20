@@ -5,6 +5,7 @@
     <div id="login">
       <img id="logo" src="../assets/logo.png" />
       <h1>LOGIN</h1>
+     
       <form v-if="!biz && !reset">
         <input
           type="email"
@@ -22,17 +23,17 @@
           placeholder="PASSWORD"
           v-on:keyup.enter="login"
         /><br /><br />
-        <input type="button" id="submit" value="LOGIN" v-on:click="login" />
+        <button id="submit" v-on:click.prevent="login">LOGIN</button>
       </form>
 
-      <form v-if="biz">
+      <form v-if="biz && !reset">
         <input
           type="email"
           v-model.trim="email"
           id="email"
           name="email"
           placeholder="BUSINESS EMAIL"
-          v-on:keyup.enter="login"
+          v-on:keyup.enter="bizLogin"
         /><br /><br />
         <input
           type="password"
@@ -40,9 +41,9 @@
           id="password"
           name="password"
           placeholder="PASSWORD"
-          v-on:keyup.enter="login"
+          v-on:keyup.enter="bizLogin"
         /><br /><br />
-        <button id="submit" v-on:click="login">LOGIN</button>
+        <button id="submit" v-on:click.prevent="bizLogin()">BIZ LOGIN</button>
       </form>
 
       <form v-if="reset">
@@ -52,19 +53,20 @@
           id="email"
           name="email"
           placeholder="YOUR EMAIL"
-          v-on:keyup.enter="reset"
+          v-on:keyup.enter="resetPW"
         /><br /><br />
-        <button id="submit" v-on:click="resetPW">SEND PASSWORD RESET LINK</button>
+        <button id="submit" v-on:click.prevent="resetPW()">SEND PASSWORD RESET LINK</button>
       </form>
 
       <br />
-      <div id="signup" v-if="!biz" style="font-size: 13px; margin: 10px">
+      <div id="signup" v-show="!biz" style="font-size: 13px; margin: 10px">
         NO ACCOUNT?
         <router-link to="/signup" exact> SIGN UP!</router-link>
       </div>
       <div id="forgetPW" v-if='!reset' v-on:click="reset=true">FORGET PASSWORD</div>
       <div id="forgetPW" v-else v-on:click="reset=false">BACK TO LOGIN</div>
-
+      <div id="biz" v-show="!biz" v-on:click="biz=true">FOR BUSINESS</div>
+      <div id="biz" v-show="biz" v-on:click="biz=false">FOR CUSTOMERS</div>
     </div>
   </div>
 </template>
@@ -96,12 +98,12 @@ export default {
           .auth()
           .fetchSignInMethodsForEmail(this.email)
           .then(() => {
-            console.log("test") */
+            console.log("test") 
             firebase
             .auth()
             .setPersistence(firebase.auth.Auth.Persistence.SESSION)
             .then(() => {
-              firebase
+               firebase
               .auth()
               .signInWithEmailAndPassword(this.email, this.password)
               .then(() => {
@@ -122,17 +124,88 @@ export default {
                 }).catch((error) => {
                     console.log("Error fetching user data:", error);
                     alert(error.message);
-                });
+                }); 
             })
             .catch((error) => {
               // Handle Errors here.
               console.log(error.message);
-            });
+            });  */
          /* })
            .catch((error) => {
             console.log("Error fetching user data:", error);
             alert(error);
           }); */
+          firebase
+          .auth()
+          .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+          .then(() => {
+            firebase
+            .auth()
+            .signInWithEmailAndPassword(this.email, this.password)
+            .then(() => {
+              database
+                  .collection("users")
+                  .doc(firebase.auth().currentUser.uid)
+                  .get()
+                  .then((doc) => {
+                    if (doc.exists) {
+                      if (doc.data().business == false) {
+                         console.log("Successfully logged in");
+                          this.$router.replace({ path: "/" });
+                      } else {
+                         firebase.auth().signOut().then(() => {
+                           alert("You have no customer account")
+                         })
+                      }
+                    }
+                    }).catch((error) => {
+                console.log("No document"+ error);
+            });
+             
+            }).catch((error) => {
+                console.log("Error fetching user data:", error);
+                alert(error.message);
+            });
+          });              
+                  
+      }
+    },
+     bizLogin: function () {
+      if (this.email=="" || this.password=="") {
+        alert("Incomplete submission!");
+      } else {    
+        console.log("biztest1")
+        firebase
+        .auth()
+        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+          firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            database
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .get()
+            .then((doc) => {
+              if (doc.exists) {
+                if (doc.data().business == true) {
+                    console.log("Successfully logged in");
+                    this.$router.replace({ path: "/merchant" });
+                } else {
+                  firebase.auth().signOut().then(() => {
+                    alert("You have no business account!")
+                  })
+                }
+              }
+            }).catch((error) => {
+                console.log("No document"+ error);
+            });
+          }).catch((error) => {
+              console.log("Error signing in:", error);
+              alert(error.message);
+          });
+        });                          
       }
     },
     resetPW: function() {
@@ -241,5 +314,6 @@ a {
   color: #ed83a7;
   margin: 0px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 </style>

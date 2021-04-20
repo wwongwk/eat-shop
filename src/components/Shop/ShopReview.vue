@@ -191,12 +191,6 @@ export default {
       this.documentId = this.shop["document_id"];
       this.shopType = "shop"; // set as shop since shop type used for clothing / handcraft / toys
       this.clicks = this.shop["clicks"];
-      //this.overallRating = this.shop["overallRating"];
-      
-      console.log(this)
-      console.log(this.shopName)
-      console.log(this.documentId)
-      console.log(this.overallRating)
 
       database
         .collection(this.shopType)
@@ -285,7 +279,6 @@ export default {
   },
   mounted() {
     this.fetchShopDetails();
-    //console.log("shop login: " + this.loggedIn)
   },
 };
 </script>

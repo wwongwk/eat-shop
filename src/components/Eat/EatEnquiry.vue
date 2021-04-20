@@ -7,14 +7,14 @@ git<template>
         id="name"
         name="name"
         v-model="name"
-        placeholder="Your Name"
-      /><br /><br />
+        placeholder="Your Name"/>
+      <br /><br />
       <textarea
         id="description"
         name="description"
         v-model="description"
-        placeholder="How can we help?"
-      ></textarea>
+        placeholder="How can we help?">
+      </textarea>
       <br /><br />
       <input type="button" id="submit" value="SUBMIT" @click="submitEnquiry" />
     </form>
@@ -60,18 +60,18 @@ export default {
         
         alert("Enquiry submitted!");
         database
-          .collection("eat")
-          .doc(this.shop_id)
-          .update({
-            enquiries: this.enquiries,
-          })
-          .then(() => {
-            //location.reload();
-            this.get();
-            this.fetchDetails();
-            this.description = "";
-            this.name = "";
-          });
+        .collection("eat")
+        .doc(this.shop_id)
+        .update({
+          enquiries: this.enquiries,
+        })
+        .then(() => {
+          //location.reload();
+          this.get();
+          this.fetchDetails();
+          this.description = "";
+          this.name = "";
+        });
       }
     },
 
@@ -82,12 +82,12 @@ export default {
         this.custEmail = firebase.auth().currentUser.email;
         this.custPhone = firebase.auth().currentUser.phoneNumber;
         database
-          .collection("users")
-          .doc(this.uid)
-          .get()
-          .then(() => {
-            this.loggedIn = true;
-          });
+        .collection("users")
+        .doc(this.uid)
+        .get()
+        .then(() => {
+          this.loggedIn = true;
+        });
       } catch (err) {
         this.loggedIn = false;
       }
@@ -99,8 +99,8 @@ export default {
     },
   },
   created() {
-      this.get();
-      this.fetchDetails();
+    this.get();
+    this.fetchDetails();
   }
 }
 </script>
