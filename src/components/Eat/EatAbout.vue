@@ -5,7 +5,7 @@
     <p id="para">
       {{ description }}
       <br /><br /><br />
-      Tel +65 {{ telephone }}
+      Tel +65 {{ mobile }}
     </p>
     <br /><br />
 
@@ -36,7 +36,7 @@ export default {
       Review: false,
       Reservation: false,
       description: "",
-      telephone: "",
+      mobile: "",
       openHours: "", 
       address: "", 
       mapSrc:""
@@ -46,7 +46,7 @@ export default {
   methods: {
     get: function() {
       this.description = this.shop["description"];
-      this.telephone = this.shop["telephone"];
+      this.mobile = this.shop["mobile"];
       this.openHours = this.shop["openingHours"];
       this.address = this.shop["address"];
       this.mapSrc=this.shop["mapSrc"];

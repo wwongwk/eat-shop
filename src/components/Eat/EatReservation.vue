@@ -8,7 +8,7 @@
     <div id="reservationNotice" v-show="displayResNotice">
       <p>
         We are currently not accepting any reservations. We apologise for the
-        inconvience caused.
+        inconvenience caused.
       </p>
     </div>
     
