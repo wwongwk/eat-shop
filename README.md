@@ -3,6 +3,10 @@
 ## Description
 Eat. Shop. Play. is a services booking platform for small local businesses.
 
+https://eat-shop.herokuapp.com/
+
+![photo_name](misc/eat.png)
+
 ## Project setup
 ```
 npm install
