@@ -176,13 +176,14 @@ export default {
             .then(() => {
               alert("Successfully sent password reset link to given email address. Please check your email!")
             }).catch(function(error) {
+              alert("You do not have an account with us! Please sign up!")
               console.log(error.message)
             });
           }).catch((error) => {
-            console.log(error.message)
             alert("You do not have an account with us! Please sign up!")
+            console.log(error.message)
           });
-      } catch {
+      } catch(err) {
         alert("You do not have an account with us! Please sign up!")
       }
     }
