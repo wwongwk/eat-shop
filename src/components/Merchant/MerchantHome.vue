@@ -175,34 +175,6 @@ export default {
 
   created() {
     this.fetchMerchant();
-    /* var user = firebase.auth().currentUser;
-
-
-    if (user == null) {
-      this.$router.replace({ path: "/" });
-    } else {
-      window.addEventListener("beforeunload",function (event) {
-          event.preventDefault();
-          console.log(
-            performance.navigation.type,
-            "performance.navigation.type"
-          ); 
-
-          firebase
-            .auth()
-            .signOut()
-            .then(() => {
-              alert("Successfully signed out!");
-              this.$router.replace({ path: "/" });
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-          event.returnValue = "";
-        },
-        
-      ); 
-    } */
   },
 
   /* mounted() {
@@ -251,7 +223,7 @@ export default {
   }
 }
 #logo {
-  width: 120px;
+  width: 20%;
   float: left;
 }
 #title {

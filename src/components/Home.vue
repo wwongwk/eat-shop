@@ -22,26 +22,6 @@ export default {
       clicks: 0,
       shopsList: [],
       totalClicks : 0,
-      activities: [
-        {
-          id: "#004",
-          name: "Hi-roller indoor skating rink",
-          imageURL:
-            "https://thesmartlocal.com/wp-content/uploads/2020/08/image2.jpg",
-        },
-        {
-          id: "#008",
-          name: "Pottery Workshop at Thow Kwang Pottery Jungle",
-          imageURL:
-            "https://thesmartlocal.com/wp-content/uploads/2019/12/101-things-to-do-in-Singapore-2019-37.jpg",
-        },
-        {
-          id: "#007",
-          name: "The Little Things Cooking Workshop",
-          imageURL:
-            "https://sf2.mariefranceasia.com/wp-content/uploads/sites/7/2018/05/the-little-things-1-547x410.jpg",
-        },
-      ],
     };
   },
 
