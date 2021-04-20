@@ -209,7 +209,7 @@ export default {
       try {
         firebase
         .auth()
-        .fetchSignInMethodsForEmail(email)
+        .fetchSignInMethodsForEmail(this.email)
         .then(() => {
           firebase
             .auth()
