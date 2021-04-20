@@ -32,7 +32,7 @@
         </v-select>
       </div>
       <div id="filterDropdown">
-        <p>Cuisine Type:</p>
+        <p>Cuisine:</p>
         <v-select
           label="cuisineType"
           :options="dropdownOptions"

@@ -33,7 +33,7 @@
         </v-select>
       </div>
       <div id="filterDropdown">
-        <p>Filter by:</p>
+        <p>Subcategory:</p>
         <v-select
           label="productType"
           :options="dropdownOptions"
@@ -510,7 +510,7 @@ p > span:after {
 }
 
 #filterDropdown {
-  width: 30%;
+  width: 20%;
   margin: 0 auto;
   margin-top: 50px;
   border: none;
