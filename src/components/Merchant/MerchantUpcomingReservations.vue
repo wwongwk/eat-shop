@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <h2>
       <img id="reservationImg" :src="require(`@/assets/reservation.png`)" />
       <span>UPCOMING RESERVATIONS</span>
@@ -12,23 +11,41 @@
         <th id="quantity">Quantity</th>
         <th></th>
       </tr>
-      <tr v-for="event in upcoming" v-bind:key="event.index">
-        <td>{{event.customer_name}}</td>
+      <tr v-for="event in pageOfItems" v-bind:key="event.index">
+        <td>{{ event.customer_name }}</td>
         <td>
           {{ event.date.toDate().toLocaleDateString("en-GB") }},
           {{ event.date.toDate().getHours() }}:{{
             event.date.toDate().getMinutes()
           }}
         </td>
-        <td id="quantity">{{ event.adults }} x Adults, {{ event.children }} x Children</td>
+        <td id="quantity">
+          {{ event.adults }} x Adults, {{ event.children }} x Children
+        </td>
         <td>
-          <button v-if="event.showUp" id="confirmedBtn" @click="unconfirm(event)">Confirmed</button>
+          <button
+            v-if="event.showUp"
+            id="confirmedBtn"
+            @click="unconfirm(event)"
+          >
+            Confirmed
+          </button>
           <button v-else id="confirmBtn" @click="confirm(event)">
             Confirm
           </button>
         </td>
       </tr>
     </table>
+
+    <div id="page">
+      <jw-pagination
+        :items="upcoming"
+        :pageSize="5"
+        @changePage="onChangePage"
+        id="page"
+      ></jw-pagination>
+    </div>
+
     <p v-show="noUpcoming">You have no upcoming reservation</p>
   </div>
 </template>
@@ -39,11 +56,16 @@ export default {
   data() {
     return {
       noUpcoming: false,
+      pageOfItems: [],
     };
   },
   props: ["upcoming"],
 
   methods: {
+    onChangePage(pageOfItems) {
+      // update page of items
+      this.pageOfItems = pageOfItems;
+    },
     confirm(event) {
       database
         .collection("reservation")
@@ -52,7 +74,7 @@ export default {
           showUp: true,
         })
         .then(() => {
-           location.reload();
+          location.reload();
         });
     },
     unconfirm(event) {
@@ -63,7 +85,7 @@ export default {
           showUp: false,
         })
         .then(() => {
-           location.reload();
+          location.reload();
         });
     },
     checkUpcoming: function () {
