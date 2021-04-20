@@ -145,7 +145,10 @@
 </script>
 
 <style scoped>
-
+img {
+  width: 80%;
+  height: auto;
+}
 button {
   width: 140px;
   padding:10px;
