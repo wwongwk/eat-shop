@@ -1,1 +1,0 @@
-Folder for including pictures of our front end.

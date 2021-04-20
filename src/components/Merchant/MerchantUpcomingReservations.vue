@@ -40,7 +40,7 @@
     <div id="page">
       <jw-pagination
         :items="upcoming"
-        :pageSize="5"
+        :pageSize="8"
         @changePage="onChangePage"
         id="page"
       ></jw-pagination>

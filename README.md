@@ -1,7 +1,13 @@
-# eat-shop-play
+# eat-shop
 
 ## Description
-Eat. Shop. Play. is a services booking platform for small local businesses.
+Eat & Shop is a services booking platform for small local businesses.
+
+https://eat-shop.herokuapp.com/
+
+![photo_name](misc/eat.png)
+
+![photo_name](misc/eat2.png)
 
 ## Project setup
 ```
