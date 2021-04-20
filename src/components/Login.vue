@@ -63,7 +63,7 @@
         NO ACCOUNT?
         <router-link to="/signup" exact> SIGN UP!</router-link>
       </div>
-      <div id="forgetPW" v-if='!reset' v-on:click="reset=true">FORGET PASSWORD</div>
+      <div id="forgetPW" v-show="!biz" v-if='!reset' v-on:click="reset=true">FORGET PASSWORD</div>
       <div id="forgetPW" v-else v-on:click="reset=false">BACK TO LOGIN</div>
       <div id="biz" v-show="!biz" v-on:click="biz=true">FOR BUSINESS</div>
       <div id="biz" v-show="biz" v-on:click="biz=false">FOR CUSTOMERS</div>
@@ -94,47 +94,6 @@ export default {
       if (this.email=="" || this.password=="") {
         alert("Incomplete submission!");
       } else {    
-        /* firebase
-          .auth()
-          .fetchSignInMethodsForEmail(this.email)
-          .then(() => {
-            console.log("test") 
-            firebase
-            .auth()
-            .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-            .then(() => {
-               firebase
-              .auth()
-              .signInWithEmailAndPassword(this.email, this.password)
-              .then(() => {
-                console.log("Successfully logged in");
-                database
-                  .collection("users")
-                  .doc(firebase.auth().currentUser.uid)
-                  .get()
-                  .then((doc) => {
-                    if (doc.exists) {
-                      if (doc.data().business == false) {
-                        this.$router.replace({ path: "/" });
-                      } else {
-                        this.$router.replace({ path: "/merchant" });
-                      }
-                    }
-                  })
-                }).catch((error) => {
-                    console.log("Error fetching user data:", error);
-                    alert(error.message);
-                }); 
-            })
-            .catch((error) => {
-              // Handle Errors here.
-              console.log(error.message);
-            });  */
-         /* })
-           .catch((error) => {
-            console.log("Error fetching user data:", error);
-            alert(error);
-          }); */
         firebase
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.SESSION)
